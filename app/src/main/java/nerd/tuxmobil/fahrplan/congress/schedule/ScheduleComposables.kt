@@ -45,6 +45,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import nerd.tuxmobil.fahrplan.congress.R
@@ -82,8 +83,8 @@ fun RoomColumn(
             // Add spacings and sessions in the right order
             columnData.sessionData.forEachIndexed { index, sessionData ->
                 // Add spacing before session if needed
-                if (index < columnData.spacings.size && columnData.spacings[index] > 0) {
-                    Spacer(Modifier.height(columnData.spacings[index].dp))
+                if (index < columnData.spacings.size && columnData.spacings[index] > 0.dp) {
+                    Spacer(Modifier.height(columnData.spacings[index]))
                 }
 
                 SessionCard(
@@ -115,7 +116,7 @@ fun SessionCard(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(data.cardHeight.dp)
+                .height(data.cardHeight)
                 .pointerInteropFilter {
                     pressPosition = Offset(it.x, it.y)
                     false
@@ -184,7 +185,7 @@ private fun SessionCardLayout(data: SessionCardData) {
     ) {
 
         val currentDensity = LocalDensity.current
-        val cardHeightPx = (currentDensity.density * data.cardHeight).toInt()
+        val cardHeightPx = with(currentDensity) { data.cardHeight.roundToPx() }
         val innerPaddingDp = dimensionResource(R.dimen.session_drawable_inner_padding)
         val innerPaddingPx = (currentDensity.density * innerPaddingDp.value).toInt()
 
@@ -605,19 +606,19 @@ private fun RoomColumnPreview() {
 @Composable
 private fun createRoomColumnData() = RoomColumnData(
     sessionData = listOf(
-        createSessionCardData(height = 50, isFavored = false, hasAlarm = true, isRecorded = true),
-        createSessionCardData(height = 100, isFavored = true, hasAlarm = true, isRecorded = false),
-        createSessionCardData(height = 70, isFavored = false, hasAlarm = true, isRecorded = true),
-        createSessionCardData(height = 200, isFavored = true, hasAlarm = false, isRecorded = true),
-        createSessionCardData(height = 35, isFavored = false, hasAlarm = true, isRecorded = false),
+        createSessionCardData(height = 50.dp, isFavored = false, hasAlarm = true, isRecorded = true),
+        createSessionCardData(height = 100.dp, isFavored = true, hasAlarm = true, isRecorded = false),
+        createSessionCardData(height = 70.dp, isFavored = false, hasAlarm = true, isRecorded = true),
+        createSessionCardData(height = 200.dp, isFavored = true, hasAlarm = false, isRecorded = true),
+        createSessionCardData(height = 35.dp, isFavored = false, hasAlarm = true, isRecorded = false),
     ),
-    spacings = listOf(20, 80, 0, 8, 0),
+    spacings = listOf(20.dp, 80.dp, 0.dp, 8.dp, 0.dp),
 )
 
 @Preview
 @Composable
 private fun SessionCardPreview() {
-    val data = createSessionCardData(height = 200, isFavored = true, hasAlarm = true, isRecorded = false)
+    val data = createSessionCardData(height = 200.dp, isFavored = true, hasAlarm = true, isRecorded = false)
     EventFahrplanTheme {
         SessionCard(
             data = data,
@@ -631,7 +632,7 @@ private fun SessionCardPreview() {
 
 @Composable
 private fun createSessionCardData(
-    height: Int = 100,
+    height: Dp = 100.dp,
     isFavored: Boolean = false,
     hasAlarm: Boolean = false,
     isRecorded: Boolean = true,
@@ -664,7 +665,7 @@ private fun SessionCardPreview01() {
         speakerNames = stringResource(R.string.placeholder_session_speakers),
         languages = stringResource(R.string.placeholder_session_language),
         trackName = stringResource(R.string.placeholder_session_track),
-        cardHeight = 120,
+        cardHeight = 120.dp,
         recordingOptOut = true,
         isFavored = true,
         hasAlarm = true,
@@ -681,7 +682,7 @@ private fun SessionCardPreview02() {
         speakerNames = stringResource(R.string.placeholder_session_speakers),
         languages = stringResource(R.string.placeholder_session_language),
         trackName = stringResource(R.string.placeholder_session_track),
-        cardHeight = 90,
+        cardHeight = 90.dp,
         recordingOptOut = true,
         isFavored = true,
         hasAlarm = true,
@@ -698,7 +699,7 @@ private fun SessionCardPreview03() {
         speakerNames = "",
         languages = "",
         trackName = stringResource(R.string.placeholder_session_track),
-        cardHeight = 90,
+        cardHeight = 90.dp,
         recordingOptOut = true,
         isFavored = true,
         hasAlarm = true,
@@ -715,7 +716,7 @@ private fun SessionCardPreview04() {
         speakerNames = "",
         languages = "",
         trackName = stringResource(R.string.placeholder_session_track),
-        cardHeight = 70,
+        cardHeight = 70.dp,
         recordingOptOut = true,
         isFavored = true,
         hasAlarm = true,
@@ -732,7 +733,7 @@ private fun SessionCardPreview05() {
         speakerNames = "",
         languages = "",
         trackName = stringResource(R.string.placeholder_session_track),
-        cardHeight = 55,
+        cardHeight = 55.dp,
         recordingOptOut = true,
         isFavored = true,
         hasAlarm = true,
@@ -749,7 +750,7 @@ private fun SessionCardPreview06() {
         speakerNames = "",
         languages = "",
         trackName = stringResource(R.string.placeholder_session_track),
-        cardHeight = 50,
+        cardHeight = 50.dp,
         recordingOptOut = true,
         isFavored = true,
         hasAlarm = true,
@@ -766,7 +767,7 @@ private fun SessionCardPreview07() {
         speakerNames = "",
         languages = "",
         trackName = "",
-        cardHeight = 60,
+        cardHeight = 60.dp,
         recordingOptOut = true,
         isFavored = true,
         hasAlarm = true,
@@ -783,7 +784,7 @@ private fun SessionCardPreview08() {
         speakerNames = "",
         languages = "",
         trackName = "",
-        cardHeight = 95,
+        cardHeight = 95.dp,
         recordingOptOut = true,
         isFavored = true,
         hasAlarm = true,
@@ -800,7 +801,7 @@ private fun SessionCardPreview09() {
         speakerNames = "Stephen A. Ridley, Ernest Ridley, Conan Ridley, Bridget Ridley, Frank Ridley, Barbara Ridley",
         languages = stringResource(R.string.placeholder_session_language),
         trackName = "",
-        cardHeight = 110,
+        cardHeight = 110.dp,
         recordingOptOut = true,
         isFavored = true,
         hasAlarm = true,
@@ -817,7 +818,7 @@ private fun SessionCardPreview10() {
         speakerNames = stringResource(R.string.placeholder_session_speakers),
         languages = stringResource(R.string.placeholder_session_language),
         trackName = "Very looooooooooooooooooooooooooooooooooooooooooooooong track name",
-        cardHeight = 160,
+        cardHeight = 160.dp,
         recordingOptOut = true,
         isFavored = true,
         hasAlarm = true,
@@ -833,7 +834,7 @@ private fun createSessionCard(
     speakerNames: String = "",
     languages: String = "",
     trackName: String = "",
-    cardHeight: Int,
+    cardHeight: Dp,
     recordingOptOut: Boolean = false,
     isFavored: Boolean = false,
     hasAlarm: Boolean = false,

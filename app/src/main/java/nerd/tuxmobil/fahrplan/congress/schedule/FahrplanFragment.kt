@@ -34,6 +34,8 @@ import androidx.appcompat.app.ActionBar.NAVIGATION_MODE_LIST
 import androidx.appcompat.app.ActionBar.OnNavigationListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.MenuProvider
@@ -760,14 +762,15 @@ class FahrplanFragment : Fragment(), MenuProvider {
     ): RoomColumnData {
         // Prepare session data and spacings
         val sessionDataList = mutableListOf<SessionCardData>()
-        val spacings = mutableListOf<Int>()
+        val spacings = mutableListOf<Dp>()
 
         // Calculate initial spacing
         val firstSession = sessions.firstOrNull()
         if (firstSession != null) {
             val firstParams = layoutParamsBySession[firstSession.sessionId]
             val topMargin = firstParams?.topMargin ?: 0
-            spacings.add((topMargin / context.resources.displayMetrics.density).toInt())
+            val topMarginDp = (topMargin / context.resources.displayMetrics.density).dp
+            spacings.add(topMarginDp)
         }
 
         // Process each session
@@ -790,7 +793,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
             val verticalPadding = (horizontalPadding * 0.3).toInt()
 
             val heightPx = layoutParams?.height ?: calculateSessionHeight(session)
-            val heightDp = (heightPx / context.resources.displayMetrics.density).toInt()
+            val heightDp = (heightPx / context.resources.displayMetrics.density).dp
             val showBorder = session.isHighlight && isAlternativeHighlightingEnabled
             val shortSession = session.duration.toWholeMinutes() <= Duration.ofMinutes(15).toWholeMinutes()
 
@@ -853,7 +856,8 @@ class FahrplanFragment : Fragment(), MenuProvider {
             // Append spacing to the session except for the last one
             if (index < sessions.size - 1) {
                 val bottomMargin = layoutParams?.bottomMargin ?: 0
-                spacings.add((bottomMargin / context.resources.displayMetrics.density).toInt())
+                val bottomMarginDp = (bottomMargin / context.resources.displayMetrics.density).dp
+                spacings.add(bottomMarginDp)
             }
         }
 
