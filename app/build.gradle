@@ -225,6 +225,7 @@ dependencies {
     ksp Libs.moshiCodeGen
     implementation Libs.navigation
     implementation Libs.okhttp
+    implementation Libs.okhttpZstd
     implementation Libs.okhttpLoggingInterceptor
     implementation Libs.roomStates
     implementation Libs.snackengagePlayrate

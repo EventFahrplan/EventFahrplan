@@ -116,6 +116,7 @@ object Libs {
     const val moshiCodeGen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
     const val navigation = "androidx.navigation:navigation-compose:${Versions.navigation}"
     const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
+    const val okhttpZstd = "com.squareup.okhttp3:okhttp-zstd:${Versions.okhttp}"
     const val okhttpLoggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
     const val robolectric = "org.robolectric:android-all:${Versions.robolectric}"
     const val roomStates = "info.metadude.kotlin.library.roomstates:room-states-repositories:${Versions.roomStates}"
