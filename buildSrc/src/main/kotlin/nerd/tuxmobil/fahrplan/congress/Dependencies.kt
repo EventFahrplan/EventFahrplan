@@ -62,7 +62,7 @@ object Libs {
         const val coreKtx = "1.16.0" // compileSdk 36 is required as of 1.17.0
         const val coreTesting = "2.2.0"
         const val emailIntentBuilder = "2.0.0"
-        const val engelsystem = "10.0.0"
+        const val engelsystem = "11.0.0"
         const val fragmentCompose = "1.8.9"
         const val htmlConverter = "1.1.0"
         const val junitJupiter = "5.14.0"

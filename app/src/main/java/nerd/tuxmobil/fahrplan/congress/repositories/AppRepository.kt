@@ -94,7 +94,6 @@ import info.metadude.android.eventfahrplan.database.models.Meta as MetaDatabaseM
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.HttpHeader as HttpHeaderNetworkModel
 import info.metadude.android.eventfahrplan.network.models.Meta as MetaNetworkModel
-import info.metadude.kotlin.library.engelsystem.Api as EngelsystemApi
 import info.metadude.kotlin.library.roomstates.base.Api as RoomStatesApi
 import nerd.tuxmobil.fahrplan.congress.models.HttpHeader as HttpHeaderAppModel
 import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
@@ -423,10 +422,7 @@ object AppRepository : SearchRepository,
             sessionsDatabaseRepository: SessionsDatabaseRepository = SessionsDatabaseRepository.get(context, logging),
             metaDatabaseRepository: MetaDatabaseRepository = MetaDatabaseRepository.get(context),
             scheduleNetworkRepository: ScheduleNetworkRepository = RealScheduleNetworkRepository(logging),
-            engelsystemRepository: EngelsystemRepository = SimpleEngelsystemRepository(
-                callFactory = okHttpClient,
-                api = EngelsystemApi,
-            ),
+            engelsystemRepository: EngelsystemRepository = SimpleEngelsystemRepository(okHttpClient),
             sharedPreferencesRepository: SharedPreferencesRepository = RealSharedPreferencesRepository(context),
             settingsRepository: SettingsRepository = SettingsRepository.getInstance(context),
             roomStatesRepository: RoomStatesRepository = SimpleRoomStatesRepository(
