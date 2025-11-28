@@ -94,7 +94,6 @@ import info.metadude.android.eventfahrplan.database.models.Meta as MetaDatabaseM
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.HttpHeader as HttpHeaderNetworkModel
 import info.metadude.android.eventfahrplan.network.models.Meta as MetaNetworkModel
-import info.metadude.kotlin.library.roomstates.base.Api as RoomStatesApi
 import nerd.tuxmobil.fahrplan.congress.models.HttpHeader as HttpHeaderAppModel
 import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
 import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
@@ -428,8 +427,7 @@ object AppRepository : SearchRepository,
             roomStatesRepository: RoomStatesRepository = SimpleRoomStatesRepository(
                 url = FOSDEM_ROOM_STATES_URL,
                 path = FOSDEM_ROOM_STATES_PATH,
-                httpClient = okHttpClient,
-                api = RoomStatesApi,
+                callFactory = okHttpClient,
             ),
             sessionsTransformer: SessionsTransformer = SessionsTransformer.createSessionsTransformer()
     ) {
