@@ -43,25 +43,6 @@
     <string name="dlg_err_schedule_data_empty_without_version">        Nothing to display. The schedule does not contain any session.
     </string>
     <string name="uptodate">Расписание обновлено</string>
-    <!-- Schedule changes dialog -->
-    <string name="schedule_changes_dialog_title">Обновление расписания</string>
-    <string name="schedule_changes_dialog_updated_to_text">Расписание обновлено до\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Нет изменений в <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="новые" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="отменены" id="phrase_cancelled">%5$s</xliff:g>.</string>
-    <string name="schedule_changes_dialog_affected_text">Изменения затронули <xliff:g example="2" id="num_marked">%1$d</xliff:g> из вашего списка избранных.</string>
-    <plurals name="schedule_changes_dialog_number_of_sessions">
-        <item quantity="one">%d лекция</item>
-        <item quantity="few">%d лекции</item>
-        <item quantity="many">%d лекций</item>
-        <item quantity="other">%d лекций</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_being">
-        <item quantity="one">%d</item>
-        <item quantity="few">%d</item>
-        <item quantity="many">%d</item>
-        <item quantity="other">%d</item>
-    </plurals>
-    <string name="schedule_changes_dialog_browse">Смотреть</string>
-    <string name="schedule_changes_dialog_later">Позже</string>
     <string name="progress_loading_data">Загрузка расписания &#8230;</string>
     <string name="progress_processing_data">Обработка расписания &#8230;</string>
     <string name="day">День</string>
@@ -91,6 +72,10 @@
     <string name="schedule_changes_no_changes_title">Нет изменений в расписании</string>
     <string name="favorites_no_favorites_title">Нет избранных лекций</string>
     <string name="schedule_changes">Изменения в расписании</string>
+    <!-- Schedule changes statistic -->
+    <string name="schedule_changes_statistic_title">Обновление расписания</string>
+    <string name="schedule_changes_statistic_browse">Смотреть</string>
+    <string name="schedule_changes_statistic_later">Позже</string>
     <string name="general_settings">Основное</string>
     <string name="favorites_screen_default_title">Избранное</string>
     <string name="choose_to_delete">Выбрать лекции</string>

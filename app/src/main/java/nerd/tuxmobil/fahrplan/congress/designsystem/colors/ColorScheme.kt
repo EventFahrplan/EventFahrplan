@@ -85,6 +85,7 @@ data class ColorScheme(
     val scheduleChangeNew: Color,
     val scheduleChangeCanceled: Color,
     val scheduleChangeChanged: Color,
+    val scheduleChangeBarBackground: Color,
 )
 
 internal fun ColorScheme.toMaterial3ColorScheme(): Material3ColorScheme {

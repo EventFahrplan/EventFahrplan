@@ -2,14 +2,16 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import info.metadude.android.eventfahrplan.commons.logging.Logging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import nerd.tuxmobil.fahrplan.congress.changes.ChangeStatistic
+import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticsUiState
+import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticsUiStateFactory
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
@@ -25,15 +27,12 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseFailu
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSuccess
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.LoadScheduleUiState
-import nerd.tuxmobil.fahrplan.congress.schedule.observables.ScheduleChangesParameter
 
 internal class MainViewModel(
-
     private val repository: AppRepository,
     private val notificationHelper: NotificationHelper,
+    private val changeStatisticsUiStateFactory: ChangeStatisticsUiStateFactory,
     private val executionContext: ExecutionContext,
-    private val logging: Logging
-
 ) : ViewModel() {
 
     private val mutableLoadScheduleUiState = Channel<LoadScheduleUiState>()
@@ -45,8 +44,11 @@ internal class MainViewModel(
     private val mutableParseFailure = Channel<ParseResult?>()
     val parseFailure = mutableParseFailure.receiveAsFlow()
 
-    private val mutableScheduleChangesParameter = Channel<ScheduleChangesParameter>()
-    val scheduleChangesParameter = mutableScheduleChangesParameter.receiveAsFlow()
+    private val mutableChangeStatisticsUiState = MutableStateFlow<ChangeStatisticsUiState?>(null)
+    val changeStatisticsUiState = mutableChangeStatisticsUiState.asStateFlow()
+
+    private val mutableOpenSessionChanges = Channel<Unit>()
+    val openSessionChanges = mutableOpenSessionChanges.receiveAsFlow()
 
     private val mutableShowAbout = Channel<Unit>()
     val showAbout = mutableShowAbout.receiveAsFlow()
@@ -114,11 +116,13 @@ internal class MainViewModel(
 
     private fun onParsingDone() {
         if (!repository.readScheduleChangesSeen()) {
-            val scheduleVersion = repository.readMeta().version
-            val sessions = repository.loadChangedSessions().toSessionsAppModel()
-            val statistic = ChangeStatistic.of(sessions, logging)
-            val parameter = ScheduleChangesParameter(scheduleVersion, statistic)
-            mutableScheduleChangesParameter.sendOneTimeEvent(parameter)
+            val changedSessions = repository.loadChangedSessions().toSessionsAppModel()
+            if (changedSessions.isNotEmpty()) {
+                val scheduleVersion = repository.readMeta().version
+                val allSessions = repository.loadSessionsForAllDays().toSessionsAppModel()
+                val state = changeStatisticsUiStateFactory.createChangeStatisticsUiState(changedSessions, allSessions.size, scheduleVersion)
+                mutableChangeStatisticsUiState.value = state
+            }
         }
     }
 
@@ -168,6 +172,14 @@ internal class MainViewModel(
             if (isUpdated) {
                 mutableOpenSessionDetails.sendOneTimeEvent(Unit)
             }
+        }
+    }
+
+    fun onCloseChangeStatisticsScreen(shouldOpenSessionChanges: Boolean) {
+        mutableChangeStatisticsUiState.value = null
+        repository.updateScheduleChangesSeen(true)
+        if (shouldOpenSessionChanges) {
+            mutableOpenSessionChanges.sendOneTimeEvent(Unit)
         }
     }
 

@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress.changes
+package nerd.tuxmobil.fahrplan.congress.changes.statistic
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -9,8 +9,8 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 @ConsistentCopyVisibility
 data class ChangeStatistic private constructor(
 
-        private val sessions: List<Session>,
-        private val logging: Logging
+    private val sessions: List<Session>,
+    private val logging: Logging
 
 ) {
 

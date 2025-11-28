@@ -44,29 +44,6 @@
     <string name="dlg_err_schedule_data_empty_without_version">        Nothing to display. The schedule does not contain any session.
     </string>
     <string name="uptodate">Le programme est à jour.</string>
-    <!-- Schedule changes dialog -->
-    <string name="schedule_changes_dialog_title">Mise à jour du programme</string>
-    <string name="schedule_changes_dialog_updated_to_text">Le programme a été mis à jour </string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Il y a eu des changements dans <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="nouvelle(s)" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="annulée(s)" id="phrase_cancelled">%5$s</xliff:g>.</string>
-    <string name="schedule_changes_dialog_affected_text">Les modifications affectent <xliff:g example="2" id="num_marked">%1$d</xliff:g> de vos conférences favorites.</string>
-    <plurals name="schedule_changes_dialog_phrase_new">
-        <item quantity="one">nouvelle(s)</item>
-        <item quantity="other">new</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_phrase_cancelled">
-        <item quantity="one">annulée(s)</item>
-        <item quantity="other">cancelled</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_number_of_sessions">
-        <item quantity="one">%d conférence</item>
-        <item quantity="other">%d conférences</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_being">
-        <item quantity="one">%d est</item>
-        <item quantity="other">%d sont</item>
-    </plurals>
-    <string name="schedule_changes_dialog_browse">Parcourir</string>
-    <string name="schedule_changes_dialog_later">Plus tard</string>
     <string name="progress_loading_data">Récupération du programme &#8230;</string>
     <string name="progress_processing_data">Traitement du programme &#8230;</string>
     <string name="day">Jour</string>
@@ -97,6 +74,10 @@
     <string name="schedule_changes_no_changes_title">Aucun changement dans le programme</string>
     <string name="favorites_no_favorites_title">Aucune conférence dans les favoris</string>
     <string name="schedule_changes">Changements du programme</string>
+    <!-- Schedule changes statistic -->
+    <string name="schedule_changes_statistic_title">Mise à jour du programme</string>
+    <string name="schedule_changes_statistic_browse">Parcourir</string>
+    <string name="schedule_changes_statistic_later">Plus tard</string>
     <string name="general_settings">Général</string>
     <string name="favorites_screen_default_title">Favoris</string>
     <string name="choose_to_delete">Sélectionnez des conférences</string>

@@ -41,29 +41,6 @@
     <string name="dlg_err_schedule_data_empty_without_version">        Niente da visualizzare. Il programma non contiene alcuna sessione.
     </string>
     <string name="uptodate">Il programma è aggiornato.</string>
-    <!-- Schedule changes dialog -->
-    <string name="schedule_changes_dialog_title">Aggiornamento del programma</string>
-    <string name="schedule_changes_dialog_updated_to_text">Il programma è stato aggiornato a\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Ci sono delle modiche per <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="nuove" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancellate" id="phrase_cancelled">%5$s</xliff:g>.</string>
-    <string name="schedule_changes_dialog_affected_text">I cambiamenti riguardano <xliff:g example="2" id="num_marked">%1$d</xliff:g> delle tue conferenze preferite.</string>
-    <plurals name="schedule_changes_dialog_phrase_new">
-        <item quantity="one">nuove</item>
-        <item quantity="other">nuove</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_phrase_cancelled">
-        <item quantity="one">cancellate</item>
-        <item quantity="other">cancellate</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_number_of_sessions">
-        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> presentazione</item>
-        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> presentazioni</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_being">
-        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> è</item>
-        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> sono</item>
-    </plurals>
-    <string name="schedule_changes_dialog_browse">Sfogliare</string>
-    <string name="schedule_changes_dialog_later">Dopo</string>
     <string name="progress_loading_data">Caricamento del programma &#8230;</string>
     <string name="progress_processing_data">Elaborazione del programma &#8230;</string>
     <string name="day">Giorno</string>
@@ -88,6 +65,10 @@
     <string name="schedule_changes_no_changes_title">Nessun cambiamento di programma</string>
     <string name="favorites_no_favorites_title">Nessuna conferenza tra i favoriti</string>
     <string name="schedule_changes">Cambiamenti di programma</string>
+    <!-- Schedule changes statistic -->
+    <string name="schedule_changes_statistic_title">Aggiornamento del programma</string>
+    <string name="schedule_changes_statistic_browse">Sfogliare</string>
+    <string name="schedule_changes_statistic_later">Dopo</string>
     <string name="general_settings">Generale</string>
     <string name="favorites_screen_default_title">Preferiti</string>
     <string name="choose_to_delete">Seleziona le conferenze</string>

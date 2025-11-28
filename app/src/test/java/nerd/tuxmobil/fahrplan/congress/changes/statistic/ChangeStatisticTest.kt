@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress.changes
+package nerd.tuxmobil.fahrplan.congress.changes.statistic
 
 import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.NoLogging

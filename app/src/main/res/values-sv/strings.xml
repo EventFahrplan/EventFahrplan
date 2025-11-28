@@ -41,29 +41,6 @@
     <string name="dlg_err_schedule_data_empty_without_version">        Inget att visa. Schemat innehåller ingen session.
     </string>
     <string name="uptodate">Schemat är uppdaterat.</string>
-    <!-- Schedule changes dialog -->
-    <string name="schedule_changes_dialog_title">Schemaändringar</string>
-    <string name="schedule_changes_dialog_updated_to_text">Schemat har blivit uppdaterat till\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Det är ändringar i <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="new" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelled" id="phrase_cancelled">%5$s</xliff:g>.</string>
-    <string name="schedule_changes_dialog_affected_text">Dessa ändringar påverkar <xliff:g example="2" id="num_marked">%1$d</xliff:g> av dina favoriserade föreläsningar.</string>
-    <plurals name="schedule_changes_dialog_phrase_new">
-        <item quantity="one">ny</item>
-        <item quantity="other">nya</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_phrase_cancelled">
-        <item quantity="one">inställd</item>
-        <item quantity="other">inställda</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_number_of_sessions">
-        <item quantity="one">%d föreläsning</item>
-        <item quantity="other">%d föreläsningar</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_being">
-        <item quantity="one">%d är</item>
-        <item quantity="other">%d är</item>
-    </plurals>
-    <string name="schedule_changes_dialog_browse">Utforska</string>
-    <string name="schedule_changes_dialog_later">Senare</string>
     <string name="progress_loading_data">Hämta schema &#8230;</string>
     <string name="progress_processing_data">Hanterar schema &#8230;</string>
     <string name="day">Dag</string>
@@ -96,6 +73,10 @@
     <string name="schedule_changes_no_changes_title">Inga schemalagda händelser</string>
     <string name="favorites_no_favorites_title">Inga favoriserade föreläsningar</string>
     <string name="schedule_changes">Schemalägg ändringar</string>
+    <!-- Schedule changes statistic -->
+    <string name="schedule_changes_statistic_title">Schemaändringar</string>
+    <string name="schedule_changes_statistic_browse">Utforska</string>
+    <string name="schedule_changes_statistic_later">Senare</string>
     <string name="general_settings">Allmän</string>
     <string name="favorites_screen_default_title">Favoriter</string>
     <string name="choose_to_delete">Välj föreläsningar</string>

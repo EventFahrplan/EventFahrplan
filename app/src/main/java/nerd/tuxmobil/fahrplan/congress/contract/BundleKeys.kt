@@ -19,18 +19,6 @@ object BundleKeys {
     // Side pane
     const val SIDEPANE = "nerd.tuxmobil.fahrplan.congress.SIDEPANE"
 
-    // Changes dialog
-    const val CHANGES_DLG_NUM_CHANGED =
-        "nerd.tuxmobil.fahrplan.congress.ChangesDialog.NUM_CHANGES"
-    const val CHANGES_DLG_NUM_NEW =
-        "nerd.tuxmobil.fahrplan.congress.ChangesDialog.NUM_NEW"
-    const val CHANGES_DLG_NUM_CANCELLED =
-        "nerd.tuxmobil.fahrplan.congress.ChangesDialog.NUM_CANCELLED"
-    const val CHANGES_DLG_NUM_MARKED =
-        "nerd.tuxmobil.fahrplan.congress.ChangesDialog.NUM_MARKED"
-    const val CHANGES_DLG_VERSION =
-        "nerd.tuxmobil.fahrplan.congress.ChangesDialog.VERSION"
-
     // Settings
     const val SCHEDULE_URL_UPDATED =
         "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_URL_UPDATED"

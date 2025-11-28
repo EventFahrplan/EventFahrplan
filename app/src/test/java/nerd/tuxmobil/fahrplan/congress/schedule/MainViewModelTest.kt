@@ -8,9 +8,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
-import nerd.tuxmobil.fahrplan.congress.changes.ChangeStatistic
+import nerd.tuxmobil.fahrplan.congress.changes.ChangeType.CANCELED
+import nerd.tuxmobil.fahrplan.congress.changes.ChangeType.CHANGED
+import nerd.tuxmobil.fahrplan.congress.changes.ChangeType.NEW
+import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticProperty
+import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticsUiState
+import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticsUiStateFactory
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
@@ -27,19 +31,15 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseFailu
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSuccess
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.LoadScheduleUiState
-import nerd.tuxmobil.fahrplan.congress.schedule.observables.ScheduleChangesParameter
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
-import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
 
 @ExtendWith(MainDispatcherTestExtension::class)
 class MainViewModelTest {
-
-    private val logging = NoLogging
 
     @Test
     fun `initialization does not affect properties`() = runTest {
@@ -48,7 +48,10 @@ class MainViewModelTest {
         viewModel.loadScheduleUiState.test {
             expectNoEvents()
         }
-        viewModel.scheduleChangesParameter.test {
+        viewModel.changeStatisticsUiState.test {
+            assertThat(awaitItem()).isNull()
+        }
+        viewModel.openSessionChanges.test {
             expectNoEvents()
         }
         viewModel.showAbout.test {
@@ -73,7 +76,10 @@ class MainViewModelTest {
         viewModel.loadScheduleUiState.test {
             assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Initializing.InitialFetching)
         }
-        viewModel.scheduleChangesParameter.test {
+        viewModel.changeStatisticsUiState.test {
+            assertThat(awaitItem()).isNull()
+        }
+        viewModel.openSessionChanges.test {
             expectNoEvents()
         }
         viewModel.fetchFailure.test {
@@ -92,7 +98,10 @@ class MainViewModelTest {
         viewModel.loadScheduleUiState.test {
             assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Active.Fetching)
         }
-        viewModel.scheduleChangesParameter.test {
+        viewModel.changeStatisticsUiState.test {
+            assertThat(awaitItem()).isNull()
+        }
+        viewModel.openSessionChanges.test {
             expectNoEvents()
         }
         viewModel.fetchFailure.test {
@@ -111,7 +120,10 @@ class MainViewModelTest {
         viewModel.loadScheduleUiState.test {
             assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Success.FetchSuccess)
         }
-        viewModel.scheduleChangesParameter.test {
+        viewModel.changeStatisticsUiState.test {
+            assertThat(awaitItem()).isNull()
+        }
+        viewModel.openSessionChanges.test {
             expectNoEvents()
         }
         viewModel.fetchFailure.test {
@@ -124,45 +136,53 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `FetchFailure posts to loadScheduleUiState and fetchFailure properties when the user triggered the action`() = runTest {
-        val status = FetchFailure(HttpStatus.HTTP_DNS_FAILURE, "localhost", "some-error", isUserRequest = true)
-        val repository = createRepository(loadScheduleStateFlow = flowOf(status))
-        val viewModel = createViewModel(repository)
-        val expectedFailure = FetchFailure(HttpStatus.HTTP_DNS_FAILURE, "localhost", "some-error", isUserRequest = true)
-        viewModel.loadScheduleUiState.test {
-            assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Failure.UserTriggeredFetchFailure)
+    fun `FetchFailure posts to loadScheduleUiState and fetchFailure properties when the user triggered the action`() =
+        runTest {
+            val status = FetchFailure(HttpStatus.HTTP_DNS_FAILURE, "localhost", "some-error", isUserRequest = true)
+            val repository = createRepository(loadScheduleStateFlow = flowOf(status))
+            val viewModel = createViewModel(repository)
+            val expectedFailure = FetchFailure(HttpStatus.HTTP_DNS_FAILURE, "localhost", "some-error", isUserRequest = true)
+            viewModel.loadScheduleUiState.test {
+                assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Failure.UserTriggeredFetchFailure)
+            }
+            viewModel.changeStatisticsUiState.test {
+                assertThat(awaitItem()).isNull()
+            }
+            viewModel.openSessionChanges.test {
+                expectNoEvents()
+            }
+            viewModel.fetchFailure.test {
+                assertThat(awaitItem()).isEqualTo(expectedFailure)
+            }
+            viewModel.parseFailure.test {
+                expectNoEvents()
+            }
+            verifyInvokedOnce(repository).loadScheduleState
         }
-        viewModel.scheduleChangesParameter.test {
-            expectNoEvents()
-        }
-        viewModel.fetchFailure.test {
-            assertThat(awaitItem()).isEqualTo(expectedFailure)
-        }
-        viewModel.parseFailure.test {
-            expectNoEvents()
-        }
-        verifyInvokedOnce(repository).loadScheduleState
-    }
 
     @Test
-    fun `FetchFailure silently posts to loadScheduleUiState property when the user did not trigger the action`() = runTest {
-        val status = FetchFailure(HttpStatus.HTTP_DNS_FAILURE, "localhost", "some-error", isUserRequest = false)
-        val repository = createRepository(loadScheduleStateFlow = flowOf(status))
-        val viewModel = createViewModel(repository)
-        viewModel.loadScheduleUiState.test {
-            assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Failure.SilentFetchFailure)
+    fun `FetchFailure silently posts to loadScheduleUiState property when the user did not trigger the action`() =
+        runTest {
+            val status = FetchFailure(HttpStatus.HTTP_DNS_FAILURE, "localhost", "some-error", isUserRequest = false)
+            val repository = createRepository(loadScheduleStateFlow = flowOf(status))
+            val viewModel = createViewModel(repository)
+            viewModel.loadScheduleUiState.test {
+                assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Failure.SilentFetchFailure)
+            }
+            viewModel.changeStatisticsUiState.test {
+                assertThat(awaitItem()).isNull()
+            }
+            viewModel.openSessionChanges.test {
+                expectNoEvents()
+            }
+            viewModel.fetchFailure.test {
+                expectNoEvents()
+            }
+            viewModel.parseFailure.test {
+                expectNoEvents()
+            }
+            verifyInvokedOnce(repository).loadScheduleState
         }
-        viewModel.scheduleChangesParameter.test {
-            expectNoEvents()
-        }
-        viewModel.fetchFailure.test {
-            expectNoEvents()
-        }
-        viewModel.parseFailure.test {
-            expectNoEvents()
-        }
-        verifyInvokedOnce(repository).loadScheduleState
-    }
 
     @Test
     fun `InitialParsing posts to loadScheduleUiState property`() = runTest {
@@ -171,7 +191,10 @@ class MainViewModelTest {
         viewModel.loadScheduleUiState.test {
             assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Initializing.InitialParsing)
         }
-        viewModel.scheduleChangesParameter.test {
+        viewModel.changeStatisticsUiState.test {
+            assertThat(awaitItem()).isNull()
+        }
+        viewModel.openSessionChanges.test {
             expectNoEvents()
         }
         viewModel.fetchFailure.test {
@@ -190,7 +213,10 @@ class MainViewModelTest {
         viewModel.loadScheduleUiState.test {
             assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Active.Parsing)
         }
-        viewModel.scheduleChangesParameter.test {
+        viewModel.changeStatisticsUiState.test {
+            assertThat(awaitItem()).isNull()
+        }
+        viewModel.openSessionChanges.test {
             expectNoEvents()
         }
         viewModel.fetchFailure.test {
@@ -212,7 +238,10 @@ class MainViewModelTest {
         viewModel.loadScheduleUiState.test {
             assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Success.ParseSuccess)
         }
-        viewModel.scheduleChangesParameter.test {
+        viewModel.changeStatisticsUiState.test {
+            assertThat(awaitItem()).isNull()
+        }
+        viewModel.openSessionChanges.test {
             expectNoEvents()
         }
         viewModel.fetchFailure.test {
@@ -225,30 +254,34 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `ParseSuccess posts to loadScheduleUiState and to scheduleChangesParameter properties`() = runTest {
-        val repository = createRepository(
-            loadScheduleStateFlow = flowOf(ParseSuccess),
-            scheduleChangesSeen = false,
-            changedSessions = listOf(SessionDatabaseModel(sessionId = "changed-01", changedIsNew = true))
-        )
-        val viewModel = createViewModel(repository)
-        viewModel.loadScheduleUiState.test {
-            assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Success.ParseSuccess)
+    fun `ParseSuccess posts to loadScheduleUiState and to changeStatisticsUiState properties`() =
+        runTest {
+            val repository = createRepository(
+                loadScheduleStateFlow = flowOf(ParseSuccess),
+                scheduleChangesSeen = false,
+                changedSessions = listOf(SessionDatabaseModel(sessionId = "changed-01", changedIsNew = true))
+            )
+            val viewModel = createViewModel(
+                repository,
+                changeStatisticsUiStateFactory = createChangeStatisticsUiStateFactory(createChangeStatisticsUiState()),
+            )
+            viewModel.loadScheduleUiState.test {
+                assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Success.ParseSuccess)
+            }
+            viewModel.changeStatisticsUiState.test {
+                assertThat(awaitItem()).isEqualTo(createChangeStatisticsUiState())
+            }
+            viewModel.openSessionChanges.test {
+                expectNoEvents()
+            }
+            viewModel.fetchFailure.test {
+                assertThat(awaitItem()).isNull()
+            }
+            viewModel.parseFailure.test {
+                assertThat(awaitItem()).isNull()
+            }
+            verifyInvokedOnce(repository).loadScheduleState
         }
-        val expectedSessions = listOf(SessionAppModel(sessionId = "changed-01", changedIsNew = true))
-        val expectedChangeStatistic = ChangeStatistic.of(expectedSessions, logging)
-        val expectedScheduleChangesParameter = ScheduleChangesParameter(scheduleVersion = "", expectedChangeStatistic)
-        viewModel.scheduleChangesParameter.test {
-            assertThat(awaitItem()).isEqualTo(expectedScheduleChangesParameter)
-        }
-        viewModel.fetchFailure.test {
-            assertThat(awaitItem()).isNull()
-        }
-        viewModel.parseFailure.test {
-            assertThat(awaitItem()).isNull()
-        }
-        verifyInvokedOnce(repository).loadScheduleState
-    }
 
     @Test
     fun `ParseFailure posts to loadScheduleUiState and parseFailure properties`() = runTest {
@@ -258,7 +291,10 @@ class MainViewModelTest {
         viewModel.loadScheduleUiState.test {
             assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Failure.ParseFailure)
         }
-        viewModel.scheduleChangesParameter.test {
+        viewModel.changeStatisticsUiState.test {
+            assertThat(awaitItem()).isNull()
+        }
+        viewModel.openSessionChanges.test {
             expectNoEvents()
         }
         viewModel.fetchFailure.test {
@@ -325,43 +361,69 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `checkPostNotificationsPermission does not post to missingPostNotificationsPermission property (no alarms)`() = runTest {
-        val notificationHelper = mock<NotificationHelper> {
-            on { notificationsEnabled } doReturn true
-        }
-        val repository = createRepository(alarms = emptyList())
-        val viewModel = createViewModel(repository, notificationHelper)
-        viewModel.checkPostNotificationsPermission()
-        viewModel.missingPostNotificationsPermission.test {
-            expectNoEvents()
-        }
-    }
-
-    @Test
-    fun `checkPostNotificationsPermission does not post to missingPostNotificationsPermission property (notifications enabled)`() = runTest {
-        val notificationHelper = mock<NotificationHelper> {
-            on { notificationsEnabled } doReturn true
-        }
-        val repository = createRepository(alarms = listOf(mock()))
-        val viewModel = createViewModel(repository, notificationHelper)
-        viewModel.checkPostNotificationsPermission()
-        viewModel.missingPostNotificationsPermission.test {
-            expectNoEvents()
-        }
-    }
-
-    @Test
-    fun `checkPostNotificationsPermission posts to missingPostNotificationsPermission property`() = runTest {
-        val notificationHelper = mock<NotificationHelper> {
-            on { notificationsEnabled } doReturn false
-        }
-        val repository = createRepository(alarms = listOf(mock()))
-        val viewModel = createViewModel(repository, notificationHelper)
-        viewModel.checkPostNotificationsPermission()
-        viewModel.missingPostNotificationsPermission.test {
+    fun `onCloseChangeStatisticsScreen post to openSessionChanges property`() = runTest {
+        val repository = createRepository()
+        val viewModel = createViewModel(repository)
+        viewModel.onCloseChangeStatisticsScreen(shouldOpenSessionChanges = true)
+        viewModel.openSessionChanges.test {
             assertThat(awaitItem()).isEqualTo(Unit)
+            expectNoEvents()
         }
+        verifyInvokedOnce(repository).updateScheduleChangesSeen(true)
     }
+
+    @Test
+    fun `onCloseChangeStatisticsScreen does not post to openSessionChanges property`() = runTest {
+        val repository = createRepository()
+        val viewModel = createViewModel(repository)
+        viewModel.onCloseChangeStatisticsScreen(shouldOpenSessionChanges = false)
+        viewModel.openSessionChanges.test {
+            expectNoEvents()
+        }
+        verifyInvokedOnce(repository).updateScheduleChangesSeen(true)
+    }
+
+    @Test
+    fun `checkPostNotificationsPermission does not post to missingPostNotificationsPermission property (no alarms)`() =
+        runTest {
+            val notificationHelper = mock<NotificationHelper> {
+                on { notificationsEnabled } doReturn true
+            }
+            val repository = createRepository(alarms = emptyList())
+            val viewModel = createViewModel(repository, notificationHelper)
+            viewModel.checkPostNotificationsPermission()
+            viewModel.missingPostNotificationsPermission.test {
+                expectNoEvents()
+            }
+        }
+
+    @Test
+    fun `checkPostNotificationsPermission does not post to missingPostNotificationsPermission property (notifications enabled)`() =
+        runTest {
+            val notificationHelper = mock<NotificationHelper> {
+                on { notificationsEnabled } doReturn true
+            }
+            val repository = createRepository(alarms = listOf(mock()))
+            val viewModel = createViewModel(repository, notificationHelper)
+            viewModel.checkPostNotificationsPermission()
+            viewModel.missingPostNotificationsPermission.test {
+                expectNoEvents()
+            }
+        }
+
+    @Test
+    fun `checkPostNotificationsPermission posts to missingPostNotificationsPermission property`() =
+        runTest {
+            val notificationHelper = mock<NotificationHelper> {
+                on { notificationsEnabled } doReturn false
+            }
+            val repository = createRepository(alarms = listOf(mock()))
+            val viewModel = createViewModel(repository, notificationHelper)
+            viewModel.checkPostNotificationsPermission()
+            viewModel.missingPostNotificationsPermission.test {
+                assertThat(awaitItem()).isEqualTo(Unit)
+            }
+        }
 
     private class TestParseResult(
         override val isSuccess: Boolean = false
@@ -384,12 +446,28 @@ class MainViewModelTest {
 
     private fun createViewModel(
         repository: AppRepository,
-        notificationHelper: NotificationHelper = mock()
+        notificationHelper: NotificationHelper = mock(),
+        changeStatisticsUiStateFactory: ChangeStatisticsUiStateFactory = mock(),
     ) = MainViewModel(
         repository = repository,
         notificationHelper = notificationHelper,
+        changeStatisticsUiStateFactory = changeStatisticsUiStateFactory,
         executionContext = TestExecutionContext,
-        logging = logging
     )
+
+    private fun createChangeStatisticsUiStateFactory(uiState: ChangeStatisticsUiState) =
+        mock<ChangeStatisticsUiStateFactory> {
+            on { createChangeStatisticsUiState(any(), any(), any()) } doReturn uiState
+        }
+
+    private fun createChangeStatisticsUiState(): ChangeStatisticsUiState {
+        val properties = listOf(
+            ChangeStatisticProperty(1, CHANGED),
+            ChangeStatisticProperty(2, NEW),
+            ChangeStatisticProperty(3, CANCELED),
+        )
+        return ChangeStatisticsUiState("", properties, 10)
+    }
+
 
 }
