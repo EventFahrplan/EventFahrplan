@@ -8,6 +8,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
+import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage
 
 /**
  * Displays the given certificate error message in a dialog.

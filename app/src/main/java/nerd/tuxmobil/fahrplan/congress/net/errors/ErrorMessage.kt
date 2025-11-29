@@ -1,9 +1,13 @@
-package nerd.tuxmobil.fahrplan.congress.net
+package nerd.tuxmobil.fahrplan.congress.net.errors
 
 import android.content.Context
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
+import nerd.tuxmobil.fahrplan.congress.net.ParseResult
+import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult
+import nerd.tuxmobil.fahrplan.congress.net.ParseShiftsResult
 
 sealed interface ErrorMessage {
 
@@ -127,4 +131,3 @@ sealed interface ErrorMessage {
     }
 
 }
-

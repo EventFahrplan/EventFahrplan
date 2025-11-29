@@ -71,7 +71,7 @@ import nerd.tuxmobil.fahrplan.congress.models.DateInfos
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityObserver
-import nerd.tuxmobil.fahrplan.congress.net.ErrorMessage
+import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.schedule.SessionInteractionType.ADD_TO_CALENDAR

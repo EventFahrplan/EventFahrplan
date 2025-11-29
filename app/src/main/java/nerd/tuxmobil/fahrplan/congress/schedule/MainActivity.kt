@@ -51,7 +51,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment
 import nerd.tuxmobil.fahrplan.congress.net.CertificateErrorFragment
-import nerd.tuxmobil.fahrplan.congress.net.ErrorMessage
+import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender
