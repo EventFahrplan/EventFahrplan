@@ -36,7 +36,6 @@
     <string name="dlg_err_failed_connect_failure">Falha desconhecida de conexão</string>
     <string name="dlg_err_failed_not_found">A URL do cronograma é inválida</string>
     <string name="dlg_err_failed_parse_failure">Não foi possível processar a resposta</string>
-    <string name="dlg_err_failed_ssl_failure">Falha de SSL</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP não é permitido. Por favor use HTTPS.</string>
     <string name="dlg_err_schedule_data">Erro nos dados do cronograma</string>
     <string name="dlg_err_schedule_data_empty">        Nada para exibir. O cronograma com a versão \"<xliff:g example="0.99" id="version">%s</xliff:g>\"

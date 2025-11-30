@@ -36,7 +36,6 @@
     <string name="dlg_err_failed_connect_failure">Fallo de conexión desconocido</string>
     <string name="dlg_err_failed_not_found">URL de evento no válida</string>
     <string name="dlg_err_failed_parse_failure">No se pudo procesar la respuesta</string>
-    <string name="dlg_err_failed_ssl_failure">Fallo de SSL</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP no está permitido. Por favor utilice HTTPS</string>
     <string name="dlg_err_schedule_data">Error de datos en horario</string>
     <string name="dlg_err_schedule_data_empty">      Nada para mostrar. El horario con la versión \"<xliff:g example="0.99" id="version">%s</xliff:g>\"

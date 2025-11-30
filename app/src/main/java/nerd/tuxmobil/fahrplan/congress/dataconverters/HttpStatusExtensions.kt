@@ -8,7 +8,6 @@ fun NetworkHttpStatus.toAppHttpStatus() = when (this) {
     NetworkHttpStatus.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE -> AppHttpStatus.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE
     NetworkHttpStatus.HTTP_DNS_FAILURE -> AppHttpStatus.HTTP_DNS_FAILURE
     NetworkHttpStatus.HTTP_COULD_NOT_CONNECT -> AppHttpStatus.HTTP_COULD_NOT_CONNECT
-    NetworkHttpStatus.HTTP_SSL_SETUP_FAILURE -> AppHttpStatus.HTTP_SSL_SETUP_FAILURE
     NetworkHttpStatus.HTTP_CANNOT_PARSE_CONTENT -> AppHttpStatus.HTTP_CANNOT_PARSE_CONTENT
     NetworkHttpStatus.HTTP_WRONG_HTTP_CREDENTIALS -> AppHttpStatus.HTTP_WRONG_HTTP_CREDENTIALS
     NetworkHttpStatus.HTTP_CONNECT_TIMEOUT -> AppHttpStatus.HTTP_CONNECT_TIMEOUT

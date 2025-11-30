@@ -41,7 +41,6 @@
     <string name="dlg_err_failed_connect_failure">Unbekannter Verbindungsfehler</string>
     <string name="dlg_err_failed_not_found">Ungültige Fahrplan-Adresse</string>
     <string name="dlg_err_failed_parse_failure">Kann Antwort nicht dekodieren.</string>
-    <string name="dlg_err_failed_ssl_failure">SSL Fehler</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP ist nicht erlaubt. Bitte HTTPS nutzen.</string>
     <string name="dlg_err_schedule_data">Fahrplandaten-Fehler</string>
     <string name="dlg_err_schedule_data_empty">

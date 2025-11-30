@@ -34,7 +34,6 @@
     <string name="dlg_err_failed_connect_failure">Неизвестная ошибка подключения</string>
     <string name="dlg_err_failed_not_found">Неверный URL расписания</string>
     <string name="dlg_err_failed_parse_failure">Не удалось разобрать ответ</string>
-    <string name="dlg_err_failed_ssl_failure">Ошибка SSL</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP запрещен. Пожалуйста, используйте HTTPS.</string>
     <string name="dlg_err_schedule_data">Ошибка данных в расписании</string>
     <string name="dlg_err_schedule_data_empty">        Nothing to display. The schedule with version \"<xliff:g example="0.99" id="version">%s</xliff:g>\"

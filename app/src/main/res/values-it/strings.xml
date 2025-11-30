@@ -32,7 +32,6 @@
     <string name="dlg_err_failed_connect_failure">Errore di connessione sconosciuto</string>
     <string name="dlg_err_failed_not_found">L\'indirizzo del promemoria è sconosciuto</string>
     <string name="dlg_err_failed_parse_failure">Impossibile interpretare la risposta</string>
-    <string name="dlg_err_failed_ssl_failure">SSL impossibile</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">Impossibile utilizzare HTTP. Si prega di utilizzare HTTPS.</string>
     <string name="dlg_err_schedule_data">Errore nei dati del programma</string>
     <string name="dlg_err_schedule_data_empty">Niente da visualizzare. Il programma con la versione \"<xliff:g example="0.99" id="version">%s</xliff:g>\" 

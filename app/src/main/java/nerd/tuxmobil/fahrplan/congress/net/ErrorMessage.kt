@@ -63,10 +63,6 @@ sealed interface ErrorMessage {
                     context.getString(R.string.dlg_err_connection_failed),
                     context.getString(R.string.dlg_err_failed_parse_failure)
                 )
-                HttpStatus.HTTP_SSL_SETUP_FAILURE -> TitledMessage(
-                    context.getString(R.string.dlg_err_connection_failed),
-                    context.getString(R.string.dlg_err_failed_ssl_failure)
-                )
                 HttpStatus.HTTP_NOT_MODIFIED -> SimpleMessage(
                     context.getString(R.string.uptodate)
                 )

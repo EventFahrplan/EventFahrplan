@@ -35,7 +35,6 @@
     <string name="dlg_err_failed_connect_failure">不明な接続失敗</string>
     <string name="dlg_err_failed_not_found">無効なスケジュールURL</string>
     <string name="dlg_err_failed_parse_failure">応答を解析できませんでした</string>
-    <string name="dlg_err_failed_ssl_failure">SSL障害</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTPは許可されていません。 HTTPSを使用してください。</string>
     <string name="dlg_err_schedule_data_empty">        Nothing to display. The schedule with version \"<xliff:g example="0.99" id="version">%s</xliff:g>\"
         does not contain any session.

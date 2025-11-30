@@ -35,7 +35,6 @@
     <string name="dlg_err_failed_connect_failure">Échec lors de la connexion pour des raisons inconnues</string>
     <string name="dlg_err_failed_not_found">URL du programme invalide</string>
     <string name="dlg_err_failed_parse_failure">Impossible d’analyser la réponse</string>
-    <string name="dlg_err_failed_ssl_failure">Échec SSL</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP n\'est pas autorisé. Veuillez utiliser HTTPS.</string>
     <string name="dlg_err_schedule_data">Erreur de données du planning</string>
     <string name="dlg_err_schedule_data_empty">        Nothing to display. The schedule with version \"<xliff:g example="0.99" id="version">%s</xliff:g>\"

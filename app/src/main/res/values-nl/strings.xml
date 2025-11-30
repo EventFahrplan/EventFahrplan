@@ -36,7 +36,6 @@
     <string name="dlg_err_failed_connect_failure">Onbekende verbindingsfout</string>
     <string name="dlg_err_failed_not_found">Ongeldige schema-URL</string>
     <string name="dlg_err_failed_parse_failure">Kon antwoord niet decoderen.</string>
-    <string name="dlg_err_failed_ssl_failure">SSL fout</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP is niet toegestaan. Gebruik HTTPS.</string>
     <string name="dlg_err_schedule_data">Schema data error</string>
     <string name="dlg_err_schedule_data_empty">Niets weer te geven. Het schema met versie <xliff:g example="0.99" id="version">%s</xliff:g> bevat geen sessie.</string>

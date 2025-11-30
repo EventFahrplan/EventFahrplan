@@ -32,7 +32,6 @@
     <string name="dlg_err_failed_connect_failure">Okänt anslutningsfel</string>
     <string name="dlg_err_failed_not_found">Ogiltligt schema URL</string>
     <string name="dlg_err_failed_parse_failure">Kunde inte tolka svaret</string>
-    <string name="dlg_err_failed_ssl_failure">SSL misslyckades</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP är inte tillåtet. Använd istället HTTPS.</string>
     <string name="dlg_err_schedule_data">Fel i schemadata</string>
     <string name="dlg_err_schedule_data_empty">        Inget att visa. Schemat med version \"<xliff:g example="0.99" id="version">%s</xliff:g>\"

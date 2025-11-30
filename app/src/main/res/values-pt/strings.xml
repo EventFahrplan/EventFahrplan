@@ -34,7 +34,6 @@
     <string name="dlg_err_failed_connect_failure">Falha de conexão desconhecida</string>
     <string name="dlg_err_failed_not_found">URL de cronograma inválida</string>
     <string name="dlg_err_failed_parse_failure">Não foi possíver processar a resposta</string>
-    <string name="dlg_err_failed_ssl_failure">Falha de SSL</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP não é permitido. Por favor use HTTPS.</string>
     <string name="dlg_err_schedule_data_empty">        Nothing to display. The schedule with version \"<xliff:g example="0.99" id="version">%s</xliff:g>\"
         does not contain any session.
