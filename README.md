@@ -98,7 +98,7 @@ Be sure to edit the contents of the file to point to your own keystore files.
 
 ## Translations
 
-Text translations are managed on [Crowdin][crowdin-eventfahrplan-website]. Contributions are welcome!
+Text translations are managed on [Crowdin][crowdin-eventfahrplan-website]. Your [contributions](CONTRIBUTING.md) are welcome!
 
 Sources (English) and translations are synchronized via the [Crowdin CLI tool][crowdin-cli-tool-website].
 German is excluded from being managed on Crowdin as long as the maintainer is a native German speaker.

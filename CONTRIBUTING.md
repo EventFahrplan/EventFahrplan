@@ -28,6 +28,8 @@ In order to simplify the process please try to follow the following suggestions:
 
 ## Translations
 * Contribute to the translation of the app into many languages. [Crowdin][crowdin-eventfahrplan] is used to organize all languages and texts.
+* To receive a message when strings are updated please configure `Global` notifications in your [account settings][crowdin-settings-notifications]. Otherwise, you will not know.
 
 [code-formatting]: http://stackoverflow.com/a/5581992/356895
 [crowdin-eventfahrplan]: https://crowdin.com/project/eventfahrplan
+[crowdin-settings-notifications]: https://crowdin.com/settings#notifications
