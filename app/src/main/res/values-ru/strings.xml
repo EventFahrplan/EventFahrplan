@@ -21,7 +21,7 @@
     <string name="menu_item_title_share_session_json">как JSON (для Chaosflix)</string>
     <!-- AlertDialog -->
     <string name="OK">ОК</string>
-    <!-- CertificateErrorFragment -->
+    <!-- Certificate error -->
     <string name="certificate_error_message">        Не удалось установить защищенное соединение.\n
         (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
     </string>

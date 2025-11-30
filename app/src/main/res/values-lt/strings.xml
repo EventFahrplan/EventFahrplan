@@ -23,7 +23,7 @@
     <string name="share_as_json">Dalintis kaip JSON (Chaosflix\'ui)</string>
     <!-- AlertDialog -->
     <string name="OK">Gerai</string>
-    <!-- CertificateErrorFragment -->
+    <!-- Certificate error -->
     <string name="certificate_error_message">        Nepavyko užmegzti saugaus ryšio.\n
         (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
     </string>

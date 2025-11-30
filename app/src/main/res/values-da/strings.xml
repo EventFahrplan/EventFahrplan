@@ -20,7 +20,7 @@
     <string name="share_as_text">Del som tekst</string>
     <string name="share_as_json">Del som JSON (for Chaosflix)</string>
     <!-- AlertDialog -->
-    <!-- CertificateErrorFragment -->
+    <!-- Certificate error -->
     <string name="certificate_error_message">        Kunne ikke etablere sikker forbindelse.\n
         (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
     </string>

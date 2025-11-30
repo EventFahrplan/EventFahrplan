@@ -25,6 +25,9 @@ import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus.HTTP_NOT_FOUND
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult
+import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage
+import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage.SimpleMessage
+import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage.TitledMessage
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState
@@ -37,7 +40,6 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseFailu
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSuccess
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.DayMenuParameter
-import nerd.tuxmobil.fahrplan.congress.schedule.observables.FahrplanEmptyParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FahrplanParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.ScrollToCurrentSessionParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.ScrollToSessionParameter
@@ -174,22 +176,22 @@ class FahrplanViewModelTest {
     inner class SessionData {
 
         @Test
-        fun `updateUncanceledSessions neither posts to fahrplanParameter nor fahrplanEmptyParameter properties`() =
+        fun `updateUncanceledSessions neither posts to fahrplanParameter nor errorMessage properties`() =
             runTest {
                 val repository = createRepository(uncanceledSessionsForDayIndexFlow = emptyFlow())
                 val viewModel = createViewModel(repository)
                 viewModel.fahrplanParameter.test {
                     expectNoEvents()
                 }
-                viewModel.fahrplanEmptyParameter.test {
-                    expectNoEvents()
+                viewModel.errorMessage.test {
+                    assertThat(awaitItem()).isNull()
                 }
                 verifyInvokedNever(repository).readMeta()
                 verifyInvokedNever(repository).readDisplayDayIndex()
             }
 
         @Test
-        fun `updateUncanceledSessions posts FahrplanEmptyParameter to fahrplanEmptyParameter property`() =
+        fun `updateUncanceledSessions posts TitledMessage to errorMessage property`() =
             runTest {
                 val scheduleData = ScheduleData(0, emptyList())
                 val repository = createRepository(
@@ -197,10 +199,14 @@ class FahrplanViewModelTest {
                     meta = Meta(version = "test-version")
 
                 )
-                val viewModel = createViewModel(repository)
-                val expected = FahrplanEmptyParameter("test-version")
-                viewModel.fahrplanEmptyParameter.test {
-                    assertThat(awaitItem()).isEqualTo(expected)
+                val errorMessage = TitledMessage(title = "test-title", message = "test-message")
+                val errorMessageFactory = mock<ErrorMessage.Factory> {
+                    on { getMessageForEmptySchedule(any()) } doReturn errorMessage
+                }
+                val viewModel = createViewModel(repository, errorMessageFactory = errorMessageFactory)
+                val expectedErrorMessage = TitledMessage(title = "test-title", message = "test-message")
+                viewModel.errorMessage.test {
+                    assertThat(awaitItem()).isEqualTo(expectedErrorMessage)
                     expectNoEvents()
                 }
                 viewModel.fahrplanParameter.test {
@@ -211,7 +217,7 @@ class FahrplanViewModelTest {
             }
 
         @Test
-        fun `updateUncanceledSessions never posts to fahrplanEmptyParameter property when schedule has never been loaded`() =
+        fun `updateUncanceledSessions never posts to errorMessage property when schedule has never been loaded`() =
             runTest {
                 val scheduleData = ScheduleData(0, emptyList())
                 val repository = createRepository(
@@ -219,8 +225,8 @@ class FahrplanViewModelTest {
                     meta = Meta(version = "")
                 )
                 val viewModel = createViewModel(repository)
-                viewModel.fahrplanEmptyParameter.test {
-                    expectNoEvents()
+                viewModel.errorMessage.test {
+                    assertThat(awaitItem()).isNull()
                 }
                 viewModel.fahrplanParameter.test {
                     expectNoEvents()
@@ -247,8 +253,8 @@ class FahrplanViewModelTest {
                 assertThat(awaitItem()).isEqualTo(expected)
                 expectNoEvents()
             }
-            viewModel.fahrplanEmptyParameter.test {
-                expectNoEvents()
+            viewModel.errorMessage.test {
+                assertThat(awaitItem()).isNull()
             }
             verifyInvokedNever(menuEntriesGenerator).getDayMenuEntries(any(), anyOrNull(), any())
             verifyInvokedOnce(repository).readDisplayDayIndex()
@@ -274,12 +280,23 @@ class FahrplanViewModelTest {
                     assertThat(actual).isEqualTo(expected)
                     expectNoEvents()
                 }
-                viewModel.fahrplanEmptyParameter.test {
-                    expectNoEvents()
+                viewModel.errorMessage.test {
+                    assertThat(awaitItem()).isNull()
                 }
                 verifyInvokedNever(menuEntriesGenerator).getDayMenuEntries(any(), anyOrNull(), any())
                 verifyInvokedOnce(repository).readDisplayDayIndex()
             }
+
+        @Test
+        fun `onCloseErrorMessageScreen posts null to errorMessage property`() = runTest {
+            val repository = createRepository()
+            val viewModel = createViewModel(repository)
+            viewModel.onCloseErrorMessageScreen()
+            viewModel.errorMessage.test {
+                assertThat(awaitItem()).isNull()
+                expectNoEvents()
+            }
+        }
 
     }
 
@@ -688,9 +705,15 @@ class FahrplanViewModelTest {
         return ScheduleData(dayIndex = dayIndex, roomDataList)
     }
 
+    private fun createFakeErrorMessageFactory() = mock<ErrorMessage.Factory> {
+        on { getMessageForHttpStatus(any(), any()) } doReturn SimpleMessage("fake message")
+        on { getMessageForParsingResult(any()) } doReturn SimpleMessage("fake message")
+    }
+
     private fun createViewModel(
         repository: AppRepository,
         alarmServices: AlarmServices = mock(),
+        errorMessageFactory: ErrorMessage.Factory = createFakeErrorMessageFactory(),
         notificationHelper: NotificationHelper = mock(),
         navigationMenuEntriesGenerator: NavigationMenuEntriesGenerator = mock(),
         simpleSessionFormat: SimpleSessionFormat = this.simpleSessionFormat,
@@ -700,6 +723,7 @@ class FahrplanViewModelTest {
         repository = repository,
         executionContext = TestExecutionContext,
         logging = NoLogging,
+        errorMessageFactory = errorMessageFactory,
         alarmServices = alarmServices,
         notificationHelper = notificationHelper,
         navigationMenuEntriesGenerator = navigationMenuEntriesGenerator,

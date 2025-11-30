@@ -23,7 +23,7 @@
     <string name="share_as_json">JSON olarak paylaş (Chaosflix için)</string>
     <!-- AlertDialog -->
     <string name="OK">Tamam</string>
-    <!-- CertificateErrorFragment -->
+    <!-- Certificate error -->
     <string name="certificate_error_message">        Güvenli bağlantı kurulamadı\n
        (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
     </string>

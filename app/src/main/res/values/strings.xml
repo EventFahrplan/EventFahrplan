@@ -29,7 +29,7 @@
     <!-- AlertDialog -->
     <string name="OK">OK</string>
 
-    <!-- CertificateErrorFragment -->
+    <!-- Certificate error -->
     <string name="certificate_error_message">
         Failed to establish secure connection.\n
         (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)

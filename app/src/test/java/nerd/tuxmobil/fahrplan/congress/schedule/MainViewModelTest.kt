@@ -18,7 +18,11 @@ import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticsUiState
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
+import nerd.tuxmobil.fahrplan.congress.net.HttpStatus.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult
+import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage
+import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage.SimpleMessage
+import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage.TitledMessage
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState
@@ -60,10 +64,10 @@ class MainViewModelTest {
         viewModel.openSessionDetails.test {
             expectNoEvents()
         }
-        viewModel.fetchFailure.test {
-            expectNoEvents()
+        viewModel.errorMessage.test {
+            assertThat(awaitItem()).isNull()
         }
-        viewModel.parseFailure.test {
+        viewModel.simpleErrorMessageUiState.test {
             expectNoEvents()
         }
         verifyInvokedOnce(repository).loadScheduleState
@@ -82,10 +86,10 @@ class MainViewModelTest {
         viewModel.openSessionChanges.test {
             expectNoEvents()
         }
-        viewModel.fetchFailure.test {
+        viewModel.errorMessage.test {
             assertThat(awaitItem()).isNull()
         }
-        viewModel.parseFailure.test {
+        viewModel.simpleErrorMessageUiState.test {
             assertThat(awaitItem()).isNull()
         }
         verifyInvokedOnce(repository).loadScheduleState
@@ -104,10 +108,10 @@ class MainViewModelTest {
         viewModel.openSessionChanges.test {
             expectNoEvents()
         }
-        viewModel.fetchFailure.test {
+        viewModel.errorMessage.test {
             assertThat(awaitItem()).isNull()
         }
-        viewModel.parseFailure.test {
+        viewModel.simpleErrorMessageUiState.test {
             assertThat(awaitItem()).isNull()
         }
         verifyInvokedOnce(repository).loadScheduleState
@@ -126,22 +130,25 @@ class MainViewModelTest {
         viewModel.openSessionChanges.test {
             expectNoEvents()
         }
-        viewModel.fetchFailure.test {
+        viewModel.errorMessage.test {
             assertThat(awaitItem()).isNull()
         }
-        viewModel.parseFailure.test {
+        viewModel.simpleErrorMessageUiState.test {
             assertThat(awaitItem()).isNull()
         }
         verifyInvokedOnce(repository).loadScheduleState
     }
 
     @Test
-    fun `FetchFailure posts to loadScheduleUiState and fetchFailure properties when the user triggered the action`() =
+    fun `FetchFailure posts to loadScheduleUiState and errorMessage properties when the user triggered the action`() =
         runTest {
             val status = FetchFailure(HttpStatus.HTTP_DNS_FAILURE, "localhost", "some-error", isUserRequest = true)
             val repository = createRepository(loadScheduleStateFlow = flowOf(status))
-            val viewModel = createViewModel(repository)
-            val expectedFailure = FetchFailure(HttpStatus.HTTP_DNS_FAILURE, "localhost", "some-error", isUserRequest = true)
+            val errorMessageFactory = mock<ErrorMessage.Factory> {
+                on { getMessageForHttpStatus(any(), any()) } doReturn TitledMessage("some title", "some message")
+            }
+            val viewModel = createViewModel(repository, errorMessageFactory = errorMessageFactory)
+            val expectedErrorMessage = TitledMessage("some title", "some message")
             viewModel.loadScheduleUiState.test {
                 assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Failure.UserTriggeredFetchFailure)
             }
@@ -151,14 +158,47 @@ class MainViewModelTest {
             viewModel.openSessionChanges.test {
                 expectNoEvents()
             }
-            viewModel.fetchFailure.test {
-                assertThat(awaitItem()).isEqualTo(expectedFailure)
+            viewModel.errorMessage.test {
+                assertThat(awaitItem()).isEqualTo(expectedErrorMessage)
             }
-            viewModel.parseFailure.test {
+            viewModel.simpleErrorMessageUiState.test {
                 expectNoEvents()
             }
             verifyInvokedOnce(repository).loadScheduleState
         }
+
+    @Test
+    fun `FetchFailure posts to loadScheduleUiState and errorMessage properties when the user triggered the action and certificate error occurs`() =
+        runTest {
+            val status = FetchFailure(HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE, "localhost", "some-error", isUserRequest = true)
+            val repository = createRepository(loadScheduleStateFlow = flowOf(status))
+            val errorMessageFactory = mock<ErrorMessage.Factory> {
+                on { getCertificateMessage(any()) } doReturn TitledMessage("Certificate error", "Some certificate error.")
+            }
+            val viewModel = createViewModel(repository, errorMessageFactory = errorMessageFactory)
+            val expectedErrorMessage = TitledMessage("Certificate error", "Some certificate error.")
+            viewModel.loadScheduleUiState.test {
+                assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Failure.UserTriggeredFetchFailure)
+            }
+            viewModel.errorMessage.test {
+                assertThat(awaitItem()).isEqualTo(expectedErrorMessage)
+            }
+            viewModel.simpleErrorMessageUiState.test {
+                expectNoEvents()
+            }
+            verifyInvokedOnce(repository).loadScheduleState
+        }
+
+    @Test
+    fun `onCloseErrorMessageScreen posts null to errorMessage property`() = runTest {
+        val repository = createRepository()
+        val viewModel = createViewModel(repository)
+        viewModel.onCloseErrorMessageScreen()
+        viewModel.errorMessage.test {
+            assertThat(awaitItem()).isNull()
+            expectNoEvents()
+        }
+    }
 
     @Test
     fun `FetchFailure silently posts to loadScheduleUiState property when the user did not trigger the action`() =
@@ -175,10 +215,10 @@ class MainViewModelTest {
             viewModel.openSessionChanges.test {
                 expectNoEvents()
             }
-            viewModel.fetchFailure.test {
-                expectNoEvents()
+            viewModel.errorMessage.test {
+                assertThat(awaitItem()).isNull()
             }
-            viewModel.parseFailure.test {
+            viewModel.simpleErrorMessageUiState.test {
                 expectNoEvents()
             }
             verifyInvokedOnce(repository).loadScheduleState
@@ -197,10 +237,10 @@ class MainViewModelTest {
         viewModel.openSessionChanges.test {
             expectNoEvents()
         }
-        viewModel.fetchFailure.test {
+        viewModel.errorMessage.test {
             assertThat(awaitItem()).isNull()
         }
-        viewModel.parseFailure.test {
+        viewModel.simpleErrorMessageUiState.test {
             assertThat(awaitItem()).isNull()
         }
         verifyInvokedOnce(repository).loadScheduleState
@@ -219,10 +259,10 @@ class MainViewModelTest {
         viewModel.openSessionChanges.test {
             expectNoEvents()
         }
-        viewModel.fetchFailure.test {
+        viewModel.errorMessage.test {
             assertThat(awaitItem()).isNull()
         }
-        viewModel.parseFailure.test {
+        viewModel.simpleErrorMessageUiState.test {
             assertThat(awaitItem()).isNull()
         }
         verifyInvokedOnce(repository).loadScheduleState
@@ -244,10 +284,10 @@ class MainViewModelTest {
         viewModel.openSessionChanges.test {
             expectNoEvents()
         }
-        viewModel.fetchFailure.test {
+        viewModel.errorMessage.test {
             assertThat(awaitItem()).isNull()
         }
-        viewModel.parseFailure.test {
+        viewModel.simpleErrorMessageUiState.test {
             assertThat(awaitItem()).isNull()
         }
         verifyInvokedOnce(repository).loadScheduleState
@@ -274,20 +314,24 @@ class MainViewModelTest {
             viewModel.openSessionChanges.test {
                 expectNoEvents()
             }
-            viewModel.fetchFailure.test {
+            viewModel.errorMessage.test {
                 assertThat(awaitItem()).isNull()
             }
-            viewModel.parseFailure.test {
+            viewModel.simpleErrorMessageUiState.test {
                 assertThat(awaitItem()).isNull()
             }
             verifyInvokedOnce(repository).loadScheduleState
         }
 
     @Test
-    fun `ParseFailure posts to loadScheduleUiState and parseFailure properties`() = runTest {
+    fun `ParseFailure posts to loadScheduleUiState and simpleErrorMessageUiState properties`() = runTest {
         val parseResult = TestParseResult()
         val repository = createRepository(loadScheduleStateFlow = flowOf(ParseFailure(parseResult)))
-        val viewModel = createViewModel(repository)
+        val errorMessageFactory = mock<ErrorMessage.Factory> {
+            on { getMessageForParsingResult(any()) } doReturn TitledMessage("Connection failure", "Couldn't parse response.")
+        }
+        val viewModel = createViewModel(repository, errorMessageFactory = errorMessageFactory)
+        val expectedErrorMessage = TitledMessage("Connection failure", "Couldn't parse response.")
         viewModel.loadScheduleUiState.test {
             assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Failure.ParseFailure)
         }
@@ -297,11 +341,11 @@ class MainViewModelTest {
         viewModel.openSessionChanges.test {
             expectNoEvents()
         }
-        viewModel.fetchFailure.test {
-            expectNoEvents()
+        viewModel.errorMessage.test {
+            assertThat(awaitItem()).isEqualTo(expectedErrorMessage)
         }
-        viewModel.parseFailure.test {
-            assertThat(awaitItem()).isEqualTo(parseResult)
+        viewModel.simpleErrorMessageUiState.test {
+            expectNoEvents()
         }
         verifyInvokedOnce(repository).loadScheduleState
     }
@@ -448,12 +492,19 @@ class MainViewModelTest {
         repository: AppRepository,
         notificationHelper: NotificationHelper = mock(),
         changeStatisticsUiStateFactory: ChangeStatisticsUiStateFactory = mock(),
+        errorMessageFactory: ErrorMessage.Factory = createFakeErrorMessageFactory(),
     ) = MainViewModel(
         repository = repository,
         notificationHelper = notificationHelper,
         changeStatisticsUiStateFactory = changeStatisticsUiStateFactory,
+        errorMessageFactory = errorMessageFactory,
         executionContext = TestExecutionContext,
     )
+
+    private fun createFakeErrorMessageFactory() = mock<ErrorMessage.Factory> {
+        on { getMessageForHttpStatus(any(), any()) } doReturn SimpleMessage("fake message")
+        on { getMessageForParsingResult(any()) } doReturn SimpleMessage("fake message")
+    }
 
     private fun createChangeStatisticsUiStateFactory(uiState: ChangeStatisticsUiState) =
         mock<ChangeStatisticsUiStateFactory> {

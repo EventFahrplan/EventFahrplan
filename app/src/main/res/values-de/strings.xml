@@ -26,7 +26,7 @@
     <!-- AlertDialog -->
     <string name="OK">OK</string>
 
-    <!-- CertificateErrorFragment -->
+    <!-- Certificate error -->
     <string name="certificate_error_message">
         Aufbau einer gesicherten Verbindung nicht möglich.\n
         (<xliff:g example="Unbekannter Fehler" id="error">%s</xliff:g>)

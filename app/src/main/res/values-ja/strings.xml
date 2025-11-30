@@ -22,7 +22,7 @@
     <string name="share_as_text">テキストとして共有</string>
     <string name="share_as_json">（Chaosflixのために）JSONとして共有</string>
     <!-- AlertDialog -->
-    <!-- CertificateErrorFragment -->
+    <!-- Certificate error -->
     <string name="certificate_error_message">        安全な接続の確立に失敗しました。\n
         (<xliff:g example="不明なエラー" id="error">%s</xliff:g>)
     </string>

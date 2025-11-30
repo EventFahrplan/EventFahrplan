@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
+import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppExecutionContext
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
@@ -13,6 +14,7 @@ import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
 internal class FahrplanViewModelFactory(
 
     private val repository: AppRepository,
+    private val errorMessageFactory: ErrorMessage.Factory,
     private val alarmServices: AlarmServices,
     private val navigationMenuEntriesGenerator: NavigationMenuEntriesGenerator,
     private val defaultEngelsystemRoomName: String,
@@ -28,6 +30,7 @@ internal class FahrplanViewModelFactory(
             repository = repository,
             executionContext = AppExecutionContext,
             logging = logging,
+            errorMessageFactory = errorMessageFactory,
             alarmServices = alarmServices,
             notificationHelper = notificationHelper,
             navigationMenuEntriesGenerator = navigationMenuEntriesGenerator,

@@ -23,7 +23,7 @@
     <string name="share_as_json">jaa JSON-muodossa (Chaosflixiä varten)</string>
     <!-- AlertDialog -->
     <string name="OK">Selvä</string>
-    <!-- CertificateErrorFragment -->
+    <!-- Certificate error -->
     <string name="certificate_error_message">        Turvallista yhteyttä ei saatu muodostettua.\n
         (<xliff:g esimerkki="Tuntematon Virhe" id="virhe">%s</xliff:g>)
     </string>

@@ -21,7 +21,7 @@
     <string name="share_as_text">Condividi come testo</string>
     <string name="share_as_json">Condividi come JSON (per Chaosflix)</string>
     <!-- AlertDialog -->
-    <!-- CertificateErrorFragment -->
+    <!-- Certificate error -->
     <string name="certificate_error_message">Impossibile stabilire una connessione sicura. (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)</string>
     <string name="certificate_error_title">Impossibile aggiungere il certificato</string>
     <!-- Error messages -->

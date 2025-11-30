@@ -33,6 +33,7 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 import androidx.appcompat.app.ActionBar.NAVIGATION_MODE_LIST
 import androidx.appcompat.app.ActionBar.OnNavigationListener
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -62,6 +63,7 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.applyHorizontalInsets
 import nerd.tuxmobil.fahrplan.congress.extensions.applyRightInsets
 import nerd.tuxmobil.fahrplan.congress.extensions.getLayoutInflater
@@ -72,6 +74,8 @@ import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityObserver
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage
+import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage.TitledMessage
+import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessageScreen
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.schedule.SessionInteractionType.ADD_TO_CALENDAR
@@ -118,7 +122,6 @@ class FahrplanFragment : Fragment(), MenuProvider {
     private lateinit var postNotificationsPermissionRequestLauncher: ActivityResultLauncher<String>
     private lateinit var scheduleExactAlarmsPermissionRequestLauncher: ActivityResultLauncher<Intent>
     private lateinit var inflater: LayoutInflater
-    private lateinit var errorMessageFactory: ErrorMessage.Factory
     private lateinit var connectivityObserver: ConnectivityObserver
     private lateinit var roomTitleTypeFace: Typeface
     private lateinit var viewModel: FahrplanViewModel
@@ -151,6 +154,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
         val viewModelFactory = FahrplanViewModelFactory(
             repository = appRepository,
             alarmServices = alarmServices,
+            errorMessageFactory = ErrorMessage.Factory(context),
             notificationHelper = notificationHelper,
             navigationMenuEntriesGenerator = menuEntriesGenerator,
             defaultEngelsystemRoomName = defaultEngelsystemRoomName,
@@ -201,7 +205,6 @@ class FahrplanFragment : Fragment(), MenuProvider {
         requireActivity().addMenuProvider(this, this, RESUMED)
         val context = requireContext()
         roomTitleTypeFace = TypefaceFactory.getNewInstance(context).getTypeface(Font.Roboto.Light)
-        errorMessageFactory = ErrorMessage.Factory(context)
         connectivityObserver = ConnectivityObserver(context, onConnectionAvailable = {
             logging.d(LOG_TAG, "Network is available.")
             viewModel.requestScheduleAutoUpdate()
@@ -248,6 +251,17 @@ class FahrplanFragment : Fragment(), MenuProvider {
         super.onDestroyView()
     }
 
+    @Composable
+    private fun ErrorMessage(errorMessage: TitledMessage) {
+        EventFahrplanTheme {
+            ErrorMessageScreen(
+                errorMessage = errorMessage,
+                onConfirm = { viewModel.onCloseErrorMessageScreen() },
+                onDismiss = { viewModel.onCloseErrorMessageScreen() },
+            )
+        }
+    }
+
     @SuppressLint("InlinedApi")
     private fun observeViewModel() {
         viewModel.fahrplanParameter
@@ -264,9 +278,10 @@ class FahrplanFragment : Fragment(), MenuProvider {
         viewModel.showHorizontalScrollingProgressLine.observe(this) { shouldShow ->
             updateHorizontalScrollingProgressLine(shouldShow)
         }
-        viewModel.fahrplanEmptyParameter.observe(viewLifecycleOwner) { (scheduleVersion) ->
-            val errorMessage = errorMessageFactory.getMessageForEmptySchedule(scheduleVersion)
-            errorMessage.show(requireContext(), shouldShowLong = false)
+        viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            requireActivity().requireViewById<ComposeView>(R.id.error_message_view).setContent {
+                errorMessage?.let { ErrorMessage(it) }
+            }
         }
         viewModel.activateScheduleUpdateAlarm.observe(viewLifecycleOwner) { conferenceTimeFrame ->
             FahrplanMisc.setUpdateAlarm(
