@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application android:icon="@mipmap/ic_launcher">
+        <activity
+            android:name=".schedule.MainActivity"
+            android:exported="true">
+            <intent-filter
+                android:autoVerify="true"
+                tools:targetApi="23">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="https" />
+
+                <!-- fahrplan.events.ccc.de patterns -->
+                <data android:host="fahrplan.events.ccc.de" />
+                <data android:pathPattern="/congress/.*/fahrplan/talk/.*" />
+                <data android:pathPattern="/congress/.*/fahrplan/event/.*" />
+
+                <!-- events.ccc.de patterns -->
+                <data android:host="events.ccc.de" />
+                <data android:pathPattern="/congress/.*/hub/.*/event/.*" />
+                <data android:pathPattern="/congress/.*/hub/.*/event/detail/.*" />
+                <data android:pathPattern="/congress/.*/hub/event/.*" />
+                <data android:pathPattern="/congress/.*/hub/event/detail/.*" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

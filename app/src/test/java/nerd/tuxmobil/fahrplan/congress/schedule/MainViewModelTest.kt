@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
+import nerd.tuxmobil.fahrplan.congress.applinks.Slug
+import nerd.tuxmobil.fahrplan.congress.applinks.SlugFactory
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeType.CANCELED
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeType.CHANGED
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeType.NEW
@@ -405,6 +407,45 @@ class MainViewModelTest {
     }
 
     @Test
+    fun `openSessionDetailsFromAppLink posts to openSessionDetails property`() = runTest {
+        val repository = createRepository(updatedSelectedSessionId = true)
+        val slugFactory = mock<SlugFactory> {
+            on { getSlug(any()) } doReturn Slug.PretalxSlug("pretalx-slug")
+        }
+        val viewModel = createViewModel(repository, slugFactory = slugFactory)
+        viewModel.openSessionDetailsFromAppLink(mock())
+        viewModel.openSessionDetails.test {
+            assertThat(awaitItem()).isEqualTo(Unit)
+        }
+    }
+
+    @Test
+    fun `openSessionDetailsFromAppLink does not post to openSessionDetails property when slug is null`() = runTest {
+        val repository = createRepository(updatedSelectedSessionId = true)
+        val slugFactory = mock<SlugFactory> {
+            on { getSlug(any()) } doReturn null
+        }
+        val viewModel = createViewModel(repository, slugFactory = slugFactory)
+        viewModel.openSessionDetailsFromAppLink(mock())
+        viewModel.openSessionDetails.test {
+            expectNoEvents()
+        }
+    }
+
+    @Test
+    fun `openSessionDetailsFromAppLink does not post to openSessionDetails property when slug is not present`() = runTest {
+        val repository = createRepository(updatedSelectedSessionId = false)
+        val slugFactory = mock<SlugFactory> {
+            on { getSlug(any()) } doReturn Slug.PretalxSlug("pretalx-slug")
+        }
+        val viewModel = createViewModel(repository, slugFactory = slugFactory)
+        viewModel.openSessionDetailsFromAppLink(mock())
+        viewModel.openSessionDetails.test {
+            expectNoEvents()
+        }
+    }
+
+    @Test
     fun `onCloseChangeStatisticsScreen post to openSessionChanges property`() = runTest {
         val repository = createRepository()
         val viewModel = createViewModel(repository)
@@ -485,6 +526,7 @@ class MainViewModelTest {
         on { readMeta() } doReturn Meta(version = "")
         on { loadChangedSessions() } doReturn changedSessions
         on { updateSelectedSessionId(any()) } doReturn updatedSelectedSessionId
+        on { updateSelectedSessionIdFromSlug(any()) } doReturn updatedSelectedSessionId
         on { readAlarms(any()) } doReturn alarms
     }
 
@@ -493,11 +535,13 @@ class MainViewModelTest {
         notificationHelper: NotificationHelper = mock(),
         changeStatisticsUiStateFactory: ChangeStatisticsUiStateFactory = mock(),
         errorMessageFactory: ErrorMessage.Factory = createFakeErrorMessageFactory(),
+        slugFactory: SlugFactory = mock(),
     ) = MainViewModel(
         repository = repository,
         notificationHelper = notificationHelper,
         changeStatisticsUiStateFactory = changeStatisticsUiStateFactory,
         errorMessageFactory = errorMessageFactory,
+        slugFactory = slugFactory,
         executionContext = TestExecutionContext,
     )
 

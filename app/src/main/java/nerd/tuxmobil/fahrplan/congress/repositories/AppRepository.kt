@@ -39,6 +39,7 @@ import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.BuildConfig.ENABLE_FOSDEM_ROOM_STATES
 import nerd.tuxmobil.fahrplan.congress.BuildConfig.FOSDEM_ROOM_STATES_PATH
 import nerd.tuxmobil.fahrplan.congress.BuildConfig.FOSDEM_ROOM_STATES_URL
+import nerd.tuxmobil.fahrplan.congress.applinks.Slug
 import nerd.tuxmobil.fahrplan.congress.dataconverters.cropToDayRangesExtent
 import nerd.tuxmobil.fahrplan.congress.dataconverters.sanitize
 import nerd.tuxmobil.fahrplan.congress.dataconverters.shiftRoomIndicesOfMainSchedule
@@ -888,15 +889,25 @@ object AppRepository : SearchRepository,
     }
 
     private fun readSessionBySessionId(sessionId: String): SessionDatabaseModel {
-        val session = sessionsDatabaseRepository
-            .querySessionBySessionId(sessionId)
+        val session = sessionsDatabaseRepository.querySessionBySessionId(sessionId)
+        return enrichSession(session)
+    }
 
+    private fun readSessionsBySlug(slug: Slug): List<SessionDatabaseModel> {
+        val sessions = when (slug) {
+            is Slug.HubSlug -> sessionsDatabaseRepository.querySessionsBySlugInSlug(slug.value)
+            is Slug.PretalxSlug -> sessionsDatabaseRepository.querySessionsBySlugInFeedbackUrl(slug.value)
+        }
+        return sessions.map(::enrichSession)
+    }
+
+    private fun enrichSession(session: SessionDatabaseModel): SessionDatabaseModel {
         val isHighlighted = highlightsDatabaseRepository
-            .queryBySessionId(sessionId)
+            .queryBySessionId(session.sessionId)
             ?.isHighlight ?: false
 
         val hasAlarm = alarmsDatabaseRepository
-            .query(sessionId)
+            .query(session.sessionId)
             .isNotEmpty()
 
         return if (isHighlighted || hasAlarm) {
@@ -938,6 +949,23 @@ object AppRepository : SearchRepository,
         return isSet.also {
             refreshSelectedSession()
             refreshRoomStates()
+        }
+    }
+
+    fun updateSelectedSessionIdFromSlug(slug: Slug): Boolean {
+        val sessions = readSessionsBySlug(slug)
+        return when {
+            sessions.isEmpty() -> {
+                logging.e(LOG_TAG, "No sessions found for slug '$slug'.")
+                false
+            }
+
+            sessions.size > 1 -> {
+                logging.e(LOG_TAG, "Multiple sessions found for slug '$slug': $sessions")
+                false
+            }
+
+            else -> updateSelectedSessionId(sessions.first().sessionId)
         }
     }
 
