@@ -207,6 +207,32 @@ internal class RealSessionsDatabaseRepository(
         }
     }
 
+    override fun querySessionsBySlugInFeedbackUrl(slug: String): List<Session> {
+        return try {
+            query {
+                read(SessionsTable.NAME,
+                        selection = "$FEEDBACK_URL LIKE ?",
+                        selectionArgs = arrayOf("%$slug%"))
+            }
+        } catch (e: NoSuchElementException) {
+            logging.report(LOG_TAG, "Sessions table does not contain any session with slug '$slug'. ${e.message}")
+            emptyList()
+        }
+    }
+
+    override fun querySessionsBySlugInSlug(slug: String): List<Session> {
+        return try {
+            query {
+                read(SessionsTable.NAME,
+                        selection = "$SLUG LIKE ?",
+                        selectionArgs = arrayOf("%$slug%"))
+            }
+        } catch (e: NoSuchElementException) {
+            logging.report(LOG_TAG, "Sessions table does not contain any session with slug '$slug'. ${e.message}")
+            emptyList()
+        }
+    }
+
     override fun querySessionsForDayIndexOrderedByDateUtc(dayIndex: Int) = query {
         read(SessionsTable.NAME,
                 selection = "$DAY_INDEX=?",

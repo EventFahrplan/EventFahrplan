@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
@@ -10,6 +11,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import nerd.tuxmobil.fahrplan.congress.applinks.Slug
+import nerd.tuxmobil.fahrplan.congress.applinks.SlugFactory
 import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticsUiState
 import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticsUiStateFactory
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel
@@ -39,6 +42,7 @@ internal class MainViewModel(
     private val notificationHelper: NotificationHelper,
     private val changeStatisticsUiStateFactory: ChangeStatisticsUiStateFactory,
     private val errorMessageFactory: ErrorMessage.Factory,
+    private val slugFactory: SlugFactory,
     private val executionContext: ExecutionContext,
 ) : ViewModel() {
 
@@ -197,6 +201,17 @@ internal class MainViewModel(
             val isUpdated = repository.updateSelectedSessionId(sessionId)
             if (isUpdated) {
                 mutableOpenSessionDetails.sendOneTimeEvent(Unit)
+            }
+        }
+    }
+
+    fun openSessionDetailsFromAppLink(uri: Uri) {
+        launch {
+            slugFactory.getSlug(uri)?.let {
+                val isUpdated = repository.updateSelectedSessionIdFromSlug(it)
+                if (isUpdated) {
+                    mutableOpenSessionDetails.sendOneTimeEvent(Unit)
+                }
             }
         }
     }

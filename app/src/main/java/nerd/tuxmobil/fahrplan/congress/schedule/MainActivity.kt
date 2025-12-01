@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.content.Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -158,6 +159,15 @@ class MainActivity : BaseActivity(),
         observeViewModel()
         onSessionAlarmNotificationTapped(intent)
         viewModel.checkPostNotificationsPermission()
+        window.decorView.post { handleAppLink(intent) }
+    }
+
+    private fun handleAppLink(intent: Intent) {
+        if (intent.action == Intent.ACTION_VIEW) {
+            intent.data?.let {
+                viewModel.openSessionDetailsFromAppLink(it)
+            }
+        }
     }
 
     @Composable
@@ -233,6 +243,7 @@ class MainActivity : BaseActivity(),
         super.onNewIntent(intent)
         setIntent(intent)
         onSessionAlarmNotificationTapped(intent)
+        handleAppLink(intent)
     }
 
     private fun onSessionAlarmNotificationTapped(intent: Intent) {
