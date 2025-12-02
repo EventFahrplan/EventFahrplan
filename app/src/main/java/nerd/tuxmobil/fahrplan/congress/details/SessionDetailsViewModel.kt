@@ -83,6 +83,8 @@ internal class SessionDetailsViewModel(
     val addToCalendar = mutableAddToCalendar.receiveAsFlow()
     private val mutableNavigateToRoom = Channel<Uri>()
     val navigateToRoom = mutableNavigateToRoom.receiveAsFlow()
+    private val mutableOpenLink = Channel<String>()
+    val openLink = mutableOpenLink.receiveAsFlow()
     private val mutableCloseDetails = Channel<Unit>()
     val closeDetails = mutableCloseDetails.receiveAsFlow()
 
@@ -108,6 +110,12 @@ internal class SessionDetailsViewModel(
             updateRoomState()
         }
         updateSessionDetailsState()
+    }
+
+    fun onViewEvent(event: SessionDetailsViewEvent) {
+        when (event) {
+            is SessionDetailsViewEvent.OnSessionLinkClick -> mutableOpenLink.sendOneTimeEvent(event.link)
+        }
     }
 
     private fun updateSessionDetailsState() {
