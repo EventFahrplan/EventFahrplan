@@ -68,7 +68,7 @@ object Libs {
         const val junitJupiter = "5.14.0"
         const val junitPlatform = "1.14.0"
         const val kotlinCoroutines = "1.10.2"
-        const val lifecycle = "2.9.4"
+        const val lifecycle = "2.9.4" // minSdk 23 is required as of 2.10.0
         const val markdownRenderer = "0.38.1"
         const val material = "1.13.0"
         const val materialIconsCore = "1.7.8"
