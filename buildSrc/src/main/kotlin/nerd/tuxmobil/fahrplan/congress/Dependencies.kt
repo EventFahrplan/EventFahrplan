@@ -75,7 +75,7 @@ object Libs {
         const val mockitoKotlin = "6.1.0"
         const val moshi = "1.15.2"
         const val navigation = "2.9.2"
-        const val okhttp = "5.3.0"
+        const val okhttp = "5.3.2"
         const val robolectric = "4.3_r2-robolectric-0"
         const val roomStates = "2.0.0"
         const val snackengage = "0.30"
