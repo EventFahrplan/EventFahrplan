@@ -13,6 +13,11 @@ import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticsUiState
 import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticsUiStateFactory
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel
+import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage
+import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage.SimpleMessage
+import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage.TitledMessage
+import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
+import nerd.tuxmobil.fahrplan.congress.net.HttpStatus.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
@@ -26,23 +31,25 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialPar
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseFailure
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSuccess
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
+import nerd.tuxmobil.fahrplan.congress.schedule.observables.ErrorMessageUiState
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.LoadScheduleUiState
 
 internal class MainViewModel(
     private val repository: AppRepository,
     private val notificationHelper: NotificationHelper,
     private val changeStatisticsUiStateFactory: ChangeStatisticsUiStateFactory,
+    private val errorMessageFactory: ErrorMessage.Factory,
     private val executionContext: ExecutionContext,
 ) : ViewModel() {
 
     private val mutableLoadScheduleUiState = Channel<LoadScheduleUiState>()
     val loadScheduleUiState = mutableLoadScheduleUiState.receiveAsFlow()
 
-    private val mutableFetchFailure = Channel<FetchFailure?>()
-    val fetchFailure = mutableFetchFailure.receiveAsFlow()
+    private val mutableErrorMessage = MutableStateFlow<TitledMessage?>(null)
+    val errorMessage = mutableErrorMessage.asStateFlow()
 
-    private val mutableParseFailure = Channel<ParseResult?>()
-    val parseFailure = mutableParseFailure.receiveAsFlow()
+    private val mutableSimpleErrorMessageUiState = Channel<ErrorMessageUiState?>()
+    val simpleErrorMessageUiState = mutableSimpleErrorMessageUiState.receiveAsFlow()
 
     private val mutableChangeStatisticsUiState = MutableStateFlow<ChangeStatisticsUiState?>(null)
     val changeStatisticsUiState = mutableChangeStatisticsUiState.asStateFlow()
@@ -98,19 +105,38 @@ internal class MainViewModel(
     private fun LoadScheduleState.handleFailureStates() = when (this) {
         is FetchFailure -> {
             if (isUserRequest) {
-                mutableFetchFailure.sendOneTimeEvent(this)
+                showFetchErrorMessage(httpStatus = httpStatus, hostName = hostName, exceptionMessage = exceptionMessage)
             } else {
                 // Don't bother the user with schedule up-to-date messages.
             }
         }
 
         is ParseFailure -> {
-            mutableParseFailure.sendOneTimeEvent(parseResult)
+            showParseErrorMessage(parseResult)
         }
 
         else -> {
-            mutableFetchFailure.sendOneTimeEvent(null)
-            mutableParseFailure.sendOneTimeEvent(null)
+            mutableErrorMessage.value = null
+            mutableSimpleErrorMessageUiState.sendOneTimeEvent(null)
+        }
+    }
+
+    private fun showFetchErrorMessage(httpStatus: HttpStatus, hostName: String, exceptionMessage: String) {
+        if (httpStatus == HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE) {
+            val message = errorMessageFactory.getCertificateMessage(exceptionMessage)
+            mutableErrorMessage.value = message
+        } else {
+            when (val message = errorMessageFactory.getMessageForHttpStatus(httpStatus, hostName)) {
+                is TitledMessage -> mutableErrorMessage.value = message
+                is SimpleMessage -> mutableSimpleErrorMessageUiState.sendOneTimeEvent(ErrorMessageUiState(message, shouldShowLong = false))
+            }
+        }
+    }
+
+    private fun showParseErrorMessage(parseResult: ParseResult) {
+        when (val message = errorMessageFactory.getMessageForParsingResult(parseResult)) {
+            is TitledMessage -> mutableErrorMessage.value = message
+            is SimpleMessage -> mutableSimpleErrorMessageUiState.sendOneTimeEvent(ErrorMessageUiState(message, shouldShowLong = true))
         }
     }
 
@@ -181,6 +207,10 @@ internal class MainViewModel(
         if (shouldOpenSessionChanges) {
             mutableOpenSessionChanges.sendOneTimeEvent(Unit)
         }
+    }
+
+    fun onCloseErrorMessageScreen() {
+        mutableErrorMessage.value = null
     }
 
     private fun launch(block: suspend CoroutineScope.() -> Unit) {

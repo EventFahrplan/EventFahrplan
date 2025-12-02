@@ -22,7 +22,7 @@
     <string name="share_as_json">Partager en tant que JSON (pour Chaosflix)</string>
     <!-- AlertDialog -->
     <string name="OK">Ok</string>
-    <!-- CertificateErrorFragment -->
+    <!-- Certificate error -->
     <string name="certificate_error_message">Échec lors de l’établissement d’une connexion sécurisée.
 \n (<xliff:g example="Unknown Error" id="error">%s</xliff:g>) </string>
     <string name="certificate_error_title">Le certificat n’a pas pu être ajouté.</string>
@@ -35,7 +35,6 @@
     <string name="dlg_err_failed_connect_failure">Échec lors de la connexion pour des raisons inconnues</string>
     <string name="dlg_err_failed_not_found">URL du programme invalide</string>
     <string name="dlg_err_failed_parse_failure">Impossible d’analyser la réponse</string>
-    <string name="dlg_err_failed_ssl_failure">Échec SSL</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP n\'est pas autorisé. Veuillez utiliser HTTPS.</string>
     <string name="dlg_err_schedule_data">Erreur de données du planning</string>
     <string name="dlg_err_schedule_data_empty">        Nothing to display. The schedule with version \"<xliff:g example="0.99" id="version">%s</xliff:g>\"

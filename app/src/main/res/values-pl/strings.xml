@@ -23,7 +23,7 @@
     <string name="share_as_json">Udostępnij jako JSON (dla Chaosflix)</string>
     <!-- AlertDialog -->
     <string name="OK">OK</string>
-    <!-- CertificateErrorFragment -->
+    <!-- Certificate error -->
     <string name="certificate_error_message">        Nie udało się nawiązać bezpiecznego połączenia.\n
         (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
     </string>
@@ -36,7 +36,6 @@
     <string name="dlg_err_failed_connect_failure">Nieznany błąd połączenia</string>
     <string name="dlg_err_failed_not_found">Błędny URL agendy</string>
     <string name="dlg_err_failed_parse_failure">Nie udało się przetworzyć odpowiedzi</string>
-    <string name="dlg_err_failed_ssl_failure">błąd SSL</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP nie jest dozwolony. Proszę użyć HTTPS.</string>
     <string name="dlg_err_schedule_data">Błąd danych agendy</string>
     <string name="dlg_err_schedule_data_empty">        Nie ma nic do wyświetlenia. Agenda w wersji \"<xliff:g example="0.99" id="version">%s</xliff:g>\"

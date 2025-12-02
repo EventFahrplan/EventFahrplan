@@ -21,7 +21,7 @@
     <string name="share_as_text">Condividi come testo</string>
     <string name="share_as_json">Condividi come JSON (per Chaosflix)</string>
     <!-- AlertDialog -->
-    <!-- CertificateErrorFragment -->
+    <!-- Certificate error -->
     <string name="certificate_error_message">Impossibile stabilire una connessione sicura. (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)</string>
     <string name="certificate_error_title">Impossibile aggiungere il certificato</string>
     <!-- Error messages -->
@@ -32,7 +32,6 @@
     <string name="dlg_err_failed_connect_failure">Errore di connessione sconosciuto</string>
     <string name="dlg_err_failed_not_found">L\'indirizzo del promemoria è sconosciuto</string>
     <string name="dlg_err_failed_parse_failure">Impossibile interpretare la risposta</string>
-    <string name="dlg_err_failed_ssl_failure">SSL impossibile</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">Impossibile utilizzare HTTP. Si prega di utilizzare HTTPS.</string>
     <string name="dlg_err_schedule_data">Errore nei dati del programma</string>
     <string name="dlg_err_schedule_data_empty">Niente da visualizzare. Il programma con la versione \"<xliff:g example="0.99" id="version">%s</xliff:g>\" 

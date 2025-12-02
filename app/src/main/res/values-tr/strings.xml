@@ -23,7 +23,7 @@
     <string name="share_as_json">JSON olarak paylaş (Chaosflix için)</string>
     <!-- AlertDialog -->
     <string name="OK">Tamam</string>
-    <!-- CertificateErrorFragment -->
+    <!-- Certificate error -->
     <string name="certificate_error_message">        Güvenli bağlantı kurulamadı\n
        (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
     </string>
@@ -36,7 +36,6 @@
     <string name="dlg_err_failed_connect_failure">Bilinmeyen bağlantı hatası</string>
     <string name="dlg_err_failed_not_found">Geçersiz takvim URL\'si</string>
     <string name="dlg_err_failed_parse_failure">Yanıt anlaşılamadı</string>
-    <string name="dlg_err_failed_ssl_failure">SSL hatası</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP\'ye izin verilmiyor. Lütfen HTTPS kullanın.</string>
     <string name="dlg_err_schedule_data">Takvim veri hatası</string>
     <string name="dlg_err_schedule_data_empty">        Gösterilecek hiçbir şey yok. \"<xliff:g example="0.99" id="version">%s</xliff:g>\"  versiyonlu Takvim 

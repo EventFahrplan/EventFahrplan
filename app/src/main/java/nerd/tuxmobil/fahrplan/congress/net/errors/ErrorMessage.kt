@@ -1,9 +1,11 @@
-package nerd.tuxmobil.fahrplan.congress.net
+package nerd.tuxmobil.fahrplan.congress.net.errors
 
 import android.content.Context
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
+import nerd.tuxmobil.fahrplan.congress.net.ParseResult
+import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult
+import nerd.tuxmobil.fahrplan.congress.net.ParseShiftsResult
 
 sealed interface ErrorMessage {
 
@@ -11,29 +13,8 @@ sealed interface ErrorMessage {
     data class SimpleMessage(val message: String) : ErrorMessage
 
     /**
-     * Displays either an [AlertDialog] or a [Toast].
-     * The [shouldShowLong] parameter is only relevant for the [Toast].
-     */
-    fun show(context: Context, shouldShowLong: Boolean) {
-        when (this) {
-            is TitledMessage -> {
-                // TODO Replace with DialogFragment to survive orientation change
-                AlertDialog.Builder(context)
-                    .setTitle(title)
-                    .setMessage(message)
-                    .setPositiveButton(R.string.OK, null)
-                    .show()
-            }
-            is SimpleMessage -> {
-                val duration = if (shouldShowLong) Toast.LENGTH_LONG else Toast.LENGTH_SHORT
-                Toast.makeText(context, message, duration).show()
-            }
-        }
-    }
-
-    /**
-     * Produces an abstract [ErrorMessage] which is displayed in various forms, see [ErrorMessage.show].
-     * This class intentionally separates the text creation and the form how they will be displayed.
+     * Produces an abstract [ErrorMessage] which can be displayed as a dialog or toast.
+     * This class intentionally separates the text creation from how it will be displayed.
      */
     class Factory(private val context: Context) {
 
@@ -63,10 +44,6 @@ sealed interface ErrorMessage {
                     context.getString(R.string.dlg_err_connection_failed),
                     context.getString(R.string.dlg_err_failed_parse_failure)
                 )
-                HttpStatus.HTTP_SSL_SETUP_FAILURE -> TitledMessage(
-                    context.getString(R.string.dlg_err_connection_failed),
-                    context.getString(R.string.dlg_err_failed_ssl_failure)
-                )
                 HttpStatus.HTTP_NOT_MODIFIED -> SimpleMessage(
                     context.getString(R.string.uptodate)
                 )
@@ -82,10 +59,10 @@ sealed interface ErrorMessage {
             }
 
         /**
-         * Returns an [ErrorMessage] indicating that the loaded schedule does not contain any sessions
-         * to be displayed. If present the schedule version is included in the error message.
+         * Returns a [TitledMessage] indicating that the loaded schedule does not contain any sessions
+         * to be displayed. If present the [scheduleVersion] is included in the error message.
          */
-        fun getMessageForEmptySchedule(scheduleVersion: String): ErrorMessage = when {
+        fun getMessageForEmptySchedule(scheduleVersion: String): TitledMessage = when {
             scheduleVersion.isEmpty() -> TitledMessage(
                 context.getString(R.string.dlg_err_schedule_data),
                 context.getString(R.string.dlg_err_schedule_data_empty_without_version),
@@ -131,4 +108,3 @@ sealed interface ErrorMessage {
     }
 
 }
-

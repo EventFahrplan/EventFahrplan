@@ -29,7 +29,7 @@
     <!-- AlertDialog -->
     <string name="OK">OK</string>
 
-    <!-- CertificateErrorFragment -->
+    <!-- Certificate error -->
     <string name="certificate_error_message">
         Failed to establish secure connection.\n
         (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
@@ -44,7 +44,6 @@
     <string name="dlg_err_failed_connect_failure">Unknown connection failure</string>
     <string name="dlg_err_failed_not_found">Invalid schedule URL</string>
     <string name="dlg_err_failed_parse_failure">Couldn\'t parse response</string>
-    <string name="dlg_err_failed_ssl_failure">SSL failure</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP is not allowed. Please use HTTPS.</string>
     <string name="dlg_err_schedule_data">Schedule data error</string>
     <string name="dlg_err_schedule_data_empty">

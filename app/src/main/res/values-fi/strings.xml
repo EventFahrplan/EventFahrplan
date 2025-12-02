@@ -23,7 +23,7 @@
     <string name="share_as_json">jaa JSON-muodossa (Chaosflixiä varten)</string>
     <!-- AlertDialog -->
     <string name="OK">Selvä</string>
-    <!-- CertificateErrorFragment -->
+    <!-- Certificate error -->
     <string name="certificate_error_message">        Turvallista yhteyttä ei saatu muodostettua.\n
         (<xliff:g esimerkki="Tuntematon Virhe" id="virhe">%s</xliff:g>)
     </string>
@@ -36,7 +36,6 @@
     <string name="dlg_err_failed_connect_failure">Tuntematon yhteysvirhe</string>
     <string name="dlg_err_failed_not_found">Epäkelpo aikataulun URL-osoite</string>
     <string name="dlg_err_failed_parse_failure">Vastinetta ei saatu jäsennettyä</string>
-    <string name="dlg_err_failed_ssl_failure">SSL-virhe</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP ei ole sallittu. Käytäthän salattua mallia HTTPS.</string>
     <string name="dlg_err_schedule_data">Aikataulutietojen virhe</string>
     <string name="dlg_err_schedule_data_empty">        Ei mitään näytettävää. Aikataulu julkaisulle \"<xliff:g esimerkki="0.99" id="versio">%s</xliff:g>\"

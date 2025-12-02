@@ -50,9 +50,9 @@ import nerd.tuxmobil.fahrplan.congress.extensions.isLandscape
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment
-import nerd.tuxmobil.fahrplan.congress.net.CertificateErrorFragment
-import nerd.tuxmobil.fahrplan.congress.net.ErrorMessage
-import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
+import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage
+import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage.TitledMessage
+import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessageScreen
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
@@ -109,7 +109,7 @@ class MainActivity : BaseActivity(),
     private lateinit var progressBar: ContentLoadingProgressBar
     private var progressDialog: ProgressDialog? = null
     private val viewModel: MainViewModel by viewModels {
-        MainViewModelFactory(AppRepository, notificationHelper)
+        MainViewModelFactory(AppRepository, notificationHelper, errorMessageFactory)
     }
 
     private var isScreenLocked = false
@@ -171,19 +171,30 @@ class MainActivity : BaseActivity(),
         }
     }
 
+    @Composable
+    private fun ErrorMessage(errorMessage: TitledMessage) {
+        EventFahrplanTheme {
+            ErrorMessageScreen(
+                errorMessage = errorMessage,
+                onConfirm = viewModel::onCloseErrorMessageScreen,
+                onDismiss = viewModel::onCloseErrorMessageScreen,
+            )
+        }
+    }
+
     private fun observeViewModel() {
         viewModel.loadScheduleUiState.observe(this) {
             updateUi(it)
         }
-        viewModel.fetchFailure.observe(this) {
-            it?.let {
-                showErrorDialog(it.httpStatus, it.hostName, it.exceptionMessage)
+        viewModel.errorMessage.observe(this) { errorMessage ->
+            requireViewByIdCompat<ComposeView>(R.id.error_message_view).setContent {
+                errorMessage?.let { ErrorMessage(it) }
             }
         }
-        viewModel.parseFailure.observe(this) {
-            it?.let {
-                val errorMessage = errorMessageFactory.getMessageForParsingResult(it)
-                errorMessage.show(this, shouldShowLong = true)
+        viewModel.simpleErrorMessageUiState.observe(this) { state ->
+            state?.let {
+                val duration = if (it.shouldShowLong) Toast.LENGTH_LONG else Toast.LENGTH_SHORT
+                Toast.makeText(this, it.errorMessage.message, duration).show()
             }
         }
         viewModel.changeStatisticsUiState.observe(this) { state ->
@@ -228,15 +239,6 @@ class MainActivity : BaseActivity(),
         val notificationId = intent.getIntExtra(BundleKeys.SESSION_ALARM_NOTIFICATION_ID, INVALID_NOTIFICATION_ID)
         if (notificationId != INVALID_NOTIFICATION_ID) {
             viewModel.deleteSessionAlarmNotificationId(notificationId)
-        }
-    }
-
-    private fun showErrorDialog(httpStatus: HttpStatus, hostName: String, exceptionMessage: String) {
-        if (httpStatus == HttpStatus.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE) {
-            CertificateErrorFragment.showDialog(supportFragmentManager, exceptionMessage)
-        } else {
-            val errorMessage = errorMessageFactory.getMessageForHttpStatus(httpStatus, hostName)
-            errorMessage.show(context = this, shouldShowLong = false)
         }
     }
 

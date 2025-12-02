@@ -20,7 +20,7 @@
     <string name="share_as_text">Del som tekst</string>
     <string name="share_as_json">Del som JSON (for Chaosflix)</string>
     <!-- AlertDialog -->
-    <!-- CertificateErrorFragment -->
+    <!-- Certificate error -->
     <string name="certificate_error_message">        Kunne ikke etablere sikker forbindelse.\n
         (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
     </string>
@@ -33,7 +33,6 @@
     <string name="dlg_err_failed_connect_failure">Ukendt forbindelsesfejl</string>
     <string name="dlg_err_failed_not_found">Ugyldig tidsplan URL</string>
     <string name="dlg_err_failed_parse_failure">Kunne ikke parse svar</string>
-    <string name="dlg_err_failed_ssl_failure">SSL-fejl</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP er ikke tilladt. Brug venligst HTTPS.</string>
     <string name="dlg_err_schedule_data">Fejl i tidsplanens data</string>
     <string name="dlg_err_schedule_data_empty">        Intet at vise. Tidsplanen med version \"<xliff:g example="0.99" id="version">%s</xliff:g>\"

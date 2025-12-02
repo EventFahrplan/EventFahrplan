@@ -27,6 +27,8 @@ import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Known
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Unknown
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage
+import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage.TitledMessage
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.ExecutionContext
@@ -36,7 +38,6 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialFet
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialParsing
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.DayMenuParameter
-import nerd.tuxmobil.fahrplan.congress.schedule.observables.FahrplanEmptyParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FahrplanParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.ScrollToCurrentSessionParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.ScrollToSessionParameter
@@ -50,6 +51,7 @@ internal class FahrplanViewModel(
     private val repository: AppRepository,
     private val executionContext: ExecutionContext,
     private val logging: Logging,
+    private val errorMessageFactory: ErrorMessage.Factory,
     alarmServices: AlarmServices,
     notificationHelper: NotificationHelper,
     private val navigationMenuEntriesGenerator: NavigationMenuEntriesGenerator,
@@ -81,8 +83,8 @@ internal class FahrplanViewModel(
     private val mutableFahrplanParameter = MutableStateFlow<FahrplanParameter?>(null)
     val fahrplanParameter = mutableFahrplanParameter.asStateFlow().filterNotNull()
 
-    private val mutableFahrplanEmptyParameter = Channel<FahrplanEmptyParameter>()
-    val fahrplanEmptyParameter = mutableFahrplanEmptyParameter.receiveAsFlow()
+    private val mutableErrorMessage = MutableStateFlow<TitledMessage?>(null)
+    val errorMessage = mutableErrorMessage.asStateFlow()
 
     private val mutableShowHorizontalScrollingProgressLine = Channel<Boolean>()
     val showHorizontalScrollingProgressLine = mutableShowHorizontalScrollingProgressLine.receiveAsFlow()
@@ -147,7 +149,8 @@ internal class FahrplanViewModel(
                 if (scheduleData.allSessions.isEmpty()) {
                     val scheduleVersion = repository.readMeta().version
                     if (scheduleVersion.isNotEmpty()) {
-                        mutableFahrplanEmptyParameter.sendOneTimeEvent(FahrplanEmptyParameter(scheduleVersion))
+                        val errorMessage = errorMessageFactory.getMessageForEmptySchedule(scheduleVersion)
+                        mutableErrorMessage.value = errorMessage
                     } // else: Nothing to do because schedule has not been loaded yet
                 } else {
                     val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
@@ -363,6 +366,10 @@ internal class FahrplanViewModel(
                 }
             }
         }
+    }
+
+    fun onCloseErrorMessageScreen() {
+        mutableErrorMessage.value = null
     }
 
     private fun launch(block: suspend CoroutineScope.() -> Unit) {

@@ -23,7 +23,7 @@
     <string name="share_as_json">Dalintis kaip JSON (Chaosflix\'ui)</string>
     <!-- AlertDialog -->
     <string name="OK">Gerai</string>
-    <!-- CertificateErrorFragment -->
+    <!-- Certificate error -->
     <string name="certificate_error_message">        Nepavyko užmegzti saugaus ryšio.\n
         (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
     </string>
@@ -36,7 +36,6 @@
     <string name="dlg_err_failed_connect_failure">Nežinoma prisijungimo klaida</string>
     <string name="dlg_err_failed_not_found">Neteisingas tvarkarasčio URL</string>
     <string name="dlg_err_failed_parse_failure">Nepavyko išanalizuoti atsakymo.</string>
-    <string name="dlg_err_failed_ssl_failure">SSL klaida</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP neleidžiama. Naudokite HTTPS.</string>
     <string name="dlg_err_schedule_data">Tvarkarasčio duomenų klaida</string>
     <string name="dlg_err_schedule_data_empty">Nėra ką rodyti. <xliff:g example="0.99" id="version">%s</xliff:g> versijos tvarkaraštis neturi jokių sesijų.</string>
