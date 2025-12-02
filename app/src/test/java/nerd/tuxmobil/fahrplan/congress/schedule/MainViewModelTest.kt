@@ -428,7 +428,7 @@ class MainViewModelTest {
         val viewModel = createViewModel(repository, slugFactory = slugFactory)
         viewModel.openSessionDetailsFromAppLink(mock())
         viewModel.openSessionDetails.test {
-            assertThat(awaitItem()).isEqualTo(Unit)
+            expectNoEvents()
         }
     }
 
@@ -441,7 +441,7 @@ class MainViewModelTest {
         val viewModel = createViewModel(repository, slugFactory = slugFactory)
         viewModel.openSessionDetailsFromAppLink(mock())
         viewModel.openSessionDetails.test {
-            assertThat(awaitItem()).isEqualTo(Unit)
+            expectNoEvents()
         }
     }
 
@@ -526,6 +526,7 @@ class MainViewModelTest {
         on { readMeta() } doReturn Meta(version = "")
         on { loadChangedSessions() } doReturn changedSessions
         on { updateSelectedSessionId(any()) } doReturn updatedSelectedSessionId
+        on { updateSelectedSessionIdFromSlug(any()) } doReturn updatedSelectedSessionId
         on { readAlarms(any()) } doReturn alarms
     }
 

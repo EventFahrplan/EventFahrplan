@@ -32,6 +32,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.LinkInteractionListener
 import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -75,6 +77,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.toTextUnit
 @Composable
 internal fun SessionDetailsScreen(
     sessionDetailsState: SessionDetailsState,
+    onViewEvent: (SessionDetailsViewEvent) -> Unit,
     showRoomState: Boolean,
     roomStateMessage: String,
 ) {
@@ -91,7 +94,7 @@ internal fun SessionDetailsScreen(
                     Loading -> Loading()
                     is Success -> {
                         val parameter = sessionDetailsState.sessionDetailsParameter as SessionDetails
-                        SessionDetails(parameter, showRoomState, roomStateMessage)
+                        SessionDetails(parameter, onViewEvent, showRoomState, roomStateMessage)
                     }
 
                 }
@@ -113,7 +116,12 @@ private val textLinkStyles: TextLinkStyles
     )
 
 @Composable
-fun SessionDetails(session: SessionDetails, showRoomState: Boolean, roomStateMessage: String) {
+fun SessionDetails(
+    session: SessionDetails,
+    onViewEvent: (SessionDetailsViewEvent) -> Unit,
+    showRoomState: Boolean,
+    roomStateMessage: String
+) {
     val htmlStyle = HtmlStyle(
         textLinkStyles = textLinkStyles,
     )
@@ -138,7 +146,12 @@ fun SessionDetails(session: SessionDetails, showRoomState: Boolean, roomStateMes
                     Description(description, htmlStyle)
                     Links(links, htmlStyle, Modifier.padding(top = dimensionResource(R.dimen.session_details_extra_space_above_section_header)))
                     TrackName(trackName, Modifier.padding(top = dimensionResource(R.dimen.session_details_extra_space_above_section_header)))
-                    SessionLink(sessionLink, htmlStyle, Modifier.padding(top = dimensionResource(R.dimen.session_details_extra_space_above_section_header)))
+                    SessionLink(
+                        sessionLink,
+                        htmlStyle,
+                        Modifier.padding(top = dimensionResource(R.dimen.session_details_extra_space_above_section_header)),
+                        onClick = { onViewEvent(SessionDetailsViewEvent.OnSessionLinkClick(it)) },
+                    )
                 }
             }
         }
@@ -460,9 +473,19 @@ private fun SessionLink(
     sessionLink: String,
     htmlStyle: HtmlStyle,
     modifier: Modifier = Modifier,
+    onClick: (String) -> Unit,
 ) {
     val annotatedString = remember(sessionLink, htmlStyle) {
-        getAnnotatedString(sessionLink, htmlStyle)
+        getAnnotatedString(
+            html = sessionLink,
+            htmlStyle = htmlStyle,
+            // Overwrite default link handler to break endless loop due to app links
+            linkInteractionListener = { link ->
+                if (link is LinkAnnotation.Url) {
+                    onClick(link.url)
+                }
+            },
+        )
     }
     if (annotatedString != null) {
         val headerText = stringResource(R.string.session_details_section_title_session_online)
@@ -602,8 +625,17 @@ private val orderedList: @Composable (MarkdownComponentModel) -> Unit = {
     })
 }
 
-private fun getAnnotatedString(html: String, htmlStyle: HtmlStyle): AnnotatedString? {
-    val annotatedString = htmlToAnnotatedString(html.trim(), compactMode = true, htmlStyle)
+private fun getAnnotatedString(
+    html: String,
+    htmlStyle: HtmlStyle,
+    linkInteractionListener: LinkInteractionListener? = null,
+): AnnotatedString? {
+    val annotatedString = htmlToAnnotatedString(
+        html = html.trim(),
+        compactMode = true,
+        style = htmlStyle,
+        linkInteractionListener = linkInteractionListener,
+    )
     return annotatedString.takeIf { it.isNotBlank() }
 }
 
@@ -626,6 +658,7 @@ private fun SessionDetailsScreenPreview() {
                 sessionLink = stringResource(R.string.placeholder_session_online),
             )
         ),
+        onViewEvent = {},
         showRoomState = true,
         roomStateMessage = stringResource(R.string.room_state_text),
     )
@@ -708,6 +741,7 @@ private fun DescriptionHtmlPreview() {
 private fun SessionDetailsScreenLoadingPreview() {
     SessionDetailsScreen(
         sessionDetailsState = Loading,
+        onViewEvent = {},
         showRoomState = false,
         roomStateMessage = stringResource(R.string.room_state_text),
     )

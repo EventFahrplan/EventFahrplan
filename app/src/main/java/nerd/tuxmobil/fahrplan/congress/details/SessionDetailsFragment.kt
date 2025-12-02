@@ -31,6 +31,7 @@ import androidx.fragment.app.viewModels
 import androidx.fragment.compose.content
 import androidx.lifecycle.Lifecycle.State.RESUMED
 import info.metadude.android.eventfahrplan.commons.flow.observe
+import info.metadude.android.eventfahrplan.commons.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
@@ -38,6 +39,7 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.extensions.openLink
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
@@ -158,6 +160,7 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
             @Suppress("KotlinConstantConditions")
             SessionDetailsScreen(
                 sessionDetailsState = sessionDetailsState.collectAsState().value,
+                onViewEvent = viewModel::onViewEvent,
                 showRoomState = showRoomState,
                 roomStateMessage = roomStateMessage.collectAsState().value,
             )
@@ -213,6 +216,10 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             startActivity(intent)
+        }
+        viewModel.openLink.observe(viewLifecycleOwner) { link ->
+            Logging.get().d("SessionDetailsFragment", "xxx -> Open link: $link")
+            requireContext().openLink(link)
         }
         viewModel.closeDetails.observe(viewLifecycleOwner) {
             val activity = requireActivity()
