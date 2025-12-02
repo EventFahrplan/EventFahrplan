@@ -65,8 +65,8 @@ object Libs {
         const val engelsystem = "11.0.0"
         const val fragmentCompose = "1.8.9"
         const val htmlConverter = "1.1.0"
-        const val junitJupiter = "5.14.0"
-        const val junitPlatform = "1.14.0"
+        const val junitJupiter = "5.14.0" // emulators on CI do not run junit 6 https://github.com/mannodermaus/android-junit5/issues/392
+        const val junitPlatform = "1.14.0" // emulators on CI do not run junit 6 https://github.com/mannodermaus/android-junit5/issues/392
         const val kotlinCoroutines = "1.10.2"
         const val lifecycle = "2.9.4" // minSdk 23 is required as of 2.10.0
         const val markdownRenderer = "0.38.1"
