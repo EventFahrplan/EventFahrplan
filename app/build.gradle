@@ -16,7 +16,7 @@ apply from: "../gradle/sonarqube.gradle"
 android {
     namespace "nerd.tuxmobil.fahrplan.congress"
 
-    compileSdk Android.compileSdkVersion
+    compileSdk = Android.compileSdkVersion
     buildToolsVersion = Android.buildToolsVersion
 
     defaultConfig {
