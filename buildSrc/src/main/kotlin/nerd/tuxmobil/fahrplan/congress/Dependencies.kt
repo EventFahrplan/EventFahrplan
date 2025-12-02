@@ -76,7 +76,6 @@ object Libs {
         const val moshi = "1.15.2"
         const val navigation = "2.9.2"
         const val okhttp = "5.3.0"
-        const val retrofit = "2.11.0"
         const val robolectric = "4.3_r2-robolectric-0"
         const val roomStates = "1.0.1"
         const val snackengage = "0.30"
