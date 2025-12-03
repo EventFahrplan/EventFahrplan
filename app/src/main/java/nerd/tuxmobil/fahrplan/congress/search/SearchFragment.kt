@@ -87,6 +87,7 @@ class SearchFragment : Fragment() {
             SearchScreen(
                 searchQuery = searchQuery,
                 searchHistory = searchHistory.collectAsState(emptyList()).value,
+                searchChipItems = chipItems.collectAsState(emptySet()).value,
                 state = searchResultsState.collectAsState().value,
                 onViewEvent = ::onViewEvent,
             )

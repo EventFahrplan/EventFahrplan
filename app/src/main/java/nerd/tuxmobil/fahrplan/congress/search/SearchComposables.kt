@@ -3,8 +3,12 @@ package nerd.tuxmobil.fahrplan.congress.search
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides.Companion.Bottom
 import androidx.compose.foundation.layout.asPaddingValues
@@ -12,21 +16,30 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -34,6 +47,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorProperty
@@ -56,12 +70,14 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextOverline
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextSupportingContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
+import nerd.tuxmobil.fahrplan.congress.search.Chips.Item
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.SearchResult
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.Separator
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Loading
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Success
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnBackIconClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnBackPress
+import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchChipItemClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchHistoryClear
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchHistoryItemClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchQueryChange
@@ -70,40 +86,139 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchResultItem
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchSubScreenBackPress
 
 @Composable
+fun Chips(
+    items: List<Item>,
+    modifier: Modifier = Modifier,
+    onItemClick: (Item) -> Unit,
+) {
+    LazyRow(
+        modifier = modifier,
+        contentPadding = PaddingValues(0.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        items(items, key = { it.hashCode() }) { item ->
+            Chip(
+                item = item,
+                modifier = Modifier.animateItem(),
+                onClick = { onItemClick(item) },
+            )
+        }
+    }
+}
+
+@Composable
+fun Chip(
+    item: Item,
+    modifier: Modifier = Modifier,
+    shape: CornerBasedShape = MaterialTheme.shapes.medium,
+    colors: Chips.Colors = Chips.colors(),
+    tonalElevation: Dp = Chips.TonalElevation,
+    onClick: (Item) -> Unit,
+) {
+    Surface(
+        modifier = modifier.clickable { onClick(item) }.clip(shape),
+        shape = shape,
+        color = if (item.selected) colors.selected else colors.unselected,
+        tonalElevation = tonalElevation,
+    ) {
+        Text(
+            modifier = Modifier.padding(6.dp),
+            text = item.text,
+            maxLines = 1,
+        )
+    }
+}
+
+object Chips {
+
+    internal val TonalElevation: Dp = 2.dp
+
+    @Immutable
+    data class Item(
+        val text: String,
+        val selected: Boolean,
+    )
+
+    @Immutable
+    data class Colors(
+        val selected: Color,
+        val unselected: Color,
+    )
+
+    @Composable
+    fun colors(
+        selected: Color = EventFahrplanTheme.colorScheme.primary,
+        unselected: Color = EventFahrplanTheme.colorScheme.surfaceContainerHigh,
+    ): Colors = Colors(
+        selected = selected,
+        unselected = unselected,
+    )
+
+}
+
+@Preview
+@Composable
+private fun ChipsPreview() {
+    Chips(listOf(
+        Item(text = "Is favored", selected = true),
+        Item(text = "Has alarm", selected = false),
+        Item(text = "Within speaker names", selected = false),
+    )) {}
+}
+
+@Composable
 fun SearchScreen(
     searchQuery: String,
     searchHistory: List<String>,
+    searchChipItems: Set<Chips.Item>,
     state: SearchResultState,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
     EventFahrplanTheme {
         Scaffold {
-            Box {
-                val expanded = true
-                SearchBar(
-                    modifier = Modifier
-                        .align(TopCenter)
-                        .semantics { traversalIndex = 0f },
-                    inputField = {
-                        SearchQueryInputField(
-                            expanded = expanded,
-                            searchQuery = searchQuery,
-                            onViewEvent = onViewEvent,
-                        )
-                    },
-                    expanded = expanded,
-                    onExpandedChange = { },
-                    content = {
-                        SearchBarContent(
-                            state = state,
-                            searchQuery = searchQuery,
-                            searchHistory = searchHistory,
-                            onViewEvent = onViewEvent,
-                        )
-                    },
-                )
-                BackHandler {
-                    onViewEvent(OnBackPress)
+            Column {
+                Spacer(Modifier.safeContentPadding())
+//                val items: List<Item> = listOf(
+//                    Item(text = "Is favored", selected = false),
+//                    Item(text = "Has alarm", selected = false),
+//                    Item(text = "Within speaker names", selected = false),
+//                    Item(text = "foobar", selected = false),
+//                    Item(text = "heide", selected = false),
+//                    Item(text = "fat dogs", selected = false),
+//                )
+                // https://github.com/fibelatti/pinboard-kotlin/blob/2737c5a57ccecce1e1b053166c6ec7607058dab2/ui/src/main/java/com/fibelatti/ui/components/ChipGroup.kt#L114
+                Chips(searchChipItems.toList(), Modifier.safeContentHorizontalPadding()) {
+                    onViewEvent(OnSearchChipItemClick(it))
+                }
+                Box {
+                    val expanded = true
+                    SearchBar(
+                        modifier = Modifier
+                            .align(TopCenter)
+                            .semantics { traversalIndex = 0f },
+                        inputField = {
+                            Column {
+                                SearchQueryInputField(
+                                    expanded = expanded,
+                                    searchQuery = searchQuery,
+                                    onViewEvent = onViewEvent,
+                                )
+                            }
+                        },
+                        expanded = expanded,
+                        onExpandedChange = { },
+                        content = {
+                            SearchBarContent(
+                                state = state,
+                                searchQuery = searchQuery,
+                                searchHistory = searchHistory,
+                                onViewEvent = onViewEvent,
+                            )
+                        },
+                    )
+                    BackHandler {
+                        onViewEvent(OnBackPress)
+                    }
                 }
             }
         }
@@ -371,6 +486,7 @@ private fun SearchScreenPreview() {
     SearchScreen(
         searchQuery = "Lorem ipsum",
         searchHistory = emptyList(),
+        searchChipItems = emptySet(),
         state = Success(
             listOf(
                 Separator(
@@ -415,6 +531,7 @@ private fun SearchScreenHistoryPreview() {
     SearchScreen(
         searchQuery = "",
         searchHistory = listOf("Lorem ipsum", "Dolor sit amet"),
+        searchChipItems = emptySet(),
         state = Success(emptyList()),
         onViewEvent = { },
     )
@@ -426,6 +543,7 @@ private fun SearchScreenEmptyPreview() {
     SearchScreen(
         searchQuery = "foobar",
         searchHistory = emptyList(),
+        searchChipItems = emptySet(),
         state = Success(emptyList()),
         onViewEvent = { },
     )
@@ -437,6 +555,7 @@ private fun SearchScreenLoadingPreview() {
     SearchScreen(
         searchQuery = "",
         searchHistory = emptyList(),
+        searchChipItems = emptySet(),
         state = Loading,
         onViewEvent = { },
     )
