@@ -8,7 +8,7 @@ apply plugin: "kotlin-android"
 android {
     namespace "info.metadude.android.eventfahrplan.commons"
 
-    compileSdk Android.compileSdkVersion
+    compileSdk = Android.compileSdkVersion
     buildToolsVersion = Android.buildToolsVersion
 
     buildFeatures {

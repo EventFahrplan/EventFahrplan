@@ -3,8 +3,11 @@ package nerd.tuxmobil.fahrplan.congress.net
 import android.content.Context
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import okhttp3.Cache
+import okhttp3.CompressionInterceptor
+import okhttp3.Gzip
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.zstd.Zstd
 
 object CustomHttpClient {
 
@@ -27,6 +30,8 @@ object CustomHttpClient {
             }
             clientBuilder.addNetworkInterceptor(loggingInterceptor)
         }
+
+        clientBuilder.addInterceptor(CompressionInterceptor(Zstd, Gzip))
 
         return clientBuilder.build()
     }

@@ -6,7 +6,7 @@ import android.util.TypedValue
 import androidx.annotation.DimenRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 
 /**
  * Loads a float resource.
@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalContext
  */
 @Composable
 fun floatResource(@DimenRes id: Int): Float {
-    val resources = LocalContext.current.resources
+    val resources = LocalResources.current
     return remember(id) {
         if (SDK_INT < Q) {
             TypedValue().apply {

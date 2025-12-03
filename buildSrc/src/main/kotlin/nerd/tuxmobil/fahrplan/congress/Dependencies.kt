@@ -18,7 +18,7 @@ object Android {
 object Compose {
 
     private object Versions {
-        const val bom = "2025.11.00"
+        const val bom = "2025.11.01"
     }
 
     const val bom = "androidx.compose:compose-bom:${Versions.bom}"
@@ -31,11 +31,11 @@ object Compose {
 object Plugins {
 
     private object Versions {
-        const val android = "8.13.0"
+        const val android = "8.13.1"
         const val dexcount = "4.0.0"
         const val kotlin = "2.2.21"
-        const val ksp = "2.3.2"
-        const val sonarQube = "6.3.1.5724"
+        const val ksp = "2.3.3"
+        const val sonarQube = "7.1.0.6387"
         const val unMock = "0.9.0"
         const val versions = "0.53.0"
     }
@@ -62,23 +62,22 @@ object Libs {
         const val coreKtx = "1.16.0" // compileSdk 36 is required as of 1.17.0
         const val coreTesting = "2.2.0"
         const val emailIntentBuilder = "2.0.0"
-        const val engelsystem = "10.0.0"
+        const val engelsystem = "11.0.0"
         const val fragmentCompose = "1.8.9"
         const val htmlConverter = "1.1.0"
-        const val junitJupiter = "5.14.0"
-        const val junitPlatform = "1.14.0"
+        const val junitJupiter = "5.14.0" // emulators on CI do not run junit 6 https://github.com/mannodermaus/android-junit5/issues/392
+        const val junitPlatform = "1.14.0" // emulators on CI do not run junit 6 https://github.com/mannodermaus/android-junit5/issues/392
         const val kotlinCoroutines = "1.10.2"
-        const val lifecycle = "2.9.4"
+        const val lifecycle = "2.9.4" // minSdk 23 is required as of 2.10.0
         const val markdownRenderer = "0.38.1"
         const val material = "1.13.0"
         const val materialIconsCore = "1.7.8"
         const val mockitoKotlin = "6.1.0"
         const val moshi = "1.15.2"
-        const val navigation = "2.9.2"
-        const val okhttp = "5.3.0"
-        const val retrofit = "2.11.0"
+        const val navigation = "2.9.6"
+        const val okhttp = "5.3.2"
         const val robolectric = "4.3_r2-robolectric-0"
-        const val roomStates = "1.0.1"
+        const val roomStates = "2.0.0"
         const val snackengage = "0.30"
         const val threeTenBp = "1.7.2"
         const val tracedroid = "3.1"
@@ -117,6 +116,7 @@ object Libs {
     const val moshiCodeGen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
     const val navigation = "androidx.navigation:navigation-compose:${Versions.navigation}"
     const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
+    const val okhttpZstd = "com.squareup.okhttp3:okhttp-zstd:${Versions.okhttp}"
     const val okhttpLoggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
     const val robolectric = "org.robolectric:android-all:${Versions.robolectric}"
     const val roomStates = "info.metadude.kotlin.library.roomstates:room-states-repositories:${Versions.roomStates}"

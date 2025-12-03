@@ -16,7 +16,7 @@ apply from: "../gradle/sonarqube.gradle"
 android {
     namespace "nerd.tuxmobil.fahrplan.congress"
 
-    compileSdk Android.compileSdkVersion
+    compileSdk = Android.compileSdkVersion
     buildToolsVersion = Android.buildToolsVersion
 
     defaultConfig {
@@ -225,6 +225,7 @@ dependencies {
     ksp Libs.moshiCodeGen
     implementation Libs.navigation
     implementation Libs.okhttp
+    implementation Libs.okhttpZstd
     implementation Libs.okhttpLoggingInterceptor
     implementation Libs.roomStates
     implementation Libs.snackengagePlayrate

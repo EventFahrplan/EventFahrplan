@@ -3,11 +3,13 @@ package nerd.tuxmobil.fahrplan.congress.designsystem.search
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SearchBarColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import androidx.compose.material3.SearchBar as Material3SearchBar
+import androidx.compose.material3.TextFieldColors as Material3TextFieldColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -18,6 +20,7 @@ fun SearchBar(
     modifier: Modifier = Modifier,
     containerColor: Color = Color.Transparent,
     dividerColor: Color = EventFahrplanTheme.colorScheme.searchBarDivider,
+    inputFieldColors: Material3TextFieldColors = TextFieldDefaults.colors(),
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Material3SearchBar(
@@ -28,6 +31,7 @@ fun SearchBar(
         colors = SearchBarColors(
             containerColor = containerColor,
             dividerColor = dividerColor,
+            inputFieldColors = inputFieldColors,
         ),
         content = content,
     )
