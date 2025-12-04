@@ -3,16 +3,12 @@ package nerd.tuxmobil.fahrplan.congress.search
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
-import androidx.compose.runtime.collectAsState
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
-import androidx.fragment.app.viewModels
 import androidx.fragment.compose.content
-import info.metadude.android.eventfahrplan.commons.flow.observe
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
@@ -35,8 +31,6 @@ class SearchFragment : Fragment() {
     }
 
     private var sidePane = false
-    private val viewModelFactory by lazy { SearchViewModelFactory(context = requireContext()) }
-    private val viewModel: SearchViewModel by viewModels { viewModelFactory }
 
     override fun onAttach(context: Context) {
         require(context is OnSessionListClick) { "$context must implement OnSessionListClick" }
@@ -55,29 +49,11 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = content {
-        with(viewModel) {
-            SearchScreen(
-                searchQuery = searchQuery,
-                searchHistory = searchHistory.collectAsState(emptyList()).value,
-                state = searchResultsState.collectAsState().value,
-                onViewEvent = ::onViewEvent,
-            )
-        }
+        SearchScreen(
+            onBack = ::navigateBack,
+            onSessionListClick = ::navigateToSession,
+        )
     }.also { it.isClickable = true }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        observeViewModel()
-    }
-
-    private fun observeViewModel() {
-        viewModel.effects.observe(viewLifecycleOwner) { effect ->
-            when (effect) {
-                SearchEffect.NavigateBack -> navigateBack()
-                is SearchEffect.NavigateToSession -> navigateToSession(effect.sessionId)
-            }
-        }
-    }
 
     private fun navigateBack() {
         parentFragmentManager.popBackStack(FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)
