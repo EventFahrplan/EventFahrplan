@@ -3,16 +3,14 @@ package nerd.tuxmobil.fahrplan.congress.search
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
+import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 
-class SearchActivity :
-    BaseActivity(),
-    OnSessionListClick {
-
+class SearchActivity : BaseActivity() {
     companion object {
         fun start(context: Context) {
             val intent = Intent(context, SearchActivity::class.java)
@@ -21,17 +19,22 @@ class SearchActivity :
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
-        if (savedInstanceState == null) {
-            addFragment(R.id.container, SearchFragment(), SearchFragment.FRAGMENT_TAG)
+
+        setContent {
+            EventFahrplanTheme {
+                SearchScreen(
+                    onBack = { finish() },
+                    onSessionListClick = ::onSessionListClick,
+                )
+            }
         }
     }
 
-    override fun onSessionListClick(sessionId: String) {
+    private fun onSessionListClick(sessionId: String) {
         if (AppRepository.updateSelectedSessionId(sessionId)) {
             SessionDetailsActivity.start(this)
         }
     }
-
 }
