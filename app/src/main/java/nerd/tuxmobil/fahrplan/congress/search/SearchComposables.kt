@@ -99,14 +99,12 @@ fun SearchScreen(
     val searchHistory by viewModel.searchHistory.collectAsState(emptyList())
     val state by viewModel.searchResultsState.collectAsState()
 
-    EventFahrplanTheme {
-        SearchContent(
-            searchQuery = searchQuery,
-            onViewEvent = viewModel::onViewEvent,
-            state = state,
-            searchHistory = searchHistory,
-        )
-    }
+    SearchContent(
+        searchQuery = searchQuery,
+        onViewEvent = viewModel::onViewEvent,
+        state = state,
+        searchHistory = searchHistory,
+    )
 }
 
 @Composable

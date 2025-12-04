@@ -11,6 +11,7 @@ import androidx.fragment.app.commit
 import androidx.fragment.compose.content
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 
@@ -49,10 +50,12 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = content {
-        SearchScreen(
-            onBack = ::navigateBack,
-            onSessionListClick = ::navigateToSession,
-        )
+        EventFahrplanTheme {
+            SearchScreen(
+                onBack = ::navigateBack,
+                onSessionListClick = ::navigateToSession,
+            )
+        }
     }.also { it.isClickable = true }
 
     private fun navigateBack() {
