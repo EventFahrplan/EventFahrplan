@@ -75,7 +75,7 @@ class ChangeListFragment : Fragment() {
         val arguments = requireArguments()
         val sidePane = arguments.getBoolean(BundleKeys.SIDEPANE)
 
-        val contextThemeWrapper = ContextThemeWrapper(requireContext(), R.style.Theme_Congress_NoActionBar)
+        val contextThemeWrapper = ContextThemeWrapper(requireContext(), R.style.Theme_Congress)
         val localInflater = inflater.cloneInContext(contextThemeWrapper)
         val fragmentView = localInflater.inflate(R.layout.fragment_session_list, container, false)
         fragmentView.findViewById<ComposeView>(R.id.session_changes_view).apply {

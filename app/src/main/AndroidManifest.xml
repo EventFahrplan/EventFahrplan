@@ -16,7 +16,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:localeConfig="@xml/locales_config"
-        android:theme="@style/Theme.Congress.NoActionBar"
+        android:theme="@style/Theme.Congress"
         tools:targetApi="33">
         <activity
             android:name=".schedule.MainActivity"

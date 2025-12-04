@@ -46,7 +46,7 @@ abstract class SessionsAdapter protected constructor(
     protected val useDeviceTimeZone: Boolean
 
     init {
-        this.context = ContextThemeWrapper(context, R.style.Theme_Congress_NoActionBar)
+        this.context = ContextThemeWrapper(context, R.style.Theme_Congress)
         this.list = list
         this.numDays = numDays
         this.useDeviceTimeZone = useDeviceTimeZone
