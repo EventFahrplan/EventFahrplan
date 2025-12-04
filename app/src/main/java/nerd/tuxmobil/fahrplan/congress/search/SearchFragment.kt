@@ -14,14 +14,10 @@ import androidx.fragment.app.viewModels
 import androidx.fragment.compose.content
 import info.metadude.android.eventfahrplan.commons.flow.observe
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
-import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.commons.ScreenNavigation
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
-import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
-import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
-import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 
 class SearchFragment : Fragment() {
 
@@ -41,16 +37,7 @@ class SearchFragment : Fragment() {
 
     private var sidePane = false
     private var onSessionListClickListener: OnSessionListClick? = null
-    private val viewModelFactory by lazy {
-        val resourceResolving = ResourceResolver(requireContext())
-        SearchViewModelFactory(
-            appRepository = AppRepository,
-            resourceResolving = resourceResolving,
-            sessionPropertiesFormatting = SessionPropertiesFormatter(resourceResolving),
-            contentDescriptionFormatting = ContentDescriptionFormatter(resourceResolving),
-        )
-
-    }
+    private val viewModelFactory by lazy { SearchViewModelFactory(context = requireContext()) }
     private val viewModel: SearchViewModel by viewModels { viewModelFactory }
 
     override fun onAttach(context: Context) {
