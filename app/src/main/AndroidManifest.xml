@@ -23,7 +23,6 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:resizeableActivity="true"
-            android:theme="@style/Theme.Congress.NoActionBar"
             tools:targetApi="24">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,7 +35,6 @@
             android:label="@string/session_details_screen_name"
             android:parentActivityName="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity"
             android:resizeableActivity="true"
-            android:theme="@style/Theme.Congress.NoActionBar"
             android:uiOptions="splitActionBarWhenNarrow"
             tools:targetApi="24">
             <meta-data
@@ -47,7 +45,6 @@
             android:name="nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity"
             android:label="@string/favorites_screen_default_title"
             android:resizeableActivity="true"
-            android:theme="@style/Theme.Congress.NoActionBar"
             tools:targetApi="24">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -59,7 +56,6 @@
             android:label="@string/reminders"
             android:parentActivityName="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity"
             android:resizeableActivity="true"
-            android:theme="@style/Theme.Congress.NoActionBar"
             tools:targetApi="n">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -69,7 +65,6 @@
             android:name="nerd.tuxmobil.fahrplan.congress.changes.ChangeListActivity"
             android:label="@string/schedule_changes"
             android:resizeableActivity="true"
-            android:theme="@style/Theme.Congress.NoActionBar"
             tools:targetApi="24">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -81,13 +76,11 @@
             android:label="@string/search_title"
             android:parentActivityName="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity"
             android:resizeableActivity="true"
-            android:theme="@style/Theme.Congress.NoActionBar"
             tools:targetApi="33" />
         <activity
             android:name="nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity"
             android:label="@string/settings"
             android:resizeableActivity="true"
-            android:theme="@style/Theme.Congress.NoActionBar"
             tools:targetApi="24">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -97,7 +90,6 @@
             android:name="nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticActivity"
             android:label="@string/schedule_statistic_title"
             android:resizeableActivity="true"
-            android:theme="@style/Theme.Congress.NoActionBar"
             tools:targetApi="24" />
 
         <receiver android:name=".alarms.AlarmReceiver" />

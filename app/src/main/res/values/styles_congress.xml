@@ -1,33 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.Congress" parent="Theme.AppCompat">
-        <!-- Set AppCompat’s color theming attrs -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorPrimary">@color/text_primary</item>
-        <item name="android:textColorSecondary">@color/text_secondary</item>
-
-        <!-- The rest of your attributes -->
-        <item name="android:textColorHighlight">@color/text_link_pressed_background_on_light</item>
-        <item name="actionOverflowMenuStyle">@style/PopupMenuOverflowStyle</item>
-        <item name="android:contextPopupMenuStyle" tools:targetApi="N">@style/ContextPopupMenuStyle</item>
-        <item name="actionDropDownStyle">@style/MyActionDropDownStyle</item>
-        <item name="windowActionModeOverlay">true</item>
-        <item name="actionModeBackground">@color/colorPrimary</item>
-        <item name="alertDialogTheme">@style/AlertDialog</item>
-        <item name="android:windowBackground">@drawable/window_background</item>
-        <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
-        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemStyle</item>
-
-        <!-- Scrollbar -->
-        <item name="android:scrollbarSize">@dimen/scrollbar_size</item>
-        <item name="android:scrollbarThumbVertical">@drawable/scrollbar_thumb</item>
-        <item name="android:scrollbarThumbHorizontal">@drawable/scrollbar_thumb</item>
-    </style>
-
-    <style name="Theme.Congress.NoActionBar" parent="Theme.AppCompat.NoActionBar">
+    <style name="Theme.Congress" parent="Theme.AppCompat.NoActionBar">
         <!-- Set AppCompat’s color theming attrs -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
