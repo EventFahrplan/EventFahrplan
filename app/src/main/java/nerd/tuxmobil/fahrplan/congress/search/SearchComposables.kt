@@ -77,34 +77,49 @@ fun SearchScreen(
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
     EventFahrplanTheme {
-        Scaffold {
-            Box {
-                val expanded = true
-                SearchBar(
-                    modifier = Modifier
-                        .align(TopCenter)
-                        .semantics { traversalIndex = 0f },
-                    inputField = {
-                        SearchQueryInputField(
-                            expanded = expanded,
-                            searchQuery = searchQuery,
-                            onViewEvent = onViewEvent,
-                        )
-                    },
-                    expanded = expanded,
-                    onExpandedChange = { },
-                    content = {
-                        SearchBarContent(
-                            state = state,
-                            searchQuery = searchQuery,
-                            searchHistory = searchHistory,
-                            onViewEvent = onViewEvent,
-                        )
-                    },
-                )
-                BackHandler {
-                    onViewEvent(OnBackPress)
-                }
+        SearchContent(
+            searchQuery = searchQuery,
+            onViewEvent = onViewEvent,
+            state = state,
+            searchHistory = searchHistory,
+        )
+    }
+}
+
+@Composable
+private fun SearchContent(
+    searchQuery: String,
+    onViewEvent: (SearchViewEvent) -> Unit,
+    state: SearchResultState,
+    searchHistory: List<String>,
+) {
+    Scaffold {
+        Box {
+            val expanded = true
+            SearchBar(
+                modifier = Modifier
+                    .align(TopCenter)
+                    .semantics { traversalIndex = 0f },
+                inputField = {
+                    SearchQueryInputField(
+                        expanded = expanded,
+                        searchQuery = searchQuery,
+                        onViewEvent = onViewEvent,
+                    )
+                },
+                expanded = expanded,
+                onExpandedChange = { },
+                content = {
+                    SearchBarContent(
+                        state = state,
+                        searchQuery = searchQuery,
+                        searchHistory = searchHistory,
+                        onViewEvent = onViewEvent,
+                    )
+                },
+            )
+            BackHandler {
+                onViewEvent(OnBackPress)
             }
         }
     }
