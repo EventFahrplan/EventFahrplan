@@ -428,7 +428,7 @@ class MainActivity : BaseActivity(),
         } else {
             sidePaneView.isVisible = true
             isSearchInSidePane = true
-            SearchFragment.replaceAtBackStack(supportFragmentManager, R.id.detail, true)
+            SearchFragment.replaceAtBackStack(supportFragmentManager, R.id.detail)
         }
     }
 
