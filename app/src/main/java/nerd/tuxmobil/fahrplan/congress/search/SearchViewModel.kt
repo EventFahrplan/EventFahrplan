@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -20,8 +19,9 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import nerd.tuxmobil.fahrplan.congress.commons.ScreenNavigation
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
+import nerd.tuxmobil.fahrplan.congress.search.SearchEffect.NavigateBack
+import nerd.tuxmobil.fahrplan.congress.search.SearchEffect.NavigateToSession
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Loading
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Success
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnBackIconClick
@@ -45,10 +45,8 @@ class SearchViewModel(
         const val FINISH_TYPING_SEARCH_QUERY_DELAY = 1_000L
     }
 
-    var screenNavigation: ScreenNavigation? = null
-
-    private val mutableNavigateBack = Channel<Unit>()
-    val navigateBack = mutableNavigateBack.receiveAsFlow()
+    private val mutableEffects = Channel<SearchEffect>()
+    val effects = mutableEffects.receiveAsFlow()
 
     var searchQuery by mutableStateOf("")
         private set
@@ -87,10 +85,10 @@ class SearchViewModel(
 
     fun onViewEvent(viewEvent: SearchViewEvent) {
         when (viewEvent) {
-            OnBackPress -> mutableNavigateBack.sendOneTimeEvent(Unit)
+            OnBackPress -> sendEffect(NavigateBack)
             OnBackIconClick -> searchQuery = ""
             OnSearchSubScreenBackPress -> searchQuery = ""
-            is OnSearchResultItemClick -> screenNavigation?.navigateToSessionDetails(viewEvent.sessionId)
+            is OnSearchResultItemClick -> sendEffect(NavigateToSession(viewEvent.sessionId))
             is OnSearchHistoryItemClick -> searchQuery = viewEvent.searchQuery
             OnSearchHistoryClear -> searchHistoryManager.clear(viewModelScope)
             is OnSearchQueryChange -> searchQuery = viewEvent.updatedQuery
@@ -98,11 +96,9 @@ class SearchViewModel(
         }
     }
 
-    private fun <E> SendChannel<E>.sendOneTimeEvent(event: E) {
+    private fun sendEffect(effect: SearchEffect) {
         viewModelScope.launch {
-            send(event)
+            mutableEffects.send(effect)
         }
     }
-
-
 }

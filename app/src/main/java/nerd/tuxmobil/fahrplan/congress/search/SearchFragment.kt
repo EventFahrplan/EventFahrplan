@@ -14,7 +14,6 @@ import androidx.fragment.app.viewModels
 import androidx.fragment.compose.content
 import info.metadude.android.eventfahrplan.commons.flow.observe
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
-import nerd.tuxmobil.fahrplan.congress.commons.ScreenNavigation
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
@@ -36,26 +35,12 @@ class SearchFragment : Fragment() {
     }
 
     private var sidePane = false
-    private var onSessionListClickListener: OnSessionListClick? = null
     private val viewModelFactory by lazy { SearchViewModelFactory(context = requireContext()) }
     private val viewModel: SearchViewModel by viewModels { viewModelFactory }
 
     override fun onAttach(context: Context) {
+        require(context is OnSessionListClick) { "$context must implement OnSessionListClick" }
         super.onAttach(context)
-        viewModel.screenNavigation = ScreenNavigation { sessionId ->
-            onSessionListClickListener?.onSessionListClick(sessionId)
-        }
-        if (context is OnSessionListClick) {
-            onSessionListClickListener = context
-        } else {
-            error("$context must implement OnSessionListClick")
-        }
-    }
-
-    override fun onDetach() {
-        onSessionListClickListener = null
-        viewModel.screenNavigation = null
-        super.onDetach()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,12 +71,22 @@ class SearchFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.navigateBack.observe(viewLifecycleOwner) {
-            parentFragmentManager.popBackStack(FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            if (!sidePane) {
-                requireActivity().finish()
+        viewModel.effects.observe(viewLifecycleOwner) { effect ->
+            when (effect) {
+                SearchEffect.NavigateBack -> navigateBack()
+                is SearchEffect.NavigateToSession -> navigateToSession(effect.sessionId)
             }
         }
     }
 
+    private fun navigateBack() {
+        parentFragmentManager.popBackStack(FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        if (!sidePane) {
+            requireActivity().finish()
+        }
+    }
+
+    private fun navigateToSession(sessionId: String) {
+        (requireContext() as OnSessionListClick).onSessionListClick(sessionId)
+    }
 }
