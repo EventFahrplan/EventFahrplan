@@ -1,23 +1,25 @@
 package nerd.tuxmobil.fahrplan.congress.search
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.Factory
 import nerd.tuxmobil.fahrplan.congress.commons.DateFormatterDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorFactory
-import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
+import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
-import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatting
-import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
+import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 
 class SearchViewModelFactory(
-    private val appRepository: AppRepository,
-    private val resourceResolving: ResourceResolving,
-    private val sessionPropertiesFormatting: SessionPropertiesFormatting,
-    private val contentDescriptionFormatting: ContentDescriptionFormatting,
+    private val context: Context,
 ) : Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        val resourceResolving = ResourceResolver(context)
+        val appRepository = AppRepository
+        val contentDescriptionFormatting = ContentDescriptionFormatter(resourceResolving)
         val formattingDelegate = DateFormatterDelegate
+
         @Suppress("UNCHECKED_CAST")
         return SearchViewModel(
             repository = appRepository,
@@ -25,7 +27,7 @@ class SearchViewModelFactory(
             searchHistoryManager = SearchHistoryManager(appRepository),
             searchResultParameterFactory = SearchResultParameterFactory(
                 resourceResolving = resourceResolving,
-                sessionPropertiesFormatting = sessionPropertiesFormatting,
+                sessionPropertiesFormatting = SessionPropertiesFormatter(resourceResolving),
                 contentDescriptionFormatting = contentDescriptionFormatting,
                 daySeparatorFactory = DaySeparatorFactory(
                     resourceResolving = resourceResolving,

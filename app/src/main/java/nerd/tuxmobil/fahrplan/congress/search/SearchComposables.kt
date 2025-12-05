@@ -21,12 +21,15 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -35,6 +38,9 @@ import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
+import info.metadude.android.eventfahrplan.commons.flow.observe
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorProperty
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
@@ -56,6 +62,8 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextOverline
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextSupportingContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
+import nerd.tuxmobil.fahrplan.congress.search.SearchEffect.NavigateBack
+import nerd.tuxmobil.fahrplan.congress.search.SearchEffect.NavigateToSession
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.SearchResult
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.Separator
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Loading
@@ -71,40 +79,68 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchSubScreenB
 
 @Composable
 fun SearchScreen(
-    searchQuery: String,
-    searchHistory: List<String>,
-    state: SearchResultState,
-    onViewEvent: (SearchViewEvent) -> Unit,
+    viewModel: SearchViewModel = viewModel(
+        factory = SearchViewModelFactory(context = LocalContext.current),
+    ),
+    onBack: () -> Unit,
+    onSessionListClick: (String) -> Unit,
 ) {
-    EventFahrplanTheme {
-        Scaffold {
-            Box {
-                val expanded = true
-                SearchBar(
-                    modifier = Modifier
-                        .align(TopCenter)
-                        .semantics { traversalIndex = 0f },
-                    inputField = {
-                        SearchQueryInputField(
-                            expanded = expanded,
-                            searchQuery = searchQuery,
-                            onViewEvent = onViewEvent,
-                        )
-                    },
-                    expanded = expanded,
-                    onExpandedChange = { },
-                    content = {
-                        SearchBarContent(
-                            state = state,
-                            searchQuery = searchQuery,
-                            searchHistory = searchHistory,
-                            onViewEvent = onViewEvent,
-                        )
-                    },
-                )
-                BackHandler {
-                    onViewEvent(OnBackPress)
-                }
+    val lifecycleOwner = LocalLifecycleOwner.current
+    LaunchedEffect(lifecycleOwner) {
+        viewModel.effects.observe(lifecycleOwner) { effect ->
+            when (effect) {
+                NavigateBack -> onBack()
+                is NavigateToSession -> onSessionListClick(effect.sessionId)
+            }
+        }
+    }
+
+    val searchQuery = viewModel.searchQuery
+    val searchHistory by viewModel.searchHistory.collectAsState(emptyList())
+    val state by viewModel.searchResultsState.collectAsState()
+
+    SearchContent(
+        searchQuery = searchQuery,
+        onViewEvent = viewModel::onViewEvent,
+        state = state,
+        searchHistory = searchHistory,
+    )
+}
+
+@Composable
+private fun SearchContent(
+    searchQuery: String,
+    onViewEvent: (SearchViewEvent) -> Unit,
+    state: SearchResultState,
+    searchHistory: List<String>,
+) {
+    Scaffold {
+        Box {
+            val expanded = true
+            SearchBar(
+                modifier = Modifier
+                    .align(TopCenter)
+                    .semantics { traversalIndex = 0f },
+                inputField = {
+                    SearchQueryInputField(
+                        expanded = expanded,
+                        searchQuery = searchQuery,
+                        onViewEvent = onViewEvent,
+                    )
+                },
+                expanded = expanded,
+                onExpandedChange = { },
+                content = {
+                    SearchBarContent(
+                        state = state,
+                        searchQuery = searchQuery,
+                        searchHistory = searchHistory,
+                        onViewEvent = onViewEvent,
+                    )
+                },
+            )
+            BackHandler {
+                onViewEvent(OnBackPress)
             }
         }
     }
@@ -367,77 +403,88 @@ private fun InsertSearchHistoryIcon() {
 
 @MultiDevicePreview
 @Composable
-private fun SearchScreenPreview() {
-    SearchScreen(
-        searchQuery = "Lorem ipsum",
-        searchHistory = emptyList(),
-        state = Success(
-            listOf(
-                Separator(
-                    DaySeparatorProperty(
-                        value = "DAY 1 - 12/27/2024",
-                        contentDescription = "Day 1 - December 27, 2024",
-                    )
-                ),
-                SearchResult(
-                    id = "1",
-                    title = SearchResultProperty("Lorem ipsum dolor sit amet", ""),
-                    speakerNames = SearchResultProperty("Hedy Llamar", ""),
-                    startsAt = SearchResultProperty("December 27, 2024 10:00", ""),
-                ),
-                SearchResult(
-                    id = "2",
-                    title = SearchResultProperty("Dolor sit amet", ""),
-                    speakerNames = SearchResultProperty("Hedy Llamar", ""),
-                    startsAt = SearchResultProperty("December 27, 2024 12:00", ""),
-                ),
-                Separator(
-                    DaySeparatorProperty(
-                        value = "DAY 2 - 12/28/2024",
-                        contentDescription = "Day 2 - December 28, 2024",
-                    )
-                ),
-                SearchResult(
-                    id = "3",
-                    title = SearchResultProperty("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", ""),
-                    speakerNames = SearchResultProperty("Jane Doe", ""),
-                    startsAt = SearchResultProperty("December 28, 2024 18:30", "")
-                ),
-            )
-        ),
-        onViewEvent = { },
-    )
+private fun SearchContentPreview() {
+    EventFahrplanTheme {
+        SearchContent(
+            searchQuery = "Lorem ipsum",
+            searchHistory = emptyList(),
+            state = Success(
+                listOf(
+                    Separator(
+                        DaySeparatorProperty(
+                            value = "DAY 1 - 12/27/2024",
+                            contentDescription = "Day 1 - December 27, 2024",
+                        )
+                    ),
+                    SearchResult(
+                        id = "1",
+                        title = SearchResultProperty("Lorem ipsum dolor sit amet", ""),
+                        speakerNames = SearchResultProperty("Hedy Llamar", ""),
+                        startsAt = SearchResultProperty("December 27, 2024 10:00", ""),
+                    ),
+                    SearchResult(
+                        id = "2",
+                        title = SearchResultProperty("Dolor sit amet", ""),
+                        speakerNames = SearchResultProperty("Hedy Llamar", ""),
+                        startsAt = SearchResultProperty("December 27, 2024 12:00", ""),
+                    ),
+                    Separator(
+                        DaySeparatorProperty(
+                            value = "DAY 2 - 12/28/2024",
+                            contentDescription = "Day 2 - December 28, 2024",
+                        )
+                    ),
+                    SearchResult(
+                        id = "3",
+                        title = SearchResultProperty(
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                            ""
+                        ),
+                        speakerNames = SearchResultProperty("Jane Doe", ""),
+                        startsAt = SearchResultProperty("December 28, 2024 18:30", "")
+                    ),
+                )
+            ),
+            onViewEvent = { },
+        )
+    }
 }
 
 @Preview
 @Composable
-private fun SearchScreenHistoryPreview() {
-    SearchScreen(
-        searchQuery = "",
-        searchHistory = listOf("Lorem ipsum", "Dolor sit amet"),
-        state = Success(emptyList()),
-        onViewEvent = { },
-    )
+private fun SearchContentHistoryPreview() {
+    EventFahrplanTheme {
+        SearchContent(
+            searchQuery = "",
+            searchHistory = listOf("Lorem ipsum", "Dolor sit amet"),
+            state = Success(emptyList()),
+            onViewEvent = { },
+        )
+    }
 }
 
 @Preview
 @Composable
-private fun SearchScreenEmptyPreview() {
-    SearchScreen(
-        searchQuery = "foobar",
-        searchHistory = emptyList(),
-        state = Success(emptyList()),
-        onViewEvent = { },
-    )
+private fun SearchContentEmptyPreview() {
+    EventFahrplanTheme {
+        SearchContent(
+            searchQuery = "foobar",
+            searchHistory = emptyList(),
+            state = Success(emptyList()),
+            onViewEvent = { },
+        )
+    }
 }
 
 @Preview
 @Composable
-private fun SearchScreenLoadingPreview() {
-    SearchScreen(
-        searchQuery = "",
-        searchHistory = emptyList(),
-        state = Loading,
-        onViewEvent = { },
-    )
+private fun SearchContentLoadingPreview() {
+    EventFahrplanTheme {
+        SearchContent(
+            searchQuery = "",
+            searchHistory = emptyList(),
+            state = Loading,
+            onViewEvent = { },
+        )
+    }
 }

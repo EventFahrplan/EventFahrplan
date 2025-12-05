@@ -3,15 +3,15 @@ package nerd.tuxmobil.fahrplan.congress.search
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExtension
-import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import nerd.tuxmobil.fahrplan.congress.commons.ScreenNavigation
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
+import nerd.tuxmobil.fahrplan.congress.search.SearchEffect.NavigateBack
+import nerd.tuxmobil.fahrplan.congress.search.SearchEffect.NavigateToSession
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.SearchResult
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Loading
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Success
@@ -93,8 +93,8 @@ class SearchViewModelTest {
             val repository = createRepository()
             val viewModel = createViewModel(repository)
             viewModel.onViewEvent(OnBackPress)
-            viewModel.navigateBack.test {
-                assertThat(awaitItem()).isEqualTo(Unit)
+            viewModel.effects.test {
+                assertThat(awaitItem()).isEqualTo(NavigateBack)
                 expectNoEvents()
             }
         }
@@ -104,21 +104,11 @@ class SearchViewModelTest {
             runTest {
                 val repository = createRepository()
                 val viewModel = createViewModel(repository)
-                val screenNavigation = mock<ScreenNavigation>()
-                viewModel.screenNavigation = screenNavigation
                 viewModel.onViewEvent(OnSearchResultItemClick("42"))
-                verifyInvokedOnce(screenNavigation).navigateToSessionDetails("42")
-            }
-
-        @Test
-        fun `does not navigate to session details when screen navigation is not set`() =
-            runTest {
-                val repository = createRepository()
-                val viewModel = createViewModel(repository)
-                val screenNavigation = mock<ScreenNavigation>()
-                viewModel.screenNavigation = null
-                viewModel.onViewEvent(OnSearchResultItemClick("42"))
-                verifyInvokedNever(screenNavigation).navigateToSessionDetails("42")
+                viewModel.effects.test {
+                    assertThat(awaitItem()).isEqualTo(NavigateToSession("42"))
+                    expectNoEvents()
+                }
             }
 
         @Test
