@@ -15,10 +15,10 @@ jobs:
           cache: 'gradle'
             
       - name: Build the app
-        run: ./gradlew assembleCcc38c3
+        run: ./gradlew assembleCccamp2023
 
       - name: Unit Tests
-        run: ./gradlew testDebugUnitTest testCcc38c3DebugUnitTest assembleCcc38c3Debug lintAnalyzeCcc38c3Debug
+        run: ./gradlew testDebugUnitTest testCccamp2023DebugUnitTest assembleCccamp2023Debug lintAnalyzeCccamp2023Debug
 
       - name: Publish unit-test results
         uses: EnricoMi/publish-unit-test-result-action@v2
@@ -81,7 +81,7 @@ jobs:
           emulator-options: -metrics-collection -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script:
-            ./gradlew :app:connectedCcc38c3DebugAndroidTest :database:connectedAndroidTest && killall -INT crashpad_handler || true
+            ./gradlew :app:connectedCccamp2023DebugAndroidTest :database:connectedAndroidTest && killall -INT crashpad_handler || true
 
       - name: Publish unit-test results
         uses: EnricoMi/publish-unit-test-result-action/linux@v2
