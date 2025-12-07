@@ -300,10 +300,8 @@ public class ParserTask extends AsyncTask<String, Void, Boolean> {
                     } else if (name.equals("description")) {
                         parser.next();
                         session.setDescription(XmlPullParsers.getSanitizedText(parser));
-                    } else if (name.equals("person")) {
-                        parser.next();
-                        String separator = !session.getSpeakers().isEmpty() ? ";" : "";
-                        session.setSpeakers(session.getSpeakers() + separator + XmlPullParsers.getSanitizedText(parser));
+                    } else if (name.equals("persons")) {
+                        parsePersons(parser, session);
                     } else if (name.equals("link")) {
                         String url = parser.getAttributeValue(null, "href");
                         parser.next();
@@ -368,6 +366,68 @@ public class ParserTask extends AsyncTask<String, Void, Boolean> {
                     break;
             }
             if (isSessionDone) {
+                break;
+            }
+            eventType = parser.next();
+        }
+    }
+
+    private void parsePersons(XmlPullParser parser, Session session) throws IOException, XmlPullParserException {
+        String name;
+        int eventType = parser.next();
+        boolean personsDone = false;
+        while (eventType != XmlPullParser.END_DOCUMENT && !personsDone && !isCancelled()) {
+            switch (eventType) {
+                case XmlPullParser.END_TAG:
+                    name = parser.getName();
+                    if (name.equals("persons")) {
+                        personsDone = true;
+                    }
+                    break;
+                case XmlPullParser.START_TAG:
+                    name = parser.getName();
+                    if (name.equals("person")) {
+                        eventType = parser.next();
+                        boolean personDone = false;
+                        StringBuilder personNameBuilder = new StringBuilder();
+                        while (eventType != XmlPullParser.END_DOCUMENT && !personDone && !isCancelled()) {
+                            switch (eventType) {
+                                case XmlPullParser.END_TAG:
+                                    name = parser.getName();
+                                    if (name.equals("person")) {
+                                        personDone = true;
+                                    }
+                                    break;
+                                case XmlPullParser.TEXT:
+                                    personNameBuilder.append(parser.getText());
+                                    break;
+                                case XmlPullParser.START_TAG:
+                                    // Skip nested elements within <person>
+                                    // Skip the entire nested element tree
+                                    int depth = 1;
+                                    while (depth > 0 && !isCancelled() && (eventType = parser.next()) != XmlPullParser.END_DOCUMENT) {
+                                        if (eventType == XmlPullParser.START_TAG) {
+                                            depth++;
+                                        } else if (eventType == XmlPullParser.END_TAG) {
+                                            depth--;
+                                        }
+                                    }
+                                    break;
+                            }
+                            if (personDone) {
+                                break;
+                            }
+                            eventType = parser.next();
+                        }
+                        String personName = personNameBuilder.toString().trim();
+                        if (!personName.isEmpty()) {
+                            String separator = !session.getSpeakers().isEmpty() ? ";" : "";
+                            session.setSpeakers(session.getSpeakers() + separator + personName);
+                        }
+                    }
+                    break;
+            }
+            if (personsDone) {
                 break;
             }
             eventType = parser.next();
