@@ -104,6 +104,60 @@ class ParserTaskTest {
 
     }
 
+    @Nested
+    inner class Ccc39c3 {
+
+        @Test
+        fun parseMeta() {
+            val actualMeta = task.parseMeta("schedule-39c3-20251206.xml")
+            val expectedMeta = Meta(
+                scheduleGenerator = null,
+                httpHeader = HttpHeader(),
+                numDays = 4,
+                title = "39th Chaos Communications Congress",
+                subtitle = "",
+                timeZoneName = "Europe/Berlin",
+                version = "0.2.2 Weil muss ja 2025-12-06 20:10",
+            )
+            assertThat(actualMeta).isEqualTo(expectedMeta)
+        }
+
+        @Test
+        fun parseSessions_1420() {
+            val sessions = task.parseSessions("schedule-39c3-20251206.xml")
+            val expectedSession = Session(
+                sessionId = "1420",
+                title = "Hegemony Eroding: Excavating Diversity in Latent Space", // FIXME Wrong attachments.attachment.title is parsed
+                subtitle = "",
+                slug = "39c3-hegemony-eroding-excavating-diversity-in-latent-space",
+                url = "https://events.ccc.de/congress/2025/hub/event/detail/hegemony-eroding-excavating-diversity-in-latent-space",
+                track = "Art & Beauty", // XML entity &amp; decoded to &
+                type = "Talk", // FIXME Wrong attachments.attachment.type is parsed
+                language = "en",
+                abstractt = "Hegemony Eroding is an ongoing art project exploring how generative AI reflects and distorts cultural representation. Its name speaks to its core ambition: to bear witness to the slow erosion of Western cultural hegemony by exposing the cracks in which other cultures shine through.\n\n                    This talk will discuss the blurry boundary between legitimate cultural representation and prejudice in AI-generated media and how generative AI can be used as a tool to explore humanity's digital foot print.\n                    It is permeated by a critique of purely profit-driven AI development and it's tendency to blunt artistic exploration and expression.",
+                description = "Generative AI models ingest huge datasets gathered all over the web. Unsurprisingly, they reflect decades of Western cultural hegemony. Yet, the hegemony is not absolute.\n\n                    Non-Western motifs, that is, recurring patterns and themes with deep cultural resonance, can be discovered and reproduced across different generative AI models.\n\n                    In this talk I will explain the methods I developed to draw out motifs, the journey I took and what I learned along the way. I will present motifs and use them to outline a space stretching from representation to prejudice on the one hand and western to non-western depiction on the other.\n\n                    Finally, I will make a case for AI as a tool for cultural exploration and discuss how monetary incentives jeopardise this endeavour, adding to the long list of reasons to break up monopolies with transparent, publicly-funded AI-models.",
+                speakers = "Karim Hamdi",
+                links = "[](https://hegemony-eroding.make-gyver.de/),[](https://re-publica.com/de/session/hegemony-eroding-hands-genai-workshop-how-excavate-diversity-latent-space),[](https://schmiedehallein.com/archives/4204)", // See https://github.com/EventFahrplan/EventFahrplan/pull/828
+                feedbackUrl = "https://cfp.cccv.de/39c3/talk/RDABLB/feedback/",
+                startTime = Duration.ofMinutes(1265), // 21:05 = 21*60 + 5
+                relativeStartTime = Duration.ofMinutes(1265),
+                duration = Duration.ofMinutes(40), // 00:40
+                roomName = "Fuse",
+                roomGuid = "85a6ba5d-11d9-4efe-8d28-c5f7165a19ce",
+                roomIndex = 3, // Fuse is the fourth unique room (after One, Ground, Zero)
+                dayIndex = 3, // 2025-12-29 is day index 3
+                dateText = "2025-12-29",
+                dateUTC = DateParser.parseDateTime("2025-12-29T21:05:00+01:00"),
+                timeZoneOffset = DateParser.parseTimeZoneOffset("2025-12-29T21:05:00+01:00"),
+            )
+
+            assertThat(sessions).isNotEmpty()
+            val actualSession = sessions.single { session -> session.sessionId == "1420" }
+            assertThat(actualSession).isEqualTo(expectedSession)
+        }
+
+    }
+
     private fun ParserTask.parseMeta(fileName: String): Meta {
         parseSchedule(fileName)
         return meta
