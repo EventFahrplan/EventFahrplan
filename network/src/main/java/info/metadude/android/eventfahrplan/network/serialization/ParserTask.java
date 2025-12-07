@@ -302,23 +302,8 @@ public class ParserTask extends AsyncTask<String, Void, Boolean> {
                         session.setDescription(XmlPullParsers.getSanitizedText(parser));
                     } else if (name.equals("persons")) {
                         parsePersons(parser, session);
-                    } else if (name.equals("link")) {
-                        String url = parser.getAttributeValue(null, "href");
-                        parser.next();
-                        String urlName = XmlPullParsers.getSanitizedText(parser);
-                        if (url == null) {
-                            url = urlName;
-                        }
-                        if (!url.contains("://")) {
-                            url = "http://" + url;
-                        }
-                        StringBuilder sb = new StringBuilder();
-                        if (!session.getLinks().isEmpty()) {
-                            sb.append(session.getLinks());
-                            sb.append(",");
-                        }
-                        sb.append("[").append(urlName).append("]").append("(").append(url).append(")");
-                        session.setLinks(sb.toString());
+                    } else if (name.equals("links")) {
+                        parseLinks(parser, session);
                     } else if (name.equals("start")) {
                         parser.next();
                         session.setStartTime(DateParser.getMinutes(XmlPullParsers.getSanitizedText(parser)));
@@ -428,6 +413,80 @@ public class ParserTask extends AsyncTask<String, Void, Boolean> {
                     break;
             }
             if (personsDone) {
+                break;
+            }
+            eventType = parser.next();
+        }
+    }
+
+    private void parseLinks(XmlPullParser parser, Session session) throws IOException, XmlPullParserException {
+        String name;
+        int eventType = parser.next();
+        boolean linksDone = false;
+        while (eventType != XmlPullParser.END_DOCUMENT && !linksDone && !isCancelled()) {
+            switch (eventType) {
+                case XmlPullParser.END_TAG:
+                    name = parser.getName();
+                    if (name.equals("links")) {
+                        linksDone = true;
+                    }
+                    break;
+                case XmlPullParser.START_TAG:
+                    name = parser.getName();
+                    if (name.equals("link")) {
+                        String url = parser.getAttributeValue(null, "href");
+                        eventType = parser.next();
+                        boolean linkDone = false;
+                        StringBuilder urlNameBuilder = new StringBuilder();
+                        while (eventType != XmlPullParser.END_DOCUMENT && !linkDone && !isCancelled()) {
+                            switch (eventType) {
+                                case XmlPullParser.END_TAG:
+                                    name = parser.getName();
+                                    if (name.equals("link")) {
+                                        linkDone = true;
+                                    }
+                                    break;
+                                case XmlPullParser.TEXT:
+                                    urlNameBuilder.append(parser.getText());
+                                    break;
+                                case XmlPullParser.START_TAG:
+                                    // Skip nested elements like <type> and <title>
+                                    // Skip the entire nested element tree
+                                    int depth = 1;
+                                    while (depth > 0 && !isCancelled() && (eventType = parser.next()) != XmlPullParser.END_DOCUMENT) {
+                                        if (eventType == XmlPullParser.START_TAG) {
+                                            depth++;
+                                        } else if (eventType == XmlPullParser.END_TAG) {
+                                            depth--;
+                                        }
+                                    }
+                                    break;
+                            }
+                            if (linkDone) {
+                                break;
+                            }
+                            eventType = parser.next();
+                        }
+                        String urlName = urlNameBuilder.toString().trim();
+                        if (url == null) {
+                            url = urlName;
+                        }
+                        if (!url.contains("://")) {
+                            url = "http://" + url;
+                        }
+                        if (!urlName.isEmpty() || !url.isEmpty()) {
+                            StringBuilder sb = new StringBuilder();
+                            if (!session.getLinks().isEmpty()) {
+                                sb.append(session.getLinks());
+                                sb.append(",");
+                            }
+                            sb.append("[").append(urlName.isEmpty() ? url : urlName).append("]").append("(").append(url).append(")");
+                            session.setLinks(sb.toString());
+                        }
+                    }
+                    break;
+            }
+            if (linksDone) {
                 break;
             }
             eventType = parser.next();
