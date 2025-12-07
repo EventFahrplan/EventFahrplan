@@ -197,7 +197,7 @@ public class ParserTask extends AsyncTask<String, Void, Boolean> {
         boolean confDone = false;
         int dayChangeTime = 0;
         eventType = parser.next();
-        while (eventType != XmlPullParser.END_DOCUMENT && !confDone) {
+        while (eventType != XmlPullParser.END_DOCUMENT && !confDone && !isCancelled()) {
             switch (eventType) {
                 case XmlPullParser.END_TAG:
                     name = parser.getName();
