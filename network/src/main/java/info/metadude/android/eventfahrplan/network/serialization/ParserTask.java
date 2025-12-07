@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Xml;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -28,18 +29,20 @@ import info.metadude.android.eventfahrplan.network.temporal.DateParser;
 import info.metadude.android.eventfahrplan.network.temporal.DurationParser;
 import info.metadude.android.eventfahrplan.network.validation.DateFieldValidation;
 
-class ParserTask extends AsyncTask<String, Void, Boolean> {
+public class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private static final String LOG_TAG = "ParserTask";
 
     @NonNull
     private final Logging logging;
 
+    @VisibleForTesting
     @NonNull
-    private List<Session> sessions;
+    public List<Session> sessions;
 
+    @VisibleForTesting
     @NonNull
-    private Meta meta;
+    public Meta meta;
 
     @NonNull
     private FahrplanParser.OnParseCompleteListener listener;
@@ -48,7 +51,8 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private boolean isSuccess;
 
-    ParserTask(@NonNull Logging logging, @NonNull FahrplanParser.OnParseCompleteListener listener) {
+    @VisibleForTesting
+    public ParserTask(@NonNull Logging logging, @NonNull FahrplanParser.OnParseCompleteListener listener) {
         this.logging = logging;
         this.listener = listener;
         this.completed = false;
@@ -89,7 +93,8 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
         notifyActivity();
     }
 
-    private Boolean parseFahrplan(String fahrplan, String eTag, String lastModified) {
+    @VisibleForTesting
+    public Boolean parseFahrplan(String fahrplan, String eTag, String lastModified) {
         XmlPullParser parser = Xml.newPullParser();
         try {
             parser.setInput(new StringReader(fahrplan));

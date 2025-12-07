@@ -81,7 +81,7 @@ jobs:
           emulator-options: -metrics-collection -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script:
-            ./gradlew :app:connectedCccamp2023DebugAndroidTest :database:connectedAndroidTest && killall -INT crashpad_handler || true
+            ./gradlew :app:connectedCccamp2023DebugAndroidTest :database:connectedAndroidTest :network:connectedAndroidTest && killall -INT crashpad_handler || true
 
       - name: Publish unit-test results
         uses: EnricoMi/publish-unit-test-result-action/linux@v2

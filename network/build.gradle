@@ -14,6 +14,8 @@ android {
     defaultConfig {
         minSdk Android.minSdkVersion
         targetSdk Android.targetSdkVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments runnerBuilder: "de.mannodermaus.junit5.AndroidJUnit5Builder"
     }
 
     compileOptions {
@@ -23,6 +25,15 @@ android {
 
     kotlinOptions {
         jvmTarget = Config.compatibleJavaVersion
+    }
+
+    packagingOptions {
+        resources {
+            excludes += [
+                    "META-INF/LICENSE.md",
+                    "META-INF/LICENSE-notice.md",
+            ]
+        }
     }
 }
 
@@ -38,4 +49,9 @@ dependencies {
     testRuntimeOnly Libs.junitPlatformLauncher
     testImplementation Libs.mockitoKotlin
     testImplementation Libs.truth
+
+    androidTestImplementation Libs.androidTestCore
+    androidTestRuntimeOnly Libs.androidTestRunner
+    androidTestImplementation Libs.junitJupiterApi
+    androidTestImplementation Libs.truth
 }
