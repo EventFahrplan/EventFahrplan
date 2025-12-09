@@ -288,13 +288,18 @@ private fun AbstractHtml(
     contentDescription: String,
     htmlStyle: HtmlStyle,
 ) {
-    TextSectionHeader(
-        modifier = Modifier
-            .semantics {
-                this.contentDescription = contentDescription
-            },
-        text = remember(text) { getAnnotatedString(text, htmlStyle) },
-    )
+    val annotatedString = remember(text, htmlStyle) {
+        getAnnotatedString(text, htmlStyle)
+    }
+    if (annotatedString != null) {
+        TextSectionHeader(
+            modifier = Modifier
+                .semantics {
+                    this.contentDescription = contentDescription
+                },
+            text = annotatedString,
+        )
+    }
 }
 
 
@@ -329,13 +334,18 @@ private fun DescriptionHtml(
     contentDescription: String,
     htmlStyle: HtmlStyle,
 ) {
-    TextSection(
-        modifier = Modifier
-            .semantics {
-                this.contentDescription = contentDescription
-            },
-        text = remember(text) { getAnnotatedString(text, htmlStyle) },
-    )
+    val annotatedString = remember(text, htmlStyle) {
+        getAnnotatedString(text, htmlStyle)
+    }
+    if (annotatedString != null) {
+        TextSection(
+            modifier = Modifier
+                .semantics {
+                    this.contentDescription = contentDescription
+                },
+            text = annotatedString,
+        )
+    }
 }
 
 @Composable
@@ -396,7 +406,10 @@ private fun Links(
     htmlStyle: HtmlStyle,
     modifier: Modifier = Modifier,
 ) {
-    if (property.value.isNotEmpty()) {
+    val annotatedString = remember(property.value, htmlStyle) {
+        getAnnotatedString(property.value, htmlStyle)
+    }
+    if (annotatedString != null) {
         Column(modifier = modifier) {
             TextSectionHeader(
                 text = stringResource(R.string.session_details_section_title_links),
@@ -406,7 +419,7 @@ private fun Links(
                     .semantics {
                         contentDescription = property.contentDescription
                     },
-                text = remember(property.value) { getAnnotatedString(property.value, htmlStyle) },
+                text = annotatedString,
             )
         }
     }
@@ -440,7 +453,10 @@ private fun SessionLink(
     htmlStyle: HtmlStyle,
     modifier: Modifier = Modifier,
 ) {
-    if (sessionLink.isNotEmpty()) {
+    val annotatedString = remember(sessionLink, htmlStyle) {
+        getAnnotatedString(sessionLink, htmlStyle)
+    }
+    if (annotatedString != null) {
         val headerText = stringResource(R.string.session_details_section_title_session_online)
         val plainSessionLink = htmlToString(sessionLink)
         Column(modifier = modifier
@@ -452,7 +468,7 @@ private fun SessionLink(
                 text = headerText,
             )
             TextSection(
-                text = remember(sessionLink) { getAnnotatedString(sessionLink, htmlStyle) },
+                text = annotatedString,
             )
         }
     }
@@ -574,8 +590,10 @@ private val orderedList: @Composable (MarkdownComponentModel) -> Unit = {
     })
 }
 
-private fun getAnnotatedString(html: String, htmlStyle: HtmlStyle) =
-    htmlToAnnotatedString(html, compactMode = true, htmlStyle)
+private fun getAnnotatedString(html: String, htmlStyle: HtmlStyle): AnnotatedString? {
+    val annotatedString = htmlToAnnotatedString(html.trim(), compactMode = true, htmlStyle)
+    return annotatedString.takeIf { it.isNotBlank() }
+}
 
 @MultiDevicePreview
 @Composable
