@@ -103,7 +103,7 @@ fun RoomColumn(
 @Composable
 fun SessionCard(
     data: SessionCardData,
-    contextMenuTextColor: Color = LocalColorScheme.current.inverseOnSurface,
+    contextMenuTextColor: Color = LocalColorScheme.current.onSurface,
     sessionCardLayout: @Composable ColumnScope.() -> Unit,
     onClick: () -> Unit,
     onMenuItemClick: (SessionInteractionType) -> Unit,
@@ -457,7 +457,7 @@ private fun VideoRecordingIcon(
 ) {
     IconDecorative(
         modifier = modifier.size(dimensionResource(R.dimen.session_drawable_icon_size)),
-        icon = R.drawable.ic_novideo,
+        icon = R.drawable.ic_video_recording_unavailable,
         contentDescription = property.contentDescription,
         tint = Color.Unspecified,
     )
