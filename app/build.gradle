@@ -20,8 +20,8 @@ android {
     buildToolsVersion = Android.buildToolsVersion
 
     defaultConfig {
-        versionCode 110
-        versionName "1.72.0"
+        versionCode 111
+        versionName "1.73.0"
         minSdk Android.minSdkVersion
         targetSdk Android.targetSdkVersion
         base.archivesName = "Fahrplan-$versionName"
