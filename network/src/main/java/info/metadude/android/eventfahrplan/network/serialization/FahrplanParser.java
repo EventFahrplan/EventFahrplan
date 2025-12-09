@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
@@ -293,8 +292,8 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
         Session session = new Session();
         session.setSessionId(id);
         session.setDayIndex(dayIndex);
-        session.setRoomName(Objects.requireNonNullElse(roomName, ""));
-        session.setRoomGuid(Objects.requireNonNullElse(roomGuid, ""));
+        session.setRoomName(roomName != null ? roomName : "");
+        session.setRoomGuid(roomGuid != null ? roomGuid : "");
         session.setDateText(dateText);
         session.setRoomIndex(roomMapIndex);
         eventType = parser.next();
