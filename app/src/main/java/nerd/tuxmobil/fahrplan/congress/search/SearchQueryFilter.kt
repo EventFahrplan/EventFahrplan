@@ -19,4 +19,10 @@ class SearchQueryFilter {
                 || it.speakers.any { name -> name.contains(query, ignoreCase = true) }
     }
 
+    fun filterAll(sessions: List<Session>, query: String, filters: Set<SearchFilter>): List<Session> {
+        val results = if (query.isEmpty()) sessions else filterAll(sessions, query)
+        return results.filter { session ->
+            filters.all { filter -> filter.isMatch(session, query) }
+        }
+    }
 }
