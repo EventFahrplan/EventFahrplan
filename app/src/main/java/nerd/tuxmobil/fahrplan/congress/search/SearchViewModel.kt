@@ -1,13 +1,11 @@
 package nerd.tuxmobil.fahrplan.congress.search
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -22,8 +20,9 @@ import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.search.SearchEffect.NavigateBack
 import nerd.tuxmobil.fahrplan.congress.search.SearchEffect.NavigateToSession
-import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Loading
-import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Success
+import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.NoSearchResults
+import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.SearchHistory
+import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.SearchResults
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnBackIconClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnBackPress
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchHistoryClear
@@ -48,34 +47,50 @@ class SearchViewModel(
     private val mutableEffects = Channel<SearchEffect>()
     val effects = mutableEffects.receiveAsFlow()
 
-    var searchQuery by mutableStateOf("")
-        private set
+    private val searchQuery = MutableStateFlow("")
 
     private val useDeviceTimeZone: Boolean
         get() = repository.readUseDeviceTimeZoneEnabled()
 
-    val searchResultsState: StateFlow<SearchResultState> = snapshotFlow { searchQuery }
-        .combine(repository.sessions) { searchQuery, sessions ->
-            Success(
-                when (searchQuery.isEmpty()) {
-                    true -> emptyList()
-                    false -> searchResultParameterFactory.createSearchResults(
-                        searchQueryFilter.filterAll(sessions, searchQuery),
-                        useDeviceTimeZone,
+    val uiState: StateFlow<SearchUiState> =
+        combine(
+            searchQuery,
+            repository.sessions,
+            searchHistoryManager.searchHistory,
+        ) { query, sessions, searchHistory ->
+            val resultsState = if (query.isEmpty()) {
+                if (searchHistory.isEmpty()) {
+                    NoSearchResults(backEvent = OnBackPress)
+                } else {
+                    SearchHistory(searchTerms = searchHistory.toImmutableList())
+                }
+            } else {
+                val matchingSessions = searchQueryFilter.filterAll(sessions, query)
+                if (matchingSessions.isEmpty()) {
+                    NoSearchResults(backEvent = OnSearchSubScreenBackPress)
+                } else {
+                    SearchResults(
+                        searchResults = searchResultParameterFactory.createSearchResults(
+                            matchingSessions,
+                            useDeviceTimeZone,
+                        ).toImmutableList()
                     )
                 }
+            }
+
+            SearchUiState(
+                query = query,
+                resultsState = resultsState,
             )
         }
         .stateIn(
             scope = viewModelScope,
-            initialValue = Loading,
+            initialValue = SearchUiState(),
             started = WhileSubscribed(5_000)
         )
 
-    val searchHistory = searchHistoryManager.searchHistory
-
     init {
-        snapshotFlow { searchQuery }
+        searchQuery
             .debounce(FINISH_TYPING_SEARCH_QUERY_DELAY)
             .map { it.trim() }
             .filter { it.isNotEmpty() }
@@ -86,13 +101,13 @@ class SearchViewModel(
     fun onViewEvent(viewEvent: SearchViewEvent) {
         when (viewEvent) {
             OnBackPress -> sendEffect(NavigateBack)
-            OnBackIconClick -> searchQuery = ""
-            OnSearchSubScreenBackPress -> searchQuery = ""
+            OnBackIconClick -> searchQuery.value = ""
+            OnSearchSubScreenBackPress -> searchQuery.value = ""
             is OnSearchResultItemClick -> sendEffect(NavigateToSession(viewEvent.sessionId))
-            is OnSearchHistoryItemClick -> searchQuery = viewEvent.searchQuery
+            is OnSearchHistoryItemClick -> searchQuery.value = viewEvent.searchQuery
             OnSearchHistoryClear -> searchHistoryManager.clear(viewModelScope)
-            is OnSearchQueryChange -> searchQuery = viewEvent.updatedQuery
-            OnSearchQueryClear -> searchQuery = ""
+            is OnSearchQueryChange -> searchQuery.value = viewEvent.updatedQuery
+            OnSearchQueryClear -> searchQuery.value = ""
         }
     }
 
