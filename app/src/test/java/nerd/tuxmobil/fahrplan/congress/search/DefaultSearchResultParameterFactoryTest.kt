@@ -19,7 +19,7 @@ private const val SOME_DATE = "8/13/15"
 private const val SOME_TIME = "5:15 PM"
 private const val SOME_DAY_SEPARATOR_TEXT = "Day 1 - 8/13/2015"
 
-class SearchResultParameterFactoryTest {
+class DefaultSearchResultParameterFactoryTest {
 
     @Test
     fun `createSearchResults returns empty list when sessions is empty`() {
@@ -113,7 +113,7 @@ class SearchResultParameterFactoryTest {
     }
 
     private fun createFactory(): SearchResultParameterFactory {
-        return SearchResultParameterFactory(
+        return DefaultSearchResultParameterFactory(
             resourceResolving = CompleteResourceResolver,
             sessionPropertiesFormatting = sessionPropertiesFormatting,
             contentDescriptionFormatting = ContentDescriptionFormatter(CompleteResourceResolver),

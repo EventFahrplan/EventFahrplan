@@ -25,7 +25,7 @@ class SearchViewModelFactory(
             repository = appRepository,
             searchQueryFilter = SearchQueryFilter(),
             searchHistoryManager = SearchHistoryManager(appRepository),
-            searchResultParameterFactory = SearchResultParameterFactory(
+            searchResultParameterFactory = DefaultSearchResultParameterFactory(
                 resourceResolving = resourceResolving,
                 sessionPropertiesFormatting = SessionPropertiesFormatter(resourceResolving),
                 contentDescriptionFormatting = contentDescriptionFormatting,
