@@ -443,8 +443,9 @@ class FahrplanFragment : Fragment(), MenuProvider {
 
         // Remove room columns when you change day.
         // Fixes https://github.com/EventFahrplan/EventFahrplan/issues/783
-        if (currentDayIndex != scheduleData.dayIndex) {
+        if (currentDayIndex != scheduleData.dayIndex || columnsLayout.childCount != roomDataList.size) {
             columnsLayout.removeAllViews()
+            renderedRoomHashByRoomName.clear()
         }
 
         currentDayIndex = scheduleData.dayIndex
