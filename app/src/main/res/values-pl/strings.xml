@@ -23,7 +23,7 @@
     <string name="share_as_json">Udostępnij jako JSON (dla Chaosflix)</string>
     <!-- AlertDialog -->
     <string name="OK">OK</string>
-    <!-- Certificate error -->
+    <!-- CertificateErrorFragment -->
     <string name="certificate_error_message">        Nie udało się nawiązać bezpiecznego połączenia.\n
         (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
     </string>
@@ -86,12 +86,26 @@
     <string name="favorites_no_favorites_subtitle">Dotknij gwiazdki na pasku menu, aby polubić daną sesję</string>
     <string name="schedule_changes">Zmiany w agendzie</string>
     <!-- Schedule changes statistic -->
-    <string name="schedule_changes_statistic_title">Aktualizacja agendy</string>
-    <string name="schedule_changes_statistic_browse">Przeglądaj</string>
+    <string name="schedule_changes_statistic_title">Aktualizacja grafiku</string>
+    <string name="schedule_changes_statistic_update_to">Zaktualizowano do wersji grafiku: <xliff:g example="1.42.0" id="scheduleVersion">%s</xliff:g></string>
+    <string name="schedule_changes_statistic_new">Nowe</string>
+    <string name="schedule_changes_statistic_new_content_description">Nowe sesje: <xliff:g example="60" id="count">%d</xliff:g></string>
+    <string name="schedule_changes_statistic_changed">Zmienione</string>
+    <string name="schedule_changes_statistic_changed_content_description">Zmienione sesje: <xliff:g example="20" id="count">%d</xliff:g></string>
+    <string name="schedule_changes_statistic_canceled">Anulowane</string>
+    <string name="schedule_changes_statistic_canceled_content_description">Anulowane sesje: <xliff:g example="10" id="count">%d</xliff:g></string>
     <string name="schedule_changes_statistic_later">Później</string>
+    <string name="schedule_changes_statistic_browse">Przeglądaj</string>
+    <string name="schedule_changes_statistic_total_sessions">Łączna liczba sesji: <xliff:g example="100" id="totalSessions">%d</xliff:g></string>
     <string name="development_settings">Dla deweloperów</string>
     <string name="general_settings">Ogólne</string>
     <string name="favorites_screen_default_title">Ulubione</string>
+    <plurals name="favorites_screen_title">
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> ulubiona</item>
+        <item quantity="few"><xliff:g example="3" id="count">%d</xliff:g> ulubione</item>
+        <item quantity="many"><xliff:g example="3" id="count">%d</xliff:g> ulubionych</item>
+        <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> ulubione</item>
+    </plurals>
     <string name="choose_to_delete">Wybierz sesje</string>
     <string name="day_separator">Dzień <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="12/29/14" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="day_separator_content_description">Dzień <xliff:g example="2" id="day_of_congress">%1$d</xliff:g>, <xliff:g example="December 29, 2014" id="date_of_congress_day">%2$s</xliff:g></string>
