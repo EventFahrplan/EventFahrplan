@@ -20,11 +20,11 @@ class SessionsExtensionsToVirtualDaysTest {
     @Test
     fun `toVirtualDays returns list of days with sessions broken into virtual days`() {
         val sessions = listOf(
-            createSession("2023-12-27", 1703671200000, Duration.ofMinutes(60)), // 2023-12-27T10:00:00Z
-            createSession("2023-12-27", 1703728800000, Duration.ofMinutes(45)), // 2023-12-28T02:00:00Z
-            createSession("2023-12-28", 1703757600000, Duration.ofMinutes(60)), // 2023-12-28T10:00:00Z
-            createSession("2023-12-29", 1703844000000, Duration.ofMinutes(60)), // 2023-12-29T10:00:00Z
-            createSession("2023-12-30", 1703930400000, Duration.ofMinutes(60)), // 2023-12-30T10:00:00Z
+            createSession("2023-12-27", dayIndex = 1, 1703671200000, Duration.ofMinutes(60)), // 2023-12-27T10:00:00Z
+            createSession("2023-12-27", dayIndex = 1, 1703728800000, Duration.ofMinutes(45)), // 2023-12-28T02:00:00Z
+            createSession("2023-12-28", dayIndex = 2, 1703757600000, Duration.ofMinutes(60)), // 2023-12-28T10:00:00Z
+            createSession("2023-12-29", dayIndex = 3, 1703844000000, Duration.ofMinutes(60)), // 2023-12-29T10:00:00Z
+            createSession("2023-12-30", dayIndex = 4, 1703930400000, Duration.ofMinutes(60)), // 2023-12-30T10:00:00Z
         )
         val virtualDays = sessions.toVirtualDays()
         val expectedVirtualDays = listOf(
@@ -40,7 +40,7 @@ class SessionsExtensionsToVirtualDaysTest {
     @Test
     fun `toVirtualDays returns list of days with correct day indices even if sessions of day 1 are missing`() {
         val sessions = listOf(
-            createSession("2023-12-28", 1703757600000, Duration.ofMinutes(60)), // 2023-12-28T10:00:00Z
+            createSession("2023-12-28", dayIndex = 2, 1703757600000, Duration.ofMinutes(60)), // 2023-12-28T10:00:00Z
         )
         val virtualDays = sessions.toVirtualDays()
         val expectedVirtualDays = listOf(
@@ -50,12 +50,17 @@ class SessionsExtensionsToVirtualDaysTest {
         assertThat(virtualDays).isEqualTo(expectedVirtualDays)
     }
 
-    private fun createSession(dateText: String, startsAt: Long, duration: Duration) =
-        Session(
-            sessionId = "",
-            dateText = dateText,
-            dateUTC = startsAt,
-            duration = duration,
-        )
+    private fun createSession(
+        dateText: String,
+        dayIndex: Int,
+        startsAt: Long,
+        duration: Duration,
+    ) = Session(
+        sessionId = "",
+        dateText = dateText,
+        dayIndex = dayIndex,
+        dateUTC = startsAt,
+        duration = duration,
+    )
 
 }

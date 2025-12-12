@@ -38,6 +38,7 @@ class SearchResultParameterFactoryTest {
                 title = "Session 123",
                 speakers = listOf("Jane Doe", "John Doe"),
                 dateText = "2015-08-13",
+                dayIndex = 1,
                 dateUTC = 1683981000000,
             ),
             Session(
@@ -45,6 +46,7 @@ class SearchResultParameterFactoryTest {
                 title = "Session 456",
                 speakers = listOf("Jane Doe", "John Doe"),
                 dateText = "2015-08-14",
+                dayIndex = 2,
                 dateUTC = 1684067400000,
             )
         )
@@ -88,6 +90,7 @@ class SearchResultParameterFactoryTest {
                 title = "",
                 speakers = emptyList(),
                 dateUTC = 1683981000000,
+                dayIndex = 1,
             )
         )
         val results = factory.createSearchResults(sessions, useDeviceTimeZone = false)

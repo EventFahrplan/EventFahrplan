@@ -24,11 +24,11 @@ fun List<SessionNetworkModel>.toDayIndices(): Set<Int> {
  * This field is unique for a virtual day, even for sessions after midnight.
  */
 fun List<SessionAppModel>.toVirtualDays(): List<VirtualDay> {
-    var index = 0
     return groupBy { it.dateText }
         .map { (_, sessions) ->
+            val index = sessions.first().dayIndex
             val sorted = sessions.sortedBy { it.dateUTC }
-            VirtualDay(++index, sorted)
+            VirtualDay(index, sorted)
         }
 }
 
