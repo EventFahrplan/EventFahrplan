@@ -37,6 +37,19 @@ class SessionsExtensionsToVirtualDaysTest {
         assertThat(virtualDays).isEqualTo(expectedVirtualDays)
     }
 
+    @Test
+    fun `toVirtualDays returns list of days with correct day indices even if sessions of day 1 are missing`() {
+        val sessions = listOf(
+            createSession("2023-12-28", 1703757600000, Duration.ofMinutes(60)), // 2023-12-28T10:00:00Z
+        )
+        val virtualDays = sessions.toVirtualDays()
+        val expectedVirtualDays = listOf(
+            VirtualDay(2, listOf(sessions[0])),
+        )
+        assertThat(virtualDays.size).isEqualTo(1)
+        assertThat(virtualDays).isEqualTo(expectedVirtualDays)
+    }
+
     private fun createSession(dateText: String, startsAt: Long, duration: Duration) =
         Session(
             sessionId = "",
