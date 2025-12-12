@@ -400,8 +400,8 @@ class SessionChangeParametersFactoryTest {
             FakeFormattingDelegate(),
         )
         val sessions = listOf(
-            createUnchangedSession(dayIndex = 0),
             createUnchangedSession(dayIndex = 1),
+            createUnchangedSession(dayIndex = 2),
         )
         val actual = factory.createSessionChangeParameters(sessions, useDeviceTimeZone = true)
         assertThat(actual).hasSize(3)
@@ -416,7 +416,7 @@ class SessionChangeParametersFactoryTest {
 
 }
 
-private fun createUnchangedSession(dayIndex: Int = 0) = Session(
+private fun createUnchangedSession(dayIndex: Int = 1) = Session(
     sessionId = "2342",
     title = "Title",
     subtitle = "Subtitle",
@@ -449,6 +449,7 @@ private fun createNewSession() = Session(
     recordingOptOut = false,
     speakers = listOf("Jane Doe", "John Doe"),
     dateUTC = 1439478900000L,
+    dayIndex = 1,
     duration = Duration.ofMinutes(30),
     roomName = "Main room",
     language = "de, en",
@@ -474,6 +475,7 @@ private fun createCanceledSession() = Session(
     recordingOptOut = false,
     speakers = listOf("Jane Doe", "John Doe"),
     dateUTC = 1439478900000L,
+    dayIndex = 1,
     duration = Duration.ofMinutes(30),
     roomName = "Main room",
     language = "de, en",
@@ -499,6 +501,7 @@ private fun createChangedSession() = Session(
     recordingOptOut = false,
     speakers = listOf("Jane Doe", "John Doe"),
     dateUTC = 1439478900000L,
+    dayIndex = 1,
     duration = Duration.ofMinutes(30),
     roomName = "Main room",
     language = "de, en",
@@ -524,6 +527,7 @@ private fun createChangedEmptySession() = Session(
     recordingOptOut = true,
     speakers = emptyList(),
     dateUTC = 1439478900000L,
+    dayIndex = 1,
     duration = Duration.ofMinutes(30),
     roomName = "",
     language = "",
