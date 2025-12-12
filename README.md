@@ -51,6 +51,7 @@ in order to contribute to this project.
 - Finnish 🇫🇮
 - French 🇫🇷
 - German 🇩🇪
+- German, Austria 🇦🇹
 - Italian 🇮🇹
 - Japanese 🇯🇵
 - Lithuanian 🇱🇹
@@ -146,7 +147,7 @@ Copyright 2011-2015 Daniel Dorau
 Contributions from 0x5ubt13, Adriano Pereira Junior, Akarsh Seggemu,
 Александр Рознятовский, aligoush, Andrea Marziali, Andrulko, Andy Scherzinger,
 Andreas Schildbach, Animesh Verma, bashtian, bjoernb, Björn Olsson Jarl,
-ButterflyOfFire, cacarrara, Caio Volpato, Chase, cketti, codingcatgirl,
+burned42, ButterflyOfFire, cacarrara, Caio Volpato, Chase, cketti, codingcatgirl,
 Dominik Stadler, e4ch, entropynil, erebion, ideadapt, isi_ko404, IsoLinearCHiP,
 Jasper van der Graaf, Joergi, Julius Vitkauskas, koelnkalkverbot, kpc21, Larissa Yasin,
 lepawa, ligi, lucadelu, Luis Azcuaga, María Arias de Reyna, Mateus Baptista,

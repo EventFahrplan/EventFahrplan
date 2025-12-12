@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Category development -->
+    <!-- Schedule refresh interval -->
+    <string name="preference_dialog_title_schedule_refresh_interval">Wähle ein Aktualisierungsintervall für den Fahrplan</string>
+    <string name="preference_title_schedule_refresh_interval">Fahrplan-Aktualisierungsintervall wählen</string>
+    <string name="schedule_refresh_interval_title_unmodified">unverändert lassen</string>
+    <string name="schedule_refresh_interval_title_every_30_seconds">alle 30 Sekunden</string>
+    <string name="schedule_refresh_interval_title_every_60_seconds">jede Minute</string>
+    <string name="schedule_refresh_interval_title_every_120_seconds">alle 2 Minuten</string>
+    <!-- Schedule statistic -->
+    <string name="preference_title_schedule_statistic">Fahrplan-Statistik</string>
+    <string name="preference_summary_schedule_statistic">Werte der Spalten des Fahrplans prüfen</string>
+    <!-- Category general -->
+    <!-- Automatic schedule updates -->
+    <string name="preference_title_auto_update_enabled">Automatische Updates aktivieren</string>
+    <string name="preference_summary_auto_update_enabled">Lädt den Fahrplan regelmäßig herunter.</string>
+    <string name="preference_summary_auto_update_next_fetch_approximately_at">        Nächstes Update etwa um: <xliff:g example="2/26/25 13:00" id="nextFetchAt">%1$s</xliff:g>
+        (<xliff:g example="every 1.5 hours" id="interval">%2$s</xliff:g>)
+    </string>
+    <plurals name="preference_summary_auto_update_interval_days">
+        <item quantity="one">jeden Tag</item>
+        <item quantity="other">alle <xliff:g example="5" id="days">%s</xliff:g> Tage</item>
+    </plurals>
+    <plurals name="preference_summary_auto_update_interval_hours">
+        <item quantity="one">jede Stunde</item>
+        <item quantity="other">alle <xliff:g example="5" id="hours">%s</xliff:g> Stunden</item>
+    </plurals>
+    <plurals name="preference_summary_auto_update_interval_minutes">
+        <item quantity="one">jede Minute</item>
+        <item quantity="other">alle <xliff:g example="5" id="minutes">%s</xliff:g> Minuten</item>
+    </plurals>
+    <plurals name="preference_summary_auto_update_interval_seconds">
+        <item quantity="one">jede Sekunde</item>
+        <item quantity="other">alle <xliff:g example="5" id="seconds">%s</xliff:g> Sekunden</item>
+    </plurals>
+    <!-- Alarm time -->
+    <string name="preference_dialog_title_alarm_time">Wähle eine Standard-Alarmzeit</string>
+    <string name="preference_title_alarm_time">Standard-Alarmzeit auswählen</string>
+    <!-- Alarm tone -->
+    <string name="preference_title_alarm_tone">Alarmton auswählen</string>
+    <string name="preference_summary_alarm_tone">Öffne den Töne-Auswahl-Bildschirm von hier.</string>
+    <!-- Device time zone -->
+    <string name="preference_title_use_device_time_zone_enabled">Zeitzone des Geräts nutzen</string>
+    <string name="preference_summary_use_device_time_zone_enabled">Zeigt Datums- und Zeitangaben entsprechend an.</string>
+    <!-- Alternative highlighting -->
+    <string name="preference_title_alternative_highlighting_enabled">Alternative Hervorhebung anschalten</string>
+    <string name="preference_summary_alternative_highlighting_enabled">Fügt favorisierten Vorträgen eine Umrandung hinzu.</string>
+    <!-- Fast swiping -->
+    <string name="preference_title_fast_swiping_enabled">Schnelles Wischen aktivieren</string>
+    <string name="preference_summary_fast_swiping_enabled">Ermöglicht das Wischen über mehrere Räume.</string>
+    <!-- Alternative schedule URL -->
+    <string name="preference_title_alternative_schedule_url">Alternative Fahrplan-URL festlegen</string>
+    <string name="preference_summary_alternative_schedule_url">Füge eine alternative URL ein, falls der voreingestellte Server nicht erreichbar ist.</string>
+    <string name="preference_url_type_friendly_name_alternative_schedule">alternativer Fahrplan</string>
+    <!-- App notification settings -->
+    <string name="preference_title_app_notification_settings">Benachrichtigungen anpassen</string>
+    <string name="preference_summary_app_notification_settings">Öffne den dazugehörigen System-Einstellungen-Bildschirm von hier.</string>
+    <!-- Insistent session alarms -->
+    <string name="preference_title_insistent_alarms_enabled">Dauerhaften Alarm anschalten</string>
+    <string name="preference_summary_insistent_alarms_enabled">Lässt einen Alarm unendlich lange klingeln.</string>
+    <!-- Category Engelsystem -->
+    <string name="preference_summary_engelsystem_json_export_url"><![CDATA[Damit deine Schichten angezeigt werden, gib hier bitte deine <u>persönliche</u> URL ein.<br/><br/>
+        1. Melde dich beim <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> an.<br/>
+        2. Kopiere die URL hinter der <u>JSON-Export</u>-Schaltfläche auf deiner Profilseite.<br/>
+        3. Füge die URL hier ein.<br/><br/>
+        Schichten vor und nach den offiziellen Konferenztagen werden <u>nicht</u> angezeigt.]]></string>
+    <string name="preference_title_engelsystem_json_export_url">JSON-Export-URL konfigurieren</string>
+</resources>
