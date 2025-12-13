@@ -38,12 +38,12 @@ abstract class SessionsAdapter protected constructor(
     protected var context: Context
         private set
 
-    private val list: List<Session>
-    private val numDays: Int
+    private var list: List<Session>
+    private var numDays: Int
     private lateinit var mapper: MutableList<Int>
     private lateinit var separatorStrings: MutableList<String>
     private lateinit var separatorsSet: MutableSet<Int>
-    protected val useDeviceTimeZone: Boolean
+    protected var useDeviceTimeZone: Boolean
 
     init {
         this.context = ContextThemeWrapper(context, R.style.Theme_Congress)
@@ -51,6 +51,13 @@ abstract class SessionsAdapter protected constructor(
         this.numDays = numDays
         this.useDeviceTimeZone = useDeviceTimeZone
         initMapper()
+    }
+
+    fun update(sessions: List<Session>, numDays: Int, useDeviceTimeZone: Boolean) {
+        this.list = sessions
+        this.numDays = numDays
+        this.useDeviceTimeZone = useDeviceTimeZone
+        notifyDataSetChanged()
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
