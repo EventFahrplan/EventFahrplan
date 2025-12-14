@@ -518,7 +518,7 @@ object AppRepository : SearchRepository,
                               onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit) {
         scheduleNetworkRepository.parseSchedule(scheduleXml, httpHeader,
                 onUpdateSessions = { sessions ->
-                    val oldSessions = loadSessionsForAllDays(true).toSessionsNetworkModel()
+                    val oldSessions = loadSessionsForAllDays(includeEngelsystemShifts = false).toSessionsNetworkModel()
                     val newSessions = sessions.sanitize()
                     val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
                     if (scheduleChanges.foundNoteworthyChanges) {
