@@ -41,6 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import info.metadude.android.eventfahrplan.commons.flow.observe
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorProperty
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
@@ -67,7 +69,9 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchEffect.NavigateToSession
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.SearchResult
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.Separator
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Loading
-import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Success
+import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.NoSearchResults
+import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.SearchHistory
+import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.SearchResults
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnBackIconClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnBackPress
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchHistoryClear
@@ -95,24 +99,18 @@ fun SearchScreen(
         }
     }
 
-    val searchQuery = viewModel.searchQuery
-    val searchHistory by viewModel.searchHistory.collectAsState(emptyList())
-    val state by viewModel.searchResultsState.collectAsState()
+    val state by viewModel.uiState.collectAsState()
 
     SearchContent(
-        searchQuery = searchQuery,
-        onViewEvent = viewModel::onViewEvent,
         state = state,
-        searchHistory = searchHistory,
+        onViewEvent = viewModel::onViewEvent,
     )
 }
 
 @Composable
 private fun SearchContent(
-    searchQuery: String,
+    state: SearchUiState,
     onViewEvent: (SearchViewEvent) -> Unit,
-    state: SearchResultState,
-    searchHistory: List<String>,
 ) {
     Scaffold {
         Box {
@@ -124,7 +122,7 @@ private fun SearchContent(
                 inputField = {
                     SearchQueryInputField(
                         expanded = expanded,
-                        searchQuery = searchQuery,
+                        searchQuery = state.query,
                         onViewEvent = onViewEvent,
                     )
                 },
@@ -132,9 +130,7 @@ private fun SearchContent(
                 onExpandedChange = { },
                 content = {
                     SearchBarContent(
-                        state = state,
-                        searchQuery = searchQuery,
-                        searchHistory = searchHistory,
+                        state = state.resultsState,
                         onViewEvent = onViewEvent,
                     )
                 },
@@ -149,28 +145,13 @@ private fun SearchContent(
 @Composable
 private fun SearchBarContent(
     state: SearchResultState,
-    searchQuery: String,
-    searchHistory: List<String>,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
     when (state) {
         is Loading -> Loading()
-        is Success -> {
-            val sessions = state.parameters
-            if (sessions.isEmpty()) {
-                val isSearchQueryEmpty = searchQuery.isEmpty()
-                if (isSearchQueryEmpty && searchHistory.isNotEmpty()) {
-                    SearchHistoryList(searchHistory, onViewEvent)
-                } else {
-                    NoSearchResult {
-                        val event = if (isSearchQueryEmpty) OnBackPress else OnSearchSubScreenBackPress
-                        onViewEvent(event)
-                    }
-                }
-            } else {
-                SearchResultList(sessions, onViewEvent)
-            }
-        }
+        is NoSearchResults -> NoSearchResult(onBack = { onViewEvent(state.backEvent) })
+        is SearchHistory -> SearchHistoryList(state.searchTerms, onViewEvent)
+        is SearchResults -> SearchResultList(state.searchResults, onViewEvent)
     }
 }
 
@@ -263,7 +244,7 @@ private fun NoSearchResult(onBack: () -> Unit) {
 
 @Composable
 private fun SearchResultList(
-    parameters: List<SearchResultParameter>,
+    parameters: ImmutableList<SearchResultParameter>,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
     LazyColumn(
@@ -335,7 +316,7 @@ private fun SearchResultItem(
 
 @Composable
 private fun SearchHistoryList(
-    searchQueries: List<String>,
+    searchQueries: ImmutableList<String>,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
     Row(
@@ -406,43 +387,44 @@ private fun InsertSearchHistoryIcon() {
 private fun SearchContentPreview() {
     EventFahrplanTheme {
         SearchContent(
-            searchQuery = "Lorem ipsum",
-            searchHistory = emptyList(),
-            state = Success(
-                listOf(
-                    Separator(
-                        DaySeparatorProperty(
-                            value = "DAY 1 - 12/27/2024",
-                            contentDescription = "Day 1 - December 27, 2024",
-                        )
-                    ),
-                    SearchResult(
-                        id = "1",
-                        title = SearchResultProperty("Lorem ipsum dolor sit amet", ""),
-                        speakerNames = SearchResultProperty("Hedy Llamar", ""),
-                        startsAt = SearchResultProperty("December 27, 2024 10:00", ""),
-                    ),
-                    SearchResult(
-                        id = "2",
-                        title = SearchResultProperty("Dolor sit amet", ""),
-                        speakerNames = SearchResultProperty("Hedy Llamar", ""),
-                        startsAt = SearchResultProperty("December 27, 2024 12:00", ""),
-                    ),
-                    Separator(
-                        DaySeparatorProperty(
-                            value = "DAY 2 - 12/28/2024",
-                            contentDescription = "Day 2 - December 28, 2024",
-                        )
-                    ),
-                    SearchResult(
-                        id = "3",
-                        title = SearchResultProperty(
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                            ""
+            state = SearchUiState(
+                query = "Lorem ipsum",
+                resultsState = SearchResults(
+                    persistentListOf(
+                        Separator(
+                            DaySeparatorProperty(
+                                value = "DAY 1 - 12/27/2024",
+                                contentDescription = "Day 1 - December 27, 2024",
+                            )
                         ),
-                        speakerNames = SearchResultProperty("Jane Doe", ""),
-                        startsAt = SearchResultProperty("December 28, 2024 18:30", "")
-                    ),
+                        SearchResult(
+                            id = "1",
+                            title = SearchResultProperty("Lorem ipsum dolor sit amet", ""),
+                            speakerNames = SearchResultProperty("Hedy Llamar", ""),
+                            startsAt = SearchResultProperty("December 27, 2024 10:00", ""),
+                        ),
+                        SearchResult(
+                            id = "2",
+                            title = SearchResultProperty("Dolor sit amet", ""),
+                            speakerNames = SearchResultProperty("Hedy Llamar", ""),
+                            startsAt = SearchResultProperty("December 27, 2024 12:00", ""),
+                        ),
+                        Separator(
+                            DaySeparatorProperty(
+                                value = "DAY 2 - 12/28/2024",
+                                contentDescription = "Day 2 - December 28, 2024",
+                            )
+                        ),
+                        SearchResult(
+                            id = "3",
+                            title = SearchResultProperty(
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                                ""
+                            ),
+                            speakerNames = SearchResultProperty("Jane Doe", ""),
+                            startsAt = SearchResultProperty("December 28, 2024 18:30", "")
+                        ),
+                    )
                 )
             ),
             onViewEvent = { },
@@ -455,9 +437,15 @@ private fun SearchContentPreview() {
 private fun SearchContentHistoryPreview() {
     EventFahrplanTheme {
         SearchContent(
-            searchQuery = "",
-            searchHistory = listOf("Lorem ipsum", "Dolor sit amet"),
-            state = Success(emptyList()),
+            state = SearchUiState(
+                query = "",
+                resultsState = SearchHistory(
+                    searchTerms = persistentListOf(
+                        "Lorem ipsum",
+                        "Dolor sit amet",
+                    ),
+                )
+            ),
             onViewEvent = { },
         )
     }
@@ -468,9 +456,10 @@ private fun SearchContentHistoryPreview() {
 private fun SearchContentEmptyPreview() {
     EventFahrplanTheme {
         SearchContent(
-            searchQuery = "foobar",
-            searchHistory = emptyList(),
-            state = Success(emptyList()),
+            state = SearchUiState(
+                query = "foobar",
+                resultsState = NoSearchResults(OnSearchSubScreenBackPress)
+            ),
             onViewEvent = { },
         )
     }
@@ -481,9 +470,10 @@ private fun SearchContentEmptyPreview() {
 private fun SearchContentLoadingPreview() {
     EventFahrplanTheme {
         SearchContent(
-            searchQuery = "",
-            searchHistory = emptyList(),
-            state = Loading,
+            state = SearchUiState(
+                query = "",
+                resultsState = Loading,
+            ),
             onViewEvent = { },
         )
     }

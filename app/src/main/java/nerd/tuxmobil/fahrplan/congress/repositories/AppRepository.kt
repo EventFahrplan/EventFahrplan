@@ -362,6 +362,7 @@ object AppRepository : SearchRepository,
         refreshSearchHistorySignal
             .onStart { emit(Unit) }
             .mapLatest { readSearchHistory() }
+            .distinctUntilChanged()
             .flowOn(executionContext.database)
     }
 

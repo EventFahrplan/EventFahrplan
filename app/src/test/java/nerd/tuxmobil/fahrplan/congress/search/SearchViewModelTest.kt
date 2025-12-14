@@ -2,11 +2,15 @@ package nerd.tuxmobil.fahrplan.congress.search
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExtension
-import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
@@ -14,7 +18,9 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchEffect.NavigateBack
 import nerd.tuxmobil.fahrplan.congress.search.SearchEffect.NavigateToSession
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.SearchResult
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Loading
-import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Success
+import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.NoSearchResults
+import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.SearchHistory
+import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.SearchResults
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnBackIconClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnBackPress
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchHistoryClear
@@ -26,60 +32,103 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchSubScreenB
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
+@ExperimentalCoroutinesApi
 @ExtendWith(MainDispatcherTestExtension::class)
 class SearchViewModelTest {
 
     @Nested
-    inner class SearchResultsState {
+    inner class UiState {
 
         @Test
-        fun `searchResultsState emits Loading state`() = runTest {
-            val repository = createRepository(emptyFlow())
-            val viewModel = createViewModel(repository)
-            viewModel.searchResultsState.test {
-                assertThat(awaitItem()).isEqualTo(Loading)
-                expectNoEvents()
+        fun `uiState emits loading state initially`() = runTest {
+            // Use a sessionsFlow that never emits, so we can observe the loading state.
+            val viewModel = createViewModel(sessionsFlow = MutableSharedFlow())
+
+            viewModel.uiState.test {
+                assertThat(awaitItem()).isEqualTo(SearchUiState(resultsState = Loading))
             }
         }
 
         @Test
-        fun `searchResultsState emits Success state with empty list`() = runTest {
-            val repository = createRepository(flowOf(emptyList()))
-            val viewModel = createViewModel(repository)
-            viewModel.searchResultsState.test {
-                assertThat(awaitItem()).isEqualTo(Success(emptyList()))
-                expectNoEvents()
-            }
-        }
+        fun `uiState emits search history when query is empty`() = runTest {
+            val searchHistoryManager = createSearchHistoryManager()
+            searchHistoryManager.append(scope = this, query = "foo")
+            searchHistoryManager.append(scope = this, query = "bar")
+            advanceUntilIdle()
+            val viewModel = createViewModel(searchHistoryManager)
 
-        @Test
-        fun `searchResultsState emits Success state with list of search results`() = runTest {
-            val repository = createRepository()
-            val actual = listOf(
-                SearchResult(
-                    id = "1",
-                    title = SearchResultProperty("Title", ""),
-                    speakerNames = SearchResultProperty("Speakers", ""),
-                    startsAt = SearchResultProperty("10:30", ""),
+            viewModel.uiState.test {
+                assertThat(awaitItem()).isEqualTo(
+                    SearchUiState(
+                        resultsState = SearchHistory(persistentListOf("bar", "foo")),
+                    )
                 )
+            }
+        }
+
+        @Test
+        fun `uiState emits 'no search results' when query and search history are empty`() =
+            runTest {
+                val viewModel = createViewModel()
+
+                viewModel.uiState.test {
+                    assertThat(awaitItem()).isEqualTo(
+                        SearchUiState(
+                            resultsState = NoSearchResults(backEvent = OnBackPress),
+                        )
+                    )
+                }
+            }
+
+        @Test
+        fun `uiState emits 'no search results' when no matching sessions were found`() = runTest {
+            val viewModel = createViewModel()
+
+            viewModel.onViewEvent(OnSearchQueryChange("foo"))
+
+            viewModel.uiState.test {
+                assertThat(awaitItem()).isEqualTo(
+                    SearchUiState(
+                        query = "foo",
+                        resultsState = NoSearchResults(backEvent = OnSearchSubScreenBackPress),
+                    )
+                )
+            }
+        }
+
+        @Test
+        fun `uiState emits list of search results when query matches sessions`() = runTest {
+            val session1 = Session(
+                sessionId = "1",
+                title = "Title",
+                speakers = listOf("Speakers"),
+                startTime = Duration.ofMinutes(30),
             )
-            val viewModel = createViewModel(repository = repository, parameters = actual)
+            val session2 = Session(
+                sessionId = "2",
+                title = "No Match",
+                speakers = listOf("Jane", "Alice"),
+                startTime = Duration.ofMinutes(60),
+            )
+            val sessions = listOf(session1, session2)
+            val viewModel = createViewModel(sessionsFlow = flowOf(sessions))
+
             viewModel.onViewEvent(OnSearchQueryChange("title"))
-            val expected = listOf(
-                SearchResult(
-                    id = "1",
-                    title = SearchResultProperty("Title", ""),
-                    speakerNames = SearchResultProperty("Speakers", ""),
-                    startsAt = SearchResultProperty("10:30", ""),
-                )
+
+            val expected = FakeSearchResultParameterFactory().createSearchResults(
+                sessions = listOf(session1),
+                useDeviceTimeZone = false,
             )
-            viewModel.searchResultsState.test {
-                assertThat(awaitItem()).isEqualTo(Success(expected))
-                expectNoEvents()
+            viewModel.uiState.test {
+                assertThat(awaitItem()).isEqualTo(
+                    SearchUiState(
+                        query = "title",
+                        resultsState = SearchResults(searchResults = expected.toImmutableList()),
+                    )
+                )
             }
         }
 
@@ -90,41 +139,48 @@ class SearchViewModelTest {
 
         @Test
         fun `navigateBack emits when OnBackPress event is received`() = runTest {
-            val repository = createRepository()
-            val viewModel = createViewModel(repository)
+            val viewModel = createViewModel()
+
             viewModel.onViewEvent(OnBackPress)
+
             viewModel.effects.test {
                 assertThat(awaitItem()).isEqualTo(NavigateBack)
-                expectNoEvents()
             }
         }
 
         @Test
         fun `navigates to session details when OnSearchResultItemClick event is received`() =
             runTest {
-                val repository = createRepository()
-                val viewModel = createViewModel(repository)
+                val viewModel = createViewModel()
+
                 viewModel.onViewEvent(OnSearchResultItemClick("42"))
+
                 viewModel.effects.test {
                     assertThat(awaitItem()).isEqualTo(NavigateToSession("42"))
-                    expectNoEvents()
                 }
             }
 
         @Test
-        fun `searchQuery is empty string when OnBackIconClick event is received`() {
-            val repository = createRepository()
-            val viewModel = createViewModel(repository)
+        fun `query is empty string when OnBackIconClick event is received`() = runTest {
+            val viewModel = createViewModel()
+            viewModel.onViewEvent(OnSearchQueryChange("query"))
+
             viewModel.onViewEvent(OnBackIconClick)
-            assertThat(viewModel.searchQuery).isEmpty()
+
+            viewModel.uiState.test {
+                assertThat(awaitItem().query).isEmpty()
+            }
         }
 
         @Test
-        fun `searchQuery is empty string when OnSearchSubScreenBackPress event is received`() {
-            val repository = createRepository()
-            val viewModel = createViewModel(repository)
+        fun `query is empty string when OnSearchSubScreenBackPress event is received`() = runTest {
+            val viewModel = createViewModel()
+
             viewModel.onViewEvent(OnSearchSubScreenBackPress)
-            assertThat(viewModel.searchQuery).isEmpty()
+
+            viewModel.uiState.test {
+                assertThat(awaitItem().query).isEmpty()
+            }
         }
 
     }
@@ -134,11 +190,16 @@ class SearchViewModelTest {
 
         @Test
         fun `search history is cleared when OnSearchHistoryClear event is received`() = runTest {
-            val repository = createRepository()
-            val searchHistoryManager = mock<SearchHistoryManager>()
-            val viewModel = createViewModel(repository, searchHistoryManager)
+            val searchHistoryManager = createSearchHistoryManager()
+            searchHistoryManager.append(scope = this, "irrelevant")
+            advanceUntilIdle()
+            val viewModel = createViewModel(searchHistoryManager)
+
             viewModel.onViewEvent(OnSearchHistoryClear)
-            verifyInvokedOnce(searchHistoryManager).clear(any())
+
+            searchHistoryManager.searchHistory.test {
+                assertThat(awaitItem()).isEmpty()
+            }
         }
 
     }
@@ -147,53 +208,78 @@ class SearchViewModelTest {
     inner class Query {
 
         @Test
-        fun `searchQuery matches passed string when OnSearchHistoryItemClick event is received`() =
+        fun `query matches passed string when OnSearchHistoryItemClick event is received`() =
             runTest {
-                val repository = createRepository()
-                val viewModel = createViewModel(repository)
+                val viewModel = createViewModel()
+
                 viewModel.onViewEvent(OnSearchHistoryItemClick("query"))
-                assertThat(viewModel.searchQuery).isEqualTo("query")
+
+                viewModel.uiState.test {
+                    assertThat(awaitItem().query).isEqualTo("query")
+                }
             }
 
         @Test
-        fun `searchQuery matches passed string when OnSearchQueryChange event is received`() {
-            val repository = createRepository()
-            val viewModel = createViewModel(repository)
+        fun `query matches passed string when OnSearchQueryChange event is received`() = runTest {
+            val viewModel = createViewModel()
+
             viewModel.onViewEvent(OnSearchQueryChange("query"))
-            assertThat(viewModel.searchQuery).isEqualTo("query")
+
+            viewModel.uiState.test {
+                assertThat(awaitItem().query).isEqualTo("query")
+            }
         }
 
         @Test
-        fun `searchQuery is empty string when OnSearchQueryClear event is received`() {
-            val repository = createRepository()
-            val viewModel = createViewModel(repository)
+        fun `query is empty string when OnSearchQueryClear event is received`() = runTest {
+            val viewModel = createViewModel()
+
             viewModel.onViewEvent(OnSearchQueryClear)
-            assertThat(viewModel.searchQuery).isEmpty()
+
+            viewModel.uiState.test {
+                assertThat(awaitItem().query).isEmpty()
+            }
         }
 
     }
 
-    private fun createRepository(
-        sessionsFlow: Flow<List<Session>> = flowOf(emptyList()),
-    ) = mock<AppRepository> {
-        on { this.sessions } doReturn sessionsFlow
+    private fun createSearchHistoryManager(): SearchHistoryManager {
+        return SearchHistoryManager(InMemorySearchRepository())
     }
 
     private fun createViewModel(
-        repository: AppRepository,
-        searchHistoryManager: SearchHistoryManager = mock(),
-        parameters: List<SearchResult> = emptyList(),
-    ) = SearchViewModel(
-        repository = repository,
-        searchQueryFilter = mock(), // overlayed by factory
-        searchHistoryManager = searchHistoryManager,
-        searchResultParameterFactory = createSearchResultParameterFactory(parameters),
-    )
-
-    private fun createSearchResultParameterFactory(
-        parameters: List<SearchResult>,
-    ) = mock<SearchResultParameterFactory> {
-        on { createSearchResults(any(), any()) } doReturn parameters
+        searchHistoryManager: SearchHistoryManager = createSearchHistoryManager(),
+        sessionsFlow: Flow<List<Session>> = flowOf(emptyList()),
+    ): SearchViewModel {
+        return SearchViewModel(
+            repository = createRepository(sessionsFlow),
+            searchQueryFilter = SearchQueryFilter(),
+            searchHistoryManager = searchHistoryManager,
+            searchResultParameterFactory = FakeSearchResultParameterFactory()
+        )
     }
 
+    private fun createRepository(
+        sessionsFlow: Flow<List<Session>>,
+    ) = mock<AppRepository> {
+        on { this.sessions } doReturn sessionsFlow
+    }
+}
+
+private class FakeSearchResultParameterFactory : SearchResultParameterFactory {
+    override fun createSearchResults(
+        sessions: List<Session>,
+        useDeviceTimeZone: Boolean
+    ): List<SearchResultParameter> {
+        return sessions.map { session ->
+            val speakerNames = session.speakers.joinToString()
+            val startTime = session.startTime.toWholeMinutes().toString()
+            SearchResult(
+                id = session.sessionId,
+                title = SearchResultProperty(session.title, session.title),
+                speakerNames = SearchResultProperty(speakerNames, speakerNames),
+                startsAt = SearchResultProperty(startTime, startTime),
+            )
+        }
+    }
 }
