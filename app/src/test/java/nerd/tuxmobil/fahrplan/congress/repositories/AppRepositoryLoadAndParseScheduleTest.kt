@@ -209,9 +209,9 @@ class AppRepositoryLoadAndParseScheduleTest {
             scheduleNetworkRepository.onFetchScheduleFinished(success)
 
             // onUpdateSessions
-            whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn listOf(
-                DatabaseSession(sessionId = "55", isHighlight = true, changedLanguage = true)
-            )
+            val storedSessions = listOf(DatabaseSession(sessionId = "55", isHighlight = true, changedLanguage = true))
+            whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn storedSessions
+            whenever(sessionsDatabaseRepository.querySessionsWithoutRoom(any())) doReturn storedSessions
             whenever(highlightsDatabaseRepository.query()) doReturn emptyList()
             whenever(alarmsDatabaseRepository.query()) doReturn emptyList()
 
