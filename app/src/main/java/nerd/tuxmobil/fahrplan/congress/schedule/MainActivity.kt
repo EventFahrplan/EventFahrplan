@@ -28,6 +28,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.OnBackStackChangedListener
 import androidx.lifecycle.Lifecycle.State.RESUMED
 import info.metadude.android.eventfahrplan.commons.flow.observe
+import info.metadude.android.eventfahrplan.commons.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.about.AboutDialog
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsActivity
@@ -40,6 +41,7 @@ import nerd.tuxmobil.fahrplan.congress.changes.ChangeListFragment
 import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticsUiState
 import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticScreen
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.SCHEDULE_UPDATE_NOTIFICATION
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsFragment
@@ -76,6 +78,7 @@ class MainActivity : BaseActivity(),
 
     companion object {
 
+        private const val LOG_TAG = "MainActivity"
         private const val INVALID_NOTIFICATION_ID = -1
 
         lateinit var instance: MainActivity
@@ -107,6 +110,7 @@ class MainActivity : BaseActivity(),
     private lateinit var keyguardManager: KeyguardManager
     private lateinit var errorMessageFactory: ErrorMessage.Factory
     private lateinit var progressBar: ContentLoadingProgressBar
+    private val logging = Logging.get()
     private var progressDialog: ProgressDialog? = null
     private val viewModel: MainViewModel by viewModels {
         MainViewModelFactory(AppRepository, notificationHelper, errorMessageFactory)
@@ -157,6 +161,7 @@ class MainActivity : BaseActivity(),
         initUserEngagement()
         observeViewModel()
         onSessionAlarmNotificationTapped(intent)
+        onScheduleUpdateNotificationTapped(intent)
         viewModel.checkPostNotificationsPermission()
     }
 
@@ -233,12 +238,22 @@ class MainActivity : BaseActivity(),
         super.onNewIntent(intent)
         setIntent(intent)
         onSessionAlarmNotificationTapped(intent)
+        onScheduleUpdateNotificationTapped(intent)
     }
 
     private fun onSessionAlarmNotificationTapped(intent: Intent) {
         val notificationId = intent.getIntExtra(BundleKeys.SESSION_ALARM_NOTIFICATION_ID, INVALID_NOTIFICATION_ID)
         if (notificationId != INVALID_NOTIFICATION_ID) {
+            logging.report(LOG_TAG, "Tapped session alarm notification.")
             viewModel.deleteSessionAlarmNotificationId(notificationId)
+        }
+    }
+
+    private fun onScheduleUpdateNotificationTapped(intent: Intent) {
+        val isScheduleUpdateNotification = intent.getBooleanExtra(SCHEDULE_UPDATE_NOTIFICATION, false)
+        if (isScheduleUpdateNotification) {
+            logging.report(LOG_TAG, "Tapped schedule update notification.")
+            intent.removeExtra(SCHEDULE_UPDATE_NOTIFICATION)
         }
     }
 
