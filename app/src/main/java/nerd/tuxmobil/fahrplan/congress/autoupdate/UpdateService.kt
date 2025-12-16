@@ -9,6 +9,8 @@ import info.metadude.android.eventfahrplan.commons.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.MyApp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.PendingIntentProvider
+import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityObserver
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
@@ -50,7 +52,8 @@ class UpdateService : SafeJobIntentService() {
 
     private fun showScheduleUpdateNotification(version: String, changesCount: Int) {
         val notificationIntent = Intent(this, MainActivity::class.java)
-        notificationIntent.flags = FLAG_ACTIVITY_CLEAR_TOP or FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+            .apply { flags = FLAG_ACTIVITY_CLEAR_TOP or FLAG_ACTIVITY_RESET_TASK_IF_NEEDED }
+            .withExtras(BundleKeys.SCHEDULE_UPDATE_NOTIFICATION to true)
         val contentIntent = PendingIntentProvider.getPendingIntentActivity(this, notificationIntent)
 
         val contentText = if (version.isEmpty()) {

@@ -16,6 +16,10 @@ object BundleKeys {
     const val SESSION_ALARM_NOTIFICATION_ID =
         "nerd.tuxmobil.fahrplan.congress.SESSION_ALARM_NOTIFICATION_ID"
 
+    // Schedule update notification
+    const val SCHEDULE_UPDATE_NOTIFICATION =
+        "nerd.tuxmobil.fahrplan.congress.SCHEDULE_UPDATE_NOTIFICATION"
+
     // Side pane
     const val SIDEPANE = "nerd.tuxmobil.fahrplan.congress.SIDEPANE"
 
