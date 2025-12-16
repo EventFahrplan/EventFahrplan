@@ -746,6 +746,8 @@ object AppRepository : SearchRepository,
     private fun deleteAllEngelsystemShiftsForAllDays() {
         val toBeDeletedSessions = readEngelsystemShiftsOrderedByDateUtc()
         updateSessions(emptyList(), toBeDeletedSessions)
+        updateEngelsystemHttpHeader(HttpHeaderAppModel(eTag = "", lastModified = ""))
+        updateLastEngelsystemShiftsHash(0)
     }
 
     /**
