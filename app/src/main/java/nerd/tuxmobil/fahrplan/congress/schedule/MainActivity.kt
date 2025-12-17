@@ -133,6 +133,14 @@ class MainActivity : BaseActivity(),
         setContentView(R.layout.main)
         addMenuProvider(this, this, RESUMED)
 
+        logging.report(LOG_TAG, buildString {
+            append("MainActivity#onCreate: ")
+            append("thread=${Thread.currentThread().name}, ")
+            append("savedState=${savedInstanceState != null}, ")
+            append("isScheduleUpdate=${intent.getBooleanExtra(SCHEDULE_UPDATE_NOTIFICATION, false)}, ")
+            append("isSessionAlarm=${intent.getStringExtra(BundleKeys.SESSION_ALARM_SESSION_ID) != null}")
+        })
+
         notificationHelper = NotificationHelper(this)
 
         keyguardManager = getSystemService()!!
@@ -237,6 +245,12 @@ class MainActivity : BaseActivity(),
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
+        logging.report(LOG_TAG, buildString {
+            append("MainActivity#onNewIntent: ")
+            append("thread=${Thread.currentThread().name}, ")
+            append("isScheduleUpdate=${intent.getBooleanExtra(SCHEDULE_UPDATE_NOTIFICATION, false)}, ")
+            append("isSessionAlarm=${intent.getStringExtra(BundleKeys.SESSION_ALARM_SESSION_ID) != null}")
+        })
         onSessionAlarmNotificationTapped(intent)
         onScheduleUpdateNotificationTapped(intent)
     }

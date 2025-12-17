@@ -441,6 +441,18 @@ class FahrplanFragment : Fragment(), MenuProvider {
         val sessionPropertiesFormatter = SessionPropertiesFormatter(ResourceResolver(context))
         val isAlternativeHighlightingEnabled = AppRepository.readAlternativeHighlightingEnabled()
 
+        val willClear = currentDayIndex != scheduleData.dayIndex || columnsLayout.childCount != roomDataList.size
+        logging.report(LOG_TAG, buildString {
+            append("addRoomColumns.entry: ")
+            append("thread=${Thread.currentThread().name}, ")
+            append("dayIndex=${scheduleData.dayIndex}, ")
+            append("currentDayIndex=$currentDayIndex, ")
+            append("roomDataList.size=${roomDataList.size}, ")
+            append("childCount=${columnsLayout.childCount}, ")
+            append("cacheSize=${renderedRoomHashByRoomName.size}, ")
+            append("willClear=$willClear")
+        })
+
         // Remove room columns when you change day.
         // Fixes https://github.com/EventFahrplan/EventFahrplan/issues/783
         if (currentDayIndex != scheduleData.dayIndex || columnsLayout.childCount != roomDataList.size) {
@@ -450,9 +462,15 @@ class FahrplanFragment : Fragment(), MenuProvider {
 
         currentDayIndex = scheduleData.dayIndex
 
+        var skippedCount = 0
+        var renderedCount = 0
+
         for (roomIndex in roomDataList.indices) {
             val roomData = roomDataList[roomIndex]
-            if (renderedRoomHashByRoomName[roomData.roomName] == roomData.hashCode()) continue
+            if (renderedRoomHashByRoomName[roomData.roomName] == roomData.hashCode()) {
+                skippedCount++
+                continue
+            }
 
             val layoutParamsBySession = layoutCalculator.calculateLayoutParams(roomData, conference)
 
@@ -487,12 +505,32 @@ class FahrplanFragment : Fragment(), MenuProvider {
                 }
             }
 
-            if (columnsLayout.size > roomIndex) {
+            val didRemove = columnsLayout.childCount > roomIndex
+            if (didRemove) {
                 columnsLayout.removeViewAt(roomIndex)
             }
+            renderedCount++
+            logging.report(LOG_TAG, buildString {
+                append("addRoomColumns.addView: ")
+                append("thread=${Thread.currentThread().name}, ")
+                append("roomIndex=$roomIndex, ")
+                append("childCount=${columnsLayout.childCount}, ")
+                append("room=${roomData.roomName}, ")
+                append("didRemove=$didRemove, ")
+                append("skippedSoFar=$skippedCount, ")
+                append("renderedSoFar=$renderedCount")
+            })
             columnsLayout.addView(roomColumnView, roomIndex)
             renderedRoomHashByRoomName[roomData.roomName] = roomData.hashCode()
         }
+
+        logging.report(LOG_TAG, buildString {
+            append("addRoomColumns.complete: ")
+            append("thread=${Thread.currentThread().name}, ")
+            append("skipped=$skippedCount, ")
+            append("rendered=$renderedCount, ")
+            append("finalChildCount=${columnsLayout.childCount}")
+        })
     }
 
     private fun handleSessionInteraction(session: Session, sessionInteractionType: SessionInteractionType) =
