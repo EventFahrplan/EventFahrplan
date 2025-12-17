@@ -222,3 +222,7 @@ class SearchQueryFilterTest {
         assertThat(result).containsExactly(session2)
     }
 }
+
+private fun SearchQueryFilter.filterAll(sessions: List<Session>, query: String): List<Session> {
+    return filterAll(sessions, query, filters = emptySet())
+}

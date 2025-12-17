@@ -29,6 +29,8 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchQueryChang
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchQueryClear
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchResultItemClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchSubScreenBackPress
+import nerd.tuxmobil.fahrplan.congress.search.filters.HasAlarmSearchFilter
+import nerd.tuxmobil.fahrplan.congress.search.filters.IsFavoriteSearchFilter
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -243,6 +245,52 @@ class SearchViewModelTest {
 
     }
 
+    @Nested
+    inner class Filters {
+        @Test
+        fun `all search filters are initially unselected`() = runTest {
+            val favoriteFilter = IsFavoriteSearchFilter()
+            val alarmFilter = HasAlarmSearchFilter()
+            val viewModel = createViewModel(
+                searchFilters = listOf(favoriteFilter, alarmFilter),
+            )
+
+            viewModel.uiState.test {
+                assertThat(awaitItem().filters).containsExactly(
+                    SearchFilterUiState(label = favoriteFilter.label, selected = false),
+                    SearchFilterUiState(label = alarmFilter.label, selected = false),
+                ).inOrder()
+            }
+        }
+
+        @Test
+        fun `clicking search filter toggles its selected state`() = runTest {
+            val filter = IsFavoriteSearchFilter()
+            val viewModel = createViewModel(
+                searchFilters = listOf(filter),
+            )
+
+            viewModel.uiState.test {
+                val initialState = awaitItem()
+
+                // Select filter
+                viewModel.onViewEvent(SearchViewEvent.OnFilterToggled(initialState.filters.first()))
+
+                val filterSelectedState = awaitItem()
+                assertThat(filterSelectedState.filters).containsExactly(
+                    SearchFilterUiState(label = filter.label, selected = true)
+                )
+
+                // Deselect filter
+                viewModel.onViewEvent(SearchViewEvent.OnFilterToggled(filterSelectedState.filters.first()))
+
+                assertThat(awaitItem().filters).containsExactly(
+                    SearchFilterUiState(label = filter.label, selected = false)
+                )
+            }
+        }
+    }
+
     private fun createSearchHistoryManager(): SearchHistoryManager {
         return SearchHistoryManager(InMemorySearchRepository())
     }
@@ -250,12 +298,14 @@ class SearchViewModelTest {
     private fun createViewModel(
         searchHistoryManager: SearchHistoryManager = createSearchHistoryManager(),
         sessionsFlow: Flow<List<Session>> = flowOf(emptyList()),
+        searchFilters: List<SearchFilter> = emptyList(),
     ): SearchViewModel {
         return SearchViewModel(
             repository = createRepository(sessionsFlow),
             searchQueryFilter = SearchQueryFilter(),
             searchHistoryManager = searchHistoryManager,
-            searchResultParameterFactory = FakeSearchResultParameterFactory()
+            searchResultParameterFactory = FakeSearchResultParameterFactory(),
+            searchFilters = searchFilters,
         )
     }
 
