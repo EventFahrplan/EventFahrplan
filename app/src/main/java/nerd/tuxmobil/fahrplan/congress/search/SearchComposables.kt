@@ -3,11 +3,12 @@ package nerd.tuxmobil.fahrplan.congress.search
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides.Companion.Bottom
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
@@ -25,7 +26,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.CenterVertically
-import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -34,7 +34,6 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -55,7 +54,6 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconDecorativeVector
 import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.Loading
 import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.NoData
 import nerd.tuxmobil.fahrplan.congress.designsystem.search.InputField
-import nerd.tuxmobil.fahrplan.congress.designsystem.search.SearchBar
 import nerd.tuxmobil.fahrplan.congress.designsystem.templates.ListItem
 import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
@@ -112,32 +110,27 @@ private fun SearchContent(
     state: SearchUiState,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
-    Scaffold {
-        Box {
-            val expanded = true
-            SearchBar(
-                modifier = Modifier
-                    .align(TopCenter)
-                    .semantics { traversalIndex = 0f },
-                inputField = {
-                    SearchQueryInputField(
-                        expanded = expanded,
-                        searchQuery = state.query,
-                        onViewEvent = onViewEvent,
-                    )
-                },
-                expanded = expanded,
-                onExpandedChange = { },
-                content = {
-                    SearchBarContent(
-                        state = state.resultsState,
-                        onViewEvent = onViewEvent,
-                    )
-                },
+    Scaffold { contentPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = contentPadding.calculateTopPadding()),
+        ) {
+            SearchQueryInputField(
+                searchQuery = state.query,
+                onViewEvent = onViewEvent,
             )
-            BackHandler {
-                onViewEvent(OnBackPress)
-            }
+
+            DividerHorizontal(color = EventFahrplanTheme.colorScheme.searchBarDivider)
+
+            SearchBarContent(
+                state = state.resultsState,
+                onViewEvent = onViewEvent,
+            )
+        }
+
+        BackHandler {
+            onViewEvent(OnBackPress)
         }
     }
 }
@@ -157,7 +150,6 @@ private fun SearchBarContent(
 
 @Composable
 private fun SearchQueryInputField(
-    @Suppress("SameParameterValue") expanded: Boolean,
     searchQuery: String,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
@@ -166,12 +158,13 @@ private fun SearchQueryInputField(
 
     InputField(
         modifier = Modifier
+            .fillMaxWidth()
             .focusRequester(focusRequester)
             .safeContentHorizontalPadding(),
         query = searchQuery,
         onQueryChange = { onViewEvent(OnSearchQueryChange(it)) },
         onSearch = { keyboardController?.hide() },
-        expanded = expanded,
+        expanded = true,
         onExpandedChange = { },
         placeholder = { Text(stringResource(R.string.search_query_hint)) },
         leadingIcon = {
