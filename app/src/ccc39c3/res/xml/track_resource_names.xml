@@ -2,6 +2,7 @@
 <map linked="true">
 
     <entry key="">other</entry>
+    <entry key="Antifa Lightning Talk">lightning_talks</entry>
     <entry key="All about computers">all_about_computers</entry>
     <entry key="All Creatures Welcome">all_creatures_welcome</entry>
     <entry key="Andere">other</entry>
@@ -25,6 +26,7 @@
     <entry key="Ethics, Politics + Society">ethics_politics_society</entry>
     <entry key="Ethics, Politics &amp; Society">ethics_politics_society</entry>
     <entry key="Ethics, Society &amp; Politics">ethics_politics_society</entry>
+    <entry key="Evening Event (open end)">other</entry>
     <entry key="FINTA only">finta_only</entry>
     <entry key="FOSSASIA Workshops">fossasia_workshops</entry>
     <entry key="Frag die Teams">frag_die_teams</entry>
@@ -41,8 +43,11 @@
     <entry key="Lightning Talks">lightning_talks</entry>
     <entry key="lightning_talk">lightning_talks</entry>
     <entry key="Live Music">music</entry>
+    <entry key="live performance">music</entry>
+    <entry key="Live-Podcast Bühne">podcast</entry>
     <entry key="Live-Podcast Bühne (45 Minuten)">podcast</entry>
     <entry key="Live-Podcast Bühne (90 Minuten)">podcast</entry>
+    <entry key="Live-Podcast Bühne (lang)">podcast</entry>
     <entry key="Live Workshop">workshop</entry>
     <entry key="Milliways">milliways</entry>
     <entry key="Movie">screening</entry>
@@ -52,6 +57,8 @@
     <entry key="Other">other</entry>
     <entry key="other">other</entry>
     <entry key="Performance">performance</entry>
+    <entry key="Podcast-Tisch">podcast</entry>
+    <entry key="Podcast-Tisch (lang)">podcast</entry>
     <entry key="Podcast-Tisch (45 Minuten)">podcast</entry>
     <entry key="Podcast-Tisch (90 Minuten)">podcast</entry>
     <entry key="Queer">queer</entry>
@@ -82,10 +89,13 @@
     <entry key="Workshop">workshop</entry>
     <entry key="Workshop 2h">workshop</entry>
     <entry key="Workshop 4h">workshop</entry>
+    <entry key="Workshop 50 Minutes">workshop</entry>
     <entry key="Workshop 6h">workshop</entry>
     <entry key="Workshop 60 min + 30min Q&amp;A - no Recording">workshop</entry>
     <entry key="Workshop 8h">workshop</entry>
+    <entry key="Workshop Bühne">workshop</entry>
     <entry key="Workshop Bühne (45 Minuten)">workshop</entry>
+    <entry key="Workshop long">workshop</entry>
 
     <!-- Haecksen -->
     <entry key="After Hours">after_hours</entry>
