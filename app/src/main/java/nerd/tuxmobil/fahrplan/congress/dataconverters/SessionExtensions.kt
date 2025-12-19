@@ -185,12 +185,23 @@ fun SessionNetworkModel.sanitize(): SessionNetworkModel {
     if (tempTitle == tempSubtitle) {
         tempSubtitle = ""
     }
+    if (tempAbstract == tempTitle) {
+        tempAbstract = ""
+    }
     if (tempAbstract == tempDescription) {
         tempAbstract = ""
     }
     if (tempDescription.startsWith(tempAbstract)) {
         tempDescription = tempDescription
             .substring(tempAbstract.length)
+    }
+    if (tempDescription.startsWith("**$tempAbstract**")) {
+        tempDescription = tempDescription
+            .substring("**$tempAbstract**".length)
+    }
+    if (tempDescription.startsWith("**$tempTitle**")) {
+        tempDescription = tempDescription
+            .substring("**$tempTitle**".length)
     }
     if (speakers == tempSubtitle) {
         tempSubtitle = ""
