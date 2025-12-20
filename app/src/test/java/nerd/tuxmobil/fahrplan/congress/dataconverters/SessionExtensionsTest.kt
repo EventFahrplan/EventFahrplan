@@ -302,6 +302,21 @@ class SessionExtensionsTest {
     }
 
     @Test
+    fun `sanitize clears the abstractt property value if the title property matches`() {
+        val session = SessionNetworkModel(
+            sessionId = "",
+            abstractt = "Lorem ipsum",
+            title = "Lorem ipsum",
+        ).sanitize()
+        val expected = SessionNetworkModel(
+            sessionId = "",
+            abstractt = "",
+            title = "Lorem ipsum",
+        )
+        assertThat(session).isEqualTo(expected)
+    }
+
+    @Test
     fun `sanitize clears the abstractt property value if the description property matches`() {
         val session = SessionNetworkModel(
             sessionId = "",
@@ -357,6 +372,36 @@ class SessionExtensionsTest {
             sessionId = "",
             abstractt = "Lorem ipsum.",
             description = "Dolor sit amet.",
+        )
+        assertThat(session).isEqualTo(expected)
+    }
+
+    @Test
+    fun `sanitize trims the start of the description property value if the abstractt property value does match the start of the former ignoring bold formatting`() {
+        val session = SessionNetworkModel(
+            sessionId = "",
+            abstractt = "Lorem ipsum.",
+            description = "**Lorem ipsum.** Dolor sit amet.",
+        ).sanitize()
+        val expected = SessionNetworkModel(
+            sessionId = "",
+            abstractt = "Lorem ipsum.",
+            description = "Dolor sit amet.",
+        )
+        assertThat(session).isEqualTo(expected)
+    }
+
+    @Test
+    fun `sanitize trims the start of the description property value if the title property value does match the start of the former ignoring bold formatting`() {
+        val session = SessionNetworkModel(
+            sessionId = "",
+            description = "**Lorem ipsum.** Dolor sit amet.",
+            title = "Lorem ipsum.",
+        ).sanitize()
+        val expected = SessionNetworkModel(
+            sessionId = "",
+            description = "Dolor sit amet.",
+            title = "Lorem ipsum.",
         )
         assertThat(session).isEqualTo(expected)
     }
