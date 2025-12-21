@@ -65,7 +65,7 @@ class AlarmsFragment : Fragment(), MenuProvider {
         }
         onSessionItemClickListener = try {
             context as OnSessionItemClickListener
-        } catch (e: ClassCastException) {
+        } catch (_: ClassCastException) {
             error("$context must implement OnSessionItemClickListener")
         }
     }

@@ -51,9 +51,9 @@ class EngelsystemUriParser {
             throw ApiKeyMissingException(query)
         }
         keyValuePairs.last()
-    } catch (e: NoSuchElementException) {
+    } catch (_: NoSuchElementException) {
         throw ApiKeyMissingException(query)
-    } catch (e: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
         throw ApiKeyMissingException(query)
     }
 

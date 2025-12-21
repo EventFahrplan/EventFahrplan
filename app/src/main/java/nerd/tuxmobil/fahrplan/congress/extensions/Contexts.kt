@@ -24,7 +24,7 @@ fun Context.getNotificationManager() = NotificationManagerCompat.from(this)
 fun Context.startActivity(intent: Intent, onActivityNotFound: () -> Unit) {
     try {
         startActivity(intent)
-    } catch (e: ActivityNotFoundException) {
+    } catch (_: ActivityNotFoundException) {
         onActivityNotFound.invoke()
     }
 }

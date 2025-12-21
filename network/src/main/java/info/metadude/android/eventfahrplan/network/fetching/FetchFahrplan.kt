@@ -133,7 +133,7 @@ internal class FetchFahrplanTask(
             customizeExceptionMessage(e)
             e.printStackTrace()
             return HttpStatus.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE
-        } catch (e: SocketTimeoutException) {
+        } catch (_: SocketTimeoutException) {
             return HttpStatus.HTTP_CONNECT_TIMEOUT
         } catch (e: UnknownHostException) {
             e.printStackTrace()
@@ -179,9 +179,9 @@ internal class FetchFahrplanTask(
 
         responseStr = try {
             response.body!!.string()
-        } catch (e: NullPointerException) {
+        } catch (_: NullPointerException) {
             return HttpStatus.HTTP_CANNOT_PARSE_CONTENT
-        } catch (e: IOException) {
+        } catch (_: IOException) {
             return HttpStatus.HTTP_CANNOT_PARSE_CONTENT
         } finally {
             response.body?.close()

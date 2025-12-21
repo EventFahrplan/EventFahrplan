@@ -55,7 +55,7 @@ object TraceDroidEmailSender {
                 try {
                     context.startActivity(emailIntent)
                     TraceDroid.deleteStacktraceFiles()
-                } catch (e: ActivityNotFoundException) {
+                } catch (_: ActivityNotFoundException) {
                     val message = context.getString(R.string.trace_droid_no_email_app)
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                 }

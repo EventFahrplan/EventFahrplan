@@ -19,11 +19,11 @@ object MetaValidation {
         val timeZoneNameIsValid = try {
             ZoneId.of(timeZoneName)
             true
-        } catch (e: NullPointerException) {
+        } catch (_: NullPointerException) {
             false
-        } catch (e: DateTimeException) {
+        } catch (_: DateTimeException) {
             false
-        } catch (e: ZoneRulesException) {
+        } catch (_: ZoneRulesException) {
             false
         }
         return if (timeZoneNameIsValid) this else copy(timeZoneName = null)

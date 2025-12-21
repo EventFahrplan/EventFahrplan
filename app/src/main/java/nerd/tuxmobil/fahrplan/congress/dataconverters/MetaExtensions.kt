@@ -25,7 +25,7 @@ fun MetaDatabaseModel.toMetaAppModel() = MetaAppModel(
         timeZoneId = timeZoneName?.let {
             try {
                 ZoneId.of(it)
-            } catch (e: ZoneRulesException) {
+            } catch (_: ZoneRulesException) {
                 // TODO Duplicate try/catch, also in MetaValidation.validate.
                 // Crashes on re-installation otherwise. Further investigation needed.
                 null
