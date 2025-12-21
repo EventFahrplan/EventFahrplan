@@ -1,7 +1,10 @@
 package nerd.tuxmobil.fahrplan.congress.commons
 
-fun interface ExternalNavigation {
+interface ExternalNavigation {
 
     fun openMap(locationText: String)
+    fun getBrowsableApps(link: String): List<String>
+    fun openLink(link: String)
+    fun openLinkWithApp(link: String, packageName: String)
 
 }

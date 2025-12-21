@@ -7,6 +7,7 @@ import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.commons.BuildConfigProvider
 import nerd.tuxmobil.fahrplan.congress.commons.DateFormatterDelegate
+import nerd.tuxmobil.fahrplan.congress.commons.ExternalNavigation
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.navigation.C3nav
 import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter
@@ -29,6 +30,7 @@ internal class SessionDetailsViewModelFactory(
     private val resourceResolving: ResourceResolving,
     private val alarmServices: AlarmServices,
     private val notificationHelper: NotificationHelper,
+    private val externalNavigation: ExternalNavigation,
     private val defaultEngelsystemRoomName: String,
     private val customEngelsystemRoomName: String
 
@@ -45,6 +47,7 @@ internal class SessionDetailsViewModelFactory(
             buildConfigProvision = buildConfigProvision,
             alarmServices = alarmServices,
             notificationHelper = notificationHelper,
+            externalNavigation = externalNavigation,
             sessionDetailsParameterFactory = SessionDetailsParameterFactory(
                 repository = appRepository,
                 markupLanguage = ServerBackendType.getMarkupLanguage(buildConfigProvision.serverBackendType),
