@@ -18,14 +18,20 @@ Please check the following boxes with an `x` if they apply:
 # Before
 <!--
 - Describe the behavior before the change.
-- Add screenshot(s).
+- Add screenshot(s) or video recording(s).
 -->
 
 # After
 <!--
 - Describe the behavior after the change.
-- Add screenshot(s).
+- Add screenshot(s) or video recording(s).
 -->
 
+# Successfully tested
+with `PRODUCT_FLAVOR` flavor, `debug/release` build
+- :heavy_check_mark: Emulator/phone model?, Android ?? (API ??)
+- :heavy_check_mark: Emulator/tablet model?, Android ?? (API ??)
+
+---
 <!-- Remove it this pull request does not resolve an issue -->
 Resolves #
