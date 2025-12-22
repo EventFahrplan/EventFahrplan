@@ -62,7 +62,7 @@ internal class RealHighlightsDatabaseRepository(
                 selection = "$SESSION_ID=?",
                 selectionArgs = arrayOf(sessionId)
             )
-        } catch (e: SQLiteException) {
+        } catch (_: SQLiteException) {
             return null
         }
 

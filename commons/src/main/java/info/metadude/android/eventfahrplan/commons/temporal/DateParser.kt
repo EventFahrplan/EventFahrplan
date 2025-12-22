@@ -31,7 +31,7 @@ object DateParser {
     fun parseTimeZoneOffset(text: String): Int {
         val zonedDateTime = try {
             ZonedDateTime.parse(text, DateTimeFormatter.ISO_DATE_TIME)
-        } catch (e: DateTimeParseException) {
+        } catch (_: DateTimeParseException) {
             throw TimeZoneOffsetParsingException(text)
         }
         return zonedDateTime.offset.totalSeconds

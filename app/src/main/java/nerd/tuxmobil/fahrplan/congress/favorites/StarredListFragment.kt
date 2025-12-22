@@ -225,7 +225,7 @@ class StarredListFragment :
         super.onAttach(context)
         onSessionListClickListener = try {
             context as OnSessionListClick
-        } catch (e: ClassCastException) {
+        } catch (_: ClassCastException) {
             throw ClassCastException("$context must implement OnSessionListClick")
         }
     }

@@ -25,7 +25,7 @@ object SessionSharer {
         return try {
             context.startActivity(intent)
             true
-        } catch (e: ActivityNotFoundException) {
+        } catch (_: ActivityNotFoundException) {
             false
         }
     }
