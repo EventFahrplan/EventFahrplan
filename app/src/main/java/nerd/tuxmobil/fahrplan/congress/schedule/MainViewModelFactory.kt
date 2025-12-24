@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import nerd.tuxmobil.fahrplan.congress.applinks.SlugFactory
 import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticsUiStateFactory
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
@@ -25,6 +26,7 @@ internal class MainViewModelFactory(
                 logging = logging,
             ),
             errorMessageFactory = errorMessageFactory,
+            slugFactory = SlugFactory(),
             executionContext = AppExecutionContext,
         ) as T
     }

@@ -197,6 +197,7 @@ private object SomeEmptyResourceResolver : ResourceResolving {
 }
 
 private object CompleteBuildConfigProvider : BuildConfigProvision {
+    override val packageName: String = "com.example.app"
     override val versionName: String = "1.63.2"
     override val versionCode: Int = 100
     override val eventPostalAddress: String = "Congressplatz 1, 20355 Hamburg"
@@ -213,6 +214,7 @@ private object CompleteBuildConfigProvider : BuildConfigProvision {
 }
 
 private object IncompleteBuildConfigProvider : BuildConfigProvision {
+    override val packageName: String = ""
     override val versionName: String = ""
     override val versionCode: Int = 200
     override val eventPostalAddress: String = "Congressplatz 1, 20355 Hamburg"

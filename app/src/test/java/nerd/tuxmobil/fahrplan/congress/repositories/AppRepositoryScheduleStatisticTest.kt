@@ -96,6 +96,12 @@ private class InMemorySessionDatabaseRepository : SessionsDatabaseRepository {
     override fun querySessionBySessionId(sessionId: String) =
         throw NotImplementedError()
 
+    override fun querySessionsBySlugInFeedbackUrl(slug: String) =
+        throw NotImplementedError()
+
+    override fun querySessionsBySlugInSlug(slug: String) =
+        throw NotImplementedError()
+
     override fun querySessionsForDayIndexOrderedByDateUtc(dayIndex: Int) =
         throw NotImplementedError()
 

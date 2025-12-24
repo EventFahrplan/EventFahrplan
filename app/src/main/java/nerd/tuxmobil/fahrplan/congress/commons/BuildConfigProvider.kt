@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.commons
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 
 class BuildConfigProvider : BuildConfigProvision {
+    override val packageName: String = BuildConfig.APPLICATION_ID
     override val versionName: String = BuildConfig.VERSION_NAME
     override val versionCode: Int = BuildConfig.VERSION_CODE
     override val eventPostalAddress: String = BuildConfig.EVENT_POSTAL_ADDRESS

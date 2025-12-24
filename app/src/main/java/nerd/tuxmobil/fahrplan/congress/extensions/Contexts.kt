@@ -6,8 +6,11 @@ import android.app.AlarmManager
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager.MATCH_ALL
 import android.content.res.Configuration
 import android.net.Uri
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.M
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.core.app.NotificationManagerCompat
@@ -27,6 +30,35 @@ fun Context.startActivity(intent: Intent, onActivityNotFound: () -> Unit) {
     } catch (_: ActivityNotFoundException) {
         onActivityNotFound.invoke()
     }
+}
+
+fun Context.getBrowsableApps(link: String): List<String> {
+    val intent = Intent(Intent.ACTION_VIEW, link.toUri()).apply {
+        addCategory(Intent.CATEGORY_BROWSABLE)
+    }
+    val flags = if (SDK_INT < M) 0 else MATCH_ALL
+    return packageManager
+        .queryIntentActivities(intent, flags)
+        .map { it.activityInfo.packageName }
+}
+
+fun Context.openLinkWithApp(link: String, packageName: String) {
+    val intent = Intent(Intent.ACTION_VIEW, link.toUri()).apply {
+        addCategory(Intent.CATEGORY_BROWSABLE)
+        setPackage(packageName)
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    }
+    startActivity(intent) {
+        Toast.makeText(this, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show()
+    }
+}
+
+fun Context.openLink(link: String) {
+    val intent = Intent(Intent.ACTION_VIEW, link.toUri())
+    intent.addCategory(Intent.CATEGORY_BROWSABLE)   // required
+    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    val chooser = Intent.createChooser(intent, "Open with")
+    startActivity(chooser)
 }
 
 fun Context.isLandscape() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE

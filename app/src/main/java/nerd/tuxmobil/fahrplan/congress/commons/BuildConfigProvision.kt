@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.commons
 
 interface BuildConfigProvision {
+    val packageName: String
     val versionName: String
     val versionCode: Int
     val eventPostalAddress: String

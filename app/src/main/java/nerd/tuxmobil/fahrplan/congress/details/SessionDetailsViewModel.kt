@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.alarms.SessionAlarmViewModelDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.BuildConfigProvision
+import nerd.tuxmobil.fahrplan.congress.commons.ExternalNavigation
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toRoom
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsState.Loading
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsState.Success
@@ -40,9 +41,10 @@ internal class SessionDetailsViewModel(
     private val repository: AppRepository,
     private val executionContext: ExecutionContext,
     private val logging: Logging,
-    buildConfigProvision: BuildConfigProvision,
+    private val buildConfigProvision: BuildConfigProvision,
     alarmServices: AlarmServices,
     notificationHelper: NotificationHelper,
+    private val externalNavigation: ExternalNavigation,
     private val sessionDetailsParameterFactory: SessionDetailsParameterFactory,
     private val selectedSessionParameterFactory: SelectedSessionParameterFactory,
     private val simpleSessionFormat: SimpleSessionFormat,
@@ -108,6 +110,22 @@ internal class SessionDetailsViewModel(
             updateRoomState()
         }
         updateSessionDetailsState()
+    }
+
+    fun onViewEvent(event: SessionDetailsViewEvent) {
+        when (event) {
+            is SessionDetailsViewEvent.OnSessionLinkClick -> openLink(event.link)
+        }
+    }
+
+    private fun openLink(link: String) {
+        val packageNames = externalNavigation.getBrowsableApps(link)
+        val otherPackageNames = packageNames.filter { it != buildConfigProvision.packageName }
+        if (otherPackageNames.isNotEmpty()) {
+            externalNavigation.openLinkWithApp(link = link, packageName = otherPackageNames.first())
+        } else {
+            externalNavigation.openLink(link)
+        }
     }
 
     private fun updateSessionDetailsState() {

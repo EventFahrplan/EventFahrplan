@@ -171,6 +171,15 @@ class MainActivity : BaseActivity(),
         onSessionAlarmNotificationTapped(intent)
         onScheduleUpdateNotificationTapped(intent)
         viewModel.checkPostNotificationsPermission()
+        window.decorView.post { handleAppLink(intent) }
+    }
+
+    private fun handleAppLink(intent: Intent) {
+        if (intent.action == Intent.ACTION_VIEW) {
+            intent.data?.let {
+                viewModel.openSessionDetailsFromAppLink(it)
+            }
+        }
     }
 
     @Composable
@@ -253,6 +262,7 @@ class MainActivity : BaseActivity(),
         })
         onSessionAlarmNotificationTapped(intent)
         onScheduleUpdateNotificationTapped(intent)
+        handleAppLink(intent)
     }
 
     private fun onSessionAlarmNotificationTapped(intent: Intent) {
