@@ -826,6 +826,7 @@ object AppRepository : SearchRepository,
         if (alarmsDatabaseRepository.deleteAll() > 0) {
             refreshAlarms()
             refreshSelectedSession()
+            refreshSessions()
             refreshRoomStates()
             refreshUncanceledSessions()
         }
@@ -836,6 +837,7 @@ object AppRepository : SearchRepository,
         if (alarmsDatabaseRepository.deleteForSessionId(sessionId) > 0) {
             refreshAlarms()
             refreshSelectedSession()
+            refreshSessions()
             refreshRoomStates()
             refreshUncanceledSessions()
         }
@@ -848,6 +850,7 @@ object AppRepository : SearchRepository,
         if (alarmsDatabaseRepository.update(values, alarm.sessionId) != DATABASE_UPDATE_ERROR) {
             refreshAlarms()
             refreshSelectedSession()
+            refreshSessions()
             refreshRoomStates()
             refreshUncanceledSessions()
         }
@@ -862,6 +865,7 @@ object AppRepository : SearchRepository,
         val values = highlightDatabaseModel.toContentValues()
         if (highlightsDatabaseRepository.update(values, session.sessionId) != DATABASE_UPDATE_ERROR) {
             refreshStarredSessions()
+            refreshSessions()
             refreshSelectedSession()
             refreshRoomStates()
             refreshUncanceledSessions()
@@ -872,6 +876,7 @@ object AppRepository : SearchRepository,
     fun deleteHighlight(sessionId: String) {
         if (highlightsDatabaseRepository.delete(sessionId) > 0) {
             refreshStarredSessions()
+            refreshSessions()
             refreshSelectedSession()
             refreshRoomStates()
             refreshUncanceledSessions()

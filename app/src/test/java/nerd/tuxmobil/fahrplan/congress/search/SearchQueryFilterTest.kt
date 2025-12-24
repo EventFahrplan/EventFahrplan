@@ -2,6 +2,11 @@ package nerd.tuxmobil.fahrplan.congress.search
 
 import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.search.filters.HasAlarmSearchFilter
+import nerd.tuxmobil.fahrplan.congress.search.filters.IsFavoriteSearchFilter
+import nerd.tuxmobil.fahrplan.congress.search.filters.NotRecordedSearchFilter
+import nerd.tuxmobil.fahrplan.congress.search.filters.RecordedSearchFilter
+import nerd.tuxmobil.fahrplan.congress.search.filters.WithinSpeakerNamesSearchFilter
 import org.junit.jupiter.api.Test
 
 class SearchQueryFilterTest {
@@ -74,4 +79,150 @@ class SearchQueryFilterTest {
         assertThat(result).isEqualTo(listOf(Session("1", speakers = listOf("Jane Doe", "John Doe"))))
     }
 
+    @Test
+    fun `IsFavoriteSearchFilter only returns starred sessions`() {
+        val session1 = Session("1", title = "Session 1", isHighlight = false)
+        val session2 = Session("2", title = "Session 2", isHighlight = true)
+        val session3 = Session("3", title = "no match", isHighlight = true)
+        val sessions = listOf(session1, session2, session3)
+        val filters = setOf(IsFavoriteSearchFilter())
+
+        val result = filter.filterAll(sessions, query = "session", filters)
+
+        assertThat(result).containsExactly(session2)
+    }
+
+    @Test
+    fun `IsFavoriteSearchFilter with empty query returns all starred sessions`() {
+        val session1 = Session("1", title = "Session 1", isHighlight = false)
+        val session2 = Session("2", title = "Session 2", isHighlight = true)
+        val session3 = Session("3", title = "Session 3", isHighlight = true)
+        val sessions = listOf(session1, session2, session3)
+        val filters = setOf(IsFavoriteSearchFilter())
+
+        val result = filter.filterAll(sessions, query = "", filters)
+
+        assertThat(result).containsExactly(session2, session3)
+    }
+
+    @Test
+    fun `HasAlarmSearchFilter only returns sessions with alarm`() {
+        val session1 = Session("1", title = "Session 1", hasAlarm = false)
+        val session2 = Session("2", title = "Session 2", hasAlarm = true)
+        val session3 = Session("3", title = "no match", hasAlarm = true)
+        val sessions = listOf(session1, session2, session3)
+        val filters = setOf(HasAlarmSearchFilter())
+
+        val result = filter.filterAll(sessions, query = "session", filters)
+
+        assertThat(result).containsExactly(session2)
+    }
+
+    @Test
+    fun `HasAlarmSearchFilter with empty query returns all sessions with alarm`() {
+        val session1 = Session("1", title = "Session 1", hasAlarm = false)
+        val session2 = Session("2", title = "Session 2", hasAlarm = true)
+        val session3 = Session("3", title = "Session 3", hasAlarm = true)
+        val sessions = listOf(session1, session2, session3)
+        val filters = setOf(HasAlarmSearchFilter())
+
+        val result = filter.filterAll(sessions, query = "", filters)
+
+        assertThat(result).containsExactly(session2, session3)
+    }
+
+    @Test
+    fun `NotRecordedSearchFilter only returns sessions that are not recorded`() {
+        val session1 = Session("1", title = "Session 1", recordingOptOut = false)
+        val session2 = Session("2", title = "Session 2", recordingOptOut = true)
+        val session3 = Session("3", title = "no match", recordingOptOut = true)
+        val sessions = listOf(session1, session2, session3)
+        val filters = setOf(NotRecordedSearchFilter())
+
+        val result = filter.filterAll(sessions, query = "session", filters)
+
+        assertThat(result).containsExactly(session2)
+    }
+
+    @Test
+    fun `NotRecordedSearchFilter with empty query returns all sessions that are not recorded`() {
+        val session1 = Session("1", title = "Session 1", recordingOptOut = false)
+        val session2 = Session("2", title = "Session 2", recordingOptOut = true)
+        val session3 = Session("3", title = "Session 3", recordingOptOut = true)
+        val sessions = listOf(session1, session2, session3)
+        val filters = setOf(NotRecordedSearchFilter())
+
+        val result = filter.filterAll(sessions, query = "", filters)
+
+        assertThat(result).containsExactly(session2, session3)
+    }
+
+    @Test
+    fun `RecordedSearchFilter only returns sessions that are recorded`() {
+        val session1 = Session("1", title = "Session 1", recordingOptOut = true)
+        val session2 = Session("2", title = "Session 2", recordingOptOut = false)
+        val session3 = Session("3", title = "no match", recordingOptOut = false)
+        val sessions = listOf(session1, session2, session3)
+        val filters = setOf(RecordedSearchFilter())
+
+        val result = filter.filterAll(sessions, query = "session", filters)
+
+        assertThat(result).containsExactly(session2)
+    }
+
+    @Test
+    fun `RecordedSearchFilter with empty query returns all sessions that are not recorded`() {
+        val session1 = Session("1", title = "Session 1", recordingOptOut = true)
+        val session2 = Session("2", title = "Session 2", recordingOptOut = false)
+        val session3 = Session("3", title = "Session 3", recordingOptOut = false)
+        val sessions = listOf(session1, session2, session3)
+        val filters = setOf(RecordedSearchFilter())
+
+        val result = filter.filterAll(sessions, query = "", filters)
+
+        assertThat(result).containsExactly(session2, session3)
+    }
+
+    @Test
+    fun `WithinSpeakerNamesSearchFilter only returns sessions where at least one speaker name matches the query`() {
+        val session1 = Session("1", title = "Query 1", speakers = listOf("Jane Doe"))
+        val session2 = Session("2", title = "Query 2", speakers = listOf("Jane Doe", "Peter Query"))
+        val session3 = Session("3", title = "no title match", speakers = listOf("QUERY", "Jane Doe"))
+        val sessions = listOf(session1, session2, session3)
+        val filters = setOf(WithinSpeakerNamesSearchFilter())
+
+        val result = filter.filterAll(sessions, query = "query", filters)
+
+        assertThat(result).containsExactly(session2, session3)
+    }
+
+    @Test
+    fun `WithinSpeakerNamesSearchFilter with empty query doesn't return any matches`() {
+        val session1 = Session("1", title = "Session 1", speakers = listOf("Jane Doe"))
+        val session2 = Session("2", title = "Session 2", speakers = listOf("Jane Doe", "Peter Query"))
+        val sessions = listOf(session1, session2)
+        val filters = setOf(WithinSpeakerNamesSearchFilter())
+
+        val result = filter.filterAll(sessions, query = "", filters)
+
+        assertThat(result).isEmpty()
+    }
+
+    @Test
+    fun `all provided SearchFilters must match`() {
+        val session1 = Session("1", title = "Session 1", isHighlight = true, hasAlarm = false)
+        val session2 = Session("2", title = "Session 2", isHighlight = true, hasAlarm = true)
+        val session3 = Session("3", title = "Session 3", isHighlight = false, hasAlarm = true)
+        val session4 = Session("4", title = "Session 4", isHighlight = false, hasAlarm = false)
+        val sessions = listOf(session1, session2, session3, session4)
+        val filters = setOf(IsFavoriteSearchFilter(), HasAlarmSearchFilter())
+
+        val result = filter.filterAll(sessions, query = "session", filters)
+
+        assertThat(result).containsExactly(session2)
+    }
+}
+
+private fun SearchQueryFilter.filterAll(sessions: List<Session>, query: String): List<Session> {
+    return filterAll(sessions, query, filters = emptySet())
 }

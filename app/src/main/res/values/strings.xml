@@ -328,4 +328,10 @@
     <string name="room_state_too_full">too full</string>
     <string name="room_state_not_retrievable">not retrievable</string>
 
+    <!-- Search filters -->
+    <string name="search_filter_is_favorite">Is favored</string>
+    <string name="search_filter_has_alarm">Has alarm</string>
+    <string name="search_filter_not_recorded">Not recorded</string>
+    <string name="search_filter_recorded">Recorded</string>
+    <string name="search_filter_within_speaker_names">Within speaker names</string>
 </resources>

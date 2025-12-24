@@ -3,11 +3,14 @@ package nerd.tuxmobil.fahrplan.congress.search
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides.Companion.Bottom
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
@@ -15,9 +18,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,7 +30,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.CenterVertically
-import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -34,7 +38,6 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,6 +51,7 @@ import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorProperty
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonIcon
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonOutlined
+import nerd.tuxmobil.fahrplan.congress.designsystem.chips.FilterChip
 import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
 import nerd.tuxmobil.fahrplan.congress.designsystem.headers.HeaderDayDate
 import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconDecorative
@@ -55,7 +59,6 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconDecorativeVector
 import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.Loading
 import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.NoData
 import nerd.tuxmobil.fahrplan.congress.designsystem.search.InputField
-import nerd.tuxmobil.fahrplan.congress.designsystem.search.SearchBar
 import nerd.tuxmobil.fahrplan.congress.designsystem.templates.ListItem
 import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
@@ -74,6 +77,7 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.SearchHistory
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.SearchResults
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnBackIconClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnBackPress
+import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnFilterToggled
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchHistoryClear
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchHistoryItemClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchQueryChange
@@ -112,32 +116,66 @@ private fun SearchContent(
     state: SearchUiState,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
-    Scaffold {
-        Box {
-            val expanded = true
-            SearchBar(
-                modifier = Modifier
-                    .align(TopCenter)
-                    .semantics { traversalIndex = 0f },
-                inputField = {
-                    SearchQueryInputField(
-                        expanded = expanded,
-                        searchQuery = state.query,
-                        onViewEvent = onViewEvent,
-                    )
-                },
-                expanded = expanded,
-                onExpandedChange = { },
-                content = {
-                    SearchBarContent(
-                        state = state.resultsState,
-                        onViewEvent = onViewEvent,
-                    )
-                },
+    Scaffold { contentPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = contentPadding.calculateTopPadding()),
+        ) {
+            SearchBox(
+                state = state,
+                onViewEvent = onViewEvent,
             )
-            BackHandler {
-                onViewEvent(OnBackPress)
-            }
+
+            DividerHorizontal(color = EventFahrplanTheme.colorScheme.searchBarDivider)
+
+            SearchBarContent(
+                state = state.resultsState,
+                onViewEvent = onViewEvent,
+            )
+        }
+
+        BackHandler {
+            onViewEvent(OnBackPress)
+        }
+    }
+}
+
+@Composable
+fun SearchBox(
+    state: SearchUiState,
+    onViewEvent: (SearchViewEvent) -> Unit,
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        SearchQueryInputField(
+            searchQuery = state.query,
+            onViewEvent = onViewEvent,
+        )
+
+        SearchFilters(state.filters, onViewEvent)
+    }
+}
+
+@Composable
+private fun SearchFilters(
+    filters: ImmutableList<SearchFilterUiState>,
+    onViewEvent: (SearchViewEvent) -> Unit,
+) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier
+            .horizontalScroll(rememberScrollState())
+            .safeContentHorizontalPadding(),
+    ) {
+        for (searchFilter in filters) {
+            FilterChip(
+                onClick = { onViewEvent(OnFilterToggled(searchFilter)) },
+                label = { Text(stringResource(searchFilter.label)) },
+                selected = searchFilter.selected,
+                selectedIcon = Icons.Filled.Done,
+            )
         }
     }
 }
@@ -157,7 +195,6 @@ private fun SearchBarContent(
 
 @Composable
 private fun SearchQueryInputField(
-    @Suppress("SameParameterValue") expanded: Boolean,
     searchQuery: String,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
@@ -166,12 +203,13 @@ private fun SearchQueryInputField(
 
     InputField(
         modifier = Modifier
+            .fillMaxWidth()
             .focusRequester(focusRequester)
             .safeContentHorizontalPadding(),
         query = searchQuery,
         onQueryChange = { onViewEvent(OnSearchQueryChange(it)) },
         onSearch = { keyboardController?.hide() },
-        expanded = expanded,
+        expanded = true,
         onExpandedChange = { },
         placeholder = { Text(stringResource(R.string.search_query_hint)) },
         leadingIcon = {
@@ -389,6 +427,7 @@ private fun SearchContentPreview() {
         SearchContent(
             state = SearchUiState(
                 query = "Lorem ipsum",
+                filters = searchFilters(),
                 resultsState = SearchResults(
                     persistentListOf(
                         Separator(
@@ -439,6 +478,7 @@ private fun SearchContentHistoryPreview() {
         SearchContent(
             state = SearchUiState(
                 query = "",
+                filters = searchFilters(),
                 resultsState = SearchHistory(
                     searchTerms = persistentListOf(
                         "Lorem ipsum",
@@ -458,6 +498,7 @@ private fun SearchContentEmptyPreview() {
         SearchContent(
             state = SearchUiState(
                 query = "foobar",
+                filters = searchFilters(),
                 resultsState = NoSearchResults(OnSearchSubScreenBackPress)
             ),
             onViewEvent = { },
@@ -472,9 +513,19 @@ private fun SearchContentLoadingPreview() {
         SearchContent(
             state = SearchUiState(
                 query = "",
+                filters = searchFilters(),
                 resultsState = Loading,
             ),
             onViewEvent = { },
         )
     }
+}
+
+private fun searchFilters(): ImmutableList<SearchFilterUiState> {
+    return persistentListOf(
+        SearchFilterUiState(label = R.string.search_filter_is_favorite, selected = false),
+        SearchFilterUiState(label = R.string.search_filter_has_alarm, selected = false),
+        SearchFilterUiState(label = R.string.search_filter_not_recorded, selected = false),
+        SearchFilterUiState(label = R.string.search_filter_within_speaker_names, selected = false),
+    )
 }

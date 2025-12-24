@@ -299,4 +299,10 @@
     <string name="room_state_too_full">zu voll</string>
     <string name="room_state_not_retrievable">nicht abrufbar</string>
 
+    <!-- Search filters -->
+    <string name="search_filter_is_favorite">Ist favorisiert</string>
+    <string name="search_filter_has_alarm">Hat Alarm</string>
+    <string name="search_filter_not_recorded">Nicht aufgezeichnet</string>
+    <string name="search_filter_recorded">Aufgezeichnet</string>
+    <string name="search_filter_within_speaker_names">In Namen von Sprecher*innen</string>
 </resources>
