@@ -18,6 +18,7 @@ class DefaultSearchResultParameterFactory(
     private val contentDescriptionFormatting: ContentDescriptionFormatting,
     private val daySeparatorFactory: DaySeparatorFactory,
     private val formattingDelegate: FormattingDelegate,
+    private val tenseTypeProvision: TenseTypeProvision,
 ) : SearchResultParameterFactory, FormattingDelegate by formattingDelegate {
 
     override fun createSearchResults(
@@ -62,6 +63,7 @@ class DefaultSearchResultParameterFactory(
             session.startsAt,
             session.timeZoneOffset,
         )
+        val tenseType = tenseTypeProvision.getTenseType(session)
 
         return SearchResult(
             id = session.sessionId,
@@ -69,16 +71,19 @@ class DefaultSearchResultParameterFactory(
                 value = title,
                 contentDescription = contentDescriptionFormatting
                     .getTitleContentDescription(session.title),
+                tenseType = tenseType,
             ),
             speakerNames = SearchResultProperty(
                 value = speakers,
                 contentDescription = contentDescriptionFormatting
                     .getSpeakersContentDescription(session.speakers.size, formattedSpeakerNames),
+                tenseType = tenseType,
             ),
             startsAt = SearchResultProperty(
                 value = startsAtText,
                 contentDescription = contentDescriptionFormatting
                     .getStartTimeContentDescription(startsAtText),
+                tenseType = tenseType,
             ),
         )
     }
