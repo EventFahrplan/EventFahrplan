@@ -11,7 +11,6 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.SearchResult
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.Separator
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatting
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
-import kotlin.text.ifEmpty
 
 class DefaultSearchResultParameterFactory(
     private val resourceResolving: ResourceResolving,
@@ -78,7 +77,8 @@ class DefaultSearchResultParameterFactory(
             ),
             startsAt = SearchResultProperty(
                 value = startsAtText,
-                contentDescription = contentDescriptionFormatting.getStartTimeContentDescription(startsAtText),
+                contentDescription = contentDescriptionFormatting
+                    .getStartTimeContentDescription(startsAtText),
             ),
         )
     }
