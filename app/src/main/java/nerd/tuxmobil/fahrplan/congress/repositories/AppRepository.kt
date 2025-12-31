@@ -58,8 +58,8 @@ import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsNetworkModel
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsRepository
-import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUri
 import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParser
+import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult
 import nerd.tuxmobil.fahrplan.congress.exceptions.AppExceptionHandler
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame
@@ -148,6 +148,16 @@ object AppRepository : SearchRepository,
      * works out. Only the latest emission is retained.
      */
     val loadScheduleState: Flow<LoadScheduleState> = mutableLoadScheduleState
+
+    private val mutableEngelsystemUriParsingErrorState = MutableSharedFlow<EngelsystemUriParsingResult.Error?>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+
+    /**
+     * Emits errors which occurred while parsing the URL for the Engelsystem shifts.
+     */
+    val engelsystemUriParsingErrorState: Flow<EngelsystemUriParsingResult.Error?> = mutableEngelsystemUriParsingErrorState
 
     private fun refreshMeta() {
         logging.d(LOG_TAG, "Refreshing meta ...")
@@ -555,57 +565,67 @@ object AppRepository : SearchRepository,
         if (!BuildConfig.ENABLE_ENGELSYSTEM_SHIFTS) {
             return
         }
-        val uri = readEngelsystemShiftsUri()
-        if (uri == null) {
-            logging.d(LOG_TAG, "Engelsystem shifts URL is empty.")
-            deleteAllEngelsystemShiftsForAllDays()
-            return
-        }
-        val requestIdentifier = "loadShifts"
-        parentJobs[requestIdentifier] = networkScope.launchNamed(requestIdentifier) {
-            suspend fun notifyLoadingShiftsDone(loadShiftsResult: LoadShiftsResult) {
-                networkScope.withUiContext {
-                    onLoadingShiftsDone(loadShiftsResult)
-                }
+        when (val parseUriResult = readEngelsystemShiftsUri()) {
+            is EngelsystemUriParsingResult.Empty -> {
+                logging.d(LOG_TAG, "Engelsystem shifts URL is empty.")
+                deleteAllEngelsystemShiftsForAllDays()
             }
-            val requestHttpHeader = readEngelsystemHttpHeader()
-            engelsystemRepository.getShiftsState(
-                requestETag = requestHttpHeader.eTag,
-                requestLastModifiedAt = requestHttpHeader.lastModified,
-                baseUrl = uri.baseUrl,
-                path = uri.pathPart,
-                apiKey = uri.apiKey,
-            ).collectLatest { state ->
-                when (state) {
-                    is GetShiftsState.Success -> {
-                        updateShifts(state.shifts)
-                        updateEngelsystemHttpHeader(HttpHeaderAppModel(eTag = state.responseETag, lastModified = state.responseLastModifiedAt))
-                        notifyLoadingShiftsDone(LoadShiftsResult.Success)
-                        updateLastEngelsystemShiftsHash()
-                    }
 
-                    is GetShiftsState.Error -> {
-                        if (state.isNotModified) {
-                            logging.d(LOG_TAG, "Error: $state")
-                            loadingFailed(requestIdentifier)
-                            val loadShiftsResult = LoadShiftsResult.Success
-                            mutableLoadScheduleState.tryEmit(ParseSuccess)
-                            notifyLoadingShiftsDone(loadShiftsResult)
-                        } else {
-                            logging.e(LOG_TAG, "Error: $state")
-                            loadingFailed(requestIdentifier)
-                            val loadShiftsError = LoadShiftsResult.Error(httpStatusCode = state.httpStatusCode, exceptionMessage = state.errorMessage)
-                            mutableLoadScheduleState.tryEmit(ParseFailure(ParseShiftsResult.of(loadShiftsError)))
-                            notifyLoadingShiftsDone(loadShiftsError)
+            is EngelsystemUriParsingResult.Error -> {
+                logging.e(LOG_TAG, "Engelsystem shifts URL is invalid: ${parseUriResult.url}")
+                mutableEngelsystemUriParsingErrorState.tryEmit(parseUriResult)
+            }
+
+            is EngelsystemUriParsingResult.Parsed -> {
+                val uri = parseUriResult.uri
+                val requestIdentifier = "loadShifts"
+                parentJobs[requestIdentifier] = networkScope.launchNamed(requestIdentifier) {
+                    suspend fun notifyLoadingShiftsDone(loadShiftsResult: LoadShiftsResult) {
+                        networkScope.withUiContext {
+                            onLoadingShiftsDone(loadShiftsResult)
                         }
                     }
 
-                    is GetShiftsState.Failure -> {
-                        logging.e(LOG_TAG, "Failure: ${state.throwable.message}")
-                        state.throwable.printStackTrace()
-                        val loadShiftsException = LoadShiftsResult.Exception(state.throwable)
-                        mutableLoadScheduleState.tryEmit(ParseFailure(ParseShiftsResult.of(loadShiftsException)))
-                        notifyLoadingShiftsDone(loadShiftsException)
+                    val requestHttpHeader = readEngelsystemHttpHeader()
+                    engelsystemRepository.getShiftsState(
+                        requestETag = requestHttpHeader.eTag,
+                        requestLastModifiedAt = requestHttpHeader.lastModified,
+                        baseUrl = uri.baseUrl,
+                        path = uri.pathPart,
+                        apiKey = uri.apiKey,
+                    ).collectLatest { state ->
+                        when (state) {
+                            is GetShiftsState.Success -> {
+                                updateShifts(state.shifts)
+                                updateEngelsystemHttpHeader(HttpHeaderAppModel(eTag = state.responseETag, lastModified = state.responseLastModifiedAt))
+                                notifyLoadingShiftsDone(LoadShiftsResult.Success)
+                                updateLastEngelsystemShiftsHash()
+                            }
+
+                            is GetShiftsState.Error -> {
+                                if (state.isNotModified) {
+                                    logging.d(LOG_TAG, "Error: $state")
+                                    loadingFailed(requestIdentifier)
+                                    val loadShiftsResult = LoadShiftsResult.Success
+                                    mutableLoadScheduleState.tryEmit(ParseSuccess)
+                                    notifyLoadingShiftsDone(loadShiftsResult)
+                                } else {
+                                    logging.e(LOG_TAG, "Error: $state")
+                                    loadingFailed(requestIdentifier)
+                                    val loadShiftsError = LoadShiftsResult.Error(httpStatusCode = state.httpStatusCode, exceptionMessage = state.errorMessage)
+                                    mutableLoadScheduleState.tryEmit(ParseFailure(ParseShiftsResult.of(loadShiftsError)))
+                                    notifyLoadingShiftsDone(loadShiftsError)
+                                }
+                            }
+
+                            is GetShiftsState.Failure -> {
+                                logging.e(LOG_TAG, "Failure: ${state.throwable.message}")
+                                state.throwable.printStackTrace()
+                                val loadShiftsException = LoadShiftsResult.Exception(state.throwable)
+                                mutableLoadScheduleState.tryEmit(ParseFailure(ParseShiftsResult.of(loadShiftsException)))
+                                notifyLoadingShiftsDone(loadShiftsException)
+                            }
+                        }
                     }
                 }
             }
@@ -1084,9 +1104,9 @@ object AppRepository : SearchRepository,
         }
     }
 
-    private fun readEngelsystemShiftsUri(): EngelsystemUri? {
+    private fun readEngelsystemShiftsUri(): EngelsystemUriParsingResult {
         val url = settingsRepository.getEngelsystemShiftsUrl()
-        return if (url.isEmpty()) null else EngelsystemUriParser().parseUri(url)
+        return EngelsystemUriParser().parseUri(url)
     }
 
     fun readScheduleLastFetchedAt() =

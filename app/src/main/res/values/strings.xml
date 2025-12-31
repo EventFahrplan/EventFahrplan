@@ -335,4 +335,14 @@
     <string name="search_filter_not_recorded">Not recorded</string>
     <string name="search_filter_recorded">Recorded</string>
     <string name="search_filter_within_speaker_names">Within speaker names</string>
+
+    <!-- Engelsystem URL error -->
+    <string name="engelsystem_url_error_title">Error parsing <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> JSON Export URL</string>
+    <string name="engelsystem_url_error_url">Malformed URL: <xliff:g example="https://example.com" id="url">%s</xliff:g></string>
+    <string name="engelsystem_url_error_scheme">Missing scheme part in URL: <xliff:g example="https://example.com" id="url">%s</xliff:g></string>
+    <string name="engelsystem_url_error_host">Missing host part in URL: <xliff:g example="https://example.com" id="url">%s</xliff:g></string>
+    <string name="engelsystem_url_error_path">Missing path part in URL: <xliff:g example="https://example.com" id="url">%s</xliff:g></string>
+    <string name="engelsystem_url_error_query">Missing query part in URL: <xliff:g example="https://example.com" id="url">%s</xliff:g></string>
+    <string name="engelsystem_url_error_api_key">Invalid API key part in URL: <xliff:g example="https://example.com" id="url">%s</xliff:g></string>
+
 </resources>

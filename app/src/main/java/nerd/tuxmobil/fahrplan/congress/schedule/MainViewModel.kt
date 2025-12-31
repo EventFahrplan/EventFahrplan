@@ -71,6 +71,7 @@ internal class MainViewModel(
 
     init {
         observeLoadScheduleState()
+        observeEngelsystemUriParsingErrorState()
     }
 
     private fun observeLoadScheduleState() {
@@ -79,6 +80,17 @@ internal class MainViewModel(
                 val uiState = state.toUiState()
                 mutableLoadScheduleUiState.sendOneTimeEvent(uiState)
                 state.handleFailureStates()
+            }
+        }
+    }
+
+    private fun observeEngelsystemUriParsingErrorState() {
+        launch {
+            repository.engelsystemUriParsingErrorState.collectLatest { errorState ->
+                mutableErrorMessage.value = when (errorState == null) {
+                    true -> null
+                    false -> errorMessageFactory.getMessageForEngelsystemUrlError(errorState)
+                }
             }
         }
     }

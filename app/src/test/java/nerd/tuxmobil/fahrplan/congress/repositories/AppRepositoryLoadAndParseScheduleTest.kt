@@ -9,11 +9,14 @@ import info.metadude.android.eventfahrplan.database.repositories.AlarmsDatabaseR
 import info.metadude.android.eventfahrplan.database.repositories.HighlightsDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.MetaDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
+import info.metadude.android.eventfahrplan.network.fetching.HttpStatus.HTTP_NOT_MODIFIED
 import info.metadude.android.eventfahrplan.network.models.HttpHeader
 import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkRepository
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toAppFetchScheduleResult
+import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult.Error
+import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult.Error.Type.HOST_MISSING
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
@@ -162,7 +165,7 @@ class AppRepositoryLoadAndParseScheduleTest {
         runTest {
             whenever(metaDatabaseRepository.query()) doReturn DatabaseMeta(numDays = 1)
             whenever(settingsRepository.getEngelsystemShiftsUrl()) doReturn EMPTY_ENGELSYSTEM_URL // early exit to bypass here
-            val notModified = createFetchScheduleResult(NetworkHttpStatus.HTTP_NOT_MODIFIED)
+            val notModified = createFetchScheduleResult(HTTP_NOT_MODIFIED)
             val onFetchingDone: OnFetchingDone = { result ->
                 assertThat(result).isEqualTo(notModified.toAppFetchScheduleResult())
             }
@@ -326,6 +329,21 @@ class AppRepositoryLoadAndParseScheduleTest {
             // Reset ETag &b Last-Modified if parsing failed
             verify(metaDatabaseRepository, times(2)).insert(any())
         }
+
+    @Test
+    fun `engelsystemUriParsingErrorState emits error when Engelsystem loading failed`() = runTest {
+        whenever(metaDatabaseRepository.query()) doReturn DatabaseMeta(numDays = 1)
+        whenever(settingsRepository.getEngelsystemShiftsUrl()) doReturn "https://?key=a1b2c3"
+        val fetchResult = createFetchScheduleResult(HTTP_NOT_MODIFIED) // to skip fast to loadShifts
+        val onFetchingDone: OnFetchingDone = { result ->
+            assertThat(result).isEqualTo(fetchResult.toAppFetchScheduleResult())
+        }
+        testableAppRepository.loadSchedule(isUserRequest = false, onFetchingDone)
+        scheduleNetworkRepository.onFetchScheduleFinished(fetchResult)
+        testableAppRepository.engelsystemUriParsingErrorState.test {
+            assertThat(awaitItem()).isEqualTo(Error(HOST_MISSING, "https://?key=a1b2c3"))
+        }
+    }
 
     private fun createFetchScheduleResult(httpStatus: NetworkHttpStatus) =
         NetworkFetchScheduleResult(
