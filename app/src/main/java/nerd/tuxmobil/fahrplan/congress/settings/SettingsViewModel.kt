@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.ALTERNATIVE_HIGHLIGHTING_UPDATED
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.ENGELSYSTEM_SHIFTS_URL_UPDATED
+import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.SHOW_ON_LOCKSCREEN_UPDATED
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.SCHEDULE_URL_UPDATED
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.USE_DEVICE_TIME_ZONE_UPDATED
 import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
@@ -32,6 +33,7 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClic
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.EngelsystemUrlClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.FastSwipingClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.InsistentAlarmClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ShowOnLockscreenClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleRefreshIntervalClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ShowScheduleUpdateDialogClicked
@@ -81,6 +83,7 @@ internal class SettingsViewModel(
         AlternativeHighlightingClicked -> toggleAlternativeHighlightingEnabled()
         FastSwipingClicked -> toggleFastSwipingEnabled()
         ShowScheduleUpdateDialogClicked -> toggleShowScheduleUpdateDialogEnabled()
+        ShowOnLockscreenClicked -> toggleShowOnLockscreenEnabled()
         AlarmToneClicked -> pickAlarmTone()
         is SetAlarmTone -> updateAlarmTone(event.alarmTone)
         InsistentAlarmClicked -> toggleInsistentAlarmsEnabled()
@@ -133,6 +136,12 @@ internal class SettingsViewModel(
     private fun toggleShowScheduleUpdateDialogEnabled() {
         val enabled = uiState.value.settings.isShowScheduleUpdateDialogEnabled
         settingsRepository.setShowScheduleUpdateDialog(!enabled)
+    }
+
+    private fun toggleShowOnLockscreenEnabled() {
+        val enabled = uiState.value.settings.isShowOnLockscreenEnabled
+        settingsRepository.setShowOnLockscreen(!enabled)
+        updateActivityResult(SHOW_ON_LOCKSCREEN_UPDATED)
     }
 
     private fun pickAlarmTone() {

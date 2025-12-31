@@ -26,6 +26,7 @@ internal class DefaultSettingsRepository(
         private const val ALTERNATIVE_SCHEDULE_URL_KEY = "schedule_url"
         private const val INSISTENT_ALARMS_ENABLED_KEY = "insistent"
         private const val SHOW_SCHEDULE_UPDATE_DIALOG_ENABLED_KEY = "show_schedule_update_dialog"
+        private const val SHOW_ON_LOCKSCREEN_ENABLED_KEY = "show_on_lockscreen"
         private const val ENGELSYSTEM_URL_KEY = "preference_key_engelsystem_json_export_url"
 
         private val settingsDefaults = Settings()
@@ -79,6 +80,12 @@ internal class DefaultSettingsRepository(
         }
     }
 
+    override fun setShowOnLockscreen(enable: Boolean) {
+        preferences.edit {
+            putBoolean(SHOW_ON_LOCKSCREEN_ENABLED_KEY, enable)
+        }
+    }
+
     override fun setAlarmTone(alarmTone: Uri?) {
         preferences.edit {
             val value = AlarmToneConversion.getPersistableString(alarmTone)
@@ -128,6 +135,7 @@ internal class DefaultSettingsRepository(
             isAlternativeHighlightingEnabled = isAlternativeHighlightingEnabled(),
             isFastSwipingEnabled = isFastSwipingEnabled(),
             isShowScheduleUpdateDialogEnabled = isShowScheduleUpdateDialogEnabled(),
+            isShowOnLockscreenEnabled = isShowOnLockscreenEnabled(),
             alarmTone = getAlarmTone(),
             isInsistentAlarmsEnabled = isInsistentAlarmsEnabled(),
             alarmTime = getAlarmTime(),
@@ -178,6 +186,11 @@ internal class DefaultSettingsRepository(
     override fun isShowScheduleUpdateDialogEnabled(): Boolean {
         val defaultValue = settingsDefaults.isShowScheduleUpdateDialogEnabled
         return preferences.getBoolean(SHOW_SCHEDULE_UPDATE_DIALOG_ENABLED_KEY, defaultValue)
+    }
+
+    override fun isShowOnLockscreenEnabled(): Boolean {
+        val defaultValue = settingsDefaults.isShowOnLockscreenEnabled
+        return preferences.getBoolean(SHOW_ON_LOCKSCREEN_ENABLED_KEY, defaultValue)
     }
 
     override fun isAutoUpdateEnabled(): Boolean {
