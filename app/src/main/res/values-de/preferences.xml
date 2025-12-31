@@ -49,6 +49,10 @@
     <string name="preference_title_fast_swiping_enabled">Schnelles Wischen anschalten</string>
     <string name="preference_summary_fast_swiping_enabled">Ermöglicht das Wischen über mehrere Räume.</string>
 
+    <!-- Schedule update dialog -->
+    <string name="preference_title_show_schedule_update_dialog_enabled">Fahrplanaktualisierungsdialog anzeigen</string>
+    <string name="preference_summary_show_schedule_update_dialog_enabled">Zeigt den Dialog an, wenn der Fahrplan aktualisiert wurde.</string>
+
     <!-- Alternative schedule URL -->
     <string name="preference_title_alternative_schedule_url">Alternative Fahrplan URL festlegen</string>
     <string name="preference_summary_alternative_schedule_url">Füge eine Ausweich-URL ein, wenn der voreingestellte Server nicht erreichbar ist.</string>

@@ -62,6 +62,10 @@
     <string name="preference_title_fast_swiping_enabled">Enable fast swiping</string>
     <string name="preference_summary_fast_swiping_enabled">Allows swiping over multiple rooms.</string>
 
+    <!-- Schedule update dialog -->
+    <string name="preference_title_show_schedule_update_dialog_enabled">Show schedule update dialog</string>
+    <string name="preference_summary_show_schedule_update_dialog_enabled">Displays the update dialog when the schedule is updated.</string>
+
     <!-- Alternative schedule URL -->
     <string name="preference_hint_alternative_schedule_url" translatable="false">
         https://yourhost/schedule.xml

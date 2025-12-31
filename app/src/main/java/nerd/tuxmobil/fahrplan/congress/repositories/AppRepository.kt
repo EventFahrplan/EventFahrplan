@@ -1070,6 +1070,8 @@ object AppRepository : SearchRepository,
 
     fun readFastSwipingEnabled() = settingsRepository.isFastSwipingEnabled()
 
+    fun readShowScheduleUpdateDialogEnabled() = settingsRepository.isShowScheduleUpdateDialogEnabled()
+
     @WorkerThread
     fun readAutoUpdateEnabled() = settingsRepository.isAutoUpdateEnabled()
 

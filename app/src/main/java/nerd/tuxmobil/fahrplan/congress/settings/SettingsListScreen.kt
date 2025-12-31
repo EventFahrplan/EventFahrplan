@@ -25,6 +25,7 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.FastSwipingClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.InsistentAlarmClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleRefreshIntervalClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ShowScheduleUpdateDialogClicked
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.AlternativeScheduleUrlPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.ClickPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.EnableAutomaticUpdatesPreference
@@ -98,6 +99,13 @@ private fun CategoryGeneral(
             isAutoUpdateEnabled = state.settings.isAutoUpdateEnabled,
             nextFetch = state.nextFetch,
             onViewEvent = onViewEvent,
+        )
+
+        SwitchPreference(
+            title = stringResource(R.string.preference_title_show_schedule_update_dialog_enabled),
+            subtitle = stringResource(R.string.preference_summary_show_schedule_update_dialog_enabled),
+            checked = state.settings.isShowScheduleUpdateDialogEnabled,
+            onCheckedChange = { onViewEvent(ShowScheduleUpdateDialogClicked) },
         )
 
         SwitchPreference(

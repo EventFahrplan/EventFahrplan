@@ -25,6 +25,7 @@ internal class DefaultSettingsRepository(
         private const val FAST_SWIPING_ENABLED_KEY = "fast_swiping"
         private const val ALTERNATIVE_SCHEDULE_URL_KEY = "schedule_url"
         private const val INSISTENT_ALARMS_ENABLED_KEY = "insistent"
+        private const val SHOW_SCHEDULE_UPDATE_DIALOG_ENABLED_KEY = "show_schedule_update_dialog"
         private const val ENGELSYSTEM_URL_KEY = "preference_key_engelsystem_json_export_url"
 
         private val settingsDefaults = Settings()
@@ -69,6 +70,12 @@ internal class DefaultSettingsRepository(
     override fun setFastSwiping(enable: Boolean) {
         preferences.edit {
             putBoolean(FAST_SWIPING_ENABLED_KEY, enable)
+        }
+    }
+
+    override fun setShowScheduleUpdateDialog(enable: Boolean) {
+        preferences.edit {
+            putBoolean(SHOW_SCHEDULE_UPDATE_DIALOG_ENABLED_KEY, enable)
         }
     }
 
@@ -120,6 +127,7 @@ internal class DefaultSettingsRepository(
             isUseDeviceTimeZoneEnabled = isUseDeviceTimeZoneEnabled(),
             isAlternativeHighlightingEnabled = isAlternativeHighlightingEnabled(),
             isFastSwipingEnabled = isFastSwipingEnabled(),
+            isShowScheduleUpdateDialogEnabled = isShowScheduleUpdateDialogEnabled(),
             alarmTone = getAlarmTone(),
             isInsistentAlarmsEnabled = isInsistentAlarmsEnabled(),
             alarmTime = getAlarmTime(),
@@ -165,6 +173,11 @@ internal class DefaultSettingsRepository(
     override fun isFastSwipingEnabled(): Boolean {
         val defaultValue = settingsDefaults.isFastSwipingEnabled
         return preferences.getBoolean(FAST_SWIPING_ENABLED_KEY, defaultValue)
+    }
+
+    override fun isShowScheduleUpdateDialogEnabled(): Boolean {
+        val defaultValue = settingsDefaults.isShowScheduleUpdateDialogEnabled
+        return preferences.getBoolean(SHOW_SCHEDULE_UPDATE_DIALOG_ENABLED_KEY, defaultValue)
     }
 
     override fun isAutoUpdateEnabled(): Boolean {
