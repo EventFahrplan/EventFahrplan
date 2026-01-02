@@ -562,7 +562,6 @@ object AppRepository : SearchRepository,
      * Once loading is done (successful or not) the given [onLoadingShiftsDone] function is invoked.
      */
     private fun loadShifts(onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit) {
-        @Suppress("ConstantConditionIf")
         if (!buildConfigProvision.enableEngelsystemShifts) {
             return
         }

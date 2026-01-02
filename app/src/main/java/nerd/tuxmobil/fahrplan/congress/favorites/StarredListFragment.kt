@@ -248,6 +248,7 @@ class StarredListFragment :
         }
     }
 
+    @Suppress("KotlinConstantConditions")
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.starred_list_menu, menu)
         var item = menu.findItem(R.id.menu_item_delete_all_favorites)

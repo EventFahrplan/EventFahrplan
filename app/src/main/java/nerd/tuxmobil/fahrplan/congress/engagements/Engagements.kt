@@ -7,7 +7,7 @@ import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.navigation.C3navSnack
 import org.ligi.snackengage.SnackEngage
 
-@Suppress("ConstantConditionIf")
+@Suppress("KotlinConstantConditions")
 fun AppCompatActivity.initUserEngagement() {
     val snackEngageBuilder = SnackEngage.from(this)
     if (BuildConfig.ENGAGE_GOOGLE_PLAY_RATING) {
