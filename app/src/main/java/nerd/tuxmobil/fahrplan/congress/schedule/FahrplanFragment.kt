@@ -278,7 +278,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
             updateHorizontalScrollingProgressLine(shouldShow)
         }
         viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
-            requireActivity().requireViewById<ComposeView>(R.id.error_message_view).setContent {
+            (requireActivity() as MainActivity).requireViewByIdCompat<ComposeView>(R.id.error_message_view).setContent {
                 errorMessage?.let { ErrorMessage(it) }
             }
         }

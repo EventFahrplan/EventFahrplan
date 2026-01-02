@@ -70,7 +70,7 @@ abstract class BaseActivity : AppCompatActivity {
     /**
      * See [ActivityCompat.requireViewById].
      */
-    protected fun <T : View?> requireViewByIdCompat(@IdRes id: Int): T {
+    fun <T : View?> requireViewByIdCompat(@IdRes id: Int): T {
         return ActivityCompat.requireViewById(this, id)
     }
 
