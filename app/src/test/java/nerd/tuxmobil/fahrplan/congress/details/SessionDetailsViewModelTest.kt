@@ -108,6 +108,32 @@ class SessionDetailsViewModelTest {
     }
 
     @Test
+    fun `selectedSessionParameter filters out null sessions`() = runTest {
+        val repository = createRepository(selectedSessionFlow = flowOf(null))
+        val viewModel = createViewModel(
+            repository = repository,
+            feedbackUrlComposition = SupportedFeedbackUrlComposer,
+            indoorNavigation = SupportedIndoorNavigation,
+        )
+        viewModel.selectedSessionParameter.test {
+            awaitComplete()
+        }
+    }
+
+    @Test
+    fun `sessionDetailsState closes details when session is null`() = runTest {
+        val repository = createRepository(selectedSessionFlow = flowOf(null))
+        val viewModel = createViewModel(
+            repository = repository,
+            feedbackUrlComposition = SupportedFeedbackUrlComposer,
+            indoorNavigation = SupportedIndoorNavigation,
+        )
+        viewModel.closeDetails.test {
+            awaitItem()
+        }
+    }
+
+    @Test
     fun `openFeedback() posts to openFeedback`() = runTest {
         val repository = createRepository()
         val fakeFeedbackUrlComposition = mock<FeedbackUrlComposition> {
@@ -550,9 +576,9 @@ class SessionDetailsViewModelTest {
     }
 
     private fun createRepository(
-        selectedSessionFlow: Flow<Session> = emptyFlow(),
+        selectedSessionFlow: Flow<Session?> = emptyFlow(),
         roomStatesFlow: Flow<Result<List<FosdemRoom>>> = emptyFlow(),
-        selectedSession: Session = Session("S0"),
+        selectedSession: Session? = Session("S0"),
         meta: Meta = Meta(numDays = 0, timeZoneId = NO_TIME_ZONE_ID),
         alarms: List<Alarm> = emptyList()
     ) = mock<AppRepository> {

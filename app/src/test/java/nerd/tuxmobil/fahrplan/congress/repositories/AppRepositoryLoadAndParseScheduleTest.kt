@@ -78,7 +78,7 @@ class AppRepositoryLoadAndParseScheduleTest {
     private val sessionsDatabaseRepository = mock<SessionsDatabaseRepository>()
     private val metaDatabaseRepository = mock<MetaDatabaseRepository>()
     private val scheduleNetworkRepository = TestScheduleNetworkRepository()
-    private val sharedPreferencesRepository = mock<SharedPreferencesRepository>()
+    private val sharedPreferencesRepository = createSharedPreferencesRepository()
     private val settingsRepository = mock<SettingsRepository>()
     private val sessionsTransformer = mock<SessionsTransformer>()
 
@@ -403,6 +403,10 @@ class AppRepositoryLoadAndParseScheduleTest {
             this.onParsingDone = onParsingDone
         }
 
+    }
+
+    private fun createSharedPreferencesRepository() = mock<SharedPreferencesRepository> {
+        on { getSelectedSessionId() } doReturn "Session1"
     }
 
 }

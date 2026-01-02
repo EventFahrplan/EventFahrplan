@@ -302,10 +302,11 @@ object AppRepository : SearchRepository,
     }
 
     /**
-     * Emits the session from the database which has been selected.
+     * Emits the session from the database which has been selected
+     * or `null` if the session has been deleted meanwhile.
      */
     @OptIn(ExperimentalCoroutinesApi::class)
-    val selectedSession: Flow<SessionAppModel> by lazy {
+    val selectedSession: Flow<SessionAppModel?> by lazy {
         refreshSelectedSessionSignal
             .onStart { emit(Unit) }
             .mapLatest { loadSelectedSession() }
@@ -697,9 +698,10 @@ object AppRepository : SearchRepository,
      * Loads the session which has been selected at last.
      */
     @WorkerThread
-    fun loadSelectedSession(): SessionAppModel {
-        val sessionId = readSelectedSessionId()
-        return readSessionBySessionId(sessionId).toSessionAppModel()
+    fun loadSelectedSession(): SessionAppModel? {
+        val sessionId = sharedPreferencesRepository.getSelectedSessionId()
+        if (sessionId.isEmpty()) return null
+        return readSessionBySessionId(sessionId)?.toSessionAppModel()
     }
 
     /**
@@ -917,8 +919,8 @@ object AppRepository : SearchRepository,
         }
     }
 
-    private fun readSessionBySessionId(sessionId: String): SessionDatabaseModel {
-        val session = sessionsDatabaseRepository.querySessionBySessionId(sessionId)
+    private fun readSessionBySessionId(sessionId: String): SessionDatabaseModel? {
+        val session = sessionsDatabaseRepository.querySessionBySessionId(sessionId) ?: return null
         return enrichSession(session)
     }
 
@@ -963,12 +965,6 @@ object AppRepository : SearchRepository,
 
     private fun readScheduleStatistic() =
         sessionsDatabaseRepository.queryScheduleStatistic()
-
-    private fun readSelectedSessionId(): String {
-        val id = sharedPreferencesRepository.getSelectedSessionId()
-        check(id.isNotEmpty()) { "Selected session is empty." }
-        return id
-    }
 
     @WorkerThread
     fun updateSelectedSessionId(sessionId: String): Boolean {
@@ -1025,6 +1021,13 @@ object AppRepository : SearchRepository,
     fun updateSessions(toBeUpdatedSessions: List<SessionDatabaseModel>, toBeDeletedSessions: List<SessionDatabaseModel> = emptyList()) {
         val toBeUpdated = toBeUpdatedSessions.map { it.sessionId to it.toContentValues() }
         val toBeDeleted = toBeDeletedSessions.map { it.sessionId }
+
+        // Clear selected session ID if it's being deleted
+        val currentSelectedSessionId = sharedPreferencesRepository.getSelectedSessionId()
+        if (currentSelectedSessionId.isNotEmpty() && currentSelectedSessionId in toBeDeleted) {
+            sharedPreferencesRepository.resetSelectedSessionId()
+        }
+
         sessionsDatabaseRepository.updateSessions(toBeUpdated, toBeDeleted)
         refreshStarredSessions()
         refreshSessions()
