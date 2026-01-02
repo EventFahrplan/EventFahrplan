@@ -234,7 +234,7 @@ object AppRepository : SearchRepository,
     }
 
     /**
-     * Emits all sessions from the database..
+     * Emits all sessions from the database.
      * The returned list might be empty.
      */
     @OptIn(ExperimentalCoroutinesApi::class)
