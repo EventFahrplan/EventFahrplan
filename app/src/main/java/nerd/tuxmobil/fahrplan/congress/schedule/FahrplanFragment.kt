@@ -554,6 +554,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
             }
 
             SHARE -> {
+                @Suppress("KotlinConstantConditions")
                 if (!BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
                     viewModel.share(session)
                 } else {

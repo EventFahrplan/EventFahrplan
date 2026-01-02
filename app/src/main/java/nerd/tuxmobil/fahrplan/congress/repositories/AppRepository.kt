@@ -380,6 +380,7 @@ object AppRepository : SearchRepository,
     private val refreshRoomStatesSignal = MutableSharedFlow<Unit>()
 
     private fun refreshRoomStates() {
+        @Suppress("KotlinConstantConditions")
         if (ENABLE_FOSDEM_ROOM_STATES) {
             logging.d(LOG_TAG, "Refreshing room states ...")
             val requestIdentifier = "refreshRoomStates"
@@ -396,7 +397,10 @@ object AppRepository : SearchRepository,
     val roomStates: Flow<Result<List<Room>>> by lazy {
         refreshRoomStatesSignal
             .onStart { emit(Unit) }
-            .flatMapLatest { if (ENABLE_FOSDEM_ROOM_STATES) roomStatesRepository.getRooms() else emptyFlow() }
+            .flatMapLatest {
+                @Suppress("KotlinConstantConditions")
+                if (ENABLE_FOSDEM_ROOM_STATES) roomStatesRepository.getRooms() else emptyFlow()
+            }
             .flowOn(executionContext.network)
     }
 
@@ -561,7 +565,7 @@ object AppRepository : SearchRepository,
      * Once loading is done (successful or not) the given [onLoadingShiftsDone] function is invoked.
      */
     private fun loadShifts(onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit) {
-        @Suppress("ConstantConditionIf")
+        @Suppress("KotlinConstantConditions")
         if (!BuildConfig.ENABLE_ENGELSYSTEM_SHIFTS) {
             return
         }
