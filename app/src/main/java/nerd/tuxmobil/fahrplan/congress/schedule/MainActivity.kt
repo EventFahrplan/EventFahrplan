@@ -65,7 +65,7 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchFragment
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog.OnConfirmationDialogClicked
-import nerd.tuxmobil.fahrplan.congress.utils.showWhenLockedCompat
+import nerd.tuxmobil.fahrplan.congress.utils.setShowWhenLockedCompat
 
 class MainActivity : BaseActivity(),
     MenuProvider,
@@ -124,7 +124,7 @@ class MainActivity : BaseActivity(),
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        showWhenLockedCompat()
+        setShowWhenLockedCompat(AppRepository.readShowOnLockscreenEnabled())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -383,6 +383,11 @@ class MainActivity : BaseActivity(),
                     if (shouldFetchFahrplan) {
                         // TODO Handle schedule update in AppRepository; above code becomes needless
                         viewModel.requestScheduleUpdate(isUserRequest = true)
+                    }
+                    val isShowOnLockscreenUpdated = resources.getBoolean(
+                        R.bool.bundle_key_show_on_lockscreen_updated_default_value)
+                    if (intent.getBooleanExtra(BundleKeys.SHOW_ON_LOCKSCREEN_UPDATED, isShowOnLockscreenUpdated)) {
+                        setShowWhenLockedCompat(AppRepository.readShowOnLockscreenEnabled())
                     }
                 }
         }

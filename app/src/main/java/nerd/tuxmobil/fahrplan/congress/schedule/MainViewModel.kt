@@ -144,7 +144,7 @@ internal class MainViewModel(
     }
 
     private fun onParsingDone() {
-        if (!repository.readScheduleChangesSeen()) {
+        if (repository.readShowScheduleUpdateDialogEnabled() && !repository.readScheduleChangesSeen()) {
             val changedSessions = repository.loadChangedSessions().toSessionsAppModel()
             if (changedSessions.isNotEmpty()) {
                 val scheduleVersion = repository.readMeta().version

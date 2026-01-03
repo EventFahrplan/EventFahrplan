@@ -16,6 +16,10 @@ interface SettingsRepository {
     fun setAlternativeHighlighting(enable: Boolean)
     fun isFastSwipingEnabled(): Boolean
     fun setFastSwiping(enable: Boolean)
+    fun isShowScheduleUpdateDialogEnabled() : Boolean
+    fun setShowScheduleUpdateDialog(enable: Boolean)
+    fun isShowOnLockscreenEnabled(): Boolean
+    fun setShowOnLockscreen(enable: Boolean)
     fun getAlarmTone(): Uri?
     fun setAlarmTone(alarmTone: Uri?)
     fun isInsistentAlarmsEnabled(): Boolean

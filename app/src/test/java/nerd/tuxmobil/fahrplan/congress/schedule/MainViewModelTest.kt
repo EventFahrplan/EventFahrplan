@@ -528,6 +528,7 @@ class MainViewModelTest {
         on { updateSelectedSessionId(any()) } doReturn updatedSelectedSessionId
         on { updateSelectedSessionIdFromSlug(any()) } doReturn updatedSelectedSessionId
         on { readAlarms(any()) } doReturn alarms
+        on { readShowScheduleUpdateDialogEnabled() } doReturn true
     }
 
     private fun createViewModel(

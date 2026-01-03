@@ -10,7 +10,8 @@ import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
 import nerd.tuxmobil.fahrplan.congress.extensions.applyEdgeToEdgeInsets
 import nerd.tuxmobil.fahrplan.congress.extensions.applyToolbar
 import nerd.tuxmobil.fahrplan.congress.extensions.isLandscape
-import nerd.tuxmobil.fahrplan.congress.utils.showWhenLockedCompat
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
+import nerd.tuxmobil.fahrplan.congress.utils.setShowWhenLockedCompat
 
 class SessionDetailsActivity : BaseActivity(R.layout.activity_generic) {
 
@@ -33,7 +34,7 @@ class SessionDetailsActivity : BaseActivity(R.layout.activity_generic) {
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        showWhenLockedCompat()
+        setShowWhenLockedCompat(AppRepository.readShowOnLockscreenEnabled())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
