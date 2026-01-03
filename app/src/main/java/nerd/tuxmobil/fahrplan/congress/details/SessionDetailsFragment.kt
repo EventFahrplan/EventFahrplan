@@ -285,7 +285,7 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
             menu.setMenuItemVisibility(R.id.menu_item_close_session_details, true)
         }
         menu.setMenuItemVisibility(R.id.menu_item_navigate, model.supportsIndoorNavigation)
-        @Suppress("ConstantConditionIf")
+        @Suppress("KotlinConstantConditions")
         val item = if (BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
             menu.findItem(R.id.menu_item_share_session_menu)
         } else {

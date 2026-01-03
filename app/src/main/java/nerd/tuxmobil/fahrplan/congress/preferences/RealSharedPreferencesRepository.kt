@@ -20,6 +20,7 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
         const val SCHEDULE_NEXT_FETCH_INTERVAL_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_NEXT_FETCH_INTERVAL_KEY"
         const val SCHEDULE_NEXT_FETCH_INTERVAL_DEFAULT_VALUE = -1L
         const val SELECTED_SESSION_ID_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.SELECTED_SESSION_ID_KEY"
+        const val SELECTED_SESSION_ID_DEFAULT_VALUE = ""
         const val SEARCH_HISTORY_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.SEARCH_HISTORY_KEY"
         const val SEARCH_HISTORY_SEPARATOR = ";"
 
@@ -91,12 +92,15 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
     }
 
     override fun getSelectedSessionId() =
-        preferences.getString(SELECTED_SESSION_ID_KEY, "")!!
+        preferences.getString(SELECTED_SESSION_ID_KEY, SELECTED_SESSION_ID_DEFAULT_VALUE)!!
 
     @SuppressLint("UseKtx")
     override fun setSelectedSessionId(sessionId: String): Boolean = preferences.edit()
         .putString(SELECTED_SESSION_ID_KEY, sessionId)
         .commit()
+
+    override fun resetSelectedSessionId(): Boolean =
+        setSelectedSessionId(SELECTED_SESSION_ID_DEFAULT_VALUE)
 
     override fun getSearchHistory(): List<String> {
         return preferences.getString(SEARCH_HISTORY_KEY, "")!!

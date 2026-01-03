@@ -30,6 +30,7 @@ interface SharedPreferencesRepository {
 
     fun getSelectedSessionId(): String
     fun setSelectedSessionId(sessionId: String): Boolean
+    fun resetSelectedSessionId(): Boolean
 
     fun getSearchHistory(): List<String>
     fun setSearchHistory(history: List<String>)
