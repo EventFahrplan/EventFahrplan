@@ -34,6 +34,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_IDENTIFIER
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_NAME
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SESSION_GUID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SESSION_ID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SLUG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SPEAKERS
@@ -109,12 +110,13 @@ internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
 ) {
 
     private companion object {
-        const val DATABASE_VERSION = 18
+        const val DATABASE_VERSION = 19
         const val DATABASE_NAME = "lectures" // Keep table name to avoid database migration.
 
         // language=sql
         const val SESSIONS_TABLE_CREATE = "CREATE TABLE ${SessionsTable.NAME} (" +
                 "$SESSION_ID TEXT, " +
+                "$SESSION_GUID TEXT DEFAULT NULL, " +
                 "$TITLE TEXT, " +
                 "$SUBTITLE TEXT, " +
                 "$DAY_INDEX INTEGER, " +
@@ -309,6 +311,11 @@ internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
             dropTableIfExist(SessionsTable.NAME)
             dropTableIfExist(SessionByNotificationIdTable.NAME)
             onCreate(this)
+        }
+        if (oldVersion < 19) {
+            if (!columnExists(SessionsTable.NAME, SESSION_GUID)) {
+                addTextColumn(SESSION_GUID, default = null)
+            }
         }
     }
 

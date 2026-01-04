@@ -249,8 +249,10 @@ public class ParserTask extends AsyncTask<String, Void, Boolean> {
         String name;
         int eventType;
         String id = parser.getAttributeValue(null, "id");
+        String guid = parser.getAttributeValue(null, "guid");
         Session session = new Session();
         session.setSessionId(id);
+        session.setSessionGuid(guid);
         session.setDayIndex(dayIndex);
         session.setRoomName(roomName != null ? roomName : "");
         session.setRoomGuid(roomGuid != null ? roomGuid : "");

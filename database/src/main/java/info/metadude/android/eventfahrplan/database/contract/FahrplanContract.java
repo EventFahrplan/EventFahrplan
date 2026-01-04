@@ -123,6 +123,7 @@ public interface FahrplanContract {
             String CHANGED_START_TIME = "changed_time";
             String CHANGED_DURATION = "changed_duration";
             String CHANGED_IS_CANCELED = "changed_is_canceled";
+            String SESSION_GUID = "event_guid"; // Keep column name to avoid database migration.
         }
 
         interface Defaults {
