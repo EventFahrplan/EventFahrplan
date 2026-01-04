@@ -11,7 +11,6 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.SearchResult
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.Separator
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatting
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
-import kotlin.text.ifEmpty
 
 class DefaultSearchResultParameterFactory(
     private val resourceResolving: ResourceResolving,
@@ -19,6 +18,7 @@ class DefaultSearchResultParameterFactory(
     private val contentDescriptionFormatting: ContentDescriptionFormatting,
     private val daySeparatorFactory: DaySeparatorFactory,
     private val formattingDelegate: FormattingDelegate,
+    private val tenseTypeProvision: TenseTypeProvision,
 ) : SearchResultParameterFactory, FormattingDelegate by formattingDelegate {
 
     override fun createSearchResults(
@@ -63,6 +63,7 @@ class DefaultSearchResultParameterFactory(
             session.startsAt,
             session.timeZoneOffset,
         )
+        val tenseType = tenseTypeProvision.getTenseType(session)
 
         return SearchResult(
             id = session.sessionId,
@@ -70,15 +71,19 @@ class DefaultSearchResultParameterFactory(
                 value = title,
                 contentDescription = contentDescriptionFormatting
                     .getTitleContentDescription(session.title),
+                tenseType = tenseType,
             ),
             speakerNames = SearchResultProperty(
                 value = speakers,
                 contentDescription = contentDescriptionFormatting
                     .getSpeakersContentDescription(session.speakers.size, formattedSpeakerNames),
+                tenseType = tenseType,
             ),
             startsAt = SearchResultProperty(
                 value = startsAtText,
-                contentDescription = contentDescriptionFormatting.getStartTimeContentDescription(startsAtText),
+                contentDescription = contentDescriptionFormatting
+                    .getStartTimeContentDescription(startsAtText),
+                tenseType = tenseType,
             ),
         )
     }

@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.search
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.Factory
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.commons.DateFormatterDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorFactory
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
@@ -35,6 +36,7 @@ class SearchViewModelFactory(
                     contentDescriptionFormatting = contentDescriptionFormatting,
                 ),
                 formattingDelegate = formattingDelegate,
+                tenseTypeProvision = TenseTypeProvider(Moment.now()),
             ),
         ) as T
     }

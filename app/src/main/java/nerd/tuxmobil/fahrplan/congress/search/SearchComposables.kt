@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -84,6 +85,8 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchQueryChang
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchQueryClear
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchResultItemClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchSubScreenBackPress
+import nerd.tuxmobil.fahrplan.congress.search.TenseType.FUTURE
+import nerd.tuxmobil.fahrplan.congress.search.TenseType.PAST
 
 @Composable
 fun SearchScreen(
@@ -329,6 +332,7 @@ private fun SearchResultItem(
                     contentDescription = searchResult.startsAt.contentDescription
                 },
                 text = searchResult.startsAt.value,
+                color = searchResult.startsAt.tenseType.color(),
             )
         },
         headlineContent = {
@@ -337,6 +341,7 @@ private fun SearchResultItem(
                     contentDescription = searchResult.title.contentDescription
                 },
                 text = searchResult.title.value,
+                color = searchResult.title.tenseType.color(),
             )
         },
         supportingContent = {
@@ -346,10 +351,17 @@ private fun SearchResultItem(
                         contentDescription = searchResult.speakerNames.contentDescription
                     },
                     text = searchResult.speakerNames.value,
+                    color = searchResult.speakerNames.tenseType.color(),
                 )
             }
         },
     )
+}
+
+@Composable
+private fun TenseType.color() = when (this) {
+    PAST -> EventFahrplanTheme.colorScheme.textPastContent
+    FUTURE -> Color.Unspecified
 }
 
 @Composable

@@ -13,6 +13,8 @@
     <color name="foreground">#888</color>
     <color name="text_link_on_light">@color/colorAccent</color>
     <color name="text_link_on_dark">@color/colorAccent</color>
+    <color name="text_past_content_on_light">#808080</color>
+    <color name="text_past_content_on_dark">#808080</color>
     <color name="text_link_pressed_background_on_light">#aafec700</color>
     <color name="divider">#88888888</color>
 
@@ -68,7 +70,7 @@
     <color name="schedule_change_canceled_on_light">#B71C1C</color>
 
     <!-- Favorites -->
-    <color name="favorites_past_session_text">#808080</color>
+    <color name="favorites_past_session_text">@color/text_past_content_on_light</color>
     <color name="favorites_background">@color/windowBackground</color>
 
     <!-- Session item (favorites + schedule changes) -->

@@ -7,6 +7,7 @@ import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorProperty
 import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.search.TenseType.FUTURE
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
 import org.junit.jupiter.api.Test
@@ -119,6 +120,7 @@ class DefaultSearchResultParameterFactoryTest {
             contentDescriptionFormatting = ContentDescriptionFormatter(CompleteResourceResolver),
             daySeparatorFactory = daySeparatorFactory,
             formattingDelegate = formattingDelegate,
+            tenseTypeProvision = FutureTenseProvider,
         )
     }
 
@@ -159,3 +161,8 @@ private object CompleteResourceResolver : ResourceResolving {
             else -> fail("Unknown quantity string id : $id")
         }
 }
+
+private object FutureTenseProvider : TenseTypeProvision {
+    override fun getTenseType(session: Session) = FUTURE
+}
+
