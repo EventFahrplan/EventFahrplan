@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.search.filters.HasAlarmSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.IsFavoriteSearchFilter
+import nerd.tuxmobil.fahrplan.congress.search.filters.NotFavoriteSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.NotRecordedSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.RecordedSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.WithinSpeakerNamesSearchFilter
@@ -99,6 +100,32 @@ class SearchQueryFilterTest {
         val session3 = Session("3", title = "Session 3", isHighlight = true)
         val sessions = listOf(session1, session2, session3)
         val filters = setOf(IsFavoriteSearchFilter())
+
+        val result = filter.filterAll(sessions, query = "", filters)
+
+        assertThat(result).containsExactly(session2, session3)
+    }
+
+    @Test
+    fun `NotFavoriteSearchFilter only returns not starred sessions`() {
+        val session1 = Session("1", title = "Session 1", isHighlight = true)
+        val session2 = Session("2", title = "Session 2", isHighlight = false)
+        val session3 = Session("3", title = "no match", isHighlight = false)
+        val sessions = listOf(session1, session2, session3)
+        val filters = setOf(NotFavoriteSearchFilter())
+
+        val result = filter.filterAll(sessions, query = "session", filters)
+
+        assertThat(result).containsExactly(session2)
+    }
+
+    @Test
+    fun `NotFavoriteSearchFilter with empty query returns not all starred sessions`() {
+        val session1 = Session("1", title = "Session 1", isHighlight = true)
+        val session2 = Session("2", title = "Session 2", isHighlight = false)
+        val session3 = Session("3", title = "Session 3", isHighlight = false)
+        val sessions = listOf(session1, session2, session3)
+        val filters = setOf(NotFavoriteSearchFilter())
 
         val result = filter.filterAll(sessions, query = "", filters)
 
