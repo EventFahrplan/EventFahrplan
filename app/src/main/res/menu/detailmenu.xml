@@ -1,89 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <item
-            android:id="@+id/menu_item_close_session_details"
-            android:icon="@drawable/ic_close"
-            app:showAsAction="always"
-            android:title="@string/menu_item_title_close_session_details"
-            android:titleCondensed="@string/menu_item_title_close_session_details"
-            android:visible="false">
-    </item>
+        android:id="@+id/menu_item_close_session_details"
+        android:icon="@drawable/ic_close"
+        android:title="@string/menu_item_title_close_session_details"
+        android:titleCondensed="@string/menu_item_title_close_session_details"
+        android:visible="false"
+        app:showAsAction="always" />
     <item
-            android:id="@+id/menu_item_navigate"
-            android:icon="@drawable/ic_action_navigate"
-            app:showAsAction="ifRoom"
-            android:title="@string/menu_item_title_navigate">
-    </item>
+        android:id="@+id/menu_item_flag_as_favorite"
+        android:icon="@drawable/ic_star_outline"
+        android:title="@string/menu_item_title_flag_as_favorite"
+        app:showAsAction="always" />
     <item
-            android:id="@+id/menu_item_flag_as_favorite"
-            android:icon="@drawable/ic_star_outline"
-            app:showAsAction="always"
-            android:title="@string/menu_item_title_flag_as_favorite">
-    </item>
+        android:id="@+id/menu_item_unflag_as_favorite"
+        android:icon="@drawable/ic_star_filled"
+        android:title="@string/menu_item_title_unflag_as_favorite"
+        android:visible="false"
+        app:showAsAction="always" />
     <item
-            android:id="@+id/menu_item_unflag_as_favorite"
-            android:icon="@drawable/ic_star_filled"
-            app:showAsAction="always"
-            android:title="@string/menu_item_title_unflag_as_favorite"
-            android:visible="false">
-    </item>
+        android:id="@+id/menu_item_set_alarm"
+        android:icon="@drawable/ic_bell_outline"
+        android:title="@string/menu_item_title_set_alarm"
+        app:showAsAction="always" />
     <item
-            android:id="@+id/menu_item_set_alarm"
-            android:icon="@drawable/ic_bell_outline"
-            app:showAsAction="always"
-            android:title="@string/menu_item_title_set_alarm">
-    </item>
+        android:id="@+id/menu_item_delete_alarm"
+        android:icon="@drawable/ic_bell_filled"
+        android:title="@string/menu_item_title_delete_alarm"
+        android:visible="false"
+        app:showAsAction="always" />
     <item
-            android:id="@+id/menu_item_delete_alarm"
-            android:icon="@drawable/ic_bell_filled"
-            app:showAsAction="always"
-            android:title="@string/menu_item_title_delete_alarm"
-            android:visible="false">
-    </item>
+        android:id="@+id/menu_item_feedback"
+        android:icon="@drawable/ic_action_feedback"
+        android:title="@string/menu_item_title_feedback"
+        android:titleCondensed="@string/menu_item_title_feedback"
+        app:showAsAction="always" />
     <item
-            android:id="@+id/menu_item_feedback"
-            android:icon="@drawable/ic_action_feedback"
-            app:showAsAction="always"
-            android:title="@string/menu_item_title_feedback"
-            android:titleCondensed="@string/menu_item_title_feedback">
-    </item>
+        android:id="@+id/menu_item_add_to_calendar"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/menu_item_title_add_to_calendar"
+        app:showAsAction="always" />
     <item
-            android:id="@+id/menu_item_add_to_calendar"
-            android:icon="@drawable/ic_calendar"
-            app:showAsAction="always"
-            android:title="@string/menu_item_title_add_to_calendar">
-    </item>
-
-
+        android:id="@+id/menu_item_share_session"
+        android:icon="@drawable/ic_share"
+        android:title="@string/menu_item_title_share_session"
+        android:visible="false"
+        app:showAsAction="always" />
     <item
-            android:id="@+id/menu_item_share_session"
-            android:icon="@drawable/ic_share"
-            app:showAsAction="always"
-            android:visible="false"
-            android:title="@string/menu_item_title_share_session"/>
-
-    <item
-            android:id="@+id/menu_item_share_session_menu"
-            android:icon="@drawable/ic_share"
-            app:showAsAction="always"
-            android:visible="false"
-            android:title="@string/menu_item_title_share_session">
-
+        android:id="@+id/menu_item_share_session_menu"
+        android:icon="@drawable/ic_share"
+        android:title="@string/menu_item_title_share_session"
+        android:visible="false"
+        app:showAsAction="always">
         <menu>
             <item
                 android:id="@+id/menu_item_share_session_text"
                 android:title="@string/share_as_text"
-                app:showAsAction="never"/>
-
-
+                app:showAsAction="never" />
             <item
                 android:id="@+id/menu_item_share_session_json"
                 android:title="@string/share_as_json"
-                app:showAsAction="never"/>
+                app:showAsAction="never" />
         </menu>
-
     </item>
-
+    <item
+        android:id="@+id/menu_item_navigate"
+        android:icon="@drawable/ic_action_navigate"
+        android:title="@string/menu_item_title_navigate"
+        app:showAsAction="always" />
 </menu>

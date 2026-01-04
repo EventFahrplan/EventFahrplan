@@ -1,40 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-            android:id="@+id/menu_item_share_favorites_menu"
-            android:title="@string/menu_item_title_share_favorites"
-            android:icon="@drawable/ic_share"
-            android:visible="false"
-            app:showAsAction="ifRoom">
-
-    <menu>
+        android:id="@+id/menu_item_share_favorites_menu"
+        android:icon="@drawable/ic_share"
+        android:title="@string/menu_item_title_share_favorites"
+        android:visible="false"
+        app:showAsAction="ifRoom">
+        <menu>
             <item
                 android:id="@+id/menu_item_share_favorites_text"
                 android:title="@string/share_as_text"
-                app:showAsAction="never"/>
-
-
+                app:showAsAction="never" />
             <item
                 android:id="@+id/menu_item_share_favorites_json"
                 android:title="@string/share_as_json"
-                app:showAsAction="never"/>
-    </menu>
+                app:showAsAction="never" />
+        </menu>
     </item>
-
     <item
-            android:id="@+id/menu_item_share_favorites"
-            android:title="@string/menu_item_title_share_favorites"
-            android:icon="@drawable/ic_share"
-            android:visible="false"
-            app:showAsAction="ifRoom"/>
-
-
+        android:id="@+id/menu_item_share_favorites"
+        android:icon="@drawable/ic_share"
+        android:title="@string/menu_item_title_share_favorites"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
     <item
-            android:title="@string/menu_item_title_delete_all"
-            android:titleCondensed="@string/menu_item_title_delete_all"
-            android:id="@+id/menu_item_delete_all_favorites"
-            app:showAsAction="ifRoom"
-            android:icon="@drawable/ic_delete"/>
+        android:id="@+id/menu_item_delete_all_favorites"
+        android:icon="@drawable/ic_delete"
+        android:title="@string/menu_item_title_delete_all"
+        android:titleCondensed="@string/menu_item_title_delete_all"
+        app:showAsAction="ifRoom" />
 </menu>
