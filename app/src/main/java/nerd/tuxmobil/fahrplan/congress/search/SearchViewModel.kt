@@ -36,6 +36,7 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchResultItem
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchSubScreenBackPress
 import nerd.tuxmobil.fahrplan.congress.search.filters.HasAlarmSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.IsFavoriteSearchFilter
+import nerd.tuxmobil.fahrplan.congress.search.filters.NotFavoriteSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.NotRecordedSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.RecordedSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.WithinSpeakerNamesSearchFilter
@@ -54,6 +55,7 @@ class SearchViewModel(
 
         private val SUPPORTED_SEARCH_FILTERS = listOf(
             IsFavoriteSearchFilter(),
+            NotFavoriteSearchFilter(),
             HasAlarmSearchFilter(),
             NotRecordedSearchFilter(),
             RecordedSearchFilter(),

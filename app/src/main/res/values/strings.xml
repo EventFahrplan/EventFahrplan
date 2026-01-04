@@ -330,6 +330,7 @@
 
     <!-- Search filters -->
     <string name="search_filter_is_favorite">Is favored</string>
+    <string name="search_filter_not_favorite">Not favored</string>
     <string name="search_filter_has_alarm">Has alarm</string>
     <string name="search_filter_not_recorded">Not recorded</string>
     <string name="search_filter_recorded">Recorded</string>

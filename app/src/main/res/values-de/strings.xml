@@ -301,6 +301,7 @@
 
     <!-- Search filters -->
     <string name="search_filter_is_favorite">Ist favorisiert</string>
+    <string name="search_filter_not_favorite">Nicht favorisiert</string>
     <string name="search_filter_has_alarm">Hat Alarm</string>
     <string name="search_filter_not_recorded">Nicht aufgezeichnet</string>
     <string name="search_filter_recorded">Aufgezeichnet</string>
