@@ -1,49 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-            android:id="@+id/menu_item_favorites"
-            android:icon="@drawable/ic_action_star_list"
-            app:showAsAction="ifRoom"
-            android:title="@string/menu_item_title_favorites"
-            android:titleCondensed="@string/menu_item_title_favorites">
-    </item>
+        android:id="@+id/menu_item_favorites"
+        android:icon="@drawable/ic_action_star_list"
+        android:title="@string/menu_item_title_favorites"
+        android:titleCondensed="@string/menu_item_title_favorites"
+        app:showAsAction="ifRoom" />
     <item
-            android:id="@+id/menu_item_alarms"
-            android:icon="@drawable/ic_action_bell_list"
-            app:showAsAction="ifRoom"
-            android:title="@string/menu_item_title_alarms"
-            android:titleCondensed="@string/menu_item_title_alarms">
-    </item>
+        android:id="@+id/menu_item_alarms"
+        android:icon="@drawable/ic_action_bell_list"
+        android:title="@string/menu_item_title_alarms"
+        android:titleCondensed="@string/menu_item_title_alarms"
+        app:showAsAction="ifRoom" />
     <item
-            android:id="@+id/menu_item_schedule_changes"
-            android:icon="@drawable/ic_action_refresh_list"
-            app:showAsAction="ifRoom"
-            android:title="@string/menu_item_title_schedule_changes"
-            android:titleCondensed="@string/menu_item_title_schedule_changes">
-    </item>
+        android:id="@+id/menu_item_schedule_changes"
+        android:icon="@drawable/ic_action_refresh_list"
+        android:title="@string/menu_item_title_schedule_changes"
+        android:titleCondensed="@string/menu_item_title_schedule_changes"
+        app:showAsAction="ifRoom" />
     <item
-            android:id="@+id/menu_item_search"
-            android:icon="@drawable/ic_search"
-            android:orderInCategory="60"
-            app:showAsAction="always"
-            android:title="@string/menu_item_title_search"
-            android:titleCondensed="@string/menu_item_title_search">
-    </item>
+        android:id="@+id/menu_item_search"
+        android:icon="@drawable/ic_search"
+        android:orderInCategory="60"
+        android:title="@string/menu_item_title_search"
+        android:titleCondensed="@string/menu_item_title_search"
+        app:showAsAction="always" />
     <item
-            android:id="@+id/menu_item_settings"
-            android:icon="@drawable/ic_settings"
-            android:orderInCategory="80"
-            app:showAsAction="never"
-            android:title="@string/menu_item_title_settings"
-            android:titleCondensed="@string/menu_item_title_settings">
-    </item>
+        android:id="@+id/menu_item_settings"
+        android:icon="@drawable/ic_settings"
+        android:orderInCategory="80"
+        android:title="@string/menu_item_title_settings"
+        android:titleCondensed="@string/menu_item_title_settings"
+        app:showAsAction="never" />
     <item
-            android:id="@+id/menu_item_about"
-            android:icon="@drawable/ic_info_outline"
-            android:orderInCategory="90"
-            android:title="@string/menu_item_title_about"
-            android:titleCondensed="@string/menu_item_title_about">
-    </item>
-
+        android:id="@+id/menu_item_about"
+        android:icon="@drawable/ic_info_outline"
+        android:orderInCategory="90"
+        android:title="@string/menu_item_title_about"
+        android:titleCondensed="@string/menu_item_title_about" />
 </menu>
