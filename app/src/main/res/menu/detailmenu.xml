@@ -9,11 +9,6 @@
         android:visible="false"
         app:showAsAction="always" />
     <item
-        android:id="@+id/menu_item_navigate"
-        android:icon="@drawable/ic_action_navigate"
-        android:title="@string/menu_item_title_navigate"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/menu_item_flag_as_favorite"
         android:icon="@drawable/ic_star_outline"
         android:title="@string/menu_item_title_flag_as_favorite"
@@ -69,4 +64,9 @@
                 app:showAsAction="never" />
         </menu>
     </item>
+    <item
+        android:id="@+id/menu_item_navigate"
+        android:icon="@drawable/ic_action_navigate"
+        android:title="@string/menu_item_title_navigate"
+        app:showAsAction="always" />
 </menu>
