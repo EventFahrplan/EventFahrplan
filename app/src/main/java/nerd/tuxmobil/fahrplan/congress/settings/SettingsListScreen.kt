@@ -25,6 +25,8 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.FastSwipingClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.InsistentAlarmClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleRefreshIntervalClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ShowScheduleUpdateDialogClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ShowOnLockscreenClicked
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.AlternativeScheduleUrlPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.ClickPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.EnableAutomaticUpdatesPreference
@@ -101,6 +103,13 @@ private fun CategoryGeneral(
         )
 
         SwitchPreference(
+            title = stringResource(R.string.preference_title_show_schedule_update_dialog_enabled),
+            subtitle = stringResource(R.string.preference_summary_show_schedule_update_dialog_enabled),
+            checked = state.settings.isShowScheduleUpdateDialogEnabled,
+            onCheckedChange = { onViewEvent(ShowScheduleUpdateDialogClicked) },
+        )
+
+        SwitchPreference(
             title = stringResource(R.string.preference_title_use_device_time_zone_enabled),
             subtitle = stringResource(R.string.preference_summary_use_device_time_zone_enabled),
             checked = state.settings.isUseDeviceTimeZoneEnabled,
@@ -134,6 +143,13 @@ private fun CategoryGeneral(
             subtitle = stringResource(R.string.preference_summary_fast_swiping_enabled),
             checked = state.settings.isFastSwipingEnabled,
             onCheckedChange = { onViewEvent(FastSwipingClicked) },
+        )
+
+        SwitchPreference(
+            title = stringResource(R.string.preference_title_show_on_lockscreen_enabled),
+            subtitle = stringResource(R.string.preference_summary_show_on_lockscreen_enabled),
+            checked = state.settings.isShowOnLockscreenEnabled,
+            onCheckedChange = { onViewEvent(ShowOnLockscreenClicked) },
         )
     }
 }

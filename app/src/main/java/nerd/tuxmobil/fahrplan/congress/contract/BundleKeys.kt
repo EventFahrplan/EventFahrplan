@@ -33,4 +33,6 @@ object BundleKeys {
     const val USE_DEVICE_TIME_ZONE_UPDATED =
         "nerd.tuxmobil.fahrplan.congress.Prefs.USE_DEVICE_TIME_ZONE_UPDATED"
 
+    const val SHOW_ON_LOCKSCREEN_UPDATED =
+        "nerd.tuxmobil.fahrplan.congress.Prefs.SHOW_ON_LOCKSCREEN_UPDATED"
 }

@@ -14,6 +14,8 @@ internal sealed interface SettingsEvent {
     data class SetAlternativeScheduleUrl(val url: String) : SettingsEvent
     data object AlternativeHighlightingClicked : SettingsEvent
     data object FastSwipingClicked : SettingsEvent
+    data object ShowScheduleUpdateDialogClicked : SettingsEvent
+    data object ShowOnLockscreenClicked : SettingsEvent
 
     data object AlarmToneClicked : SettingsEvent
     data class SetAlarmTone(val alarmTone: Uri?): SettingsEvent

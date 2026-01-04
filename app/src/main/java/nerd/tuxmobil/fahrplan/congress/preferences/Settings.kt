@@ -11,6 +11,8 @@ data class Settings(
     val alarmTone: Uri? = DEFAULT_ALARM_ALERT_URI,
     val isInsistentAlarmsEnabled: Boolean = false,
     val alarmTime: Int = 10,
+    val isShowScheduleUpdateDialogEnabled: Boolean = true,
+    val isShowOnLockscreenEnabled: Boolean = true,
 
     // Backend preferences
     val scheduleRefreshInterval: Int = -1,
