@@ -17,6 +17,9 @@ import nerd.tuxmobil.fahrplan.congress.changes.ChangeType.NEW
 import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticProperty
 import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticsUiState
 import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticsUiStateFactory
+import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult
+import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult.Error
+import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult.Error.Type.HOST_MISSING
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
@@ -189,6 +192,39 @@ class MainViewModelTest {
                 expectNoEvents()
             }
             verifyInvokedOnce(repository).loadScheduleState
+        }
+
+    @Test
+    fun `EngelsystemUriParsingResult Error posts null to errorMessage property when Engelsystem URL parsing succeeded`() =
+        runTest {
+            val repository = createRepository(
+                engelsystemUriParsingErrorStateFlow = flowOf(null)
+            )
+            val errorMessageFactory = mock<ErrorMessage.Factory> {
+                on { getMessageForEngelsystemUrlError(any()) } doReturn TitledMessage("fake message", "fake url")
+            }
+            val viewModel = createViewModel(repository, errorMessageFactory = errorMessageFactory)
+            viewModel.errorMessage.test {
+                assertThat(awaitItem()).isNull()
+            }
+            verifyInvokedOnce(repository).engelsystemUriParsingErrorState
+        }
+
+    @Test
+    fun `EngelsystemUriParsingResult Error posts TitledMessage to errorMessage property when Engelsystem URL parsing failed`() =
+        runTest {
+            val repository = createRepository(
+                engelsystemUriParsingErrorStateFlow = flowOf(Error(HOST_MISSING, "https://?key=a1b2c3"))
+            )
+            val errorMessageFactory = mock<ErrorMessage.Factory> {
+                on { getMessageForEngelsystemUrlError(any()) } doReturn TitledMessage("fake message", "fake url")
+            }
+            val viewModel = createViewModel(repository, errorMessageFactory = errorMessageFactory)
+            val expectedErrorMessage = TitledMessage("fake message", "fake url")
+            viewModel.errorMessage.test {
+                assertThat(awaitItem()).isEqualTo(expectedErrorMessage)
+            }
+            verifyInvokedOnce(repository).engelsystemUriParsingErrorState
         }
 
     @Test
@@ -516,12 +552,14 @@ class MainViewModelTest {
 
     private fun createRepository(
         loadScheduleStateFlow: Flow<LoadScheduleState> = emptyFlow(),
+        engelsystemUriParsingErrorStateFlow: Flow<Error?> = emptyFlow(),
         scheduleChangesSeen: Boolean = true,
         changedSessions: List<SessionDatabaseModel> = emptyList(),
         updatedSelectedSessionId: Boolean = false,
         alarms: List<Alarm> = emptyList()
     ) = mock<AppRepository> {
         on { loadScheduleState } doReturn loadScheduleStateFlow
+        on { engelsystemUriParsingErrorState } doReturn engelsystemUriParsingErrorStateFlow
         on { readScheduleChangesSeen() } doReturn scheduleChangesSeen
         on { readMeta() } doReturn Meta(version = "")
         on { loadChangedSessions() } doReturn changedSessions

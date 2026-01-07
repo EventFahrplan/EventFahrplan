@@ -306,4 +306,14 @@
     <string name="search_filter_not_recorded">Nicht aufgezeichnet</string>
     <string name="search_filter_recorded">Aufgezeichnet</string>
     <string name="search_filter_within_speaker_names">In Namen von Sprecher*innen</string>
+
+    <!-- Engelsystem URL error -->
+    <string name="engelsystem_url_error_title">Fehler bei Einlesen der <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> JSON Export URL</string>
+    <string name="engelsystem_url_error_url">Ungültige URL: <xliff:g example="https://example.com" id="url">%s</xliff:g></string>
+    <string name="engelsystem_url_error_scheme">Fehlender Schema-Teil in URL: <xliff:g example="https://example.com" id="url">%s</xliff:g></string>
+    <string name="engelsystem_url_error_host">Fehlender Host-Teil in URL: <xliff:g example="https://example.com" id="url">%s</xliff:g></string>
+    <string name="engelsystem_url_error_path">Fehlender Pfad-Teil in URL: <xliff:g example="https://example.com" id="url">%s</xliff:g></string>
+    <string name="engelsystem_url_error_query">Fehlender Query-Teil in URL: <xliff:g example="https://example.com" id="url">%s</xliff:g></string>
+    <string name="engelsystem_url_error_api_key">Ungültiger API-Key-Teil in URL: <xliff:g example="https://example.com" id="url">%s</xliff:g></string>
+
 </resources>

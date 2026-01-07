@@ -2,6 +2,13 @@ package nerd.tuxmobil.fahrplan.congress.net.errors
 
 import android.content.Context
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult
+import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult.Error.Type.API_KEY_INVALID
+import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult.Error.Type.HOST_MISSING
+import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult.Error.Type.PATH_MISSING
+import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult.Error.Type.QUERY_MISSING
+import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult.Error.Type.SCHEME_MISSING
+import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult.Error.Type.URL_MALFORMED
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult
@@ -93,6 +100,23 @@ sealed interface ErrorMessage {
             }
             check(message.isNotEmpty()) { "Unknown parsing result: $parseResult" }
             return SimpleMessage(message)
+        }
+
+        /**
+         * Returns a [TitledMessage] based on the given [error].
+         */
+        fun getMessageForEngelsystemUrlError(error: EngelsystemUriParsingResult.Error): TitledMessage {
+            val url = error.url
+            val message = when (error.type) {
+                URL_MALFORMED -> context.getString(R.string.engelsystem_url_error_url, url)
+                SCHEME_MISSING -> context.getString(R.string.engelsystem_url_error_scheme, url)
+                HOST_MISSING -> context.getString(R.string.engelsystem_url_error_host, url)
+                PATH_MISSING -> context.getString(R.string.engelsystem_url_error_path, url)
+                QUERY_MISSING -> context.getString(R.string.engelsystem_url_error_query, url)
+                API_KEY_INVALID -> context.getString(R.string.engelsystem_url_error_api_key, url)
+            }
+            val title = context.getString(R.string.engelsystem_url_error_title, context.getString(R.string.engelsystem_alias))
+            return TitledMessage(title, message)
         }
 
         private fun getMessageForScheduleVersion(scheduleVersion: String) = when {
