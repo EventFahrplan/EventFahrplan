@@ -7,6 +7,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager.MATCH_ALL
+import android.content.pm.PackageManager.MATCH_DEFAULT_ONLY
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build.VERSION.SDK_INT
@@ -32,9 +33,31 @@ fun Context.startActivity(intent: Intent, onActivityNotFound: () -> Unit) {
     }
 }
 
-fun Context.getBrowsableApps(link: String): List<String> {
-    val intent = Intent(Intent.ACTION_VIEW, link.toUri()).apply {
+/**
+ * Returns the package name for the default browsable app.
+ * Here, intentionally a website which is unrelated to the domain of the event is passed to avoid
+ * returning our own package name which can be registered as an app links handler.
+ */
+fun Context.getDefaultBrowsableApp(): String? {
+    val uri = "https://eventfahrplan.eu".toUri()
+    val intent = Intent(Intent.ACTION_VIEW, uri).apply {
         addCategory(Intent.CATEGORY_BROWSABLE)
+    }
+    val flags = if (SDK_INT < M) 0 else MATCH_DEFAULT_ONLY
+    return packageManager
+        .resolveActivity(intent, flags)
+        ?.activityInfo
+        ?.packageName
+}
+
+/**
+ * Returns a list of package names for all browser apps.
+ * Note [Intent.CATEGORY_APP_BROWSER] is used here compared
+ * to [getDefaultBrowsableApp].
+ */
+fun Context.getBrowserApps(): List<String> {
+    val intent = Intent(Intent.ACTION_MAIN).apply {
+        addCategory(Intent.CATEGORY_APP_BROWSER)
     }
     val flags = if (SDK_INT < M) 0 else MATCH_ALL
     return packageManager
