@@ -194,17 +194,14 @@ internal class RealSessionsDatabaseRepository(
             columnValue = sessionId
     )
 
-    override fun querySessionBySessionId(sessionId: String): Session {
-        return try {
-            query {
-                read(SessionsTable.NAME,
-                        selection = "$SESSION_ID=?",
-                        selectionArgs = arrayOf(sessionId))
-            }.first()
-        } catch (e: NoSuchElementException) {
-            logging.report(LOG_TAG, "Sessions table does not contain a session with ID '$sessionId'. ${e.message}")
-            throw NoSuchSessionException(sessionId, e.message)
-        }
+    override fun querySessionBySessionId(sessionId: String): Session? {
+        return query {
+            read(
+                SessionsTable.NAME,
+                selection = "$SESSION_ID=?",
+                selectionArgs = arrayOf(sessionId),
+            )
+        }.firstOrNull()
     }
 
     override fun querySessionsBySlugInFeedbackUrl(slug: String): List<Session> {
@@ -474,7 +471,3 @@ internal class RealSessionsDatabaseRepository(
         get() = this != 0
 
 }
-
-private class NoSuchSessionException(sessionId: String, exceptionMessage: String?) : IllegalArgumentException(
-    """Sessions table does not contain a session with ID "$sessionId". $exceptionMessage"""
-)

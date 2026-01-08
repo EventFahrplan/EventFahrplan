@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -69,6 +70,7 @@ internal class SessionDetailsViewModel(
         )
 
     val selectedSessionParameter: Flow<SelectedSessionParameter> = repository.selectedSession
+        .filterNotNull()
         .map { selectedSessionParameterFactory.createSelectedSessionParameter(it) }
         .flowOn(executionContext.database)
 
@@ -134,6 +136,12 @@ internal class SessionDetailsViewModel(
 
     private fun updateSessionDetailsState() {
         repository.selectedSession
+            .onEach { session ->
+                if (session == null) {
+                    mutableCloseDetails.send(Unit)
+                }
+            }
+            .filterNotNull()
             .map { sessionDetailsParameterFactory.createSessionDetailsParameters(it) }
             .map { Success(it) }
             .onEach { mutableSessionDetailsState.value = it }
@@ -222,12 +230,18 @@ internal class SessionDetailsViewModel(
 
     private fun loadSelectedSession(onSessionLoaded: (Session) -> Unit) {
         launch {
-            onSessionLoaded(repository.loadSelectedSession())
+            val session = repository.loadSelectedSession()
+            if (session != null) {
+                onSessionLoaded(session)
+            }
         }
     }
 
     private fun updateRoomState() {
-        combine(repository.selectedSession, repository.roomStates) { session, result ->
+        combine(
+            repository.selectedSession.filterNotNull(),
+            repository.roomStates,
+        ) { session, result ->
             result
                 .onSuccess { rooms ->
                     val state = rooms.singleOrNull { it.name.trim().equals(session.roomName, ignoreCase = true) }?.state

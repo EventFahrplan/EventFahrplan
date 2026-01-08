@@ -9,8 +9,10 @@ import info.metadude.android.eventfahrplan.database.models.Session
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
+import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
 /**
@@ -36,7 +38,7 @@ class AppRepositoryScheduleStatisticTest {
                 metaDatabaseRepository = mock(),
                 scheduleNetworkRepository = mock(),
                 engelsystemRepository = mock(),
-                sharedPreferencesRepository = mock(),
+                sharedPreferencesRepository = createSharedPreferencesRepository(),
                 settingsRepository = mock(),
                 sessionsTransformer = mock()
             )
@@ -66,6 +68,10 @@ class AppRepositoryScheduleStatisticTest {
         }
     }
 
+}
+
+private fun createSharedPreferencesRepository() = mock<SharedPreferencesRepository> {
+    on { getSelectedSessionId() } doReturn "Session1"
 }
 
 private class InMemorySessionDatabaseRepository : SessionsDatabaseRepository {
