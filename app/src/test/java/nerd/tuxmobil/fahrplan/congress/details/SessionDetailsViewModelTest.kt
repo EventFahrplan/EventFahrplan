@@ -326,12 +326,13 @@ class SessionDetailsViewModelTest {
     }
 
     @Test
-    fun `OnSessionLinkClick invokes openLink if not browseable apps are present`() = runTest {
+    fun `OnSessionLinkClick invokes openLink if no default browseable app nor browser apps are present`() = runTest {
         val link = "https://events.ccc.de/congress/2025/hub/event/detail/opening-ceremony"
         var invokedLink = ""
         val externalNavigation = object : ExternalNavigation {
             override fun openMap(locationText: String) = throw NotImplementedError()
-            override fun getBrowsableApps(link: String) = emptyList<String>()
+            override fun getBrowserApps() = emptyList<String>()
+            override fun getDefaultBrowsableApp() = null
             override fun openLink(link: String) {
                 invokedLink = link
             }
@@ -347,7 +348,7 @@ class SessionDetailsViewModelTest {
     }
 
     @Test
-    fun `OnSessionLinkClick invokes openLink if the only browseable apps is the app itself`() =
+    fun `OnSessionLinkClick invokes openLink if the only browser apps is the app itself`() =
         runTest {
             val link = "https://events.ccc.de/congress/2025/hub/event/detail/opening-ceremony"
             var invokedLink = ""
@@ -356,7 +357,9 @@ class SessionDetailsViewModelTest {
             }
             val externalNavigation = object : ExternalNavigation {
                 override fun openMap(locationText: String) = throw NotImplementedError()
-                override fun getBrowsableApps(link: String) = listOf("com.example.app")
+                override fun getDefaultBrowsableApp() = null
+                override fun getBrowserApps() = listOf("com.example.app")
+
                 override fun openLink(link: String) {
                     invokedLink = link
                 }
@@ -373,7 +376,7 @@ class SessionDetailsViewModelTest {
         }
 
     @Test
-    fun `OnSessionLinkClick invokes openLinkWithApp if at least one other browseable app is present`() =
+    fun `OnSessionLinkClick invokes openLinkWithApp if at least one other browser app is present`() =
         runTest {
             val link = "https://events.ccc.de/congress/2025/hub/event/detail/opening-ceremony"
             var invokedLink = ""
@@ -383,7 +386,8 @@ class SessionDetailsViewModelTest {
             }
             val externalNavigation = object : ExternalNavigation {
                 override fun openMap(locationText: String) = throw NotImplementedError()
-                override fun getBrowsableApps(link: String) = listOf("com.example.browser")
+                override fun getDefaultBrowsableApp() = null
+                override fun getBrowserApps() = listOf("com.example.browser")
                 override fun openLink(link: String) = throw NotImplementedError()
                 override fun openLinkWithApp(link: String, packageName: String) {
                     invokedLink = link
@@ -397,6 +401,33 @@ class SessionDetailsViewModelTest {
             viewModel.onViewEvent(OnSessionLinkClick(link))
             assertThat(invokedLink).isEqualTo(link)
             assertThat(invokedPackage).isEqualTo("com.example.browser")
+        }
+    @Test
+    fun `OnSessionLinkClick invokes openLinkWithApp if a default browseable app is present`() =
+        runTest {
+            val link = "https://events.ccc.de/congress/2025/hub/event/detail/opening-ceremony"
+            var invokedLink = ""
+            var invokedPackage = ""
+            val buildConfigProvision = mock<BuildConfigProvision> {
+                on { packageName } doReturn "com.example.app"
+            }
+            val externalNavigation = object : ExternalNavigation {
+                override fun openMap(locationText: String) = throw NotImplementedError()
+                override fun getDefaultBrowsableApp() = "com.example.browser2"
+                override fun getBrowserApps() = listOf("com.example.browser1", "com.example.browser2")
+                override fun openLink(link: String) = throw NotImplementedError()
+                override fun openLinkWithApp(link: String, packageName: String) {
+                    invokedLink = link
+                    invokedPackage = packageName
+                }
+            }
+            val viewModel = createViewModel(
+                buildConfigProvision = buildConfigProvision,
+                externalNavigation = externalNavigation,
+            )
+            viewModel.onViewEvent(OnSessionLinkClick(link))
+            assertThat(invokedLink).isEqualTo(link)
+            assertThat(invokedPackage).isEqualTo("com.example.browser2")
         }
 
     @Test

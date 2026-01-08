@@ -119,12 +119,16 @@ internal class SessionDetailsViewModel(
     }
 
     private fun openLink(link: String) {
-        val packageNames = externalNavigation.getBrowsableApps(link)
-        val otherPackageNames = packageNames.filter { it != buildConfigProvision.packageName }
-        if (otherPackageNames.isNotEmpty()) {
-            externalNavigation.openLinkWithApp(link = link, packageName = otherPackageNames.first())
-        } else {
+        val defaultBrowser = externalNavigation.getDefaultBrowsableApp()
+        val browsers = externalNavigation.getBrowserApps().filter { it != buildConfigProvision.packageName }
+        val desiredBrowser = when (defaultBrowser in browsers) {
+            true -> defaultBrowser
+            false -> browsers.firstOrNull()
+        }
+        if (desiredBrowser == null) {
             externalNavigation.openLink(link)
+        } else {
+            externalNavigation.openLinkWithApp(link = link, packageName = desiredBrowser)
         }
     }
 
