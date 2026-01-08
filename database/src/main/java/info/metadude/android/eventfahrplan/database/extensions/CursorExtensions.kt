@@ -74,8 +74,11 @@ internal inline fun Cursor.getStringOrNull(columnName: String): String? =
  * in the [Cursor]. Closes the Cursor afterwards.
  */
 internal inline fun <T> Cursor.map(transform: (Cursor) -> T): List<T> = this.use {
-    List(count) { index ->
-        moveToPosition(index)
-        transform(this)
+    val result = mutableListOf<T>()
+    if (moveToFirst()) {
+        do {
+            result.add(transform(this))
+        } while (moveToNext())
     }
+    result
 }
