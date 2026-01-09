@@ -117,19 +117,6 @@ app to verify that the schedule data is loaded and processed correctly.
 
 ![Settings screen: Development category](gfx/settings-development-category.png)
 
-## 7. App links
-
-You can configure [app links](https://developer.android.com/training/app-links/about) to immediately
-open the corresponding session details screen when tapping website URLs. This requires the following
-steps:
-
-1. Add a [digital asset links](https://developer.android.com/training/app-links/configure-assetlinks) file
-   to the domain of the event, e.g. https://myconferen.ce/.well-known/assetlinks.json
-2. Configure the [intent filter pattern](https://developer.android.com/training/app-links/add-applinks)
-   in the `AndroidManifest.xml` of your product flavor.
-3. The correct session details might still not open automatically. Check *logcat's* output for error messages.
-   You might need to add the missing URL path in `SlugFactory` and `SlugFactoryTest`.
-
 ### Schedule refresh interval
 
 The "Choose schedule refresh interval" option allows to overwrite the default refresh interval
@@ -153,3 +140,17 @@ The "Schedule statistic" screen shows the distribution of null or empty and non-
 the "sessions" database table. This can be useful for identifying missing data in the schedule.
 
 ![Schedule statistic screen](gfx/schedule-statistic-screen.png)
+
+## 7. App links
+
+You can configure [app links](https://developer.android.com/training/app-links/about) to immediately
+open the corresponding session details screen when tapping website URLs. This requires the following
+steps:
+
+1. Add a [digital asset links](https://developer.android.com/training/app-links/configure-assetlinks) file
+   to the domain of the event, e.g. https://myconferen.ce/.well-known/assetlinks.json
+2. Configure the [intent filter pattern](https://developer.android.com/training/app-links/add-applinks)
+   in the `AndroidManifest.xml` of your product flavor.
+3. The correct session details might still not open automatically. Check *logcat's* output for error messages.
+   You might need to add the missing URL path in `SlugFactory` and `SlugFactoryTest`.
+
