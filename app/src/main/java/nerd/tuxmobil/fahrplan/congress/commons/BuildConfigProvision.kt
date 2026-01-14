@@ -14,5 +14,9 @@ interface BuildConfigProvision {
     val googlePlayUrl: String
     val dataPrivacyStatementDeUrl: String
     val enableFosdemRoomStates: Boolean
+    val fosdemRoomStatesPath: String
+    val fosdemRoomStatesUrl: String
+    val scheduleUrl: String
     val serverBackendType: String
+    val enableEngelsystemShifts: Boolean
 }

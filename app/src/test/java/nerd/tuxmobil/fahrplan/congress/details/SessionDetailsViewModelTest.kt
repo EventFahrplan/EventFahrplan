@@ -652,7 +652,11 @@ class SessionDetailsViewModelTest {
         override val googlePlayUrl: String = ""
         override val dataPrivacyStatementDeUrl: String = ""
         override val enableFosdemRoomStates: Boolean = true
+        override val fosdemRoomStatesPath: String = ""
+        override val fosdemRoomStatesUrl: String = ""
+        override val scheduleUrl: String = ""
         override val serverBackendType: String = ""
+        override val enableEngelsystemShifts: Boolean = false
 
     }
 
