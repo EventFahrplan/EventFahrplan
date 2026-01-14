@@ -210,7 +210,11 @@ private object CompleteBuildConfigProvider : BuildConfigProvision {
     override val googlePlayUrl: String = "https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule"
     override val dataPrivacyStatementDeUrl: String = "https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md"
     override val enableFosdemRoomStates: Boolean = false
+    override val fosdemRoomStatesPath: String = ""
+    override val fosdemRoomStatesUrl: String = ""
+    override val scheduleUrl: String = ""
     override val serverBackendType: String = "pretalx"
+    override val enableEngelsystemShifts: Boolean = false
 }
 
 private object IncompleteBuildConfigProvider : BuildConfigProvision {
@@ -227,5 +231,9 @@ private object IncompleteBuildConfigProvider : BuildConfigProvision {
     override val googlePlayUrl: String = "https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule"
     override val dataPrivacyStatementDeUrl: String = "https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md"
     override val enableFosdemRoomStates: Boolean = false
+    override val fosdemRoomStatesPath: String = ""
+    override val fosdemRoomStatesUrl: String = ""
+    override val scheduleUrl: String = ""
     override val serverBackendType: String = "pretalx"
+    override val enableEngelsystemShifts: Boolean = false
 }

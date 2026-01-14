@@ -35,11 +35,9 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onStart
-import nerd.tuxmobil.fahrplan.congress.BuildConfig
-import nerd.tuxmobil.fahrplan.congress.BuildConfig.ENABLE_FOSDEM_ROOM_STATES
-import nerd.tuxmobil.fahrplan.congress.BuildConfig.FOSDEM_ROOM_STATES_PATH
-import nerd.tuxmobil.fahrplan.congress.BuildConfig.FOSDEM_ROOM_STATES_URL
 import nerd.tuxmobil.fahrplan.congress.applinks.Slug
+import nerd.tuxmobil.fahrplan.congress.commons.BuildConfigProvider
+import nerd.tuxmobil.fahrplan.congress.commons.BuildConfigProvision
 import nerd.tuxmobil.fahrplan.congress.dataconverters.cropToDayRangesExtent
 import nerd.tuxmobil.fahrplan.congress.dataconverters.sanitize
 import nerd.tuxmobil.fahrplan.congress.dataconverters.shiftRoomIndicesOfMainSchedule
@@ -121,6 +119,7 @@ object AppRepository : SearchRepository,
 
     private val parentJobs = mutableMapOf<String, Job>()
     private lateinit var executionContext: ExecutionContext
+    private lateinit var buildConfigProvision: BuildConfigProvision
     private lateinit var databaseScope: DatabaseScope
     private lateinit var networkScope: NetworkScope
 
@@ -380,7 +379,7 @@ object AppRepository : SearchRepository,
     private val refreshRoomStatesSignal = MutableSharedFlow<Unit>()
 
     private fun refreshRoomStates() {
-        if (ENABLE_FOSDEM_ROOM_STATES) {
+        if (buildConfigProvision.enableFosdemRoomStates) {
             logging.d(LOG_TAG, "Refreshing room states ...")
             val requestIdentifier = "refreshRoomStates"
             parentJobs[requestIdentifier] = networkScope.launchNamed(requestIdentifier) {
@@ -396,7 +395,7 @@ object AppRepository : SearchRepository,
     val roomStates: Flow<Result<List<Room>>> by lazy {
         refreshRoomStatesSignal
             .onStart { emit(Unit) }
-            .flatMapLatest { if (ENABLE_FOSDEM_ROOM_STATES) roomStatesRepository.getRooms() else emptyFlow() }
+            .flatMapLatest { if (buildConfigProvision.enableFosdemRoomStates) roomStatesRepository.getRooms() else emptyFlow() }
             .flowOn(executionContext.network)
     }
 
@@ -424,6 +423,7 @@ object AppRepository : SearchRepository,
     fun initialize(
             context: Context,
             logging: Logging,
+            buildConfigProvision: BuildConfigProvision = BuildConfigProvider(),
             executionContext: ExecutionContext = AppExecutionContext,
             databaseScope: DatabaseScope = DatabaseScope.of(executionContext, AppExceptionHandler(logging)),
             networkScope: NetworkScope = NetworkScope.of(executionContext, AppExceptionHandler(logging)),
@@ -437,14 +437,15 @@ object AppRepository : SearchRepository,
             sharedPreferencesRepository: SharedPreferencesRepository = RealSharedPreferencesRepository(context),
             settingsRepository: SettingsRepository = SettingsRepository.getInstance(context),
             roomStatesRepository: RoomStatesRepository = SimpleRoomStatesRepository(
-                url = FOSDEM_ROOM_STATES_URL,
-                path = FOSDEM_ROOM_STATES_PATH,
+                url = buildConfigProvision.fosdemRoomStatesUrl,
+                path = buildConfigProvision.fosdemRoomStatesPath,
                 callFactory = okHttpClient,
             ),
             sessionsTransformer: SessionsTransformer = SessionsTransformer.createSessionsTransformer()
     ) {
         this.logging = logging
         this.executionContext = executionContext
+        this.buildConfigProvision = buildConfigProvision
         this.databaseScope = databaseScope
         this.networkScope = networkScope
         this.okHttpClient = okHttpClient
@@ -562,7 +563,7 @@ object AppRepository : SearchRepository,
      */
     private fun loadShifts(onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit) {
         @Suppress("ConstantConditionIf")
-        if (!BuildConfig.ENABLE_ENGELSYSTEM_SHIFTS) {
+        if (!buildConfigProvision.enableEngelsystemShifts) {
             return
         }
         when (val parseUriResult = readEngelsystemShiftsUri()) {
@@ -1100,7 +1101,7 @@ object AppRepository : SearchRepository,
     fun readScheduleUrl(): String {
         val alternateScheduleUrl = settingsRepository.getAlternativeScheduleUrl()
         return alternateScheduleUrl.ifEmpty {
-            BuildConfig.SCHEDULE_URL
+            buildConfigProvision.scheduleUrl
         }
     }
 

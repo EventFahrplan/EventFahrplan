@@ -14,6 +14,7 @@ import info.metadude.android.eventfahrplan.network.models.HttpHeader
 import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkRepository
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
+import nerd.tuxmobil.fahrplan.congress.commons.BuildConfigProvider
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toAppFetchScheduleResult
 import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult.Error
 import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult.Error.Type.HOST_MISSING
@@ -88,6 +89,7 @@ class AppRepositoryLoadAndParseScheduleTest {
                 context = mock(),
                 logging = mock(),
                 executionContext = TestExecutionContext,
+                buildConfigProvision = BuildConfigProvider(enableEngelsystemShifts = true),
                 databaseScope = mock(),
                 networkScope = mock(),
                 okHttpClient = mock(),
