@@ -66,6 +66,7 @@ In some of the steps it is the easiest to copy and adapt configuration settings,
 14. Add a notification icon in different resolutions as `res/drawable-[...]/ic_notification.png`
 15. Add an about dialog logo as `res/drawable/dialog_logo.xml`
 16. Customize bell and video recording icons in `res/drawable/` (optional)
+17. Create a fastlane directory in `src` in accordance to [this guide](https://f-droid.org/en/docs/All_About_Descriptions_Graphics_and_Screenshots/)
 
 ### 3.1. Customizing illustrations shown at empty screens
 
