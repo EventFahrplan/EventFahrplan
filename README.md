@@ -33,7 +33,7 @@ in order to contribute to this project.
 * View program by day and rooms (side by side)
 * Custom grid layout for smartphones (**try landscape mode**) and tablets
 * Read detailed descriptions (speaker names, start time, room name, links, ...) of sessions
-* Search through all sessions
+* Search and filter through all sessions
 * Add sessions to favorites list
 * Export favorites list
 * Setup alarms for individual sessions
