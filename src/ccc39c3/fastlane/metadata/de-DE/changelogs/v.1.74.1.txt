@@ -1,0 +1,20 @@
+v.1.74.0
+✓ Neue Filter im Suchbildschirm. Danke cketti!
+✓ Vortragslinks werden automatisch in der App geöffnet
+
+v.1.73.3
+✓ Behoben: Engelsystem-Schichten wurden nicht von der Anzeige entfernt, wenn die URL entfernt wurde
+
+v.1.73.2
+✓ Verlust der Engelsystem-Schichten beim Laden von Änderungen behoben
+
+v.1.73.1
+✓ Scrollposition der Favoriten beim Zurückkehren vom Detail-Bildschirm repariert
+✓ Fehlerhafte Anzeige von "Tag 1" im Suche-Bildschirm behoben
+✓ Polnische Übersetzung aktualisiert. Danke rotrot!
+✓ Deutsch-österreichisches Übersetzung hinzugefügt. Danke burned42!
+
+v.1.73.0
+✓ 🚀 Erste Veröffentlichung für den 39C3.
+
+⚠️ Achtung: Mit diesem Update werden vorhandene Favoriten und Alarme gelöscht.
