@@ -3,14 +3,16 @@ v.1.74.0
 ✓ Automatically open session links in app
 
 v.1.73.3
-✓ Fix Engelsystem shifts not being cleared from screen when removing Engelsystem URL
+✓ Fix Engelsystem shifts not being cleared from screen when removing
+  Engelsystem URL
 
 v.1.73.2
 ✓ Fix the loss of Engelsystem shifts when schedule is reloaded
 
 v.1.73.1
 ✓ Fix preserving favorites scroll position when returning from details screen
-✓ Fix "Day 1" showing up for sessions of other days than day 1 in search screen
+✓ Fix "Day 1" showing up for sessions of other days than day 1 in search
+  screen
 ✓ Update Polish translation. Thank you rotrot!
 ✓ Add German (Austria) translation. Thank you burned42!
 
