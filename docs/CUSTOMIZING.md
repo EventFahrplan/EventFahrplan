@@ -148,9 +148,16 @@ open the corresponding session details screen when tapping website URLs. This re
 steps:
 
 1. Add a [digital asset links](https://developer.android.com/training/app-links/configure-assetlinks) file
-   to the domain of the event, e.g. https://myconferen.ce/.well-known/assetlinks.json
+   to the domain of the event, e.g. https://myconferen.ce/.well-known/assetlinks.json.
+   - The server must  respond with `HTTP 200 OK` - otherwise the "open supported links" option will
+     be toggled off by default.
+   - Add separate certificate fingerprints for your Google Play and F-Droid publications if they
+     don't share the same signing key.
+   - Add the certificate fingerprint of your debug key store which becomes handy during development.
 2. Configure the [intent filter pattern](https://developer.android.com/training/app-links/add-applinks)
    in the `AndroidManifest.xml` of your product flavor.
+   - Add `android:autoVerify="true"`. Without `autoVerify`, Android will never enable supported links automatically.
+   - Configure the domain(s), subdomain(s) and path(s) to be handled.
 3. The correct session details might still not open automatically. Check *logcat's* output for error messages.
    You might need to add the missing URL path in `SlugFactory` and `SlugFactoryTest`.
 
