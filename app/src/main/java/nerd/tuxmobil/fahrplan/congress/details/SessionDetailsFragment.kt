@@ -47,8 +47,6 @@ import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
-import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
-import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatting
 
 class SessionDetailsFragment : Fragment(), MenuProvider {
 
@@ -91,7 +89,6 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
         )
     }
     private lateinit var model: SelectedSessionParameter
-    private lateinit var contentDescriptionFormatting: ContentDescriptionFormatting
     private var sidePane = false
     private var hasArguments = false
 
@@ -117,7 +114,6 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
         alarmServices = AlarmServices.newInstance(context, appRepository)
         notificationHelper = NotificationHelper(context)
         externalNavigation = ExternalNavigator(context)
-        contentDescriptionFormatting = ContentDescriptionFormatter(ResourceResolver(context))
     }
 
     @MainThread
