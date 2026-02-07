@@ -26,7 +26,6 @@ import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
@@ -68,6 +67,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.applyRightInsets
 import nerd.tuxmobil.fahrplan.congress.extensions.getLayoutInflater
 import nerd.tuxmobil.fahrplan.congress.extensions.isLandscape
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
+import nerd.tuxmobil.fahrplan.congress.extensions.showToast
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -298,7 +298,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
         viewModel.shareJson.observe(viewLifecycleOwner) { jsonFormattedSession ->
             val context = requireContext()
             if (!SessionSharer.shareJson(context, jsonFormattedSession)) {
-                Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show()
+                context.showToast(R.string.share_error_activity_not_found, showShort = true)
             }
         }
         viewModel.timeTextViewParameters.observe(this) { timeTextViewParameters ->
@@ -766,15 +766,15 @@ class FahrplanFragment : Fragment(), MenuProvider {
     }
 
     private fun showMissingPostNotificationsPermissionError() {
-        Toast.makeText(requireContext(), R.string.alarms_disabled_notifications_permission_missing, Toast.LENGTH_LONG).show()
+        requireContext().showToast(R.string.alarms_disabled_notifications_permission_missing, showShort = false)
     }
 
     private fun showNotificationsDisabledError() {
-        Toast.makeText(requireContext(), R.string.alarms_disabled_notifications_are_disabled, Toast.LENGTH_LONG).show()
+        requireContext().showToast(R.string.alarms_disabled_notifications_are_disabled, showShort = false)
     }
 
     private fun showMissingScheduleExactAlarmsPermissionError() {
-        Toast.makeText(requireContext(), R.string.alarms_disabled_schedule_exact_alarm_permission_missing, Toast.LENGTH_LONG).show()
+        requireContext().showToast(R.string.alarms_disabled_schedule_exact_alarm_permission_missing, showShort = false)
     }
 
     private fun hideNoScheduleView() {

@@ -76,28 +76,25 @@ import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalAndBottom
 import nerd.tuxmobil.fahrplan.congress.extensions.toTextUnit
 
 @Composable
-internal fun SessionDetailsScreen(
+internal fun SessionDetailsContent(
     sessionDetailsState: SessionDetailsState,
     onViewEvent: (SessionDetailsViewEvent) -> Unit,
     showRoomState: Boolean,
     roomStateMessage: String,
 ) {
-    EventFahrplanTheme {
-        Scaffold {
-            val contentAlignment = if (sessionDetailsState is Loading) Alignment.Center else Alignment.TopStart
-            Box(
-                Modifier
-                    .fillMaxHeight()
-                    .verticalScroll(rememberScrollState()),
-                contentAlignment = contentAlignment,
-            ) {
-                when (sessionDetailsState) {
-                    Loading -> Loading()
-                    is Success -> {
-                        val parameter = sessionDetailsState.sessionDetailsParameter as SessionDetails
-                        SessionDetails(parameter, onViewEvent, showRoomState, roomStateMessage)
-                    }
-
+    Scaffold {
+        val contentAlignment = if (sessionDetailsState is Loading) Alignment.Center else Alignment.TopStart
+        Box(
+            Modifier
+                .fillMaxHeight()
+                .verticalScroll(rememberScrollState()),
+            contentAlignment = contentAlignment,
+        ) {
+            when (sessionDetailsState) {
+                Loading -> Loading()
+                is Success -> {
+                    val parameter = sessionDetailsState.sessionDetailsParameter as SessionDetails
+                    SessionDetails(parameter, onViewEvent, showRoomState, roomStateMessage)
                 }
             }
         }
@@ -642,27 +639,29 @@ private fun getAnnotatedString(
 
 @MultiDevicePreview
 @Composable
-private fun SessionDetailsScreenPreview() {
-    SessionDetailsScreen(
-        sessionDetailsState = Success(
-            SessionDetails(
-                id = SessionDetailsProperty(stringResource(R.string.placeholder_session_id), ""),
-                title = SessionDetailsProperty(stringResource(R.string.placeholder_session_title), ""),
-                subtitle = SessionDetailsProperty(stringResource(R.string.placeholder_session_subtitle), ""),
-                speakerNames = SessionDetailsProperty(stringResource(R.string.placeholder_session_speakers), ""),
-                abstract = SessionDetailsProperty(Markdown(stringResource(R.string.placeholder_session_abstract)), ""),
-                description = SessionDetailsProperty(Markdown(stringResource(R.string.placeholder_session_description)), ""),
-                trackName = SessionDetailsProperty(stringResource(R.string.placeholder_session_track), ""),
-                links = SessionDetailsProperty(stringResource(R.string.placeholder_session_links), ""),
-                startsAt = SessionDetailsProperty(stringResource(R.string.placeholder_session_date), ""),
-                roomName = SessionDetailsProperty(stringResource(R.string.placeholder_session_location), ""),
-                sessionLink = stringResource(R.string.placeholder_session_online),
-            )
-        ),
-        onViewEvent = {},
-        showRoomState = true,
-        roomStateMessage = stringResource(R.string.room_state_text),
-    )
+private fun SessionDetailsContentPreview() {
+    EventFahrplanTheme {
+        SessionDetailsContent(
+            sessionDetailsState = Success(
+                SessionDetails(
+                    id = SessionDetailsProperty(stringResource(R.string.placeholder_session_id), ""),
+                    title = SessionDetailsProperty(stringResource(R.string.placeholder_session_title), ""),
+                    subtitle = SessionDetailsProperty(stringResource(R.string.placeholder_session_subtitle), ""),
+                    speakerNames = SessionDetailsProperty(stringResource(R.string.placeholder_session_speakers), ""),
+                    abstract = SessionDetailsProperty(Markdown(stringResource(R.string.placeholder_session_abstract)), ""),
+                    description = SessionDetailsProperty(Markdown(stringResource(R.string.placeholder_session_description)), ""),
+                    trackName = SessionDetailsProperty(stringResource(R.string.placeholder_session_track), ""),
+                    links = SessionDetailsProperty(stringResource(R.string.placeholder_session_links), ""),
+                    startsAt = SessionDetailsProperty(stringResource(R.string.placeholder_session_date), ""),
+                    roomName = SessionDetailsProperty(stringResource(R.string.placeholder_session_location), ""),
+                    sessionLink = stringResource(R.string.placeholder_session_online),
+                )
+            ),
+            onViewEvent = {},
+            showRoomState = true,
+            roomStateMessage = stringResource(R.string.room_state_text),
+        )
+    }
 }
 
 private const val EXAMPLE_MARKDOWN = """# About
@@ -739,11 +738,13 @@ private fun DescriptionHtmlPreview() {
 
 @Preview
 @Composable
-private fun SessionDetailsScreenLoadingPreview() {
-    SessionDetailsScreen(
-        sessionDetailsState = Loading,
-        onViewEvent = {},
-        showRoomState = false,
-        roomStateMessage = stringResource(R.string.room_state_text),
-    )
+private fun SessionDetailsContentLoadingPreview() {
+    EventFahrplanTheme {
+        SessionDetailsContent(
+            sessionDetailsState = Loading,
+            onViewEvent = {},
+            showRoomState = false,
+            roomStateMessage = stringResource(R.string.room_state_text),
+        )
+    }
 }

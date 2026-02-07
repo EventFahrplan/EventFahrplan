@@ -11,7 +11,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
@@ -49,6 +48,7 @@ import nerd.tuxmobil.fahrplan.congress.engagements.initUserEngagement
 import nerd.tuxmobil.fahrplan.congress.extensions.applyEdgeToEdgeInsets
 import nerd.tuxmobil.fahrplan.congress.extensions.applyToolbar
 import nerd.tuxmobil.fahrplan.congress.extensions.isLandscape
+import nerd.tuxmobil.fahrplan.congress.extensions.showToast
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment
@@ -215,8 +215,7 @@ class MainActivity : BaseActivity(),
         }
         viewModel.simpleErrorMessageUiState.observe(this) { state ->
             state?.let {
-                val duration = if (it.shouldShowLong) Toast.LENGTH_LONG else Toast.LENGTH_SHORT
-                Toast.makeText(this, it.errorMessage.message, duration).show()
+                showToast(it.errorMessage.message, showShort = !it.shouldShowLong)
             }
         }
         viewModel.changeStatisticsUiState.observe(this) { state ->
@@ -234,7 +233,7 @@ class MainActivity : BaseActivity(),
             openSessionDetails()
         }
         viewModel.missingPostNotificationsPermission.observe(this) {
-            Toast.makeText(this, R.string.alarms_disabled_notifications_permission_missing, Toast.LENGTH_LONG).show()
+            showToast(R.string.alarms_disabled_notifications_permission_missing, showShort = false)
         }
     }
 
