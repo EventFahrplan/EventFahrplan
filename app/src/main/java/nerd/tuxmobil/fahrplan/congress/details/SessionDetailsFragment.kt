@@ -19,7 +19,6 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.annotation.MainThread
-import androidx.compose.runtime.collectAsState
 import androidx.core.net.toUri
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -34,6 +33,7 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.showToast
 import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
@@ -126,14 +126,8 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ) = content {
-        with(viewModel) {
-            @Suppress("KotlinConstantConditions")
-            SessionDetailsScreen(
-                sessionDetailsState = sessionDetailsState.collectAsState().value,
-                onViewEvent = viewModel::onViewEvent,
-                showRoomState = showRoomState,
-                roomStateMessage = roomStateMessage.collectAsState().value,
-            )
+        EventFahrplanTheme {
+            SessionDetailsScreen(viewModel)
         }
     }.also { it.isClickable = true }
 
