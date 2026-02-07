@@ -4,7 +4,6 @@ import android.Manifest.permission.POST_NOTIFICATIONS
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Activity.RESULT_OK
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
@@ -32,19 +31,13 @@ import androidx.lifecycle.Lifecycle.State.RESUMED
 import info.metadude.android.eventfahrplan.commons.flow.observe
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing
-import nerd.tuxmobil.fahrplan.congress.commons.ExternalNavigation
-import nerd.tuxmobil.fahrplan.congress.commons.ExternalNavigator
-import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.showToast
 import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
-import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
-import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
 
@@ -73,20 +66,8 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
 
     private lateinit var postNotificationsPermissionRequestLauncher: ActivityResultLauncher<String>
     private lateinit var scheduleExactAlarmsPermissionRequestLauncher: ActivityResultLauncher<Intent>
-    private lateinit var appRepository: AppRepository
-    private lateinit var alarmServices: AlarmServices
-    private lateinit var notificationHelper: NotificationHelper
-    private lateinit var externalNavigation: ExternalNavigation
     private val viewModel: SessionDetailsViewModel by viewModels {
-        SessionDetailsViewModelFactory(
-            appRepository = appRepository,
-            resourceResolving = ResourceResolver(requireContext()),
-            alarmServices = alarmServices,
-            notificationHelper = notificationHelper,
-            externalNavigation = externalNavigation,
-            defaultEngelsystemRoomName = AppRepository.ENGELSYSTEM_ROOM_NAME,
-            customEngelsystemRoomName = getString(R.string.engelsystem_shifts_alias)
-        )
+        SessionDetailsViewModelFactory(requireContext())
     }
     private lateinit var model: SelectedSessionParameter
     private var sidePane = false
@@ -105,16 +86,6 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
         R.id.menu_item_close_session_details to { closeDetails() },
         R.id.menu_item_navigate to { navigateToRoom() },
     )
-
-    @MainThread
-    @CallSuper
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        appRepository = AppRepository
-        alarmServices = AlarmServices.newInstance(context, appRepository)
-        notificationHelper = NotificationHelper(context)
-        externalNavigation = ExternalNavigator(context)
-    }
 
     @MainThread
     @CallSuper
