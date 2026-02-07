@@ -31,14 +31,11 @@ import info.metadude.android.eventfahrplan.commons.flow.observe
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
-import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.showToast
-import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
-import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
 
 class SessionDetailsFragment : Fragment(), MenuProvider {
@@ -121,13 +118,28 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
         requireActivity().addMenuProvider(this, this, RESUMED)
     }
 
+    @SuppressLint("InlinedApi")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ) = content {
         EventFahrplanTheme {
-            SessionDetailsScreen(viewModel)
+            SessionDetailsScreen(
+                viewModel = viewModel,
+                onBack = {
+                    (requireActivity() as? OnSidePaneCloseListener)?.onSidePaneClose(FRAGMENT_TAG)
+                },
+                onRequestPostNotificationsPermission = {
+                    postNotificationsPermissionRequestLauncher.launch(POST_NOTIFICATIONS)
+                },
+                onRequestScheduleExactAlarmsPermission = {
+                    val intent = Intent(ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                        .setData("package:${BuildConfig.APPLICATION_ID}".toUri())
+                    scheduleExactAlarmsPermissionRequestLauncher.launch(intent)
+                },
+                onShowAlarmTimePicker = ::showAlarmTimePicker,
+            )
         }
     }.also { it.isClickable = true }
 
@@ -141,7 +153,7 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeViewModel()
+        observeSelectedSession()
         val activity = requireActivity()
         if (hasArguments) {
             activity.invalidateOptionsMenu()
@@ -149,55 +161,10 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
         activity.setResult(Activity.RESULT_CANCELED)
     }
 
-    @SuppressLint("InlinedApi")
-    private fun observeViewModel() {
+    private fun observeSelectedSession() {
         viewModel.selectedSessionParameter.observe(this) { model ->
             this.model = model
             updateOptionsMenu()
-        }
-        viewModel.openFeedBack.observe(viewLifecycleOwner) { uri ->
-            val context = requireContext()
-            context.startActivity(Intent(Intent.ACTION_VIEW, uri)) {
-                context.showToast(R.string.share_error_activity_not_found, showShort = true)
-            }
-        }
-        viewModel.shareSimple.observe(viewLifecycleOwner) { formattedSession ->
-            SessionSharer.shareSimple(requireContext(), formattedSession)
-        }
-        viewModel.shareJson.observe(viewLifecycleOwner) { formattedSession ->
-            val context = requireContext()
-            if (!SessionSharer.shareJson(context, formattedSession)) {
-                context.showToast(R.string.share_error_activity_not_found, showShort = true)
-            }
-        }
-        viewModel.addToCalendar.observe(viewLifecycleOwner) { session ->
-            CalendarSharing(requireContext()).addToCalendar(session)
-        }
-        viewModel.showAlarmTimePicker.observe(viewLifecycleOwner) {
-            showAlarmTimePicker()
-        }
-        viewModel.navigateToRoom.observe(viewLifecycleOwner) { uri ->
-            val intent = Intent(Intent.ACTION_VIEW, uri).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
-            startActivity(intent)
-        }
-        viewModel.closeDetails.observe(viewLifecycleOwner) {
-            val activity = requireActivity()
-            if (activity is OnSidePaneCloseListener) {
-                (activity as OnSidePaneCloseListener).onSidePaneClose(FRAGMENT_TAG)
-            }
-        }
-        viewModel.requestPostNotificationsPermission.observe(viewLifecycleOwner) {
-            postNotificationsPermissionRequestLauncher.launch(POST_NOTIFICATIONS)
-        }
-        viewModel.notificationsDisabled.observe(viewLifecycleOwner) {
-            showNotificationsDisabledError()
-        }
-        viewModel.requestScheduleExactAlarmsPermission.observe(viewLifecycleOwner) {
-            val intent = Intent(ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
-                .setData("package:${BuildConfig.APPLICATION_ID}".toUri())
-            scheduleExactAlarmsPermissionRequestLauncher.launch(intent)
         }
     }
 
@@ -214,10 +181,6 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
 
     private fun showMissingPostNotificationsPermissionError() {
         requireContext().showToast(R.string.alarms_disabled_notifications_permission_missing, showShort = false)
-    }
-
-    private fun showNotificationsDisabledError() {
-        requireContext().showToast(R.string.alarms_disabled_notifications_are_disabled, showShort = false)
     }
 
     private fun showMissingScheduleExactAlarmsPermissionError() {
