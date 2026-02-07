@@ -3,10 +3,10 @@ package nerd.tuxmobil.fahrplan.congress.schedulestatistic
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import nerd.tuxmobil.fahrplan.congress.R
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
-import nerd.tuxmobil.fahrplan.congress.extensions.applyEdgeToEdgeInsets
+import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 
 class ScheduleStatisticActivity : BaseActivity() {
 
@@ -18,14 +18,15 @@ class ScheduleStatisticActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_schedule_statistic)
 
-        val rootLayout = requireViewByIdCompat<View>(R.id.root_layout)
-        rootLayout.applyEdgeToEdgeInsets()
-
-        if (savedInstanceState == null) {
-            addFragment(R.id.container, ScheduleStatisticFragment(), ScheduleStatisticFragment.FRAGMENT_TAG)
+        setContent {
+            EventFahrplanTheme {
+                ScheduleStatisticScreen(
+                    onBack = { onBackPressedDispatcher.onBackPressed() },
+                )
+            }
         }
     }
 
