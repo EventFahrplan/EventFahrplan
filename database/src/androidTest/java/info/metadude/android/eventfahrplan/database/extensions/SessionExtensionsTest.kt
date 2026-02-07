@@ -1,6 +1,7 @@
 package info.metadude.android.eventfahrplan.database.extensions
 
 import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ABSTRACT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DAY_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DURATION
@@ -10,8 +11,8 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_RECORDING_OPTOUT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_ROOM_NAME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SPEAKERS
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SUBTITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_START_TIME
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SUBTITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TRACK
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_TEXT
@@ -28,6 +29,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_IDENTIFIER
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_NAME
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SESSION_GUID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SESSION_ID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SLUG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SPEAKERS
@@ -39,7 +41,6 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.URL
 import info.metadude.android.eventfahrplan.database.models.Session
 import org.junit.jupiter.api.Test
-import info.metadude.android.eventfahrplan.commons.temporal.Duration
 
 class SessionExtensionsTest {
 
@@ -47,6 +48,7 @@ class SessionExtensionsTest {
     fun toContentValues() {
         val session = Session(
                 sessionId = "7331",
+                sessionGuid = "720c5f3b-25ea-48e9-a391-a7ee143c7442",
                 abstractt = "Lorem ipsum",
                 dayIndex = 3,
                 dateText = "2015-08-13",
@@ -88,6 +90,7 @@ class SessionExtensionsTest {
         )
         val values = session.toContentValues()
         assertThat(values.getAsInteger(SESSION_ID)).isEqualTo(7331)
+        assertThat(values.getAsString(SESSION_GUID)).isEqualTo("720c5f3b-25ea-48e9-a391-a7ee143c7442")
         assertThat(values.getAsString(ABSTRACT)).isEqualTo("Lorem ipsum")
         assertThat(values.getAsInteger(DAY_INDEX)).isEqualTo(3)
         assertThat(values.getAsString(DATE_TEXT)).isEqualTo("2015-08-13")

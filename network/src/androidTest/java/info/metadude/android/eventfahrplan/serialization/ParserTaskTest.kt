@@ -39,6 +39,7 @@ class ParserTaskTest {
             val sessions = task.parseSessions("schedule-38c3-20251206.xml")
             val expectedSession = Session(
                 sessionId = "2",
+                sessionGuid = "270fa44c-821a-577f-8ca3-33e8d4a8c2a7",
                 title = "38C3: Opening Ceremony",
                 subtitle = "",
                 slug = "38c3-38c3-opening-ceremony",
@@ -73,6 +74,7 @@ class ParserTaskTest {
             val sessions = task.parseSessions("schedule-38c3-20251206.xml")
             val expectedSession = Session(
                 sessionId = "765",
+                sessionGuid = "9dee529b-4a70-58c3-82fd-c51497bc7c77",
                 title = "CTF: WTF?! - Capture The Flag für Einsteiger",
                 subtitle = "",
                 slug = "38c3-ctf-wtf-capture-the-flag-fr-einsteiger",

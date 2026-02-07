@@ -77,6 +77,7 @@ fun SessionDatabaseModel.toSessionAppModel(): SessionAppModel {
 fun SessionDatabaseModel.toSessionNetworkModel(): SessionNetworkModel {
     return SessionNetworkModel(
         sessionId = sessionId,
+        sessionGuid = sessionGuid,
         abstractt = abstractt,
         dateText = dateText,
         dateUTC = dateUTC,
@@ -122,6 +123,7 @@ fun SessionDatabaseModel.toSessionNetworkModel(): SessionNetworkModel {
 fun SessionNetworkModel.toSessionDatabaseModel(): SessionDatabaseModel {
     return SessionDatabaseModel(
         sessionId = sessionId,
+        sessionGuid = sessionGuid,
         abstractt = abstractt,
         dateText = dateText,
         dateUTC = dateUTC,

@@ -58,6 +58,7 @@ class SessionExtensionsTest {
     fun `toSessionAppModel returns an app session derived from a database session`() {
         val databaseModel = SessionDatabaseModel(
                 sessionId = "7331",
+                sessionGuid = "720c5f3b-25ea-48e9-a391-a7ee143c7442",
                 abstractt = "Lorem ipsum",
                 dayIndex = 3,
                 dateText = "2015-08-13",
@@ -148,6 +149,7 @@ class SessionExtensionsTest {
     fun `toSessionDatabaseModel and toSessionNetworkModel convert a network session forth and back`() {
         val networkModel = SessionNetworkModel(
                 sessionId = "7331",
+                sessionGuid = "720c5f3b-25ea-48e9-a391-a7ee143c7442",
                 abstractt = "Lorem ipsum",
                 dayIndex = 3,
                 dateText = "2015-08-13",
