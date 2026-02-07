@@ -13,8 +13,6 @@ public interface FahrplanContract {
             String VERSION = "version";
             String TITLE = "title";
             String SUBTITLE = "subtitle";
-            // Zombie: Former "day_change_hour" column.
-            // Zombie: Former "day_change_minute" column.
             String SCHEDULE_ETAG = "etag";
             String NUM_DAYS = "numdays";
             String TIME_ZONE_NAME = "time_zone_name";
