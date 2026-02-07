@@ -18,13 +18,10 @@ import androidx.fragment.compose.content
 import androidx.lifecycle.Lifecycle.State.RESUMED
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.OnSessionItemClickListener
-import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
-import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.commons.ScreenNavigation
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
-import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 
 class AlarmsFragment : Fragment(), MenuProvider {
 
@@ -46,20 +43,12 @@ class AlarmsFragment : Fragment(), MenuProvider {
         }
     }
 
-    private lateinit var appRepository: AppRepository
-    private lateinit var resourceResolving: ResourceResolving
-    private lateinit var alarmServices: AlarmServices
-    private val viewModel: AlarmsViewModel by viewModels {
-        AlarmsViewModelFactory(appRepository, resourceResolving, alarmServices)
-    }
+    private val viewModel: AlarmsViewModel by viewModels { AlarmsViewModelFactory(requireContext()) }
     private var sidePane = false
     private var onSessionItemClickListener: OnSessionItemClickListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        appRepository = AppRepository
-        resourceResolving = ResourceResolver(context)
-        alarmServices = AlarmServices.newInstance(context, appRepository)
         viewModel.screenNavigation = ScreenNavigation { sessionId ->
             onSessionItemClickListener?.onSessionItemClick(sessionId)
         }
