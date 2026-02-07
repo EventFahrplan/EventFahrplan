@@ -57,7 +57,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 val start = intent.getMomentExtra(BundleKeys.ALARM_START_TIME, Moment.ofEpochMilli(System.currentTimeMillis()))
                 val title = intent.getStringExtra(BundleKeys.ALARM_TITLE)!!
                 logging.report(LOG_TAG, "sessionId = $sessionId, intent = $intent")
-                //Toast.makeText(context, "Alarm worked.", Toast.LENGTH_LONG).show();
+                //context.showToast("Alarm worked.", showShort = false)
 
                 val uniqueNotificationId = AppRepository.createSessionAlarmNotificationId(sessionId)
                 val launchIntent = createLaunchIntent(context, sessionId, dayIndex = dayIndex, notificationId = uniqueNotificationId)

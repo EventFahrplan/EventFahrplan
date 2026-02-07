@@ -16,7 +16,6 @@ import android.widget.AbsListView.MultiChoiceModeListener
 import android.widget.HeaderViewListAdapter
 import android.widget.ListView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.annotation.MainThread
@@ -37,6 +36,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.applyBottomPadding
 import nerd.tuxmobil.fahrplan.congress.extensions.applyHorizontalInsets
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
+import nerd.tuxmobil.fahrplan.congress.extensions.showToast
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
@@ -176,7 +176,7 @@ class StarredListFragment :
         viewModel.shareJson.observe(viewLifecycleOwner) { formattedSession ->
             val context = requireContext()
             if (!SessionSharer.shareJson(context, formattedSession)) {
-                Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show()
+                context.showToast(R.string.share_error_activity_not_found, showShort = true)
             }
         }
     }

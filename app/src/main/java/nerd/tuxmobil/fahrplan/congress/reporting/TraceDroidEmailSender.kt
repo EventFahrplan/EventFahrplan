@@ -2,11 +2,11 @@ package nerd.tuxmobil.fahrplan.congress.reporting
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import de.cketti.mailto.EmailIntentBuilder
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.extensions.showToast
 import org.ligi.tracedroid.TraceDroid
 import org.ligi.tracedroid.collecting.TraceDroidMetaInfo
 
@@ -56,8 +56,7 @@ object TraceDroidEmailSender {
                     context.startActivity(emailIntent)
                     TraceDroid.deleteStacktraceFiles()
                 } catch (_: ActivityNotFoundException) {
-                    val message = context.getString(R.string.trace_droid_no_email_app)
-                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                    context.showToast(R.string.trace_droid_no_email_app, showShort = true)
                 }
             }
             .setNegativeButton(buttonTitleNo) { _, _ -> TraceDroid.deleteStacktraceFiles() }

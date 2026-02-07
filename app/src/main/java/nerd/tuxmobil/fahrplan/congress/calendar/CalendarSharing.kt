@@ -3,9 +3,9 @@ package nerd.tuxmobil.fahrplan.congress.calendar
 import android.content.Context
 import android.content.Intent
 import android.provider.CalendarContract
-import android.widget.Toast
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
+import nerd.tuxmobil.fahrplan.congress.extensions.showToast
 import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -18,7 +18,7 @@ class CalendarSharing(
         ResourceResolver(context),
     ),
     val onFailure: () -> Unit = {
-        Toast.makeText(context, R.string.add_to_calendar_failed, Toast.LENGTH_LONG).show()
+        context.showToast(R.string.add_to_calendar_failed, showShort = false)
     }
 
 ) {

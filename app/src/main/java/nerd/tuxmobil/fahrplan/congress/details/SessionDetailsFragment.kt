@@ -14,7 +14,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
@@ -41,6 +40,7 @@ import nerd.tuxmobil.fahrplan.congress.commons.ExternalNavigator
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
+import nerd.tuxmobil.fahrplan.congress.extensions.showToast
 import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
@@ -191,8 +191,9 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
             updateOptionsMenu()
         }
         viewModel.openFeedBack.observe(viewLifecycleOwner) { uri ->
-            requireContext().startActivity(Intent(Intent.ACTION_VIEW, uri)) {
-                Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show()
+            val context = requireContext()
+            context.startActivity(Intent(Intent.ACTION_VIEW, uri)) {
+                context.showToast(R.string.share_error_activity_not_found, showShort = true)
             }
         }
         viewModel.shareSimple.observe(viewLifecycleOwner) { formattedSession ->
@@ -201,7 +202,7 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
         viewModel.shareJson.observe(viewLifecycleOwner) { formattedSession ->
             val context = requireContext()
             if (!SessionSharer.shareJson(context, formattedSession)) {
-                Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show()
+                context.showToast(R.string.share_error_activity_not_found, showShort = true)
             }
         }
         viewModel.addToCalendar.observe(viewLifecycleOwner) { session ->
@@ -247,15 +248,15 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
     }
 
     private fun showMissingPostNotificationsPermissionError() {
-        Toast.makeText(requireContext(), R.string.alarms_disabled_notifications_permission_missing, Toast.LENGTH_LONG).show()
+        requireContext().showToast(R.string.alarms_disabled_notifications_permission_missing, showShort = false)
     }
 
     private fun showNotificationsDisabledError() {
-        Toast.makeText(requireContext(), R.string.alarms_disabled_notifications_are_disabled, Toast.LENGTH_LONG).show()
+        requireContext().showToast(R.string.alarms_disabled_notifications_are_disabled, showShort = false)
     }
 
     private fun showMissingScheduleExactAlarmsPermissionError() {
-        Toast.makeText(requireContext(), R.string.alarms_disabled_schedule_exact_alarm_permission_missing, Toast.LENGTH_LONG).show()
+        requireContext().showToast(R.string.alarms_disabled_schedule_exact_alarm_permission_missing, showShort = false)
     }
 
     private fun updateOptionsMenu() {
