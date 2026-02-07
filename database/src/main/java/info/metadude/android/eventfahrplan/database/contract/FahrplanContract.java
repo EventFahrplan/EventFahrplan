@@ -10,11 +10,11 @@ public interface FahrplanContract {
 
         interface Columns {
 
+            String NUM_DAYS = "numdays";
             String VERSION = "version";
             String TITLE = "title";
             String SUBTITLE = "subtitle";
             String SCHEDULE_ETAG = "etag";
-            String NUM_DAYS = "numdays";
             String TIME_ZONE_NAME = "time_zone_name";
             String SCHEDULE_LAST_MODIFIED = "schedule_last_modified";
             String SCHEDULE_GENERATOR_NAME = "schedule_generator_name";
@@ -55,9 +55,9 @@ public interface FahrplanContract {
 
         interface Columns {
 
+            String ID = "_id";
             String SESSION_ID = "eventid"; // Keep column name to avoid database migration.
             String HIGHLIGHT = "highlight";
-            String ID = "_id";
         }
 
         interface Values {
@@ -91,8 +91,11 @@ public interface FahrplanContract {
             String SUBTITLE = "subtitle";
             String DAY_INDEX = "day";
             String ROOM_NAME = "room";
+            String ROOM_IDENTIFIER = "room_identifier";
+            String SLUG = "slug";
             String START = "start";
             String DURATION = "duration";
+            String FEEDBACK_URL = "feedback_url";
             String SPEAKERS = "speakers";
             String TRACK = "track";
             String TYPE = "type";
@@ -103,9 +106,11 @@ public interface FahrplanContract {
             String DATE_TEXT = "date";
             String LINKS = "links";
             String DATE_UTC = "dateUTC";
+            String TIME_ZONE_OFFSET = "time_zone_offset";
             String ROOM_INDEX = "room_idx";
             String REC_LICENSE = "rec_license";
             String REC_OPTOUT = "rec_optout";
+            String URL = "url";
             String CHANGED_TITLE = "changed_title";
             String CHANGED_SUBTITLE = "changed_subtitle";
             String CHANGED_ROOM_NAME = "changed_room";
@@ -118,11 +123,6 @@ public interface FahrplanContract {
             String CHANGED_START_TIME = "changed_time";
             String CHANGED_DURATION = "changed_duration";
             String CHANGED_IS_CANCELED = "changed_is_canceled";
-            String SLUG = "slug";
-            String URL = "url";
-            String TIME_ZONE_OFFSET = "time_zone_offset";
-            String ROOM_IDENTIFIER = "room_identifier";
-            String FEEDBACK_URL = "feedback_url";
         }
 
         interface Defaults {
