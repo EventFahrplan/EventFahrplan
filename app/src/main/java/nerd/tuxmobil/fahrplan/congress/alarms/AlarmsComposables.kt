@@ -44,27 +44,25 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
 
 @Composable
-internal fun AlarmsScreen(
+internal fun AlarmsContent(
     state: AlarmsState,
     showInSidePane: Boolean,
 ) {
-    EventFahrplanTheme {
-        Scaffold {
-            Box {
-                when (state) {
-                    Loading -> Loading()
-                    is Success -> {
-                        val parameters = state.sessionAlarmParameters
-                        if (parameters.isEmpty()) {
-                            NoAlarms()
-                        } else {
-                            SessionAlarmsList(
-                                parameters = parameters,
-                                showInSidePane = showInSidePane,
-                                onItemClick = state.onItemClick,
-                                onDeleteItemClick = state.onDeleteItemClick
-                            )
-                        }
+    Scaffold {
+        Box {
+            when (state) {
+                Loading -> Loading()
+                is Success -> {
+                    val parameters = state.sessionAlarmParameters
+                    if (parameters.isEmpty()) {
+                        NoAlarms()
+                    } else {
+                        SessionAlarmsList(
+                            parameters = parameters,
+                            showInSidePane = showInSidePane,
+                            onItemClick = state.onItemClick,
+                            onDeleteItemClick = state.onDeleteItemClick
+                        )
                     }
                 }
             }
@@ -200,75 +198,81 @@ private fun DeleteIcon(
 
 @MultiDevicePreview
 @Composable
-private fun AlarmsScreenPreview() {
-    AlarmsScreen(
-        Success(
-            listOf(
-                SessionAlarmParameter(
-                    sessionId = "s1",
-                    title = "Some random title",
-                    titleContentDescription = "",
-                    subtitle = "A longer subtitle to be displayed",
-                    subtitleContentDescription = "",
-                    alarmOffsetInMin = 45,
-                    alarmOffsetContentDescription = "",
-                    firesAt = Moment.ofEpochMilli(0),
-                    firesAtText = "28.02.2023 14:00",
-                    firesAtContentDescription = "",
-                    dayIndex = 0,
+private fun AlarmsContentPreview() {
+    EventFahrplanTheme {
+        AlarmsContent(
+            Success(
+                listOf(
+                    SessionAlarmParameter(
+                        sessionId = "s1",
+                        title = "Some random title",
+                        titleContentDescription = "",
+                        subtitle = "A longer subtitle to be displayed",
+                        subtitleContentDescription = "",
+                        alarmOffsetInMin = 45,
+                        alarmOffsetContentDescription = "",
+                        firesAt = Moment.ofEpochMilli(0),
+                        firesAtText = "28.02.2023 14:00",
+                        firesAtContentDescription = "",
+                        dayIndex = 0,
+                    ),
+                    SessionAlarmParameter(
+                        sessionId = "s2",
+                        title = "Second title",
+                        titleContentDescription = "",
+                        subtitle = "A longer subtitle to be displayed lorem ipsum",
+                        subtitleContentDescription = "",
+                        alarmOffsetInMin = 10,
+                        alarmOffsetContentDescription = "",
+                        firesAt = Moment.ofEpochMilli(0),
+                        firesAtText = "01.03.2023 09:00",
+                        firesAtContentDescription = "",
+                        dayIndex = 0,
+                    ),
+                    SessionAlarmParameter(
+                        sessionId = "s3",
+                        title = "No subtitle present for this item",
+                        titleContentDescription = "",
+                        subtitle = "",
+                        subtitleContentDescription = "",
+                        alarmOffsetInMin = 0,
+                        alarmOffsetContentDescription = "",
+                        firesAt = Moment.ofEpochMilli(0),
+                        firesAtText = "01.03.2023 17:00",
+                        firesAtContentDescription = "",
+                        dayIndex = 0,
+                    ),
                 ),
-                SessionAlarmParameter(
-                    sessionId = "s2",
-                    title = "Second title",
-                    titleContentDescription = "",
-                    subtitle = "A longer subtitle to be displayed lorem ipsum",
-                    subtitleContentDescription = "",
-                    alarmOffsetInMin = 10,
-                    alarmOffsetContentDescription = "",
-                    firesAt = Moment.ofEpochMilli(0),
-                    firesAtText = "01.03.2023 09:00",
-                    firesAtContentDescription = "",
-                    dayIndex = 0,
-                ),
-                SessionAlarmParameter(
-                    sessionId = "s3",
-                    title = "No subtitle present for this item",
-                    titleContentDescription = "",
-                    subtitle = "",
-                    subtitleContentDescription = "",
-                    alarmOffsetInMin = 0,
-                    alarmOffsetContentDescription = "",
-                    firesAt = Moment.ofEpochMilli(0),
-                    firesAtText = "01.03.2023 17:00",
-                    firesAtContentDescription = "",
-                    dayIndex = 0,
-                ),
+                onItemClick = { _ -> },
+                onDeleteItemClick = {},
             ),
-            onItemClick = { _ -> },
-            onDeleteItemClick = {},
-        ),
-        showInSidePane = true,
-    )
+            showInSidePane = true,
+        )
+    }
 }
 
 @Preview
 @Composable
-private fun AlarmsScreenEmptyPreview() {
-    AlarmsScreen(
-        state = Success(
-            emptyList(),
-            onItemClick = { _ -> },
-            onDeleteItemClick = {},
-        ),
-        showInSidePane = false,
-    )
+private fun AlarmsContentEmptyPreview() {
+    EventFahrplanTheme {
+        AlarmsContent(
+            state = Success(
+                emptyList(),
+                onItemClick = { _ -> },
+                onDeleteItemClick = {},
+            ),
+            showInSidePane = false,
+        )
+    }
 }
 
 @Preview
 @Composable
-private fun AlarmsScreenLoadingPreview() {
-    AlarmsScreen(
-        state = Loading,
-        showInSidePane = false,
-    )
+private fun AlarmsContentLoadingPreview() {
+    EventFahrplanTheme {
+        AlarmsContent(
+            state = Loading,
+            showInSidePane = false,
+        )
+    }
 }

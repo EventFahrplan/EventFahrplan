@@ -8,7 +8,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.annotation.IdRes
-import androidx.compose.runtime.collectAsState
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -20,6 +19,7 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.OnSessionItemClickListener
 import nerd.tuxmobil.fahrplan.congress.commons.ScreenNavigation
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 
@@ -78,10 +78,12 @@ class AlarmsFragment : Fragment(), MenuProvider {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = content {
-        AlarmsScreen(
-            state = viewModel.alarmsState.collectAsState().value,
-            showInSidePane = sidePane,
-        )
+        EventFahrplanTheme {
+            AlarmsScreen(
+                viewModel = viewModel,
+                showInSidePane = sidePane,
+            )
+        }
     }.also { it.isClickable = true }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
