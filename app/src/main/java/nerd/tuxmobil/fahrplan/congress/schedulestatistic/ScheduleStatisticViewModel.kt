@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import info.metadude.android.eventfahrplan.database.models.ColumnStatistic
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
@@ -13,6 +12,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
+import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticEffect.NavigateBack
 import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticState.Loading
 import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticState.Success
 import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticViewEvent.OnBackClick
@@ -25,8 +25,8 @@ class ScheduleStatisticViewModel(
     private val mutableScheduleStatisticState = MutableStateFlow<ScheduleStatisticState>(Loading)
     val scheduleStatisticState = mutableScheduleStatisticState.asStateFlow()
 
-    private val mutableNavigateBack = Channel<Unit>()
-    val navigateBack = mutableNavigateBack.receiveAsFlow()
+    private val mutableEffects = Channel<ScheduleStatisticEffect>()
+    val effects = mutableEffects.receiveAsFlow()
 
     private val worseFirst = MutableStateFlow(true)
 
@@ -46,14 +46,14 @@ class ScheduleStatisticViewModel(
 
     fun onViewEvent(viewEvent: ScheduleStatisticViewEvent) {
         when (viewEvent) {
-            OnBackClick -> mutableNavigateBack.sendOneTimeEvent(Unit)
+            OnBackClick -> sendEffect(NavigateBack)
             OnToggleSorting -> worseFirst.value = !worseFirst.value
         }
     }
 
-    private fun <E> SendChannel<E>.sendOneTimeEvent(event: E) {
+    private fun sendEffect(effect: ScheduleStatisticEffect) {
         viewModelScope.launch {
-            send(event)
+            mutableEffects.send(effect)
         }
     }
 

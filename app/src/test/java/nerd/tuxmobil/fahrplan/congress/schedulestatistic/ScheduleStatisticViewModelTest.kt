@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
+import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticEffect.NavigateBack
 import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticState.Loading
 import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticState.Success
 import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticViewEvent.OnBackClick
@@ -89,12 +90,12 @@ class ScheduleStatisticViewModelTest {
     }
 
     @Test
-    fun `navigateBack emits Unit when OnBackClick`() = runTest {
+    fun `effects emits NavigateBack when OnBackClick`() = runTest {
         val repository = createRepository(emptyFlow())
         val viewModel = createViewModel(repository)
         viewModel.onViewEvent(OnBackClick)
-        viewModel.navigateBack.test {
-            assertThat(awaitItem()).isEqualTo(Unit)
+        viewModel.effects.test {
+            assertThat(awaitItem()).isEqualTo(NavigateBack)
             expectNoEvents()
         }
     }
