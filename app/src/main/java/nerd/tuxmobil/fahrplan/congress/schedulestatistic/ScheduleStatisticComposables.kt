@@ -47,38 +47,36 @@ import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticViewEv
 import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticViewEvent.OnToggleSorting
 
 @Composable
-internal fun ScheduleStatisticScreen(
+fun ScheduleStatisticContent(
     state: ScheduleStatisticState,
     onViewEvent: (ScheduleStatisticViewEvent) -> Unit,
 ) {
-    EventFahrplanTheme {
-        Scaffold(
-            topBar = {
-                TopBar(
-                    showActions = state is Success && state.scheduleStatistic.isNotEmpty(),
-                    onViewEvent = onViewEvent,
-                )
-            },
-            content = { contentPadding ->
-                Box(
-                    Modifier
-                        .padding(top = contentPadding.calculateTopPadding())
-                ) {
-                    when (state) {
-                        Loading -> Loading()
-                        is Success -> {
-                            val scheduleStatistic = state.scheduleStatistic
-                            if (scheduleStatistic.isEmpty()) {
-                                NoScheduleStatistic()
-                            } else {
-                                ScheduleStatisticList(scheduleStatistic)
-                            }
+    Scaffold(
+        topBar = {
+            TopBar(
+                showActions = state is Success && state.scheduleStatistic.isNotEmpty(),
+                onViewEvent = onViewEvent,
+            )
+        },
+        content = { contentPadding ->
+            Box(
+                Modifier
+                    .padding(top = contentPadding.calculateTopPadding())
+            ) {
+                when (state) {
+                    Loading -> Loading()
+                    is Success -> {
+                        val scheduleStatistic = state.scheduleStatistic
+                        if (scheduleStatistic.isEmpty()) {
+                            NoScheduleStatistic()
+                        } else {
+                            ScheduleStatisticList(scheduleStatistic)
                         }
                     }
                 }
             }
-        )
-    }
+        }
+    )
 }
 
 @Composable
@@ -227,34 +225,40 @@ private fun colorOf(percentage: Float) = when {
 
 @MultiDevicePreview
 @Composable
-private fun ScheduleStatisticScreenPreview() {
-    ScheduleStatisticScreen(
-        state = Success(
-            listOf(
-                ColumnStatistic("Links", countNone = 583, countPresent = 6),
-                ColumnStatistic("Language", countNone = 387, countPresent = 202),
-                ColumnStatistic("Room", countNone = 70, countPresent = 519),
-                ColumnStatistic("Track", countNone = 0, countPresent = 589),
-            )
-        ),
-        onViewEvent = {},
-    )
+private fun ScheduleStatisticContentPreview() {
+    EventFahrplanTheme {
+        ScheduleStatisticContent(
+            state = Success(
+                listOf(
+                    ColumnStatistic("Links", countNone = 583, countPresent = 6),
+                    ColumnStatistic("Language", countNone = 387, countPresent = 202),
+                    ColumnStatistic("Room", countNone = 70, countPresent = 519),
+                    ColumnStatistic("Track", countNone = 0, countPresent = 589),
+                )
+            ),
+            onViewEvent = {},
+        )
+    }
 }
 
 @Preview
 @Composable
-private fun ScheduleStatisticScreenEmptyPreview() {
-    ScheduleStatisticScreen(
-        state = Success(emptyList()),
-        onViewEvent = {},
-    )
+private fun ScheduleStatisticContentEmptyPreview() {
+    EventFahrplanTheme {
+        ScheduleStatisticContent(
+            state = Success(emptyList()),
+            onViewEvent = {},
+        )
+    }
 }
 
 @Preview
 @Composable
-private fun ScheduleStatisticScreenLoadingPreview() {
-    ScheduleStatisticScreen(
-        state = Loading,
-        onViewEvent = {},
-    )
+private fun ScheduleStatisticContentLoadingPreview() {
+    EventFahrplanTheme {
+        ScheduleStatisticContent(
+            state = Loading,
+            onViewEvent = {},
+        )
+    }
 }
