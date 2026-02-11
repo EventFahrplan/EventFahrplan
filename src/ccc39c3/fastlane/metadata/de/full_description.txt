@@ -1,0 +1,70 @@
+Der 39. Chaos Communication Congress (39C3) findet vom 27. bis 30. Dezember 2025
+in Hamburg statt und ist die 2025er Ausgabe der jährlichen viertägigen Konferenz
+über Technologie, Gesellschaft und Utopie, die vom Chaos Computer Club (CCC) und
+ehrenamtlichen Helfern organisiert wird.
+
+Der Kongress bietet Vorträge, Workshops und verschiedene Veranstaltungen zu
+einer Vielzahl von Themen, einschließlich (aber nicht beschränkt auf)
+Informationstechnologie und allgemein eine kritisch-kreative Haltung gegenüber
+Technologie und die Diskussion über die Auswirkungen des technischen
+Fortschritts auf die Gesellschaft.
+
+Der 1984 ins Leben gerufene Kongress wird von der Gemeinschaft organisiert und
+schätzt jede Art von Beteiligung. Du wirst ermutigt, einen Beitrag zu leisten,
+in dem du Freiwilligenarbeit beiträgst, praktische und selbst organisierte
+Veranstaltungen mit anderen deiner Gruppe organisierst oder anderen Hackern
+Projekte vorstellst.
+
+https://events.ccc.de/congress/2025/
+
+Funktionen:
+✓ Tagesüberblick über alle Programmpunkte
+✓ Beschreibung von Veranstaltungen lesen
+✓ Veranstaltungen in persönlicher Favoritenliste verwalten
+✓ Alle Veranstaltungen durchsuchen und filtern
+✓ Favoritenliste exportieren
+✓ Alarm für Veranstaltungen setzen
+✓ Veranstaltungen in Kalender eintragen
+✓ Link zu Veranstaltungen mit anderen teilen
+✓ Programmänderungen einsehen
+✓ Veranstaltungen und Workshops bewerten
+✓ Web-Links werden automatisch in der App geöffnet
+✓ Integration mit dem c3nav Innenraum-Navigationsprojekt https://c3nav.de
+✓ Integration mit dem Engelsystem-Projekt https://engel.events.ccc.de -
+  Online-Tool für Helfer- und Schichtplanung auf großen Events
+✓ Integration mit Chaosflix https://github.com/NiciDieNase/chaosflix -
+  Android App für https://media.ccc.de, teile Fahrplan-Favoriten mit Chaosflix
+  und importiere sie als Bookmarks
+
+🔤 Unterstützte Sprachen:
+(Programmtexte ausgenommen)
+✓ Dänisch
+✓ Deutsch
+✓ Deutsch, Österreich
+✓ Englisch
+✓ Finnisch
+✓ Französisch
+✓ Italienisch
+✓ Japanisch
+✓ Litauisch
+✓ Niederländisch
+✓ Polnisch
+✓ Portugiesisch, Brasilien
+✓ Portugiesisch, Portugal
+✓ Russisch
+✓ Spanisch
+✓ Schwedisch
+✓ Türkisch
+
+🤝 Du kannst mithelfen, die App zu übersetzen:
+   https://crowdin.com/project/eventfahrplan
+
+💡 Inhaltliche Fragen zum Programm kann nur das Content-Team vom Chaos
+   Communication Congress (CCC) beantworten. Diese App stellt lediglich das
+   Programm zur Verfügung.
+
+💣 Fehlerberichte sind herzlich willkommen, aber achte darauf, dass du erklärst,
+   wie man den Fehler reproduzieren kann. Bitte nutze den GitHub Issue-Tracker
+   https://github.com/EventFahrplan/EventFahrplan/issues.
+
+🎨 39C3 Power Cycles. Design von Nina Bender und Bernd Volmer

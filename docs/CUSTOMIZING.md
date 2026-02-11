@@ -66,6 +66,7 @@ In some of the steps it is the easiest to copy and adapt configuration settings,
 14. Add a notification icon in different resolutions as `res/drawable-[...]/ic_notification.png`
 15. Add an about dialog logo as `res/drawable/dialog_logo.xml`
 16. Customize bell and video recording icons in `res/drawable/` (optional)
+17. If you publish the app in the [F-Droid store](https://f-droid.org/), provide assets (textual description, screenshots, changelogs) to complete the publication according to the [F-Droid documentation](https://f-droid.org/en/docs/All_About_Descriptions_Graphics_and_Screenshots/).
 
 ### 3.1. Customizing illustrations shown at empty screens
 
