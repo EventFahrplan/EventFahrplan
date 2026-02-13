@@ -8,27 +8,27 @@
     <color name="colorPrimary">#00ff00</color>
     <color name="colorPrimaryDark">#6cff57</color>
     <color name="colorAccent">#9673ff</color>
-    <color name="windowBackground">#faf5f5</color>
-    <color name="window_background_inverted">@color/windowBackground</color>
+    <color name="background_primary">#faf5f5</color>
+    <color name="window_background_inverted">@color/background_primary</color>
     <color name="multi_choice_background">#D4CFCF</color>
 
     <!-- App bar -->
     <color name="app_bar_action_icon">@color/text_primary</color>
 
     <!-- Alarms -->
-    <color name="session_alarm_item_bell_icon_text">@color/windowBackground</color>
+    <color name="session_alarm_item_bell_icon_text">@color/background_primary</color>
 
     <!-- Alarm dialogs -->
     <color name="alert_dialog_button_text">@color/text_primary</color>
 
     <!-- Schedule screen -->
     <color name="schedule_time_column_background">@color/colorAccent</color>
-    <color name="schedule_time_column_item_background_normal">@color/windowBackground</color>
+    <color name="schedule_time_column_item_background_normal">@color/background_primary</color>
     <color name="schedule_time_column_item_background_emphasized">@color/colorAccent</color>
     <color name="schedule_time_column_item_text_normal">@color/text_primary</color>
-    <color name="schedule_time_column_item_text_emphasized">@color/windowBackground</color>
+    <color name="schedule_time_column_item_text_emphasized">@color/background_primary</color>
     <color name="schedule_horizontal_time_line">#4d000000</color>
-    <color name="schedule_room_name_header_background">@color/windowBackground</color>
+    <color name="schedule_room_name_header_background">@color/background_primary</color>
     <color name="schedule_room_name_header_text">#5c33f4</color>
     <color name="session_drawable_selection_stroke">@color/text_primary</color>
 

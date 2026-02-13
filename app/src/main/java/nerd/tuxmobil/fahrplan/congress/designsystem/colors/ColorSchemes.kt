@@ -10,7 +10,7 @@ import androidx.compose.material3.ColorScheme as Material3ColorScheme
 @Composable
 internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
     primary = colorResource(R.color.colorAccent),
-    background = colorResource(R.color.windowBackground),
+    background = colorResource(R.color.background_primary),
     onBackground = colorResource(R.color.text_primary), // used by LazyColumn -> Text header
     surface = colorResource(android.R.color.transparent), // used by ListItem background
     onSurface = colorResource(R.color.text_primary), // used by ListItem -> headlineContent

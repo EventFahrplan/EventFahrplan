@@ -6,7 +6,7 @@
     <color name="colorPrimary">#FB48C4</color>
     <color name="colorPrimaryDark">#CC3BA1</color>
     <color name="colorAccent">#3FFF21</color>
-    <color name="windowBackground">#1a1a1a</color>
+    <color name="background_primary">#1a1a1a</color>
     <color name="text_link_on_light">#32CC1B</color>
     <color name="multi_choice_background">#ffc600</color>
     <color name="session_details_list_item_prefix_symbol">@color/colorPrimaryDark</color>
