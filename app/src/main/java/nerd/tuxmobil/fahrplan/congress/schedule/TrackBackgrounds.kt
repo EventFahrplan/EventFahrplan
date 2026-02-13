@@ -7,7 +7,7 @@ import org.xmlpull.v1.XmlPullParser
 
 object TrackBackgrounds {
 
-    private fun getHashMapResource(context: Context, hashMapResId: Int): Map<String?, String?>? {
+    private fun getHashMapResource(context: Context, hashMapResId: Int): Map<String?, String?> {
         var map: MutableMap<String?, String?>? = null
         val parser = context.resources.getXml(hashMapResId)
         var key: String? = null
@@ -25,8 +25,7 @@ object TrackBackgrounds {
                             key = parser.getAttributeValue(null, "key")
                             if (null == key) {
                                 parser.close()
-
-                                return null
+                                return emptyMap()
                             }
                         }
                     }
@@ -47,9 +46,9 @@ object TrackBackgrounds {
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            return null
+            return emptyMap()
         }
-        return map
+        return map.orEmpty()
     }
 
     @SuppressLint("DiscouragedApi")
@@ -70,14 +69,14 @@ object TrackBackgrounds {
     }
 
     fun getTrackNameBackgroundColorDefaultPairs(context: Context) = buildTrackBackgroundHashMap(
-        getHashMapResource(context, R.xml.track_resource_names)!!,
+        getHashMapResource(context, R.xml.track_resource_names),
         "track_background_default",
         "color",
         context
     )
 
     fun getTrackNameBackgroundColorHighlightPairs(context: Context) = buildTrackBackgroundHashMap(
-        getHashMapResource(context, R.xml.track_resource_names)!!,
+        getHashMapResource(context, R.xml.track_resource_names),
         "track_background_highlight",
         "color",
         context

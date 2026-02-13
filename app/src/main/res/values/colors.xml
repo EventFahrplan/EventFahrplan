@@ -56,6 +56,8 @@
     <color name="session_item_video_without_recording_took_place">#656565</color>
     <color name="session_item_track_name_text">#db000000</color>
     <color name="session_item_track_name_background">#99ffffff</color>
+    <color name="track_background_default">#b3b3b3</color>
+    <color name="track_background_highlight">#cccccc</color>
 
     <!-- Schedule changes statistic -->
     <color name="schedule_changes_statistic_bar_background_on_dark">#444444</color>
