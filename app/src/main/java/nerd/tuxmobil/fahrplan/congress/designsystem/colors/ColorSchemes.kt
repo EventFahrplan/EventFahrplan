@@ -58,7 +58,7 @@ internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
 @Composable
 internal fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
     primary = colorResource(R.color.colorAccent),
-    background = colorResource(R.color.window_background_inverted),
+    background = colorResource(R.color.background_primary_inverted),
     onBackground = colorResource(R.color.text_primary_inverted),
     surface = colorResource(android.R.color.transparent),
     onSurface = colorResource(R.color.text_primary_inverted),

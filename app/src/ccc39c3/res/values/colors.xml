@@ -9,7 +9,7 @@
     <color name="colorPrimaryDark">#6cff57</color>
     <color name="colorAccent">#9673ff</color>
     <color name="background_primary">#faf5f5</color>
-    <color name="window_background_inverted">@color/background_primary</color>
+    <color name="background_primary_inverted">@color/background_primary</color>
     <color name="multi_choice_background">#D4CFCF</color>
 
     <!-- App bar -->
