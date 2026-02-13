@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#311b92</color>
+    <color name="colorPrimaryDark">#281678</color>
+    <color name="colorAccent">#FFAB91</color>
+    <color name="text_primary">#fff</color>
+    <color name="text_secondary">#e6e6e6</color>
+    <color name="background_primary">#000</color>
+    <color name="background_secondary">#333333</color>
+    <color name="background_tertiary">#262626</color>
+    <color name="foreground">#000</color>
+
+    <!-- Schedule screen -->
+    <color name="track_background_default">#333333</color>
+    <color name="track_background_highlight">#4d4d4d</color>
+
+</resources>

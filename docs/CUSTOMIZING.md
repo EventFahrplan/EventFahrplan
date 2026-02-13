@@ -59,9 +59,9 @@ In some of the steps it is the easiest to copy and adapt configuration settings,
 7. Customize texts for the languages which you want to offer (`values/strings.xml`, `values-de/strings.xml`, ...) in your flavor
 8. Add the name/s (and website/s) of the authors of the logo(s) in `copyright_logo`
 9. Add track resource names in `res/xml/track_resource_names.xml` in your flavor
-10. Customize track colors in `res/values/colors_congress.xml` in your flavor
-11. Customize app colors in `res/values/colors.xml` in your flavor
-12. Verify colors both in light and dark mode (not all screens switch colors!)
+10. Customize track colors in `res/values/colors_congress.xml` in your flavor - brighter colors in `res/values`, darker colors `res/values-night`
+11. Customize app colors in `res/values/colors.xml` in your flavor - good default colors are defined in `app/src/main`
+12. Verify colors both in light and dark modes
 13. Add a launcher icon in different resolutions as `res/mipmap-[...]/ic_launcher.png` in your flavor
 14. Add a notification icon in different resolutions as `res/drawable-[...]/ic_notification.png` in your flavor
 15. Add an about dialog logo as `res/drawable/dialog_logo.xml` in your flavor

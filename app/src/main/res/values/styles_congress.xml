@@ -42,7 +42,7 @@
 
     <style name="SpinnerDropDownItemStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
         <item name="android:textColor">@color/text_primary</item>
-        <item name="android:background">@color/popupBackground</item>
+        <item name="android:background">@color/background_secondary</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
     </style>
 
