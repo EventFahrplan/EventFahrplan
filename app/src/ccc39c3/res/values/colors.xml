@@ -5,6 +5,7 @@
     <color name="text_primary_inverted">@color/text_primary</color>
     <color name="text_secondary">#2E2E2E</color>
     <color name="text_secondary_inverted">@color/text_secondary</color>
+    <color name="text_tertiary">#4f4f4f</color>
     <color name="colorPrimary">#00ff00</color>
     <color name="colorPrimaryDark">#6cff57</color>
     <color name="colorAccent">#9673ff</color>
