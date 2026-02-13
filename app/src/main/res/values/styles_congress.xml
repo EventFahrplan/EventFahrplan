@@ -64,7 +64,7 @@
         <item name="android:textColorSecondary">@color/text_secondary</item>
         <item name="colorAccent">@color/alert_dialog_button_text</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
-        <item name="android:windowBackground">@color/popupBackground</item>
+        <item name="android:windowBackground">@color/alert_dialog_background</item>
         <item name="textColorAlertDialogListItem">@color/text_secondary</item>
     </style>
 

@@ -36,6 +36,7 @@
 
     <!-- Alarm dialogs -->
     <color name="alert_dialog_button_text">@color/colorAccent</color>
+    <color name="alert_dialog_background">@color/popupBackground</color>
 
     <!-- Schedule screen -->
     <color name="schedule_time_column_background">@color/colorAccent</color>
