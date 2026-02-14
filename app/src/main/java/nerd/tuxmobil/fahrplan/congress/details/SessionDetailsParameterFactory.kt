@@ -72,6 +72,10 @@ class SessionDetailsParameterFactory(
                 value = formattedSpeakerNames,
                 contentDescription = contentDescriptionFormatting.getSpeakersContentDescription(session.speakers.count(), formattedSpeakerNames),
             ),
+            languages = SessionDetailsProperty(
+                value = session.language,
+                contentDescription = contentDescriptionFormatting.getLanguageContentDescription(session.language),
+            ),
             abstract = SessionDetailsProperty(
                 value = getMarkupProperty(session.abstractt),
                 contentDescription = session.abstractt,

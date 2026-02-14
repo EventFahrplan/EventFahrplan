@@ -8,6 +8,7 @@ sealed interface SessionDetailsParameter {
         val title: SessionDetailsProperty<String>,
         val subtitle: SessionDetailsProperty<String>,
         val speakerNames: SessionDetailsProperty<String>,
+        val languages: SessionDetailsProperty<String>,
         val abstract: SessionDetailsProperty<SessionDetailsProperty.MarkupLanguage>,
         val description: SessionDetailsProperty<SessionDetailsProperty.MarkupLanguage>,
         val trackName: SessionDetailsProperty<String>,

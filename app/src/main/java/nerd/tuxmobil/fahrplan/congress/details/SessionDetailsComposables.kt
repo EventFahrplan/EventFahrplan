@@ -139,7 +139,11 @@ fun SessionDetails(
                     RoomState(showRoomState, roomStateMessage)
                     Title(title, showTitleBoxed)
                     Subtitle(subtitle)
-                    SpeakerNames(speakerNames, Modifier.padding(top = dimensionResource(R.dimen.session_details_extra_space_above_speaker_names)))
+                    SpeakerNamesAndLanguages(
+                        speakerNamesProperty = speakerNames,
+                        languagesProperty = languages,
+                        modifier = Modifier.padding(top = dimensionResource(R.dimen.session_details_extra_space_above_speaker_names)),
+                    )
                     Abstract(abstract, htmlStyle)
                     Description(description, htmlStyle)
                     Links(links, htmlStyle, Modifier.padding(top = dimensionResource(R.dimen.session_details_extra_space_above_section_header)))
@@ -260,17 +264,29 @@ private fun Subtitle(
 }
 
 @Composable
-private fun SpeakerNames(
-    property: SessionDetailsProperty<String>,
+private fun SpeakerNamesAndLanguages(
+    speakerNamesProperty: SessionDetailsProperty<String>,
+    languagesProperty: SessionDetailsProperty<String>,
     modifier: Modifier = Modifier,
 ) {
-    if (property.value.isNotEmpty()) {
+    val text = buildString {
+        if (speakerNamesProperty.value.isNotEmpty()) {
+            append(speakerNamesProperty.value.uppercase())
+        }
+        if (speakerNamesProperty.value.isNotEmpty() && languagesProperty.value.isNotEmpty()) {
+            append(" ")
+        }
+        if (languagesProperty.value.isNotEmpty()) {
+            append("[${languagesProperty.value.uppercase()}]")
+        }
+    }
+    if (text.isNotEmpty()) {
         TextSection(
             modifier = modifier
                 .semantics {
-                    contentDescription = property.contentDescription
+                    contentDescription = "${speakerNamesProperty.contentDescription}, ${languagesProperty.contentDescription}"
                 },
-            text = property.value.uppercase(),
+            text = text,
             fontSize = dimensionResource(R.dimen.session_details_speakers).toTextUnit(),
         )
     }
@@ -648,6 +664,7 @@ private fun SessionDetailsContentPreview() {
                     title = SessionDetailsProperty(stringResource(R.string.placeholder_session_title), ""),
                     subtitle = SessionDetailsProperty(stringResource(R.string.placeholder_session_subtitle), ""),
                     speakerNames = SessionDetailsProperty(stringResource(R.string.placeholder_session_speakers), ""),
+                    languages = SessionDetailsProperty(stringResource(R.string.placeholder_session_languages), ""),
                     abstract = SessionDetailsProperty(Markdown(stringResource(R.string.placeholder_session_abstract)), ""),
                     description = SessionDetailsProperty(Markdown(stringResource(R.string.placeholder_session_description)), ""),
                     trackName = SessionDetailsProperty(stringResource(R.string.placeholder_session_track), ""),

@@ -57,6 +57,9 @@
     <string name="placeholder_session_language">
         en
     </string>
+    <string name="placeholder_session_languages">
+        en, de
+    </string>
     <string name="placeholder_session_day">
         Today
     </string>
