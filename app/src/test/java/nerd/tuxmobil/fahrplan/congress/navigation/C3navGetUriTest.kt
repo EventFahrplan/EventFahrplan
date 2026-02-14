@@ -5,6 +5,7 @@ import androidx.core.net.toUri
 import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.models.Room
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.MethodSource
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
@@ -22,7 +23,7 @@ class C3navGetUriTest {
         private const val VALID_IDENTIFIER = "88888888-4444-4444-4444-121212121212"
 
         private fun scenarioOf(baseUrl: String, room: Room, convertedName: String, uri: Uri) =
-            arrayOf(baseUrl, room, convertedName, uri)
+            of(baseUrl, room, convertedName, uri)
 
         @JvmStatic
         fun data() = listOf(

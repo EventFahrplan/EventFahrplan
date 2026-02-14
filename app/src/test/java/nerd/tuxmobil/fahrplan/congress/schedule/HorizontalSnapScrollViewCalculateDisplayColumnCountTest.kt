@@ -3,6 +3,8 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.R
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.MethodSource
 
 /**
@@ -28,10 +30,10 @@ class HorizontalSnapScrollViewCalculateDisplayColumnCountTest {
                 maxColumnCountForLayout: Int,
                 minColumnWidthDip: Int,
                 calculatedColumnCount: Int
-        ): Array<Any> {
+        ): Arguments? {
             val orientationText = if (isPortraitMode) "Portrait" else "Landscape"
             val testDescription = "${device.title}, $orientationText, totalColumnCount=$totalColumnCount, maxColumnCountForLayout=$maxColumnCountForLayout --> $calculatedColumnCount"
-            return arrayOf(
+            return of(
                     device.getAvailablePixel(isPortraitMode),
                     totalColumnCount,
                     maxColumnCountForLayout,

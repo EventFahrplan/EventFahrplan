@@ -8,6 +8,7 @@ import info.metadude.android.eventfahrplan.network.temporal.DateParser
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.MethodSource
 import org.threeten.bp.ZoneOffset
 
@@ -28,7 +29,7 @@ class ScrollAmountCalculatorTimeZoneOffsetTest {
                 startedHoursAgo: Int,
                 expectedScrollAmount: Int
         ) =
-                arrayOf(deviceTimeZoneId, sessionStartsAtDateTimeIso8601, startedHoursAgo, expectedScrollAmount)
+                of(deviceTimeZoneId, sessionStartsAtDateTimeIso8601, startedHoursAgo, expectedScrollAmount)
 
         private fun startsNowScenarioOf(deviceTimeZoneId: String) =
                 scenarioOf(deviceTimeZoneId, "2019-08-21T11:00:00+02:00", startedHoursAgo = 0, expectedScrollAmount = 0)
