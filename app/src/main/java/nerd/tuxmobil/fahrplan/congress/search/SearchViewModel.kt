@@ -41,6 +41,7 @@ import nerd.tuxmobil.fahrplan.congress.search.filters.NotRecordedSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.RecordedSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.WithinSpeakerNamesSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.WithinTitleSubtitleSearchFilter
+import nerd.tuxmobil.fahrplan.congress.search.filters.WithinTrackNameSearchFilter
 
 @OptIn(FlowPreview::class)
 class SearchViewModel(
@@ -62,6 +63,7 @@ class SearchViewModel(
             RecordedSearchFilter(),
             WithinSpeakerNamesSearchFilter(),
             WithinTitleSubtitleSearchFilter(),
+            WithinTrackNameSearchFilter(),
         )
     }
 

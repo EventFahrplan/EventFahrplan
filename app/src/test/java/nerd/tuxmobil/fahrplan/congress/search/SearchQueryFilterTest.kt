@@ -9,6 +9,7 @@ import nerd.tuxmobil.fahrplan.congress.search.filters.NotRecordedSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.RecordedSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.WithinSpeakerNamesSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.WithinTitleSubtitleSearchFilter
+import nerd.tuxmobil.fahrplan.congress.search.filters.WithinTrackNameSearchFilter
 import org.junit.jupiter.api.Test
 
 class SearchQueryFilterTest {
@@ -256,6 +257,32 @@ class SearchQueryFilterTest {
         val session2 = Session("2", title = "Session 2", subtitle = "Another subtitle")
         val sessions = listOf(session1, session2)
         val filters = setOf(WithinTitleSubtitleSearchFilter())
+
+        val result = filter.filterAll(sessions, query = "", filters)
+
+        assertThat(result).isEmpty()
+    }
+
+    @Test
+    fun `WithinTrackNameSearchFilter only returns sessions where track name matches the query`() {
+        val session1 = Session("1", title = "Track", track = "Security")
+        val session2 = Session("2", title = "Session", track = "Security Track")
+        val session3 = Session("3", title = "Other", track = "TRACK")
+        val session4 = Session("4", title = "no match", track = "Workshop")
+        val sessions = listOf(session1, session2, session3, session4)
+        val filters = setOf(WithinTrackNameSearchFilter())
+
+        val result = filter.filterAll(sessions, query = "track", filters)
+
+        assertThat(result).containsExactly(session2, session3)
+    }
+
+    @Test
+    fun `WithinTrackNameSearchFilter with empty query doesn't return any matches`() {
+        val session1 = Session("1", title = "Session 1", track = "Security")
+        val session2 = Session("2", title = "Session 2", track = "Workshop")
+        val sessions = listOf(session1, session2)
+        val filters = setOf(WithinTrackNameSearchFilter())
 
         val result = filter.filterAll(sessions, query = "", filters)
 

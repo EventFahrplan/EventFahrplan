@@ -542,5 +542,6 @@ private fun searchFilters(): ImmutableList<SearchFilterUiState> {
         SearchFilterUiState(label = R.string.search_filter_not_recorded, selected = false),
         SearchFilterUiState(label = R.string.search_filter_within_speaker_names, selected = false),
         SearchFilterUiState(label = R.string.search_filter_within_title_subtitle, selected = false),
+        SearchFilterUiState(label = R.string.search_filter_within_track_name, selected = false),
     )
 }
