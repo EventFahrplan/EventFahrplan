@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.commons
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 
+@Suppress("KotlinConstantConditions")
 data class BuildConfigProvider(
     override val packageName: String = BuildConfig.APPLICATION_ID,
     override val versionName: String = BuildConfig.VERSION_NAME,

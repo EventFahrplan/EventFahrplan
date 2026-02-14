@@ -54,18 +54,18 @@ In some of the steps it is the easiest to copy and adapt configuration settings,
 2. Create a new branch for your event, e.g. `awesome-event-2021`
 3. Add a new product flavor in *app/build.gradle* e.g. `awesome2021` and the corresponding folder e.g. `app/src/awesome2021`
 4. Configure all required properties in your flavor (`applicationId`, `versionName`, `buildConfigField`, `resValue`)
-5. Enable showing the app disclaimer via `SHOW_APP_DISCLAIMER` to acknowledge its origin
+5. Enable showing the app disclaimer via `SHOW_APP_DISCLAIMER` to acknowledge its origin in your flavor
 6. Add a new signing config in `app/gradle.properties`
-7. Customize texts for the languages which you want to offer (`values/strings.xml`, `values-de/strings.xml`, ...)
+7. Customize texts for the languages which you want to offer (`values/strings.xml`, `values-de/strings.xml`, ...) in your flavor
 8. Add the name/s (and website/s) of the authors of the logo(s) in `copyright_logo`
-9. Add track resource names in `res/xml/track_resource_names.xml`
-10. Customize track colors in `res/values/colors_congress.xml`
-11. Customize app colors in `res/values/colors.xml`
+9. Add track resource names in `res/xml/track_resource_names.xml` in your flavor
+10. Customize track colors in `res/values/colors_congress.xml` in your flavor
+11. Customize app colors in `res/values/colors.xml` in your flavor
 12. Verify colors both in light and dark mode (not all screens switch colors!)
-13. Add a launcher icon in different resolutions as `res/mipmap-[...]/ic_launcher.png`
-14. Add a notification icon in different resolutions as `res/drawable-[...]/ic_notification.png`
-15. Add an about dialog logo as `res/drawable/dialog_logo.xml`
-16. Customize bell and video recording icons in `res/drawable/` (optional)
+13. Add a launcher icon in different resolutions as `res/mipmap-[...]/ic_launcher.png` in your flavor
+14. Add a notification icon in different resolutions as `res/drawable-[...]/ic_notification.png` in your flavor
+15. Add an about dialog logo as `res/drawable/dialog_logo.xml` in your flavor
+16. Customize bell and video recording icons in `res/drawable/` (optional) in your flavor
 
 ### 3.1. Customizing illustrations shown at empty screens
 
@@ -148,9 +148,16 @@ open the corresponding session details screen when tapping website URLs. This re
 steps:
 
 1. Add a [digital asset links](https://developer.android.com/training/app-links/configure-assetlinks) file
-   to the domain of the event, e.g. https://myconferen.ce/.well-known/assetlinks.json
+   to the domain of the event, e.g. https://myconferen.ce/.well-known/assetlinks.json.
+   - The server must  respond with `HTTP 200 OK` - otherwise the "open supported links" option will
+     be toggled off by default.
+   - Add separate certificate fingerprints for your Google Play and F-Droid publications if they
+     don't share the same signing key.
+   - Add the certificate fingerprint of your debug key store which becomes handy during development.
 2. Configure the [intent filter pattern](https://developer.android.com/training/app-links/add-applinks)
    in the `AndroidManifest.xml` of your product flavor.
+   - Add `android:autoVerify="true"`. Without `autoVerify`, Android will never enable supported links automatically.
+   - Configure the domain(s), subdomain(s) and path(s) to be handled.
 3. The correct session details might still not open automatically. Check *logcat's* output for error messages.
    You might need to add the missing URL path in `SlugFactory` and `SlugFactoryTest`.
 

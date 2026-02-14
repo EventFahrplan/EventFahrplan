@@ -234,7 +234,7 @@ object AppRepository : SearchRepository,
     }
 
     /**
-     * Emits all sessions from the database..
+     * Emits all sessions from the database.
      * The returned list might be empty.
      */
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -562,7 +562,6 @@ object AppRepository : SearchRepository,
      * Once loading is done (successful or not) the given [onLoadingShiftsDone] function is invoked.
      */
     private fun loadShifts(onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit) {
-        @Suppress("ConstantConditionIf")
         if (!buildConfigProvision.enableEngelsystemShifts) {
             return
         }

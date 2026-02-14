@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.MethodSource
 import org.threeten.bp.OffsetDateTime
 import java.util.TimeZone
@@ -14,7 +15,7 @@ class TimeSegmentFormattedTextTest {
         val DEFAULT_TIME_ZONE: TimeZone = TimeZone.getTimeZone("GMT+1")
 
         private fun scenarioOf(minutesOfTheDay: Int, expectedFormattedText: String) =
-                arrayOf(minutesOfTheDay, expectedFormattedText)
+                of(minutesOfTheDay, expectedFormattedText)
 
         @JvmStatic
         fun data() = listOf(
