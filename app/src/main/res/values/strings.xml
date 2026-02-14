@@ -335,6 +335,8 @@
     <string name="search_filter_not_recorded">Not recorded</string>
     <string name="search_filter_recorded">Recorded</string>
     <string name="search_filter_within_speaker_names">Within speaker names</string>
+    <string name="search_filter_within_title_subtitle">Within title/subtitle</string>
+    <string name="search_filter_within_track_name">Within subject area</string>
 
     <!-- Engelsystem URL error -->
     <string name="engelsystem_url_error_title">Error parsing <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> JSON Export URL</string>
