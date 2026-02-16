@@ -15,8 +15,9 @@ internal class ZoneOffsetProvider(
      * of the device. The user can overrule the logic by setting [useDeviceTimeZone].
      */
     fun getAvailableZoneOffset(sessionStartTime: Instant, sessionZoneOffset: ZoneOffset?): ZoneOffset {
+
         val deviceZoneOffset = if (sessionZoneOffset != null) {
-            OffsetDateTime.ofInstant(sessionStartTime, sessionZoneOffset).offset
+            OffsetDateTime.ofInstant(sessionStartTime, clock.zone).offset
         } else {
             OffsetDateTime.now(clock).offset
         }
