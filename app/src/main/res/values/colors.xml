@@ -107,4 +107,11 @@
     <color name="schedule_statistic_bar_background_warning_level_3">#FF5722</color>
     <color name="schedule_statistic_bar_background_no_warning">#8BC34A</color>
 
+    <!-- Search filter -->
+    <color name="search_filter_chip_container">@color/background_primary</color>
+    <color name="search_filter_chip_label">@color/text_primary</color>
+    <color name="search_filter_chip_selected_container">@color/colorAccent</color>
+    <color name="search_filter_chip_selected_label">@color/background_primary</color>
+    <color name="search_filter_chip_border">@color/colorAccent</color>
+
 </resources>
