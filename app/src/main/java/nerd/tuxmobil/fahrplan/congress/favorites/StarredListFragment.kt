@@ -122,7 +122,7 @@ class StarredListFragment :
         )
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val contextThemeWrapper = ContextThemeWrapper(requireContext(), R.style.Theme_Congress)
         val localInflater = inflater.cloneInContext(contextThemeWrapper)
         val view: View

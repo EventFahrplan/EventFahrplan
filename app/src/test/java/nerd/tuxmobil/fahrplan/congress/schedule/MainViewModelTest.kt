@@ -17,7 +17,6 @@ import nerd.tuxmobil.fahrplan.congress.changes.ChangeType.NEW
 import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticProperty
 import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticsUiState
 import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticsUiStateFactory
-import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult
 import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult.Error
 import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult.Error.Type.HOST_MISSING
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
