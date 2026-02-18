@@ -74,7 +74,7 @@ object Libs {
         const val materialIconsCore = "1.7.8"
         const val mockitoKotlin = "6.2.3"
         const val moshi = "1.15.2"
-        const val navigation = "2.9.6"
+        const val navigation = "2.9.7"
         const val okhttp = "5.3.2"
         const val robolectric = "4.3_r2-robolectric-0"
         const val roomStates = "2.0.0"
