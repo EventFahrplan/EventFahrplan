@@ -18,7 +18,7 @@ object Android {
 object Compose {
 
     private object Versions {
-        const val bom = "2025.11.01"
+        const val bom = "2025.11.01" // minSdk 23 is required as of 2025.12.00
     }
 
     const val bom = "androidx.compose:compose-bom:${Versions.bom}"
