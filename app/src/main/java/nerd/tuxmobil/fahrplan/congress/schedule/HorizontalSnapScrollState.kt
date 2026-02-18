@@ -74,11 +74,7 @@ data class HorizontalSnapScrollState(
 
         columnIndex -= columnIndexDelta
 
-        if (columnIndex < 0 || maxColumnIndex < columnIndex) {
-            return -1
-        }
-
-        return columnIndex
+        return if (columnIndex !in 0..maxColumnIndex) -1 else columnIndex
     }
 
     /**

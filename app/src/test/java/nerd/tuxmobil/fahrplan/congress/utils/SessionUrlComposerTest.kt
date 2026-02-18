@@ -10,10 +10,10 @@ class SessionUrlComposerTest {
     private companion object {
 
         const val FRAB_SESSION_URL_TEMPLATE =
-                "https://fahrplan.events.ccc.de/congress/2018/Fahrplan/events/%1\$s.html"
+            $$"https://fahrplan.events.ccc.de/congress/2018/Fahrplan/events/%1$s.html"
 
         const val PENTABARF_SESSION_URL_TEMPLATE =
-                "https://fosdem.org/2018/schedule/event/%1\$s/"
+            $$"https://fosdem.org/2018/schedule/event/%1$s/"
 
         const val NO_URL = ""
         const val NO_SESSION_URL_TEMPLATE = ""

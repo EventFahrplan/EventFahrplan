@@ -24,7 +24,7 @@ class JsonSessionFormat(
             sessions.size == 1 -> format(sessions[0])
             else -> {
                 val export = FavoritesExport(sessions.map { SessionExport(it) })
-                return jsonAdapter.toJson(export)
+                jsonAdapter.toJson(export)
             }
         }
 

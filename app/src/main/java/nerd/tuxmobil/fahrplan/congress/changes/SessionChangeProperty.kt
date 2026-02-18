@@ -4,6 +4,4 @@ data class SessionChangeProperty<T>(
     val value: T,
     val contentDescription: String,
     val changeType: ChangeType,
-) {
-
-}
+)
