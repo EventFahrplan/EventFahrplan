@@ -72,7 +72,7 @@ object Libs {
         const val markdownRenderer = "0.38.1"
         const val material = "1.13.0"
         const val materialIconsCore = "1.7.8"
-        const val mockitoKotlin = "6.1.0"
+        const val mockitoKotlin = "6.2.3"
         const val moshi = "1.15.2"
         const val navigation = "2.9.6"
         const val okhttp = "5.3.2"
