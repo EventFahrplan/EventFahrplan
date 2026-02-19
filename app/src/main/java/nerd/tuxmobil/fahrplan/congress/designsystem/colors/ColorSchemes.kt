@@ -10,13 +10,15 @@ import androidx.compose.material3.ColorScheme as Material3ColorScheme
 @Composable
 internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
     primary = colorResource(R.color.colorAccent),
-    background = colorResource(R.color.windowBackground),
+    onPrimary = colorResource(R.color.on_primary), // used by Switch -> checked thumb
+    background = colorResource(R.color.background_primary),
     onBackground = colorResource(R.color.text_primary), // used by LazyColumn -> Text header
     surface = colorResource(android.R.color.transparent), // used by ListItem background
     onSurface = colorResource(R.color.text_primary), // used by ListItem -> headlineContent
     onSurfaceVariant = colorResource(R.color.text_secondary), // used by SearchBarDefaults.InputField placeholder, ListItem -> overlineContent
     inverseOnSurface = colorResource(R.color.session_item_text_on_highlight_background), // used by SessionCard
     surfaceContainer = colorResource(R.color.colorPrimaryDark), // used by DropdownMenu
+    surfaceContainerHigh = colorResource(R.color.background_secondary), // used by AlertDialog background
 ).toColorScheme(
     listItemPrefixSymbol = colorResource(R.color.session_details_list_item_prefix_symbol),
     divider = colorResource(R.color.divider),
@@ -53,18 +55,26 @@ internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
     scheduleChangeCanceledText = colorResource(R.color.schedule_change_canceled_on_dark),
     scheduleChangeChangedText = colorResource(R.color.schedule_change_on_dark),
     scheduleChangeBarBackground = colorResource(R.color.schedule_changes_statistic_bar_background_on_dark),
+    // Search filter
+    searchFilterChipContainer = colorResource(R.color.search_filter_chip_container),
+    searchFilterChipSelectedContainer = colorResource(R.color.search_filter_chip_selected_container),
+    searchFilterChipLabel = colorResource(R.color.search_filter_chip_label),
+    searchFilterChipSelectedLabel = colorResource(R.color.search_filter_chip_selected_label),
+    searchFilterChipBorder = colorResource(R.color.search_filter_chip_border),
 )
 
 @Composable
 internal fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
     primary = colorResource(R.color.colorAccent),
-    background = colorResource(R.color.window_background_inverted),
+    onPrimary = colorResource(R.color.on_primary),
+    background = colorResource(R.color.background_primary_inverted),
     onBackground = colorResource(R.color.text_primary_inverted),
     surface = colorResource(android.R.color.transparent),
     onSurface = colorResource(R.color.text_primary_inverted),
     onSurfaceVariant = colorResource(R.color.text_secondary_inverted),
     inverseOnSurface = colorResource(R.color.session_item_text_on_highlight_background),
     surfaceContainer = colorResource(R.color.colorPrimaryDark),
+    surfaceContainerHigh = colorResource(R.color.background_secondary),
 ).toColorScheme(
     listItemPrefixSymbol = colorResource(R.color.session_details_list_item_prefix_symbol),
     divider = colorResource(R.color.divider),
@@ -101,6 +111,12 @@ internal fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
     scheduleChangeCanceledText = colorResource(R.color.schedule_change_canceled_on_light),
     scheduleChangeChangedText = colorResource(R.color.schedule_change_on_light),
     scheduleChangeBarBackground = colorResource(R.color.schedule_changes_statistic_bar_background_on_light),
+    // Search filter
+    searchFilterChipContainer = colorResource(R.color.search_filter_chip_container),
+    searchFilterChipSelectedContainer = colorResource(R.color.search_filter_chip_selected_container),
+    searchFilterChipLabel = colorResource(R.color.search_filter_chip_label),
+    searchFilterChipSelectedLabel = colorResource(R.color.search_filter_chip_selected_label),
+    searchFilterChipBorder = colorResource(R.color.search_filter_chip_border),
 )
 
 internal val LocalColorScheme = staticCompositionLocalOf<ColorScheme> {
@@ -137,6 +153,11 @@ private fun Material3ColorScheme.toColorScheme(
     scheduleChangeCanceledText: Color,
     scheduleChangeChangedText: Color,
     scheduleChangeBarBackground: Color,
+    searchFilterChipContainer: Color,
+    searchFilterChipSelectedContainer: Color,
+    searchFilterChipLabel: Color,
+    searchFilterChipSelectedLabel: Color,
+    searchFilterChipBorder: Color,
 ): ColorScheme {
     return ColorScheme(
         primary = primary,
@@ -218,5 +239,10 @@ private fun Material3ColorScheme.toColorScheme(
         scheduleChangeCanceled = scheduleChangeCanceledText,
         scheduleChangeChanged = scheduleChangeChangedText,
         scheduleChangeBarBackground = scheduleChangeBarBackground,
+        searchFilterChipContainer = searchFilterChipContainer,
+        searchFilterChipSelectedContainer = searchFilterChipSelectedContainer,
+        searchFilterChipLabel = searchFilterChipLabel,
+        searchFilterChipSelectedLabel = searchFilterChipSelectedLabel,
+        searchFilterChipBorder = searchFilterChipBorder,
     )
 }

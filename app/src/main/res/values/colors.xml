@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="text_primary">@android:color/primary_text_dark</color>
-    <color name="text_primary_inverted">@android:color/primary_text_light</color>
-    <color name="text_secondary">@android:color/secondary_text_dark</color>
-    <color name="text_secondary_inverted">@android:color/secondary_text_light</color>
-    <color name="windowBackground">#003339</color>
-    <color name="window_background_inverted">#fff</color>
+    <color name="colorPrimary">#fff176</color>
+    <color name="colorPrimaryDark">#ffd54f</color>
+    <color name="colorAccent">#BF360C</color>
+    <color name="on_primary">@color/colorPrimary</color>
+    <color name="text_primary">#000</color>
+    <color name="text_primary_inverted">@color/text_primary</color>
+    <color name="text_secondary">#1a1a1a</color>
+    <color name="text_secondary_inverted">@color/text_secondary</color>
+    <color name="text_tertiary">#4d4d4d</color>
+    <color name="background_primary">#fff</color>
+    <color name="background_primary_inverted">@color/background_primary</color>
+    <color name="background_secondary">#f2f2f2</color>
+    <color name="background_tertiary">#e6e6e6</color>
     <color name="multi_choice_background">@color/colorAccent</color>
     <color name="popupBackground">@color/colorPrimaryDark</color>
-    <color name="foreground">#888</color>
+    <color name="foreground">#fff</color>
     <color name="text_link_on_light">@color/colorAccent</color>
     <color name="text_link_on_dark">@color/colorAccent</color>
-    <color name="text_past_content_on_light">#808080</color>
-    <color name="text_past_content_on_dark">#808080</color>
+    <color name="text_past_content_on_light">@color/text_tertiary</color>
+    <color name="text_past_content_on_dark">@color/text_tertiary</color>
     <color name="text_link_pressed_background_on_light">#aafec700</color>
     <color name="divider">#88888888</color>
 
@@ -27,40 +34,44 @@
     <color name="empty_screen_illustration_fill">@color/colorAccent</color>
 
     <!-- App bar -->
-    <color name="app_bar_action_icon">#fff</color>
-    <color name="day_menu_text">@color/text_primary</color>
+    <color name="app_bar_action_icon">@color/text_primary_inverted</color>
+    <color name="day_menu_text">@color/text_primary_inverted</color>
 
     <!-- Alarms -->
     <color name="session_alarm_item_bell_icon_fill">@color/colorAccent</color>
-    <color name="session_alarm_item_bell_icon_text">#000000</color>
+    <color name="session_alarm_item_bell_icon_text">@color/background_primary</color>
 
     <!-- Alarm dialogs -->
     <color name="alert_dialog_button_text">@color/colorAccent</color>
+    <color name="alert_dialog_background">@color/background_tertiary</color>
 
     <!-- Schedule screen -->
-    <color name="schedule_time_column_background">@color/colorAccent</color>
-    <color name="schedule_time_column_item_background_normal">#000</color>
+    <color name="schedule_time_column_background">@color/colorPrimaryDark</color>
+    <color name="schedule_time_column_item_background_normal">@color/background_primary</color>
     <color name="schedule_time_column_item_background_emphasized">@color/colorAccent</color>
-    <color name="schedule_time_column_item_text_normal">#fff</color>
-    <color name="schedule_time_column_item_text_emphasized">#000</color>
-    <color name="schedule_horizontal_time_line">#4dffffff</color>
+    <color name="schedule_time_column_item_text_normal">@color/text_primary</color>
+    <color name="schedule_time_column_item_text_emphasized">@color/background_primary</color>
+    <color name="schedule_horizontal_time_line">@color/colorPrimaryDark</color>
     <color name="schedule_horizontal_scrolling_progress_line">@color/colorAccent</color>
-    <color name="schedule_room_name_header_background">#000</color>
-    <color name="schedule_room_name_header_text">#fff</color>
-    <color name="session_drawable_selection_stroke">@android:color/white</color>
-    <color name="session_item_alarm_icon">#fff</color>
-    <color name="session_item_text_on_default_background">#dbffffff</color>
-    <color name="session_item_text_on_highlight_background">#fff</color>
+    <color name="schedule_room_name_header_background">@color/colorPrimaryDark</color>
+    <color name="schedule_room_name_header_text">@color/text_primary</color>
+    <color name="session_drawable_selection_stroke">@color/text_primary</color>
+    <color name="session_item_alarm_icon">@color/text_primary</color>
+    <color name="session_item_camera_icon">@color/text_primary</color>
+    <color name="session_item_text_on_default_background">@color/text_primary</color>
+    <color name="session_item_text_on_highlight_background">@color/text_primary</color>
     <color name="session_item_video_without_recording_took_place">#656565</color>
     <color name="session_item_track_name_text">#db000000</color>
     <color name="session_item_track_name_background">#99ffffff</color>
+    <color name="track_background_default">#b3b3b3</color>
+    <color name="track_background_highlight">#cccccc</color>
 
     <!-- Schedule changes statistic -->
     <color name="schedule_changes_statistic_bar_background_on_dark">#444444</color>
     <color name="schedule_changes_statistic_bar_background_on_light">#cccccc</color>
 
     <!-- Schedule changes -->
-    <color name="schedule_changes_background">@color/windowBackground</color>
+    <color name="schedule_changes_background">@color/background_primary</color>
     <color name="schedule_change_on_dark">#F57C00</color>
     <color name="schedule_change_on_light">#E65100</color>
     <color name="schedule_change_new_on_dark">#689F38</color>
@@ -70,7 +81,7 @@
 
     <!-- Favorites -->
     <color name="favorites_past_session_text">@color/text_past_content_on_light</color>
-    <color name="favorites_background">@color/windowBackground</color>
+    <color name="favorites_background">@color/background_primary</color>
 
     <!-- Session item (favorites + schedule changes) -->
     <color name="session_list_header_text">@color/text_primary</color>
@@ -85,9 +96,9 @@
     <!-- Session details -->
     <color name="session_details_room_state_info_text">@color/text_primary</color>
     <color name="session_details_room_state_info_background">@color/colorAccent</color>
-    <color name="session_details_list_item_prefix_symbol">@color/colorPrimary</color>
-    <color name="session_detailbar_background">#eee</color>
-    <color name="session_detailbar_text">#999</color>
+    <color name="session_details_list_item_prefix_symbol">@color/colorAccent</color>
+    <color name="session_detailbar_background">@color/colorPrimaryDark</color>
+    <color name="session_detailbar_text">@color/text_primary</color>
     <color name="session_detailbar_icon">@color/colorAccent</color>
 
     <!-- Schedule statistic -->
@@ -95,5 +106,12 @@
     <color name="schedule_statistic_bar_background_warning_level_2">#FF9800</color>
     <color name="schedule_statistic_bar_background_warning_level_3">#FF5722</color>
     <color name="schedule_statistic_bar_background_no_warning">#8BC34A</color>
+
+    <!-- Search filter -->
+    <color name="search_filter_chip_container">@color/background_primary</color>
+    <color name="search_filter_chip_label">@color/text_primary</color>
+    <color name="search_filter_chip_selected_container">@color/colorAccent</color>
+    <color name="search_filter_chip_selected_label">@color/background_primary</color>
+    <color name="search_filter_chip_border">@color/colorAccent</color>
 
 </resources>
