@@ -118,7 +118,7 @@ class SessionDetailsParameterFactoryTest {
         override fun getFormattedLinks(links: String) = ""
         override fun getFormattedUrl(url: String) = SAMPLE_SESSION_URL
         override fun getFormattedSpeakers(session: Session) = "Jane Doe, John Doe"
-        override fun getLanguageText(session: Session) = ""
+        override fun getLanguageText(session: Session) = "de, en"
         override fun getRoomName(
             roomName: String,
             defaultEngelsystemRoomName: String,
