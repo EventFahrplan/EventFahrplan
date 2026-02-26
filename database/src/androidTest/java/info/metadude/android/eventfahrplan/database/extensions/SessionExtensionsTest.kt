@@ -1,7 +1,6 @@
 package info.metadude.android.eventfahrplan.database.extensions
 
 import com.google.common.truth.Truth.assertThat
-import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ABSTRACT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DAY_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DURATION
@@ -41,6 +40,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.URL
 import info.metadude.android.eventfahrplan.database.models.Session
 import org.junit.jupiter.api.Test
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 
 class SessionExtensionsTest {
 
