@@ -31,7 +31,7 @@ class StarredListViewModelTest {
 
     @Test
     fun `starredListParameter returns null`() = runTest {
-        val repository = createRepository(sessionsFlow = emptyFlow())
+        val repository = createRepository(sessions = emptyFlow())
         val viewModel = createViewModel(repository)
         viewModel.starredListParameter.test {
             awaitComplete()
@@ -56,7 +56,7 @@ class StarredListViewModelTest {
     @Test
     fun `starredListParameter returns a single session`() = runTest {
         val repository = createRepository(
-            sessionsFlow = flowOf(listOf(Session("23"))),
+            sessions = flowOf(listOf(Session("23"))),
             meta = Meta(numDays = 2),
             useDeviceTimeZoneEnabled = true
         )
@@ -99,8 +99,8 @@ class StarredListViewModelTest {
     @Test
     fun `share posts to shareSimple property when session is present`() = runTest {
         val repository = createRepository(
-            sessionsFlow = flowOf(listOf(Session("23"))),
-            meta = Meta(numDays = 0, timeZoneId = null)
+            sessions = flowOf(listOf(Session("23"))),
+            meta = Meta(numDays = 0, timeZoneId = null),
         )
         val fakeSessionFormat = mock<SimpleSessionFormat> {
             on { format(any<List<Session>>(), anyOrNull()) } doReturn "session-23"
@@ -115,8 +115,8 @@ class StarredListViewModelTest {
     @Test
     fun `share never posts to shareSimple property when sessions is empty`() = runTest {
         val repository = createRepository(
-            sessionsFlow = flowOf(emptyList()),
-            meta = Meta(numDays = 0, timeZoneId = null)
+            sessions = flowOf(emptyList()),
+            meta = Meta(numDays = 0, timeZoneId = null),
         )
         val fakeSessionFormat = mock<SimpleSessionFormat> {
             on { format(any<List<Session>>(), anyOrNull()) } doReturn null // simulating empty list
@@ -139,7 +139,7 @@ class StarredListViewModelTest {
 
     @Test
     fun `shareToChaosflix posts to shareJson property when session is present`() = runTest {
-        val repository = createRepository(sessionsFlow = flowOf(listOf(Session("17"))))
+        val repository = createRepository(sessions = flowOf(listOf(Session("17"))))
         val fakeSessionFormat = mock<JsonSessionFormat> {
             on { format(any<List<Session>>()) } doReturn "session-17"
         }
@@ -152,7 +152,7 @@ class StarredListViewModelTest {
 
     @Test
     fun `shareToChaosflix never posts to shareJson property when sessions is empty`() = runTest {
-        val repository = createRepository(sessionsFlow = flowOf(emptyList()))
+        val repository = createRepository(sessions = flowOf(emptyList()))
         val fakeSessionFormat = mock<JsonSessionFormat> {
             on { format(any<List<Session>>()) } doReturn null // simulating empty list
         }
@@ -164,11 +164,11 @@ class StarredListViewModelTest {
     }
 
     private fun createRepository(
-        sessionsFlow: Flow<List<Session>> = flowOf(emptyList()),
+        sessions: Flow<List<Session>> = flowOf(emptyList()),
         meta: Meta = Meta(numDays = 0),
         useDeviceTimeZoneEnabled: Boolean = false
     ) = mock<AppRepository> {
-        on { starredSessions } doReturn sessionsFlow
+        on { starredSessions } doReturn sessions
         on { readMeta() } doReturn meta
         on { readUseDeviceTimeZoneEnabled() } doReturn useDeviceTimeZoneEnabled
     }
