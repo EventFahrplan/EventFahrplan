@@ -50,8 +50,8 @@ import info.metadude.android.eventfahrplan.commons.flow.observe
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorProperty
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
+import nerd.tuxmobil.fahrplan.congress.commons.createSearchResultPreviewData
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonIcon
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonOutlined
 import nerd.tuxmobil.fahrplan.congress.designsystem.chips.FilterChip
@@ -442,43 +442,7 @@ private fun SearchContentPreview() {
             state = SearchUiState(
                 query = "Lorem ipsum",
                 filters = searchFilters(),
-                resultsState = SearchResults(
-                    persistentListOf(
-                        Separator(
-                            DaySeparatorProperty(
-                                value = "DAY 1 - 12/27/2024",
-                                contentDescription = "Day 1 - December 27, 2024",
-                            )
-                        ),
-                        SearchResult(
-                            id = "1",
-                            title = SearchResultProperty("Lorem ipsum dolor sit amet", ""),
-                            speakerNames = SearchResultProperty("Hedy Llamar", ""),
-                            startsAt = SearchResultProperty("December 27, 2024 10:00", ""),
-                        ),
-                        SearchResult(
-                            id = "2",
-                            title = SearchResultProperty("Dolor sit amet", ""),
-                            speakerNames = SearchResultProperty("Hedy Llamar", ""),
-                            startsAt = SearchResultProperty("December 27, 2024 12:00", ""),
-                        ),
-                        Separator(
-                            DaySeparatorProperty(
-                                value = "DAY 2 - 12/28/2024",
-                                contentDescription = "Day 2 - December 28, 2024",
-                            )
-                        ),
-                        SearchResult(
-                            id = "3",
-                            title = SearchResultProperty(
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                                ""
-                            ),
-                            speakerNames = SearchResultProperty("Jane Doe", ""),
-                            startsAt = SearchResultProperty("December 28, 2024 18:30", "")
-                        ),
-                    )
-                )
+                resultsState = SearchResults(createSearchResultPreviewData()),
             ),
             onViewEvent = { },
         )
