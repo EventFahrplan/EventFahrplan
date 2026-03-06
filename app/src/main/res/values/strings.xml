@@ -236,6 +236,7 @@
     <!-- Session list item -->
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
     <string name="session_list_item_duration_content_description">Duration: <xliff:g example="45" id="duration">%d</xliff:g> minutes</string>
+    <string name="session_list_item_end_time_content_description">End time: <xliff:g example="19:00" id="endTime">%s</xliff:g></string>
     <string name="session_list_item_favored_content_description">favored</string>
     <string name="session_list_item_not_favored_content_description">not favored</string>
     <string name="session_list_item_room_content_description">Room: <xliff:g example="Main hall" id="room">%s</xliff:g></string>

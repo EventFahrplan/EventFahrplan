@@ -79,7 +79,11 @@ class StarredListViewModelTest {
                 id = "23",
                 title = SearchResultProperty("", ""),
                 speakerNames = SearchResultProperty("", ""),
+                languages = SearchResultProperty("", ""),
+                roomName = SearchResultProperty("", ""),
                 startsAt = SearchResultProperty("0", "0"),
+                endsAt = SearchResultProperty("", ""),
+                recordingOptOut = null,
             )
             viewModel.uiState.test {
                 assertThat(awaitItem()).isEqualTo(Success(listOf(expected)))
@@ -360,7 +364,11 @@ private class FakeSearchResultParameterFactory : SearchResultParameterFactory {
             id = session.sessionId,
             title = SearchResultProperty(session.title, session.title),
             speakerNames = SearchResultProperty(speakerNames, speakerNames),
+            languages = SearchResultProperty("", ""),
+            roomName = SearchResultProperty("", ""),
             startsAt = SearchResultProperty(startTime, startTime),
+            endsAt = SearchResultProperty("", ""),
+            recordingOptOut = null,
         )
     }
 

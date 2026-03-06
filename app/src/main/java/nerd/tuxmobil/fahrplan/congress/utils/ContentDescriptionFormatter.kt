@@ -67,6 +67,9 @@ class ContentDescriptionFormatter(val resourceResolving: ResourceResolving) : Co
     override fun getStartTimeContentDescription(startTimeText: String) =
         resourceResolving.getString(R.string.session_list_item_start_time_content_description, startTimeText)
 
+    override fun getEndTimeContentDescription(endTimeText: String) =
+        resourceResolving.getString(R.string.session_list_item_end_time_content_description, endTimeText)
+
     private fun getHighlightContentDescription(isHighlighted: Boolean): String {
         val stringResource = if (isHighlighted)
             R.string.session_list_item_favored_content_description
@@ -80,9 +83,13 @@ class ContentDescriptionFormatter(val resourceResolving: ResourceResolving) : Co
         val startsAtText = DateFormatter
             .newInstance(useDeviceTimeZone)
             .getFormattedTimeShort(session.startsAt, session.timeZoneOffset)
+        val endsAtText = DateFormatter
+            .newInstance(useDeviceTimeZone)
+            .getFormattedTimeShort(session.endsAt, session.timeZoneOffset)
         val startsAtContentDescription = getStartTimeContentDescription(startsAtText)
+        val endsAtContentDescription = getEndTimeContentDescription(endsAtText)
         val isHighlightContentDescription = getHighlightContentDescription(session.isHighlight)
-        return "$isHighlightContentDescription, $startsAtContentDescription, $roomNameContentDescription"
+        return "$isHighlightContentDescription, $startsAtContentDescription, $endsAtContentDescription, $roomNameContentDescription"
     }
 
     override fun getDaySeparatorContentDescription(dayIndex: Int, formattedDate: String): String {

@@ -16,13 +16,21 @@ fun createSearchResultPreviewData() = persistentListOf(
         id = "1",
         title = SearchResultProperty("Lorem ipsum dolor sit amet", ""),
         speakerNames = SearchResultProperty("Hedy Llamar", ""),
+        languages = SearchResultProperty("en", ""),
+        roomName = SearchResultProperty("Hall 1", ""),
         startsAt = SearchResultProperty("10:00", ""),
+        endsAt = SearchResultProperty("12:00", ""),
+        recordingOptOut = SearchResultProperty(true, "Without video recording"),
     ),
     SearchResult(
         id = "2",
         title = SearchResultProperty("Dolor sit amet", ""),
         speakerNames = SearchResultProperty("Ada Lovelace, Grace Hopper, Alan Turing", ""),
+        languages = SearchResultProperty("de", ""),
+        roomName = SearchResultProperty("Hall 1", ""),
         startsAt = SearchResultProperty("12:00", ""),
+        endsAt = SearchResultProperty("14:00", ""),
+        recordingOptOut = null,
     ),
     Separator(
         DaySeparatorProperty(
@@ -37,6 +45,10 @@ fun createSearchResultPreviewData() = persistentListOf(
             ""
         ),
         speakerNames = SearchResultProperty("Jane Doe", ""),
+        languages = SearchResultProperty("en", ""),
+        roomName = SearchResultProperty("Hall 1", ""),
         startsAt = SearchResultProperty("18:30", ""),
+        endsAt = SearchResultProperty("21:00", ""),
+        recordingOptOut = SearchResultProperty(true, "Without video recording")
     ),
 )

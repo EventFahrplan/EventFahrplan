@@ -12,7 +12,11 @@ sealed interface SearchResultParameter {
         val id: String,
         val title: SearchResultProperty<String>,
         val speakerNames: SearchResultProperty<String>,
+        val languages: SearchResultProperty<String>,
+        val roomName: SearchResultProperty<String>,
         val startsAt: SearchResultProperty<String>,
+        val endsAt: SearchResultProperty<String>,
+        val recordingOptOut: SearchResultProperty<Boolean>?,
     ) : SearchResultParameter
 
 }

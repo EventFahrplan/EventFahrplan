@@ -328,7 +328,11 @@ private class FakeSearchResultParameterFactory : SearchResultParameterFactory {
                 id = session.sessionId,
                 title = SearchResultProperty(session.title, session.title),
                 speakerNames = SearchResultProperty(speakerNames, speakerNames),
+                languages = SearchResultProperty("", ""),
+                roomName = SearchResultProperty("", ""),
                 startsAt = SearchResultProperty(startTime, startTime),
+                endsAt = SearchResultProperty("", ""),
+                recordingOptOut = null,
             )
         }
     }

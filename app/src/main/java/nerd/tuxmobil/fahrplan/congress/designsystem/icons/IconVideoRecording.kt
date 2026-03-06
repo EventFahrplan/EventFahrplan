@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -19,6 +20,28 @@ import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Available
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Unavailable
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
+
+@Composable
+fun IconVideoRecording(
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
+) {
+    IconDecorative(
+        modifier = modifier.size(dimensionResource(R.dimen.session_drawable_icon_size)),
+        icon = R.drawable.ic_video_recording_unavailable,
+        contentDescription = contentDescription,
+        tint = Color.Unspecified,
+    )
+}
+
+@PreviewLightDark
+@Composable
+private fun IconVideoRecordingDecorativePreview() {
+    EventFahrplanTheme {
+        IconVideoRecording()
+    }
+}
+
 
 @Composable
 fun IconVideoRecording(videoRecordingState: VideoRecordingState, tintColor: Color?) {

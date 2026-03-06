@@ -140,6 +140,7 @@ class SessionDetailsParameterFactoryTest {
         override fun getTrackNameContentDescription(trackName: String) = ""
         override fun getLanguageContentDescription(languageCode: String) = ""
         override fun getStartTimeContentDescription(startTimeText: String) = ""
+        override fun getEndTimeContentDescription(endTimeText: String) = ""
         override fun getStateContentDescription(session: Session, useDeviceTimeZone: Boolean) = ""
         override fun getDaySeparatorContentDescription(dayIndex: Int, formattedDate: String) = ""
     }

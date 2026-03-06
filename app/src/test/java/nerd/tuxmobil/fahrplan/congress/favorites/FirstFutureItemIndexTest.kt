@@ -85,7 +85,11 @@ class FirstFutureItemIndexTest {
         id = id,
         title = SearchResultProperty("", ""),
         speakerNames = SearchResultProperty("", ""),
+        languages = SearchResultProperty("", ""),
+        roomName = SearchResultProperty("", ""),
         startsAt = SearchResultProperty("", "", tenseType),
+        endsAt = SearchResultProperty("", "", tenseType),
+        recordingOptOut = null,
     )
 
     private fun createSeparator() = Separator(

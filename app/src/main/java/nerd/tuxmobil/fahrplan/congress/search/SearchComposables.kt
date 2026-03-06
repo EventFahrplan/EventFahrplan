@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
@@ -59,6 +60,7 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
 import nerd.tuxmobil.fahrplan.congress.designsystem.headers.HeaderDayDate
 import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconDecorative
 import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconDecorativeVector
+import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconVideoRecording
 import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.Loading
 import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.NoData
 import nerd.tuxmobil.fahrplan.congress.designsystem.search.InputField
@@ -326,38 +328,112 @@ fun SearchResultItem(
     searchResult: SearchResult,
     modifier: Modifier = Modifier,
 ) {
-    ListItem(
-        modifier = modifier,
-        overlineContent = {
-            TextOverline(
-                modifier = Modifier.semantics {
-                    contentDescription = searchResult.startsAt.contentDescription
-                },
-                text = searchResult.startsAt.value,
-                color = searchResult.startsAt.tenseType.color(),
-            )
+    Row(
+        modifier = modifier.clearAndSetSemantics {
+            contentDescription = createContentDescription(searchResult)
         },
-        headlineContent = {
-            TextHeadlineContent(
-                modifier = Modifier.semantics {
-                    contentDescription = searchResult.title.contentDescription
-                },
-                text = searchResult.title.value,
-                color = searchResult.title.tenseType.color(),
-            )
-        },
-        supportingContent = {
-            if (searchResult.speakerNames.value.isNotEmpty()) {
-                TextSupportingContent(
-                    modifier = Modifier.semantics {
-                        contentDescription = searchResult.speakerNames.contentDescription
-                    },
-                    text = searchResult.speakerNames.value,
-                    color = searchResult.speakerNames.tenseType.color(),
+        verticalAlignment = CenterVertically,
+    ) {
+        ListItem(
+            modifier = Modifier.weight(1f),
+            overlineContent = {
+                val text = buildString {
+                    if (searchResult.startsAt.value.isNotEmpty()) {
+                        append(searchResult.startsAt.value)
+                    }
+                    if (searchResult.startsAt.value.isNotEmpty() && searchResult.endsAt.value.isNotEmpty()) {
+                        append(" - ")
+                    }
+                    if (searchResult.endsAt.value.isNotEmpty()) {
+                        append(searchResult.endsAt.value)
+                    }
+                    if (searchResult.roomName.value.isNotEmpty()) {
+                        append(" | ${searchResult.roomName.value}")
+                    }
+                }
+                TextOverline(
+                    text = text,
+                    color = searchResult.startsAt.tenseType.color(),
                 )
+            },
+            headlineContent = {
+                TextHeadlineContent(
+                    text = searchResult.title.value,
+                    fontWeight = Bold,
+                    color = searchResult.title.tenseType.color(),
+                )
+            },
+            supportingContent = {
+                Column {
+                    val text = buildString {
+                        if (searchResult.speakerNames.value.isNotEmpty()) {
+                            append(searchResult.speakerNames.value.uppercase())
+                        }
+                        if (searchResult.speakerNames.value.isNotEmpty() && searchResult.languages.value.isNotEmpty()) {
+                            append(" ")
+                        }
+                        if (searchResult.languages.value.isNotEmpty()) {
+                            append("[${searchResult.languages.value.uppercase()}]")
+                        }
+                    }
+                    if (text.isNotEmpty()) {
+                        TextSupportingContent(
+                            text = text,
+                            color = searchResult.speakerNames.tenseType.color(),
+                        )
+                    }
+                }
+            },
+        )
+        if (searchResult.recordingOptOut?.value == true) {
+            IconVideoRecording(Modifier.padding(start = 8.dp, bottom = 10.dp))
+        }
+    }
+}
+
+private fun createContentDescription(searchResult: SearchResult) = with(searchResult) {
+    buildString {
+        if (startsAt.contentDescription.isNotEmpty()) {
+            append(startsAt.contentDescription)
+        }
+        if (endsAt.contentDescription.isNotEmpty()) {
+            if (isNotEmpty()) append(", ")
+            append(endsAt.contentDescription)
+        }
+        if (roomName.contentDescription.isNotEmpty()) {
+            if (isNotEmpty()) append(", ")
+            append(roomName.contentDescription)
+        }
+        if (title.contentDescription.isNotEmpty()) {
+            if (isNotEmpty()) {
+                append(". ")
             }
-        },
-    )
+            append(title.contentDescription)
+        }
+        if (speakerNames.contentDescription.isNotEmpty() || languages.contentDescription.isNotEmpty()) {
+            if (isNotEmpty()) {
+                append(". ")
+            }
+            if (speakerNames.contentDescription.isNotEmpty()) {
+                append(speakerNames.contentDescription)
+            }
+            if (languages.contentDescription.isNotEmpty()) {
+                if (speakerNames.contentDescription.isNotEmpty()) {
+                    append(", ")
+                }
+                append(languages.contentDescription)
+            }
+        }
+        if (recordingOptOut?.value == true) {
+            val desc = recordingOptOut.contentDescription
+            if (desc.isNotEmpty()) {
+                if (isNotEmpty()) {
+                    append(". ")
+                }
+                append(desc)
+            }
+        }
+    }
 }
 
 @Composable
