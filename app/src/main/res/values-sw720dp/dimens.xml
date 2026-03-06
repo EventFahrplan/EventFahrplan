@@ -15,8 +15,6 @@
 -->
 <resources>
     <item type="integer" name="max_cols">6</item>
-    <dimen name="list_pane_leftright_padding">32dp</dimen>
-    <dimen name="header_height">32dp</dimen>
 
     <!-- Session details text sizes -->
     <dimen name="session_detailbar_text">14sp</dimen>

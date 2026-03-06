@@ -15,8 +15,6 @@
 -->
 <resources>
     <item type="integer" name="max_cols">4</item>
-    <dimen name="list_pane_leftright_padding">64dp</dimen>
-    <dimen name="header_height">16dp</dimen>
 
     <!-- Schedule screen -->
     <dimen name="schedule_time_column_layout_width">38dp</dimen>
