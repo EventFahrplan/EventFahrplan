@@ -37,8 +37,8 @@ class AlarmsViewModelTest {
     @Test
     fun `alarmsState emits Loading`() = runTest {
         val repository = createRepository(
-            alarmsList = emptyList(),
-            sessionsFlow = emptyFlow()
+            alarms = emptyList(),
+            sessions = emptyFlow(),
         )
         val viewModel = createViewModel(repository)
         viewModel.alarmsState.test {
@@ -50,13 +50,13 @@ class AlarmsViewModelTest {
     @Test
     fun `alarmsState emits Success when alarm and session are associated`() = runTest {
         val repository = createRepository(
-            alarmsList = listOf(
+            alarms = listOf(
                 createAlarm(
                     sessionId = "s0",
                     alarmStartsAt = ALARM_STARTS_AT
                 )
             ),
-            sessionsFlow = flowOf(
+            sessions = flowOf(
                 listOf(
                     Session(
                         sessionId = "s0",
@@ -65,7 +65,7 @@ class AlarmsViewModelTest {
                         dateUTC = SESSION_STARTS_AT.toMilliseconds(),
                     )
                 )
-            )
+            ),
         )
         val viewModel = createViewModel(repository)
         viewModel.alarmsState.test {
@@ -78,13 +78,13 @@ class AlarmsViewModelTest {
     @Test
     fun `onItemClick triggers navigation to session details`() = runTest {
         val repository = createRepository(
-            alarmsList = listOf(
+            alarms = listOf(
                 createAlarm(
                     sessionId = "s0",
                     alarmStartsAt = ALARM_STARTS_AT
                 )
             ),
-            sessionsFlow = flowOf(
+            sessions = flowOf(
                 listOf(
                     Session(
                         sessionId = "s0",
@@ -112,13 +112,13 @@ class AlarmsViewModelTest {
     fun `onDeleteItemClick invokes corresponding repository and alarm services functions`() =
         runTest {
             val repository = createRepository(
-                alarmsList = listOf(
+                alarms = listOf(
                     createAlarm(
                         sessionId = "s0",
                         alarmStartsAt = ALARM_STARTS_AT
                     )
                 ),
-                sessionsFlow = flowOf(
+                sessions = flowOf(
                     listOf(
                         Session(
                             sessionId = "s0",
@@ -146,7 +146,7 @@ class AlarmsViewModelTest {
         runTest {
             val alarmServices = mock<AlarmServices>()
             val repository = createRepository(
-                alarmsList = emptyList()
+                alarms = emptyList(),
             )
             val viewModel = createViewModel(repository, alarmServices)
             viewModel.onDeleteAllClick()
@@ -160,7 +160,7 @@ class AlarmsViewModelTest {
         runTest {
             val alarmServices = mock<AlarmServices>()
             val repository = createRepository(
-                alarmsList = listOf(createAlarm("s0"))
+                alarms = listOf(createAlarm("s0")),
             )
             val viewModel = createViewModel(repository, alarmServices)
             viewModel.onDeleteAllClick()
@@ -170,14 +170,14 @@ class AlarmsViewModelTest {
         }
 
     private fun createRepository(
-        sessionsFlow: Flow<List<Session>> = flowOf(emptyList()),
-        alarmsList: List<Alarm> = emptyList()
+        sessions: Flow<List<Session>> = flowOf(emptyList()),
+        alarms: List<Alarm> = emptyList(),
     ) = mock<AppRepository> {
-        on { alarms } doReturn flowOf(alarmsList)
-        on { sessions } doReturn sessionsFlow
-        on { sessionsWithoutShifts } doReturn emptyFlow()
-        on { readAlarms(any()) } doReturn alarmsList
-        on { readUseDeviceTimeZoneEnabled() } doReturn true
+        on { this@on.alarms } doReturn flowOf(alarms)
+        on { this@on.sessions } doReturn sessions
+        on { this@on.sessionsWithoutShifts } doReturn emptyFlow()
+        on { this@on.readAlarms(any()) } doReturn alarms
+        on { this@on.readUseDeviceTimeZoneEnabled() } doReturn true
     }
 
     private fun createViewModel(
@@ -204,7 +204,7 @@ class AlarmsViewModelTest {
 
     private fun createAlarm(
         sessionId: String,
-        alarmStartsAt: Moment = Moment.ofEpochMilli(1620909000000)
+        alarmStartsAt: Moment = Moment.ofEpochMilli(1620909000000),
     ) = Alarm(
         dayIndex = 2,
         sessionId = sessionId,
