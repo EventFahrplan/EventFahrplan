@@ -258,6 +258,7 @@
     <string name="alarms_item_fires_at_content_description">
         Löst aus um: <xliff:g example="16:20" id="alarmTime">%s</xliff:g>
     </string>
+    <string name="alarms_delete_all_alarms">Alle Alarme löschen?</string>
 
     <!-- Validation errors -->
     <string name="validation_error_invalid_url">

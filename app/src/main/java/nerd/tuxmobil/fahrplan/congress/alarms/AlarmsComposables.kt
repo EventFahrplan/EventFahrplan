@@ -26,6 +26,8 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Loading
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Success
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsViewEvent.OnDeleteItemClick
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsViewEvent.OnItemClick
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonIcon
 import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
@@ -47,6 +49,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
 internal fun AlarmsContent(
     state: AlarmsState,
     showInSidePane: Boolean,
+    onViewEvent: (AlarmsViewEvent) -> Unit,
 ) {
     Scaffold {
         Box {
@@ -60,8 +63,7 @@ internal fun AlarmsContent(
                         SessionAlarmsList(
                             parameters = parameters,
                             showInSidePane = showInSidePane,
-                            onItemClick = state.onItemClick,
-                            onDeleteItemClick = state.onDeleteItemClick
+                            onViewEvent = onViewEvent,
                         )
                     }
                 }
@@ -83,8 +85,7 @@ private fun NoAlarms() {
 private fun SessionAlarmsList(
     parameters: List<SessionAlarmParameter>,
     showInSidePane: Boolean,
-    onItemClick: (SessionAlarmParameter) -> Unit,
-    onDeleteItemClick: (SessionAlarmParameter) -> Unit
+    onViewEvent: (AlarmsViewEvent) -> Unit,
 ) {
     LazyColumn(
         state = rememberLazyListState(),
@@ -99,8 +100,7 @@ private fun SessionAlarmsList(
             SessionAlarmItem(
                 modifier = Modifier.safeContentHorizontalPadding(),
                 parameter = item,
-                onClick = onItemClick,
-                onDeleteClick = onDeleteItemClick
+                onViewEvent = onViewEvent,
             )
             if (index < parameters.size - 1) {
                 DividerHorizontal(Modifier.padding(horizontal = 12.dp))
@@ -113,14 +113,13 @@ private fun SessionAlarmsList(
 private fun SessionAlarmItem(
     modifier: Modifier = Modifier,
     parameter: SessionAlarmParameter,
-    onClick: (SessionAlarmParameter) -> Unit,
-    onDeleteClick: (SessionAlarmParameter) -> Unit
+    onViewEvent: (AlarmsViewEvent) -> Unit,
 ) {
     ListItem(
         modifier = modifier
             .clickable(
                 onClickLabel = stringResource(R.string.alarms_item_on_click_label),
-                onClick = { onClick(parameter) }
+                onClick = { onViewEvent(OnItemClick(parameter.sessionId)) }
             ),
         leadingContent = {
             AlarmIcon(parameter.alarmOffsetInMin, parameter.alarmOffsetContentDescription)
@@ -152,7 +151,7 @@ private fun SessionAlarmItem(
             }
         },
         trailingContent = {
-            DeleteIcon(parameter, onDeleteClick)
+            DeleteIcon(parameter, onViewEvent)
         },
     )
 }
@@ -178,14 +177,30 @@ private fun AlarmIcon(alarmOffset: Int, alarmIconContentDescription: String) {
 @Composable
 private fun DeleteIcon(
     parameter: SessionAlarmParameter,
-    onButtonClick: (SessionAlarmParameter) -> Unit,
+    onViewEvent: (AlarmsViewEvent) -> Unit,
 ) {
     val label = stringResource(R.string.alarms_item_delete_icon_on_click_label)
     ButtonIcon(
-        onClick = { onButtonClick(parameter) },
+        onClick = {
+            onViewEvent(
+                OnDeleteItemClick(
+                    sessionId = parameter.sessionId,
+                    dayIndex = parameter.dayIndex,
+                    title = parameter.title,
+                    firesAt = parameter.firesAt,
+                )
+            )
+        },
         modifier = Modifier.semantics {
             onClick(label) {
-                onButtonClick(parameter)
+                onViewEvent(
+                    OnDeleteItemClick(
+                        sessionId = parameter.sessionId,
+                        dayIndex = parameter.dayIndex,
+                        title = parameter.title,
+                        firesAt = parameter.firesAt,
+                    )
+                )
                 true
             }
         }
@@ -243,10 +258,9 @@ private fun AlarmsContentPreview() {
                         dayIndex = 0,
                     ),
                 ),
-                onItemClick = { _ -> },
-                onDeleteItemClick = {},
             ),
             showInSidePane = true,
+            onViewEvent = {},
         )
     }
 }
@@ -258,10 +272,9 @@ private fun AlarmsContentEmptyPreview() {
         AlarmsContent(
             state = Success(
                 emptyList(),
-                onItemClick = { _ -> },
-                onDeleteItemClick = {},
             ),
             showInSidePane = false,
+            onViewEvent = {},
         )
     }
 }
@@ -273,6 +286,7 @@ private fun AlarmsContentLoadingPreview() {
         AlarmsContent(
             state = Loading,
             showInSidePane = false,
+            onViewEvent = {},
         )
     }
 }

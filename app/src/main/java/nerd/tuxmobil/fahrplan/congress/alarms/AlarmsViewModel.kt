@@ -3,29 +3,38 @@ package nerd.tuxmobil.fahrplan.congress.alarms
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsDestination.ConfirmDeleteAll
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsEffect.NavigateTo
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsEffect.NavigateToSession
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Loading
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Success
-import nerd.tuxmobil.fahrplan.congress.commons.ScreenNavigation
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsViewEvent.OnDeleteAllClick
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsViewEvent.OnDeleteAllWithConfirmationClick
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsViewEvent.OnDeleteItemClick
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsViewEvent.OnItemClick
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSchedulableAlarm
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.ExecutionContext
 
 internal class AlarmsViewModel(
-
     private val repository: AppRepository = AppRepository,
     private val executionContext: ExecutionContext,
     private val alarmServices: AlarmServices,
     private val alarmsStateFactory: AlarmsStateFactory,
-
 ) : ViewModel() {
 
-    var screenNavigation: ScreenNavigation? = null
+    private val mutableEffects = Channel<AlarmsEffect>()
+    val effects = mutableEffects.receiveAsFlow()
 
     private val useDeviceTimeZone: Boolean
         get() = repository.readUseDeviceTimeZoneEnabled()
@@ -33,35 +42,42 @@ internal class AlarmsViewModel(
     private val mutableAlarmsState = MutableStateFlow<AlarmsState>(Loading)
     val alarmsState = mutableAlarmsState.asStateFlow()
 
+    val hasAlarms = alarmsState
+        .filterIsInstance<Success>()
+        .map { it.sessionAlarmParameters.isNotEmpty() }
+
     init {
         combine(repository.alarms, repository.sessions) { alarms, sessions ->
             mutableAlarmsState.value = Success(
                 sessionAlarmParameters = alarmsStateFactory
                     .createAlarmsState(alarms, sessions, useDeviceTimeZone),
-                onItemClick = ::navigateToSessionDetails,
-                onDeleteItemClick = ::deleteSessionAlarm
             )
         }.launchIn(viewModelScope)
     }
 
-    private fun navigateToSessionDetails(value: SessionAlarmParameter) {
-        screenNavigation?.navigateToSessionDetails(value.sessionId)
+    fun onViewEvent(viewEvent: AlarmsViewEvent) {
+        when (viewEvent) {
+            is OnItemClick -> sendEffect(NavigateToSession(viewEvent.sessionId))
+            is OnDeleteItemClick -> deleteSessionAlarm(viewEvent)
+            OnDeleteAllClick -> deleteAllAlarms()
+            OnDeleteAllWithConfirmationClick -> navigateTo(ConfirmDeleteAll)
+        }
     }
 
-    private fun deleteSessionAlarm(value: SessionAlarmParameter) {
+    private fun deleteSessionAlarm(viewEvent: OnDeleteItemClick) {
         launch {
-            repository.deleteAlarmForSessionId(value.sessionId)
+            repository.deleteAlarmForSessionId(viewEvent.sessionId)
             val alarm = SchedulableAlarm(
-                dayIndex = value.dayIndex,
-                sessionId = value.sessionId,
-                sessionTitle = value.title,
-                startTime = value.firesAt,
+                dayIndex = viewEvent.dayIndex,
+                sessionId = viewEvent.sessionId,
+                sessionTitle = viewEvent.title,
+                startTime = viewEvent.firesAt,
             )
             alarmServices.discardSessionAlarm(alarm)
         }
     }
 
-    fun onDeleteAllClick() {
+    private fun deleteAllAlarms() {
         launch {
             val alarms = repository.readAlarms()
             alarms
@@ -70,6 +86,16 @@ internal class AlarmsViewModel(
             if (alarms.isNotEmpty()) {
                 repository.deleteAllAlarms()
             }
+        }
+    }
+
+    private fun navigateTo(destination: AlarmsDestination) {
+        sendEffect(NavigateTo(destination))
+    }
+
+    private fun sendEffect(effect: AlarmsEffect) {
+        viewModelScope.launch {
+            mutableEffects.send(effect)
         }
     }
 

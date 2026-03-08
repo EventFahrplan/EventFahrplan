@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.core.view.MenuProvider
@@ -15,9 +16,10 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.fragment.compose.content
 import androidx.lifecycle.Lifecycle.State.RESUMED
+import info.metadude.android.eventfahrplan.commons.flow.observe
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsViewEvent.OnDeleteAllWithConfirmationClick
 import nerd.tuxmobil.fahrplan.congress.base.OnSessionItemClickListener
-import nerd.tuxmobil.fahrplan.congress.commons.ScreenNavigation
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
@@ -45,24 +47,11 @@ class AlarmsFragment : Fragment(), MenuProvider {
 
     private val viewModel: AlarmsViewModel by viewModels { AlarmsViewModelFactory(requireContext()) }
     private var sidePane = false
-    private var onSessionItemClickListener: OnSessionItemClickListener? = null
+    private var hasAlarms = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        viewModel.screenNavigation = ScreenNavigation { sessionId ->
-            onSessionItemClickListener?.onSessionItemClick(sessionId)
-        }
-        onSessionItemClickListener = try {
-            context as OnSessionItemClickListener
-        } catch (_: ClassCastException) {
-            error("$context must implement OnSessionItemClickListener")
-        }
-    }
-
-    override fun onDetach() {
-        onSessionItemClickListener = null
-        viewModel.screenNavigation = null
-        super.onDetach()
+        require(context is OnSessionItemClickListener) { "$context must implement OnSessionItemClickListener" }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,20 +71,44 @@ class AlarmsFragment : Fragment(), MenuProvider {
             AlarmsScreen(
                 viewModel = viewModel,
                 showInSidePane = sidePane,
+                onNavigateToSession = ::navigateToSession,
             )
         }
     }.also { it.isClickable = true }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        observeViewModel()
+    }
+
+    private fun observeViewModel() {
+        viewModel.hasAlarms.observe(this) {
+            hasAlarms = it
+            requireActivity().invalidateOptionsMenu()
+        }
+    }
+
+    private fun navigateToSession(sessionId: String) {
+        (requireContext() as OnSessionItemClickListener).onSessionItemClick(sessionId)
+    }
+
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menu.clear()
         menuInflater.inflate(R.menu.alarms_menu, menu)
+        val item = menu.findItem(R.id.menu_item_delete_all_alarms)
+        if (item != null && !hasAlarms) {
+            item.isVisible = false
+        }
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
-            R.id.menu_item_delete_all_alarms -> viewModel.onDeleteAllClick()
-            else -> return false
+            R.id.menu_item_delete_all_alarms -> {
+                viewModel.onViewEvent(OnDeleteAllWithConfirmationClick)
+                return true
+            }
         }
-        return true
+        return false
     }
 
 }

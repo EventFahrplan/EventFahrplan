@@ -9,12 +9,17 @@ import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsDestination.ConfirmDeleteAll
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsEffect.NavigateTo
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsEffect.NavigateToSession
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Loading
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Success
-import nerd.tuxmobil.fahrplan.congress.commons.ScreenNavigation
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsViewEvent.OnDeleteAllClick
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsViewEvent.OnDeleteAllWithConfirmationClick
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsViewEvent.OnDeleteItemClick
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsViewEvent.OnItemClick
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
@@ -22,7 +27,6 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.any
-import org.mockito.kotlin.doNothing
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
@@ -82,10 +86,37 @@ class AlarmsViewModelTest {
     }
 
     @Nested
-    inner class OnViewEvent {
+    inner class HasAlarms {
 
         @Test
-        fun `onItemClick triggers navigation to session details`() = runTest {
+        fun `hasAlarms never emits when no alarms nor sessions are present`() = runTest {
+            val repository = createRepository(
+                alarms = emptyList(),
+                sessions = emptyFlow(),
+            )
+            val viewModel = createViewModel(repository)
+            viewModel.hasAlarms.test {
+                expectNoEvents()
+            }
+        }
+
+        @Test
+        fun `hasAlarms emits false when no alarms present`() = runTest {
+            val repository = createRepository(
+                alarms = emptyList(),
+                sessions = flowOf(emptyList()),
+            )
+            val viewModel = createViewModel(
+                repository = repository,
+                alarmsStateFactory = createAlarmsStateFactory(emptyList())
+            )
+            viewModel.hasAlarms.test {
+                assertThat(awaitItem()).isFalse()
+            }
+        }
+
+        @Test
+        fun `hasAlarms emits true when at least one alarm is present`() = runTest {
             val repository = createRepository(
                 alarms = listOf(
                     createAlarm(
@@ -102,81 +133,88 @@ class AlarmsViewModelTest {
                             dateUTC = SESSION_STARTS_AT.toMilliseconds(),
                         )
                     )
-                )
+                ),
             )
-            val screenNavigation = mock<ScreenNavigation>()
-            doNothing().`when`(screenNavigation).navigateToSessionDetails(any())
             val viewModel = createViewModel(repository)
-            viewModel.screenNavigation = screenNavigation
-            viewModel.alarmsState.take(1).collect { state ->
-                assertThat(state).isInstanceOf(Success::class.java)
-                val success = state as Success
-                val sessionAlarmParameter = state.sessionAlarmParameters.first()
-                success.onItemClick(sessionAlarmParameter)
-                verifyInvokedOnce(screenNavigation).navigateToSessionDetails(any())
+            viewModel.hasAlarms.test {
+                assertThat(awaitItem()).isTrue()
+            }
+        }
+
+    }
+
+    @Nested
+    inner class OnViewEvent {
+
+        @Test
+        fun `OnItemClick emits NavigateToSession effect`() = runTest {
+            val viewModel = createViewModel(createRepository())
+            viewModel.onViewEvent(OnItemClick("s13"))
+            viewModel.effects.test {
+                assertThat(awaitItem()).isEqualTo(NavigateToSession("s13"))
             }
         }
 
         @Test
-        fun `onDeleteItemClick invokes corresponding repository and alarm services functions`() =
+        fun `OnDeleteItemClick invokes corresponding repository and alarm services functions`() =
             runTest {
-                val repository = createRepository(
-                    alarms = listOf(
-                        createAlarm(
-                            sessionId = "s0",
-                            alarmStartsAt = ALARM_STARTS_AT
-                        )
-                    ),
-                    sessions = flowOf(
-                        listOf(
-                            Session(
-                                sessionId = "s0",
-                                title = "Title",
-                                subtitle = "Subtitle",
-                                dateUTC = SESSION_STARTS_AT.toMilliseconds(),
-                            )
-                        )
-                    )
-                )
+                val repository = createRepository()
                 val alarmServices = mock<AlarmServices>()
                 val viewModel = createViewModel(repository, alarmServices)
-                viewModel.alarmsState.take(1).collect { state ->
-                    assertThat(state).isInstanceOf(Success::class.java)
-                    val success = state as Success
-                    val sessionAlarmParameter = state.sessionAlarmParameters.first()
-                    success.onDeleteItemClick(sessionAlarmParameter)
-                    verifyInvokedOnce(repository).deleteAlarmForSessionId(any())
-                    verifyInvokedOnce(alarmServices).discardSessionAlarm(any())
-                }
+                val session = Session(
+                    sessionId = "s0",
+                    title = "Title",
+                    subtitle = "Subtitle",
+                    dateUTC = SESSION_STARTS_AT.toMilliseconds(),
+                )
+                viewModel.onViewEvent(
+                    OnDeleteItemClick(
+                        sessionId = session.sessionId,
+                        dayIndex = session.dayIndex,
+                        title = session.title,
+                        firesAt = ALARM_STARTS_AT,
+                    )
+                )
+                verifyInvokedOnce(repository).deleteAlarmForSessionId(any())
+                verifyInvokedOnce(alarmServices).discardSessionAlarm(any())
             }
 
         @Test
-        fun `onDeleteAllClick never invokes repository nor alarm services functions when no alarm is present`() =
+        fun `OnDeleteAllClick never invokes repository nor alarm services functions when no alarm is present`() =
             runTest {
                 val alarmServices = mock<AlarmServices>()
                 val repository = createRepository(
                     alarms = emptyList(),
                 )
                 val viewModel = createViewModel(repository, alarmServices)
-                viewModel.onDeleteAllClick()
+                viewModel.onViewEvent(OnDeleteAllClick)
                 verifyInvokedOnce(repository).readAlarms()
                 verifyInvokedNever(alarmServices).discardSessionAlarm(any())
                 verifyInvokedNever(repository).deleteAllAlarms()
             }
 
         @Test
-        fun `onDeleteAllClick invokes corresponding repository and alarm services functions when any alarm is present`() =
+        fun `OnDeleteAllClick invokes corresponding repository and alarm services functions when any alarm is present`() =
             runTest {
                 val alarmServices = mock<AlarmServices>()
                 val repository = createRepository(
                     alarms = listOf(createAlarm("s0")),
                 )
                 val viewModel = createViewModel(repository, alarmServices)
-                viewModel.onDeleteAllClick()
+                viewModel.onViewEvent(OnDeleteAllClick)
                 verifyInvokedOnce(repository).readAlarms()
                 verifyInvokedOnce(alarmServices).discardSessionAlarm(any())
                 verifyInvokedOnce(repository).deleteAllAlarms()
             }
+
+        @Test
+        fun `OnDeleteAllWithConfirmationClick emits NavigateTo effect`() = runTest {
+            val viewModel = createViewModel(createRepository())
+            viewModel.onViewEvent(OnDeleteAllWithConfirmationClick)
+            viewModel.effects.test {
+                assertThat(awaitItem()).isEqualTo(NavigateTo(ConfirmDeleteAll))
+            }
+        }
 
     }
 
@@ -194,24 +232,30 @@ class AlarmsViewModelTest {
     private fun createViewModel(
         repository: AppRepository,
         alarmServices: AlarmServices = mock(),
+        alarmsStateFactory: AlarmsStateFactory = createAlarmsStateFactory(createSessionAlarmParameters()),
     ) = AlarmsViewModel(
         repository = repository,
         executionContext = TestExecutionContext,
         alarmServices = alarmServices,
-        alarmsStateFactory = createAlarmsStateFactory(),
+        alarmsStateFactory = alarmsStateFactory,
     )
 
-    private fun createAlarmsStateFactory(): AlarmsStateFactory {
-        val parameter = mock<SessionAlarmParameter> {
+    private fun createAlarmsStateFactory(
+        parameters: List<SessionAlarmParameter>,
+    ): AlarmsStateFactory {
+        return mock<AlarmsStateFactory> {
+            // See AlarmsStateFactoryTest for real return values
+            on { createAlarmsState(any(), any(), any()) } doReturn parameters
+        }
+    }
+
+    private fun createSessionAlarmParameters() = listOf(
+        mock<SessionAlarmParameter> {
             on { sessionId } doReturn "not asserted in this test"
             on { title } doReturn "not asserted in this test"
             on { firesAt } doReturn Moment.ofEpochMilli(-1) // not asserted in this test
         }
-        return mock<AlarmsStateFactory> {
-            // See AlarmsStateFactoryTest for real return values
-            on { createAlarmsState(any(), any(), any()) } doReturn listOf(parameter)
-        }
-    }
+    )
 
     private fun createAlarm(
         sessionId: String,
