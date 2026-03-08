@@ -64,7 +64,6 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchActivity
 import nerd.tuxmobil.fahrplan.congress.search.SearchFragment
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
-import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog.OnConfirmationDialogClicked
 import nerd.tuxmobil.fahrplan.congress.utils.setShowWhenLockedCompat
 
 class MainActivity : BaseActivity(),
@@ -73,8 +72,7 @@ class MainActivity : BaseActivity(),
     OnSessionListClick,
     OnSessionClickListener,
     OnSessionItemClickListener,
-    OnBackStackChangedListener,
-    OnConfirmationDialogClicked {
+    OnBackStackChangedListener {
 
     companion object {
 
@@ -472,14 +470,6 @@ class MainActivity : BaseActivity(),
             sidePaneView.isVisible = true
             isSearchInSidePane = true
             SearchFragment.replaceAtBackStack(supportFragmentManager, R.id.detail)
-        }
-    }
-
-    override fun onAccepted(requestCode: Int) {
-        if (requestCode == StarredListFragment.DELETE_ALL_FAVORITES_REQUEST_CODE) {
-            findFragment(StarredListFragment.FRAGMENT_TAG)?.let {
-                (it as StarredListFragment).deleteAllFavorites()
-            }
         }
     }
 

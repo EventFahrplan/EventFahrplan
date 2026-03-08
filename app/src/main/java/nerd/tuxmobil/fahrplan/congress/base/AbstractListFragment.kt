@@ -3,21 +3,9 @@ package nerd.tuxmobil.fahrplan.congress.base
 import android.content.Context
 import androidx.annotation.CallSuper
 import androidx.annotation.MainThread
-import androidx.fragment.app.ListFragment
-import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
+import androidx.fragment.app.Fragment
 
-/**
- * A fragment representing a list of Items.
- *
- *
- * Large screen devices (such as tablets) are supported by replacing the ListView
- * with a GridView.
- *
- *
- * Activities containing this fragment MUST implement the [OnSessionListClick]
- * interface.
- */
-abstract class AbstractListFragment : ListFragment() {
+abstract class AbstractListFragment : Fragment() {
 
     fun interface OnSessionListClick {
         /**
@@ -31,13 +19,10 @@ abstract class AbstractListFragment : ListFragment() {
         fun onSessionListClick(sessionId: String)
     }
 
-    protected lateinit var appRepository: AppRepository
-
     @MainThread
     @CallSuper
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        appRepository = AppRepository
     }
 
 }

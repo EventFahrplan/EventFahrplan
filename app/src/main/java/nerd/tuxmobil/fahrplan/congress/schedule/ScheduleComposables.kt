@@ -56,6 +56,7 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.colors.LocalColorScheme
 import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
 import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconDecorative
 import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconDecorativeVector
+import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconVideoRecording
 import nerd.tuxmobil.fahrplan.congress.designsystem.indicators.ripple
 import nerd.tuxmobil.fahrplan.congress.designsystem.menues.DropdownMenu
 import nerd.tuxmobil.fahrplan.congress.designsystem.menues.DropdownMenuItem
@@ -207,8 +208,8 @@ private fun SessionCardLayout(data: SessionCardData) {
                         verticalAlignment = CenterVertically,
                     ) {
                         if (data.recordingOptOut?.value == true) {
-                            VideoRecordingIcon(
-                                property = data.recordingOptOut,
+                            IconVideoRecording(
+                                contentDescription = data.recordingOptOut.contentDescription,
                             )
                         }
                         if (data.hasAlarm) {
@@ -448,19 +449,6 @@ private fun TrackName(
             )
         }
     }
-}
-
-@Composable
-private fun VideoRecordingIcon(
-    property: SessionProperty<Boolean>,
-    modifier: Modifier = Modifier,
-) {
-    IconDecorative(
-        modifier = modifier.size(dimensionResource(R.dimen.session_drawable_icon_size)),
-        icon = R.drawable.ic_video_recording_unavailable,
-        contentDescription = property.contentDescription,
-        tint = Color.Unspecified,
-    )
 }
 
 @Composable

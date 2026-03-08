@@ -893,8 +893,8 @@ object AppRepository : SearchRepository,
     }
 
     @WorkerThread
-    fun deleteHighlight(sessionId: String) {
-        if (highlightsDatabaseRepository.delete(sessionId) > 0) {
+    fun deleteHighlights(vararg sessionIds: String) {
+        if (highlightsDatabaseRepository.delete(sessionIds.toSet()) > 0) {
             refreshStarredSessions()
             refreshSessions()
             refreshSelectedSession()

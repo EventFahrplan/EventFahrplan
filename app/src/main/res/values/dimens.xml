@@ -16,8 +16,6 @@
     <item name="max_cols" type="integer">1</item>
     <item name="min_width_dip" type="integer">160</item>
     <item name="room_title_size" type="integer">14</item>
-    <dimen name="list_pane_leftright_padding">16dp</dimen>
-    <dimen name="header_height">0dp</dimen>
 
     <!-- Loading Spinner -->
     <dimen name="progress_spinner_size">80dp</dimen>
@@ -25,7 +23,7 @@
     <!-- Scrollbar -->
     <!--
     If you use a value greater than 16dp make sure to adjust the padding
-    in session_detailbar.xml and session_list_item.xml
+    in the session screen detailbar and session lists
     -->
     <dimen name="scrollbar_size">5.0dp</dimen>
     <!-- Should be half of scrollbar_size at maximum -->

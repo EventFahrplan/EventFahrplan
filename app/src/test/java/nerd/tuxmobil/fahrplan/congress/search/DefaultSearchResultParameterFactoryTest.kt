@@ -12,11 +12,12 @@ import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
+import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
-private const val SOME_DATE = "8/13/15"
 private const val SOME_TIME = "5:15 PM"
 private const val SOME_DAY_SEPARATOR_TEXT = "Day 1 - 8/13/2015"
 
@@ -41,6 +42,9 @@ class DefaultSearchResultParameterFactoryTest {
                 dateText = "2015-08-13",
                 dayIndex = 1,
                 dateUTC = 1683981000000,
+                language = "en",
+                roomName = "Hall 1",
+                recordingOptOut = true,
             ),
             Session(
                 sessionId = "456",
@@ -49,6 +53,9 @@ class DefaultSearchResultParameterFactoryTest {
                 dateText = "2015-08-14",
                 dayIndex = 2,
                 dateUTC = 1684067400000,
+                language = "de",
+                roomName = "Hall 1",
+                recordingOptOut = false,
             )
         )
         val results = factory.createSearchResults(sessions, useDeviceTimeZone = false)
@@ -64,7 +71,11 @@ class DefaultSearchResultParameterFactoryTest {
                     id = "123",
                     title = SearchResultProperty(value = "Session 123", contentDescription = "Title: Session 123"),
                     speakerNames = SearchResultProperty(value = "Jane Doe; John Doe", contentDescription = "Speakers: Jane Doe; John Doe"),
-                    startsAt = SearchResultProperty(value = "$SOME_DATE, $SOME_TIME", contentDescription = "Start time: $SOME_DATE, $SOME_TIME"),
+                    languages = SearchResultProperty(value = "EN", contentDescription = "Language: English"),
+                    roomName = SearchResultProperty(value = "Hall 1", contentDescription = "Room: Hall 1"),
+                    startsAt = SearchResultProperty(value = SOME_TIME, contentDescription = "Start time: $SOME_TIME"),
+                    endsAt = SearchResultProperty(value = SOME_TIME, contentDescription = "End time: $SOME_TIME"),
+                    recordingOptOut = SearchResultProperty(value = true, contentDescription = "No video", tenseType = FUTURE),
                 ),
                 SearchResultParameter.Separator(
                     DaySeparatorProperty(
@@ -76,7 +87,11 @@ class DefaultSearchResultParameterFactoryTest {
                     id = "456",
                     title = SearchResultProperty(value = "Session 456", contentDescription = "Title: Session 456"),
                     speakerNames = SearchResultProperty(value = "Jane Doe; John Doe", contentDescription = "Speakers: Jane Doe; John Doe"),
-                    startsAt = SearchResultProperty(value = "$SOME_DATE, $SOME_TIME", contentDescription = "Start time: $SOME_DATE, $SOME_TIME"),
+                    languages = SearchResultProperty(value = "DE", contentDescription = "Language: German"),
+                    roomName = SearchResultProperty(value = "Hall 1", contentDescription = "Room: Hall 1"),
+                    startsAt = SearchResultProperty(value = SOME_TIME, contentDescription = "Start time: $SOME_TIME"),
+                    endsAt = SearchResultProperty(value = SOME_TIME, contentDescription = "End time: $SOME_TIME"),
+                    recordingOptOut = SearchResultProperty(value = false, contentDescription = "No video", tenseType = FUTURE),
                 ),
             )
         )
@@ -92,6 +107,8 @@ class DefaultSearchResultParameterFactoryTest {
                 speakers = emptyList(),
                 dateUTC = 1683981000000,
                 dayIndex = 1,
+                language = "en",
+                roomName = "Hall 1",
             )
         )
         val results = factory.createSearchResults(sessions, useDeviceTimeZone = false)
@@ -107,7 +124,11 @@ class DefaultSearchResultParameterFactoryTest {
                     id = "123",
                     title = SearchResultProperty(value = "-", contentDescription = ""),
                     speakerNames = SearchResultProperty(value = "-", contentDescription = "No speakers"),
-                    startsAt = SearchResultProperty(value = "$SOME_DATE, $SOME_TIME", contentDescription = "Start time: $SOME_DATE, $SOME_TIME"),
+                    languages = SearchResultProperty(value = "EN", contentDescription = "Language: English"),
+                    roomName = SearchResultProperty(value = "Hall 1", contentDescription = "Room: Hall 1"),
+                    startsAt = SearchResultProperty(value = SOME_TIME, contentDescription = "Start time: $SOME_TIME"),
+                    endsAt = SearchResultProperty(value = SOME_TIME, contentDescription = "End time: $SOME_TIME"),
+                    recordingOptOut = SearchResultProperty(value = false, contentDescription = "No video", tenseType = FUTURE),
                 )
             )
         )
@@ -126,6 +147,13 @@ class DefaultSearchResultParameterFactoryTest {
 
     private val sessionPropertiesFormatting = mock<SessionPropertiesFormatting> {
         on { getFormattedSpeakers(anyOrNull()) } doReturn "Jane Doe; John Doe"
+        on { getLanguageText(any()) } doAnswer { invocation ->
+            val session = invocation.getArgument<Session>(0)
+            when (session.language) {
+                "de" -> "DE"
+                else -> "EN"
+            }
+        }
     }
 
     private val daySeparatorFactory = mock<DaySeparatorFactory> {
@@ -134,8 +162,7 @@ class DefaultSearchResultParameterFactoryTest {
     }
 
     private val formattingDelegate = mock<FormattingDelegate> {
-        on { getFormattedDateShort(anyOrNull(), anyOrNull(), anyOrNull()) } doReturn SOME_DATE
-        on { getFormattedDateTimeLong(anyOrNull(), anyOrNull(), anyOrNull()) } doReturn "$SOME_DATE, $SOME_TIME"
+        on { getFormattedTimeShort(anyOrNull(), anyOrNull(), anyOrNull()) } doReturn SOME_TIME
     }
 }
 
@@ -143,9 +170,17 @@ private object CompleteResourceResolver : ResourceResolving {
     override fun getString(id: Int, vararg formatArgs: Any) = when (id) {
         R.string.dash -> "-"
         R.string.session_list_item_title_content_description -> "Title: ${formatArgs.first()}"
-        R.string.session_list_item_start_time_content_description -> "Start time: $SOME_DATE, $SOME_TIME"
+        R.string.session_list_item_start_time_content_description -> "Start time: $SOME_TIME"
+        R.string.session_list_item_end_time_content_description -> "End time: $SOME_TIME"
         R.string.session_list_item_zero_speakers_content_description -> "No speakers"
+        R.string.session_list_item_language_unknown_content_description -> "Language unknown"
+        R.string.session_list_item_language_english_content_description -> "English"
+        R.string.session_list_item_language_german_content_description -> "German"
+        R.string.session_list_item_language_portuguese_content_description -> "Portuguese"
+        R.string.session_list_item_language_content_description -> "Language: ${formatArgs.firstOrNull() ?: "English"}"
         R.plurals.session_list_item_speakers_content_description -> "Speakers: Jane Doe; John Doe"
+        R.string.session_list_item_room_content_description -> "Room: Hall 1"
+        R.string.session_item_no_video_content_description -> "No video"
         R.string.day_separator -> "Day ${formatArgs.first()} - ${formatArgs.last()}"
         else -> fail("Unknown string id : $id")
     }

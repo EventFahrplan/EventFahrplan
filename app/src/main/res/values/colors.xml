@@ -10,6 +10,7 @@
     <color name="text_secondary">#1a1a1a</color>
     <color name="text_secondary_inverted">@color/text_secondary</color>
     <color name="text_tertiary">#4d4d4d</color>
+    <color name="text_quaternary">#737373</color>
     <color name="background_primary">#fff</color>
     <color name="background_primary_inverted">@color/background_primary</color>
     <color name="background_secondary">#f2f2f2</color>
@@ -19,7 +20,7 @@
     <color name="foreground">#fff</color>
     <color name="text_link_on_light">@color/colorAccent</color>
     <color name="text_link_on_dark">@color/colorAccent</color>
-    <color name="text_past_content_on_light">@color/text_tertiary</color>
+    <color name="text_past_content_on_light">@color/text_quaternary</color>
     <color name="text_past_content_on_dark">@color/text_tertiary</color>
     <color name="text_link_pressed_background_on_light">#aafec700</color>
     <color name="divider">#88888888</color>
@@ -71,7 +72,6 @@
     <color name="schedule_changes_statistic_bar_background_on_light">#cccccc</color>
 
     <!-- Schedule changes -->
-    <color name="schedule_changes_background">@color/background_primary</color>
     <color name="schedule_change_on_dark">#F57C00</color>
     <color name="schedule_change_on_light">#E65100</color>
     <color name="schedule_change_new_on_dark">#689F38</color>
@@ -79,15 +79,9 @@
     <color name="schedule_change_canceled_on_dark">#D32F2F</color>
     <color name="schedule_change_canceled_on_light">#B71C1C</color>
 
-    <!-- Favorites -->
-    <color name="favorites_past_session_text">@color/text_past_content_on_light</color>
-    <color name="favorites_background">@color/background_primary</color>
-
     <!-- Session item (favorites + schedule changes) -->
-    <color name="session_list_header_text">@color/text_primary</color>
     <color name="session_list_header_day_date">@color/colorAccent</color>
     <color name="session_list_item_text">@color/text_primary</color>
-    <color name="session_list_item_text_inverted">@color/text_primary_inverted</color>
     <color name="session_list_empty_text">@color/text_primary</color>
 
     <!-- Spinner -->

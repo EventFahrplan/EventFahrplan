@@ -126,7 +126,7 @@ private fun SessionChangesList(
                             }
                     )
                     val next = parameters.getOrNull(index + 1)
-                    if (index < parameters.size - 1 && (next != null && next !is Separator)) {
+                    if (index < parameters.size - 1 && next is SessionChange) {
                         DividerHorizontal(Modifier.padding(horizontal = 12.dp))
                     }
                 }

@@ -23,6 +23,8 @@ interface ContentDescriptionFormatting {
 
     fun getStartTimeContentDescription(startTimeText: String): String
 
+    fun getEndTimeContentDescription(endTimeText: String): String
+
     fun getStateContentDescription(session: Session, useDeviceTimeZone: Boolean): String
 
     fun getDaySeparatorContentDescription(dayIndex: Int, formattedDate: String): String

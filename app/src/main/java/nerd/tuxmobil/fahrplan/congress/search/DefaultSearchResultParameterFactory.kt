@@ -58,9 +58,15 @@ class DefaultSearchResultParameterFactory(
         val title = session.title.ifEmpty { dash }
         val formattedSpeakerNames = sessionPropertiesFormatting.getFormattedSpeakers(session)
         val speakers = if (session.speakers.isEmpty()) dash else formattedSpeakerNames
-        val startsAtText = getFormattedDateTimeLong(
+        val languagesText = sessionPropertiesFormatting.getLanguageText(session)
+        val startsAtText = getFormattedTimeShort(
             useDeviceTimeZone,
             session.startsAt,
+            session.timeZoneOffset,
+        )
+        val endsAtText = getFormattedTimeShort(
+            useDeviceTimeZone,
+            session.endsAt,
             session.timeZoneOffset,
         )
         val tenseType = tenseTypeProvision.getTenseType(session)
@@ -79,11 +85,33 @@ class DefaultSearchResultParameterFactory(
                     .getSpeakersContentDescription(session.speakers.size, formattedSpeakerNames),
                 tenseType = tenseType,
             ),
+            languages = SearchResultProperty(
+                value = languagesText,
+                contentDescription = contentDescriptionFormatting
+                    .getLanguageContentDescription(session.language),
+                tenseType = tenseType,
+            ),
+            roomName = SearchResultProperty(
+                value = session.roomName,
+                contentDescription = contentDescriptionFormatting
+                    .getRoomNameContentDescription(session.roomName),
+                tenseType = tenseType
+            ),
             startsAt = SearchResultProperty(
                 value = startsAtText,
                 contentDescription = contentDescriptionFormatting
                     .getStartTimeContentDescription(startsAtText),
                 tenseType = tenseType,
+            ),
+            endsAt = SearchResultProperty(
+                value = endsAtText,
+                contentDescription = contentDescriptionFormatting
+                    .getEndTimeContentDescription(endsAtText),
+                tenseType = tenseType,
+            ),
+            recordingOptOut = SearchResultProperty(
+                value = session.recordingOptOut,
+                contentDescription = resourceResolving.getString(R.string.session_item_no_video_content_description),
             ),
         )
     }

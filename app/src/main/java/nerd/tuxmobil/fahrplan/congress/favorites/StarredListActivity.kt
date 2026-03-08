@@ -3,29 +3,24 @@ package nerd.tuxmobil.fahrplan.congress.favorites
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
-import info.metadude.android.eventfahrplan.commons.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity
 import nerd.tuxmobil.fahrplan.congress.extensions.applyToolbar
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
-import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog.OnConfirmationDialogClicked
 
-class StarredListActivity : BaseActivity(R.layout.activity_generic), OnSessionListClick, OnConfirmationDialogClicked {
+class StarredListActivity : BaseActivity(R.layout.activity_generic), OnSessionListClick {
 
     companion object {
-
-        private const val LOG_TAG = "StarredListActivity"
 
         fun start(context: Context) {
             val intent = Intent(context, StarredListActivity::class.java)
             context.startActivity(intent)
         }
     }
-
-    private val logging = Logging.get()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,13 +41,23 @@ class StarredListActivity : BaseActivity(R.layout.activity_generic), OnSessionLi
         }
     }
 
-    override fun onAccepted(requestCode: Int) {
-        val fragment = findFragment(StarredListFragment.FRAGMENT_TAG)
-        if (fragment is StarredListFragment) {
-            fragment.deleteAllFavorites()
-        } else {
-            logging.e(LOG_TAG, "StarredListFragment not found")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home && dismissSelectionModeIfActive()) {
+            return true
         }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        if (dismissSelectionModeIfActive()) {
+            return true
+        }
+        return super.onSupportNavigateUp()
+    }
+
+    private fun dismissSelectionModeIfActive(): Boolean {
+        val fragment = findFragment(StarredListFragment.FRAGMENT_TAG) as? StarredListFragment
+        return fragment?.onToolbarBackPressed() == true
     }
 
 }

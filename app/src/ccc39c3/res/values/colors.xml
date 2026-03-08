@@ -11,7 +11,7 @@
     <color name="colorAccent">#9673ff</color>
     <color name="background_primary">#faf5f5</color>
     <color name="background_primary_inverted">@color/background_primary</color>
-    <color name="multi_choice_background">#D4CFCF</color>
+    <color name="multi_choice_background">#E6DFFC</color>
 
     <!-- App bar -->
     <color name="app_bar_action_icon">@color/text_primary</color>

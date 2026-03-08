@@ -26,7 +26,11 @@ abstract class BaseActivity : AppCompatActivity {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> return navigateUp()
+            android.R.id.home -> {
+                // Let Fragment/MenuProvider consume toolbar back first (e.g. multiselect dismiss),
+                // then fall back to normal up navigation.
+                return super.onOptionsItemSelected(item) || navigateUp()
+            }
         }
         return super.onOptionsItemSelected(item)
     }

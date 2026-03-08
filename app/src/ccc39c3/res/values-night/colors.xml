@@ -8,7 +8,7 @@
     <color name="colorPrimaryDark">#7952fe</color>
     <color name="colorAccent">#00ff00</color>
     <color name="background_primary">#141414</color>
-    <color name="multi_choice_background">#3B3B3B</color>
+    <color name="multi_choice_background">#003C00</color>
 
     <!-- Schedule screen -->
     <color name="schedule_horizontal_time_line">#4dffffff</color>

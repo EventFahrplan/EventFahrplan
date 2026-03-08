@@ -207,7 +207,7 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
                     assertThat(actualScheduleData1).isEqualTo(expectedScheduleData1)
 
                     // Simulate removing highlight from session
-                    testableAppRepository.deleteHighlight(sessionId)
+                    testableAppRepository.deleteHighlights(sessionId)
                     val expectedScheduleData2 = createScheduleData(createSession(
                         isHighlight = false, // highlight is now removed
                         hasAlarm = false,
@@ -354,7 +354,7 @@ private class InMemoryHighlightsDatabaseRepository : HighlightsDatabaseRepositor
         return highlights.singleOrNull { it.sessionId == sessionId }
     }
 
-    override fun delete(sessionId: String): Int {
+    override fun delete(sessionIds: Set<String>): Int {
         val affected = highlights.size
         highlights = emptyList()
         return affected
