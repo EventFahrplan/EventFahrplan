@@ -18,6 +18,7 @@ import nerd.tuxmobil.fahrplan.congress.commons.ScreenNavigation
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.any
@@ -34,83 +35,57 @@ class AlarmsViewModelTest {
         val ALARM_STARTS_AT = SESSION_STARTS_AT.minusMinutes(ALARM_TIME_IN_MIN.toLong())
     }
 
-    @Test
-    fun `alarmsState emits Loading`() = runTest {
-        val repository = createRepository(
-            alarms = emptyList(),
-            sessions = emptyFlow(),
-        )
-        val viewModel = createViewModel(repository)
-        viewModel.alarmsState.test {
-            assertThat(awaitItem()).isEqualTo(Loading)
-        }
-        verifyInvokedNever(repository).readUseDeviceTimeZoneEnabled()
-    }
+    @Nested
+    inner class AlarmsState {
 
-    @Test
-    fun `alarmsState emits Success when alarm and session are associated`() = runTest {
-        val repository = createRepository(
-            alarms = listOf(
-                createAlarm(
-                    sessionId = "s0",
-                    alarmStartsAt = ALARM_STARTS_AT
-                )
-            ),
-            sessions = flowOf(
-                listOf(
-                    Session(
-                        sessionId = "s0",
-                        title = "Title",
-                        subtitle = "Subtitle",
-                        dateUTC = SESSION_STARTS_AT.toMilliseconds(),
-                    )
-                )
-            ),
-        )
-        val viewModel = createViewModel(repository)
-        viewModel.alarmsState.test {
-            // Success values are covered in AlarmsStateFactoryTest
-            assertThat(awaitItem()).isInstanceOf(Success::class.java)
-        }
-        verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
-    }
-
-    @Test
-    fun `onItemClick triggers navigation to session details`() = runTest {
-        val repository = createRepository(
-            alarms = listOf(
-                createAlarm(
-                    sessionId = "s0",
-                    alarmStartsAt = ALARM_STARTS_AT
-                )
-            ),
-            sessions = flowOf(
-                listOf(
-                    Session(
-                        sessionId = "s0",
-                        title = "Title",
-                        subtitle = "Subtitle",
-                        dateUTC = SESSION_STARTS_AT.toMilliseconds(),
-                    )
-                )
+        @Test
+        fun `alarmsState emits Loading`() = runTest {
+            val repository = createRepository(
+                alarms = emptyList(),
+                sessions = emptyFlow(),
             )
-        )
-        val screenNavigation = mock<ScreenNavigation>()
-        doNothing().`when`(screenNavigation).navigateToSessionDetails(any())
-        val viewModel = createViewModel(repository)
-        viewModel.screenNavigation = screenNavigation
-        viewModel.alarmsState.take(1).collect { state ->
-            assertThat(state).isInstanceOf(Success::class.java)
-            val success = state as Success
-            val sessionAlarmParameter = state.sessionAlarmParameters.first()
-            success.onItemClick(sessionAlarmParameter)
-            verifyInvokedOnce(screenNavigation).navigateToSessionDetails(any())
+            val viewModel = createViewModel(repository)
+            viewModel.alarmsState.test {
+                assertThat(awaitItem()).isEqualTo(Loading)
+            }
+            verifyInvokedNever(repository).readUseDeviceTimeZoneEnabled()
         }
+
+        @Test
+        fun `alarmsState emits Success when alarm and session are associated`() = runTest {
+            val repository = createRepository(
+                alarms = listOf(
+                    createAlarm(
+                        sessionId = "s0",
+                        alarmStartsAt = ALARM_STARTS_AT
+                    )
+                ),
+                sessions = flowOf(
+                    listOf(
+                        Session(
+                            sessionId = "s0",
+                            title = "Title",
+                            subtitle = "Subtitle",
+                            dateUTC = SESSION_STARTS_AT.toMilliseconds(),
+                        )
+                    )
+                ),
+            )
+            val viewModel = createViewModel(repository)
+            viewModel.alarmsState.test {
+                // Success values are covered in AlarmsStateFactoryTest
+                assertThat(awaitItem()).isInstanceOf(Success::class.java)
+            }
+            verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
+        }
+
     }
 
-    @Test
-    fun `onDeleteItemClick invokes corresponding repository and alarm services functions`() =
-        runTest {
+    @Nested
+    inner class OnViewEvent {
+
+        @Test
+        fun `onItemClick triggers navigation to session details`() = runTest {
             val repository = createRepository(
                 alarms = listOf(
                     createAlarm(
@@ -129,45 +104,81 @@ class AlarmsViewModelTest {
                     )
                 )
             )
-            val alarmServices = mock<AlarmServices>()
-            val viewModel = createViewModel(repository, alarmServices)
+            val screenNavigation = mock<ScreenNavigation>()
+            doNothing().`when`(screenNavigation).navigateToSessionDetails(any())
+            val viewModel = createViewModel(repository)
+            viewModel.screenNavigation = screenNavigation
             viewModel.alarmsState.take(1).collect { state ->
                 assertThat(state).isInstanceOf(Success::class.java)
                 val success = state as Success
                 val sessionAlarmParameter = state.sessionAlarmParameters.first()
-                success.onDeleteItemClick(sessionAlarmParameter)
-                verifyInvokedOnce(repository).deleteAlarmForSessionId(any())
-                verifyInvokedOnce(alarmServices).discardSessionAlarm(any())
+                success.onItemClick(sessionAlarmParameter)
+                verifyInvokedOnce(screenNavigation).navigateToSessionDetails(any())
             }
         }
 
-    @Test
-    fun `onDeleteAllClick never invokes repository nor alarm services functions when no alarm is present`() =
-        runTest {
-            val alarmServices = mock<AlarmServices>()
-            val repository = createRepository(
-                alarms = emptyList(),
-            )
-            val viewModel = createViewModel(repository, alarmServices)
-            viewModel.onDeleteAllClick()
-            verifyInvokedOnce(repository).readAlarms()
-            verifyInvokedNever(alarmServices).discardSessionAlarm(any())
-            verifyInvokedNever(repository).deleteAllAlarms()
-        }
+        @Test
+        fun `onDeleteItemClick invokes corresponding repository and alarm services functions`() =
+            runTest {
+                val repository = createRepository(
+                    alarms = listOf(
+                        createAlarm(
+                            sessionId = "s0",
+                            alarmStartsAt = ALARM_STARTS_AT
+                        )
+                    ),
+                    sessions = flowOf(
+                        listOf(
+                            Session(
+                                sessionId = "s0",
+                                title = "Title",
+                                subtitle = "Subtitle",
+                                dateUTC = SESSION_STARTS_AT.toMilliseconds(),
+                            )
+                        )
+                    )
+                )
+                val alarmServices = mock<AlarmServices>()
+                val viewModel = createViewModel(repository, alarmServices)
+                viewModel.alarmsState.take(1).collect { state ->
+                    assertThat(state).isInstanceOf(Success::class.java)
+                    val success = state as Success
+                    val sessionAlarmParameter = state.sessionAlarmParameters.first()
+                    success.onDeleteItemClick(sessionAlarmParameter)
+                    verifyInvokedOnce(repository).deleteAlarmForSessionId(any())
+                    verifyInvokedOnce(alarmServices).discardSessionAlarm(any())
+                }
+            }
 
-    @Test
-    fun `onDeleteAllClick invokes corresponding repository and alarm services functions when any alarm is present`() =
-        runTest {
-            val alarmServices = mock<AlarmServices>()
-            val repository = createRepository(
-                alarms = listOf(createAlarm("s0")),
-            )
-            val viewModel = createViewModel(repository, alarmServices)
-            viewModel.onDeleteAllClick()
-            verifyInvokedOnce(repository).readAlarms()
-            verifyInvokedOnce(alarmServices).discardSessionAlarm(any())
-            verifyInvokedOnce(repository).deleteAllAlarms()
-        }
+        @Test
+        fun `onDeleteAllClick never invokes repository nor alarm services functions when no alarm is present`() =
+            runTest {
+                val alarmServices = mock<AlarmServices>()
+                val repository = createRepository(
+                    alarms = emptyList(),
+                )
+                val viewModel = createViewModel(repository, alarmServices)
+                viewModel.onDeleteAllClick()
+                verifyInvokedOnce(repository).readAlarms()
+                verifyInvokedNever(alarmServices).discardSessionAlarm(any())
+                verifyInvokedNever(repository).deleteAllAlarms()
+            }
+
+        @Test
+        fun `onDeleteAllClick invokes corresponding repository and alarm services functions when any alarm is present`() =
+            runTest {
+                val alarmServices = mock<AlarmServices>()
+                val repository = createRepository(
+                    alarms = listOf(createAlarm("s0")),
+                )
+                val viewModel = createViewModel(repository, alarmServices)
+                viewModel.onDeleteAllClick()
+                verifyInvokedOnce(repository).readAlarms()
+                verifyInvokedOnce(alarmServices).discardSessionAlarm(any())
+                verifyInvokedOnce(repository).deleteAllAlarms()
+            }
+
+    }
 
     private fun createRepository(
         sessions: Flow<List<Session>> = flowOf(emptyList()),
