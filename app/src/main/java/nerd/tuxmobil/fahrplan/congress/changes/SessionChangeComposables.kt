@@ -55,27 +55,25 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
 
 @Composable
-internal fun SessionChangesScreen(
+internal fun SessionChangesContent(
     state: SessionChangeState,
     showInSidePane: Boolean,
     onViewEvent: (SessionChangeViewEvent) -> Unit,
 ) {
-    EventFahrplanTheme {
-        Scaffold {
-            Box {
-                when (state) {
-                    Loading -> Loading()
-                    is Success -> {
-                        val parameters = state.sessionChangeParameters
-                        if (parameters.isEmpty()) {
-                            NoScheduleChanges()
-                        } else {
-                            SessionChangesList(
-                                parameters = parameters,
-                                showInSidePane = showInSidePane,
-                                onViewEvent = onViewEvent,
-                            )
-                        }
+    Scaffold {
+        Box {
+            when (state) {
+                Loading -> Loading()
+                is Success -> {
+                    val parameters = state.sessionChangeParameters
+                    if (parameters.isEmpty()) {
+                        NoScheduleChanges()
+                    } else {
+                        SessionChangesList(
+                            parameters = parameters,
+                            showInSidePane = showInSidePane,
+                            onViewEvent = onViewEvent,
+                        )
                     }
                 }
             }
@@ -238,129 +236,135 @@ private fun textDecorationOf(property: SessionChangeProperty<String>) =
 
 @MultiDevicePreview
 @Composable
-private fun SessionChangesScreenPreview() {
-    SessionChangesScreen(
-        Success(
-            listOf(
-                Separator(
-                    DaySeparatorProperty(
-                        value = "Day 1 - 31.02.2023",
-                        contentDescription = "",
-                    )
-                ),
-                SessionChange(
-                    id = "changed",
-                    title = SessionChangeProperty(stringResource(R.string.placeholder_session_title), "", UNCHANGED),
-                    subtitle = SessionChangeProperty(stringResource(R.string.placeholder_session_subtitle), "", CHANGED),
-                    videoRecordingState = SessionChangeProperty(Available, "", UNCHANGED),
-                    speakerNames = SessionChangeProperty(stringResource(R.string.placeholder_session_speakers), "", UNCHANGED),
-                    dayText = SessionChangeProperty(stringResource(R.string.placeholder_session_day), "", UNCHANGED),
-                    startsAt = SessionChangeProperty(stringResource(R.string.placeholder_session_start_time), "", CHANGED),
-                    duration = SessionChangeProperty(stringResource(R.string.placeholder_session_duration), "", UNCHANGED),
-                    roomName = SessionChangeProperty(stringResource(R.string.placeholder_session_room), "", UNCHANGED),
-                    languages = SessionChangeProperty(stringResource(R.string.placeholder_session_language), "", UNCHANGED),
-                ),
-                SessionChange(
-                    id = "changed, now with video",
-                    title = SessionChangeProperty(stringResource(R.string.placeholder_session_title), "", UNCHANGED),
-                    subtitle = SessionChangeProperty(stringResource(R.string.placeholder_session_subtitle), "", CHANGED),
-                    videoRecordingState = SessionChangeProperty(Available, "", CHANGED),
-                    speakerNames = SessionChangeProperty(stringResource(R.string.placeholder_session_speakers), "", UNCHANGED),
-                    dayText = SessionChangeProperty(stringResource(R.string.placeholder_session_day), "", UNCHANGED),
-                    startsAt = SessionChangeProperty(stringResource(R.string.placeholder_session_start_time), "", CHANGED),
-                    duration = SessionChangeProperty(stringResource(R.string.placeholder_session_duration), "", UNCHANGED),
-                    roomName = SessionChangeProperty(stringResource(R.string.placeholder_session_room), "", UNCHANGED),
-                    languages = SessionChangeProperty(stringResource(R.string.placeholder_session_language), "", UNCHANGED),
-                ),
-                SessionChange(
-                    id = "changed, now with video",
-                    title = SessionChangeProperty(stringResource(R.string.placeholder_session_title), "", UNCHANGED),
-                    subtitle = SessionChangeProperty(stringResource(R.string.placeholder_session_subtitle), "", CHANGED),
-                    videoRecordingState = SessionChangeProperty(Unavailable, "", CHANGED),
-                    speakerNames = SessionChangeProperty(stringResource(R.string.placeholder_session_speakers), "", UNCHANGED),
-                    dayText = SessionChangeProperty(stringResource(R.string.placeholder_session_day), "", UNCHANGED),
-                    startsAt = SessionChangeProperty(stringResource(R.string.placeholder_session_start_time), "", CHANGED),
-                    duration = SessionChangeProperty(stringResource(R.string.placeholder_session_duration), "", UNCHANGED),
-                    roomName = SessionChangeProperty(stringResource(R.string.placeholder_session_room), "", UNCHANGED),
-                    languages = SessionChangeProperty(stringResource(R.string.placeholder_session_language), "", UNCHANGED),
-                ),
-                Separator(
-                    DaySeparatorProperty(
-                        value = "Day 2 - 01.03.2023",
-                        contentDescription = "",
-                    )
-                ),
-                SessionChange(
-                    id = "new with video",
-                    title = SessionChangeProperty(stringResource(R.string.placeholder_session_title), "", NEW),
-                    subtitle = SessionChangeProperty(stringResource(R.string.placeholder_session_subtitle), "", NEW),
-                    videoRecordingState = SessionChangeProperty(Available, "", NEW),
-                    speakerNames = SessionChangeProperty(stringResource(R.string.placeholder_session_speakers), "", NEW),
-                    dayText = SessionChangeProperty(stringResource(R.string.placeholder_session_day), "", NEW),
-                    startsAt = SessionChangeProperty(stringResource(R.string.placeholder_session_start_time), "", NEW),
-                    duration = SessionChangeProperty(stringResource(R.string.placeholder_session_duration), "", NEW),
-                    roomName = SessionChangeProperty(stringResource(R.string.placeholder_session_room), "", NEW),
-                    languages = SessionChangeProperty(stringResource(R.string.placeholder_session_language), "", NEW),
-                ),
-                SessionChange(
-                    id = "new without video",
-                    title = SessionChangeProperty(stringResource(R.string.placeholder_session_title), "", NEW),
-                    subtitle = SessionChangeProperty(stringResource(R.string.placeholder_session_subtitle), "", NEW),
-                    videoRecordingState = SessionChangeProperty(Unavailable, "", NEW),
-                    speakerNames = SessionChangeProperty(stringResource(R.string.placeholder_session_speakers), "", NEW),
-                    dayText = SessionChangeProperty(stringResource(R.string.placeholder_session_day), "", NEW),
-                    startsAt = SessionChangeProperty(stringResource(R.string.placeholder_session_start_time), "", NEW),
-                    duration = SessionChangeProperty(stringResource(R.string.placeholder_session_duration), "", NEW),
-                    roomName = SessionChangeProperty(stringResource(R.string.placeholder_session_room), "", NEW),
-                    languages = SessionChangeProperty(stringResource(R.string.placeholder_session_language), "", NEW),
-                ),
-                SessionChange(
-                    id = "canceled with video",
-                    title = SessionChangeProperty(stringResource(R.string.placeholder_session_title), "", CANCELED),
-                    subtitle = SessionChangeProperty(stringResource(R.string.placeholder_session_subtitle), "", CANCELED),
-                    videoRecordingState = SessionChangeProperty(Available, "", CANCELED),
-                    speakerNames = SessionChangeProperty(stringResource(R.string.placeholder_session_speakers), "", CANCELED),
-                    dayText = SessionChangeProperty(stringResource(R.string.placeholder_session_day), "", CANCELED),
-                    startsAt = SessionChangeProperty(stringResource(R.string.placeholder_session_start_time), "", CANCELED),
-                    duration = SessionChangeProperty(stringResource(R.string.placeholder_session_duration), "", CANCELED),
-                    roomName = SessionChangeProperty(stringResource(R.string.placeholder_session_room), "", CANCELED),
-                    languages = SessionChangeProperty(stringResource(R.string.placeholder_session_language), "", CANCELED),
-                ),
-                SessionChange(
-                    id = "canceled without video",
-                    title = SessionChangeProperty(stringResource(R.string.placeholder_session_title), "", CANCELED),
-                    subtitle = SessionChangeProperty(stringResource(R.string.placeholder_session_subtitle), "", CANCELED),
-                    videoRecordingState = SessionChangeProperty(Unavailable, "", CANCELED),
-                    speakerNames = SessionChangeProperty(stringResource(R.string.placeholder_session_speakers), "", CANCELED),
-                    dayText = SessionChangeProperty(stringResource(R.string.placeholder_session_day), "", CANCELED),
-                    startsAt = SessionChangeProperty(stringResource(R.string.placeholder_session_start_time), "", CANCELED),
-                    duration = SessionChangeProperty(stringResource(R.string.placeholder_session_duration), "", CANCELED),
-                    roomName = SessionChangeProperty(stringResource(R.string.placeholder_session_room), "", CANCELED),
-                    languages = SessionChangeProperty(stringResource(R.string.placeholder_session_language), "", CANCELED),
-                ),
-            )
-        ),
-        showInSidePane = true,
-        onViewEvent = {},
-    )
+private fun SessionChangesContentPreview() {
+    EventFahrplanTheme {
+        SessionChangesContent(
+            Success(
+                listOf(
+                    Separator(
+                        DaySeparatorProperty(
+                            value = "Day 1 - 31.02.2023",
+                            contentDescription = "",
+                        )
+                    ),
+                    SessionChange(
+                        id = "changed",
+                        title = SessionChangeProperty(stringResource(R.string.placeholder_session_title), "", UNCHANGED),
+                        subtitle = SessionChangeProperty(stringResource(R.string.placeholder_session_subtitle), "", CHANGED),
+                        videoRecordingState = SessionChangeProperty(Available, "", UNCHANGED),
+                        speakerNames = SessionChangeProperty(stringResource(R.string.placeholder_session_speakers), "", UNCHANGED),
+                        dayText = SessionChangeProperty(stringResource(R.string.placeholder_session_day), "", UNCHANGED),
+                        startsAt = SessionChangeProperty(stringResource(R.string.placeholder_session_start_time), "", CHANGED),
+                        duration = SessionChangeProperty(stringResource(R.string.placeholder_session_duration), "", UNCHANGED),
+                        roomName = SessionChangeProperty(stringResource(R.string.placeholder_session_room), "", UNCHANGED),
+                        languages = SessionChangeProperty(stringResource(R.string.placeholder_session_language), "", UNCHANGED),
+                    ),
+                    SessionChange(
+                        id = "changed, now with video",
+                        title = SessionChangeProperty(stringResource(R.string.placeholder_session_title), "", UNCHANGED),
+                        subtitle = SessionChangeProperty(stringResource(R.string.placeholder_session_subtitle), "", CHANGED),
+                        videoRecordingState = SessionChangeProperty(Available, "", CHANGED),
+                        speakerNames = SessionChangeProperty(stringResource(R.string.placeholder_session_speakers), "", UNCHANGED),
+                        dayText = SessionChangeProperty(stringResource(R.string.placeholder_session_day), "", UNCHANGED),
+                        startsAt = SessionChangeProperty(stringResource(R.string.placeholder_session_start_time), "", CHANGED),
+                        duration = SessionChangeProperty(stringResource(R.string.placeholder_session_duration), "", UNCHANGED),
+                        roomName = SessionChangeProperty(stringResource(R.string.placeholder_session_room), "", UNCHANGED),
+                        languages = SessionChangeProperty(stringResource(R.string.placeholder_session_language), "", UNCHANGED),
+                    ),
+                    SessionChange(
+                        id = "changed, now with video",
+                        title = SessionChangeProperty(stringResource(R.string.placeholder_session_title), "", UNCHANGED),
+                        subtitle = SessionChangeProperty(stringResource(R.string.placeholder_session_subtitle), "", CHANGED),
+                        videoRecordingState = SessionChangeProperty(Unavailable, "", CHANGED),
+                        speakerNames = SessionChangeProperty(stringResource(R.string.placeholder_session_speakers), "", UNCHANGED),
+                        dayText = SessionChangeProperty(stringResource(R.string.placeholder_session_day), "", UNCHANGED),
+                        startsAt = SessionChangeProperty(stringResource(R.string.placeholder_session_start_time), "", CHANGED),
+                        duration = SessionChangeProperty(stringResource(R.string.placeholder_session_duration), "", UNCHANGED),
+                        roomName = SessionChangeProperty(stringResource(R.string.placeholder_session_room), "", UNCHANGED),
+                        languages = SessionChangeProperty(stringResource(R.string.placeholder_session_language), "", UNCHANGED),
+                    ),
+                    Separator(
+                        DaySeparatorProperty(
+                            value = "Day 2 - 01.03.2023",
+                            contentDescription = "",
+                        )
+                    ),
+                    SessionChange(
+                        id = "new with video",
+                        title = SessionChangeProperty(stringResource(R.string.placeholder_session_title), "", NEW),
+                        subtitle = SessionChangeProperty(stringResource(R.string.placeholder_session_subtitle), "", NEW),
+                        videoRecordingState = SessionChangeProperty(Available, "", NEW),
+                        speakerNames = SessionChangeProperty(stringResource(R.string.placeholder_session_speakers), "", NEW),
+                        dayText = SessionChangeProperty(stringResource(R.string.placeholder_session_day), "", NEW),
+                        startsAt = SessionChangeProperty(stringResource(R.string.placeholder_session_start_time), "", NEW),
+                        duration = SessionChangeProperty(stringResource(R.string.placeholder_session_duration), "", NEW),
+                        roomName = SessionChangeProperty(stringResource(R.string.placeholder_session_room), "", NEW),
+                        languages = SessionChangeProperty(stringResource(R.string.placeholder_session_language), "", NEW),
+                    ),
+                    SessionChange(
+                        id = "new without video",
+                        title = SessionChangeProperty(stringResource(R.string.placeholder_session_title), "", NEW),
+                        subtitle = SessionChangeProperty(stringResource(R.string.placeholder_session_subtitle), "", NEW),
+                        videoRecordingState = SessionChangeProperty(Unavailable, "", NEW),
+                        speakerNames = SessionChangeProperty(stringResource(R.string.placeholder_session_speakers), "", NEW),
+                        dayText = SessionChangeProperty(stringResource(R.string.placeholder_session_day), "", NEW),
+                        startsAt = SessionChangeProperty(stringResource(R.string.placeholder_session_start_time), "", NEW),
+                        duration = SessionChangeProperty(stringResource(R.string.placeholder_session_duration), "", NEW),
+                        roomName = SessionChangeProperty(stringResource(R.string.placeholder_session_room), "", NEW),
+                        languages = SessionChangeProperty(stringResource(R.string.placeholder_session_language), "", NEW),
+                    ),
+                    SessionChange(
+                        id = "canceled with video",
+                        title = SessionChangeProperty(stringResource(R.string.placeholder_session_title), "", CANCELED),
+                        subtitle = SessionChangeProperty(stringResource(R.string.placeholder_session_subtitle), "", CANCELED),
+                        videoRecordingState = SessionChangeProperty(Available, "", CANCELED),
+                        speakerNames = SessionChangeProperty(stringResource(R.string.placeholder_session_speakers), "", CANCELED),
+                        dayText = SessionChangeProperty(stringResource(R.string.placeholder_session_day), "", CANCELED),
+                        startsAt = SessionChangeProperty(stringResource(R.string.placeholder_session_start_time), "", CANCELED),
+                        duration = SessionChangeProperty(stringResource(R.string.placeholder_session_duration), "", CANCELED),
+                        roomName = SessionChangeProperty(stringResource(R.string.placeholder_session_room), "", CANCELED),
+                        languages = SessionChangeProperty(stringResource(R.string.placeholder_session_language), "", CANCELED),
+                    ),
+                    SessionChange(
+                        id = "canceled without video",
+                        title = SessionChangeProperty(stringResource(R.string.placeholder_session_title), "", CANCELED),
+                        subtitle = SessionChangeProperty(stringResource(R.string.placeholder_session_subtitle), "", CANCELED),
+                        videoRecordingState = SessionChangeProperty(Unavailable, "", CANCELED),
+                        speakerNames = SessionChangeProperty(stringResource(R.string.placeholder_session_speakers), "", CANCELED),
+                        dayText = SessionChangeProperty(stringResource(R.string.placeholder_session_day), "", CANCELED),
+                        startsAt = SessionChangeProperty(stringResource(R.string.placeholder_session_start_time), "", CANCELED),
+                        duration = SessionChangeProperty(stringResource(R.string.placeholder_session_duration), "", CANCELED),
+                        roomName = SessionChangeProperty(stringResource(R.string.placeholder_session_room), "", CANCELED),
+                        languages = SessionChangeProperty(stringResource(R.string.placeholder_session_language), "", CANCELED),
+                    ),
+                )
+            ),
+            showInSidePane = true,
+            onViewEvent = {},
+        )
+    }
 }
 
 @Preview
 @Composable
-private fun SessionChangesScreenEmptyPreview() {
-    SessionChangesScreen(
-        Success(emptyList()),
-        showInSidePane = false,
-        onViewEvent = {},
-    )
+private fun SessionChangesContentEmptyPreview() {
+    EventFahrplanTheme {
+        SessionChangesContent(
+            Success(emptyList()),
+            showInSidePane = false,
+            onViewEvent = {},
+        )
+    }
 }
 
 @Preview
 @Composable
-private fun SessionChangesScreenLoadingPreview() {
-    SessionChangesScreen(
-        state = Loading,
-        showInSidePane = false,
-        onViewEvent = {},
-    )
+private fun SessionChangesContentLoadingPreview() {
+    EventFahrplanTheme {
+        SessionChangesContent(
+            state = Loading,
+            showInSidePane = false,
+            onViewEvent = {},
+        )
+    }
 }
