@@ -21,6 +21,7 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
 import nerd.tuxmobil.fahrplan.congress.commons.ScreenNavigation
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
@@ -68,11 +69,12 @@ class ChangeListFragment : Fragment() {
         fragmentView.findViewById<ComposeView>(R.id.session_changes_view).apply {
             setViewCompositionStrategy(DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                SessionChangesScreen(
-                    state = viewModel.sessionChangesState.collectAsState().value,
-                    showInSidePane = sidePane,
-                    onViewEvent = viewModel::onViewEvent,
-                )
+                EventFahrplanTheme {
+                    SessionChangesScreen(
+                        viewModel = viewModel,
+                        showInSidePane = sidePane,
+                    )
+                }
             }
             isClickable = true
         }
