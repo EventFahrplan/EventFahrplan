@@ -19,15 +19,11 @@ import androidx.fragment.app.viewModels
 import info.metadude.android.eventfahrplan.commons.flow.observe
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
-import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.commons.ScreenNavigation
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
-import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
-import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
-import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 
 /**
  * A fragment representing a list of Items.
@@ -60,16 +56,7 @@ class ChangeListFragment : Fragment() {
     }
 
     private var onSessionListClickListener: OnSessionListClick? = null
-    private val viewModelFactory by lazy {
-        val resourceResolving = ResourceResolver(requireContext())
-        ChangeListViewModelFactory(
-            AppRepository,
-            resourceResolving,
-            SessionPropertiesFormatter(resourceResolving),
-            ContentDescriptionFormatter(resourceResolving),
-        )
-    }
-    private val viewModel: ChangeListViewModel by viewModels { viewModelFactory }
+    private val viewModel: ChangeListViewModel by viewModels { ChangeListViewModelFactory(requireContext()) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val arguments = requireArguments()
