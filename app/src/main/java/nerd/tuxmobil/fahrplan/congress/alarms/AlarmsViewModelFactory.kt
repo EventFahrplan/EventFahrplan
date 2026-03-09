@@ -1,25 +1,28 @@
 package nerd.tuxmobil.fahrplan.congress.alarms
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.Factory
 import nerd.tuxmobil.fahrplan.congress.commons.DateFormatterDelegate
-import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
+import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.repositories.AppExecutionContext
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 
 internal class AlarmsViewModelFactory(
-    private val appRepository: AppRepository,
-    private val resourceResolving: ResourceResolving,
-    private val alarmServices: AlarmServices,
+    private val context: Context,
 ) : Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        val appRepository = AppRepository
         @Suppress("UNCHECKED_CAST")
         return AlarmsViewModel(
             repository = appRepository,
             executionContext = AppExecutionContext,
-            alarmServices = alarmServices,
-            alarmsStateFactory = AlarmsStateFactory(resourceResolving, DateFormatterDelegate),
+            alarmServices = AlarmServices.newInstance(context, appRepository),
+            alarmsStateFactory = AlarmsStateFactory(
+                resourceResolving = ResourceResolver(context),
+                formattingDelegate = DateFormatterDelegate,
+            ),
         ) as T
     }
 

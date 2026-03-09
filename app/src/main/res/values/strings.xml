@@ -286,6 +286,8 @@
     <string name="alarms_item_fires_at_content_description">
         Fires at: <xliff:g example="16:20" id="alarmTime">%s</xliff:g>
     </string>
+    <string name="alarms_delete_all_alarms">Delete all alarms?</string>
+    <string name="alarms_delete_all" translatable="false">@string/dlg_delete_all_favorites_delete_all</string>
 
     <!-- Validation errors -->
     <string name="validation_error_invalid_url">
