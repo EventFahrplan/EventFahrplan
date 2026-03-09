@@ -1,20 +1,14 @@
 package nerd.tuxmobil.fahrplan.congress.about
 
-import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.Window
-import androidx.compose.runtime.collectAsState
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
 import androidx.fragment.compose.content
 import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.commons.ExternalNavigation
-import nerd.tuxmobil.fahrplan.congress.commons.ExternalNavigator
-import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
-import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
+import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 
 class AboutDialog : DialogFragment() {
 
@@ -22,27 +16,14 @@ class AboutDialog : DialogFragment() {
         const val FRAGMENT_TAG = "AboutDialog"
     }
 
-    private lateinit var resourceResolving: ResourceResolving
-    private lateinit var externalNavigation: ExternalNavigation
-    private val viewModel: AboutViewModel by viewModels {
-        AboutViewModelFactory(resourceResolving, externalNavigation)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        resourceResolving = ResourceResolver(context)
-        externalNavigation = ExternalNavigator(context)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = content {
-        AboutScreen(
-            parameter = viewModel.aboutParameter.collectAsState().value,
-            onViewEvent = viewModel::onViewEvent,
-        )
+        EventFahrplanTheme {
+            AboutScreen()
+        }
     }.also { it.isClickable = true }
 
     override fun onStart() {
