@@ -14,8 +14,10 @@ import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeType.UNCHANGED
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeState.Loading
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeState.Success
+import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeEffect.CancelScheduleUpdateNotification
+import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeEffect.NavigateToSession
+import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeViewEvent.OnScheduleChangesSeen
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeViewEvent.OnSessionChangeItemClick
-import nerd.tuxmobil.fahrplan.congress.commons.ScreenNavigation
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.None
 import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -141,21 +143,21 @@ class ChangeListViewModelTest {
     inner class OnViewEvent {
 
         @Test
-        fun `onViewEvent(OnSessionChangeItemClick) invokes navigateToSessionDetails`() = runTest {
-            val screenNavigation = mock<ScreenNavigation>()
+        fun `OnSessionChangeItemClick emits NavigateToSession effect`() = runTest {
             val viewModel = createViewModel(createRepository())
-            viewModel.screenNavigation = screenNavigation
             viewModel.onViewEvent(OnSessionChangeItemClick(sessionId = "42"))
-            verifyInvokedOnce(screenNavigation).navigateToSessionDetails(sessionId = "42")
+            viewModel.effects.test {
+                assertThat(awaitItem()).isEqualTo(NavigateToSession("42"))
+            }
         }
 
         @Test
-        fun `updateScheduleChangesSeen invokes repository function`() = runTest {
+        fun `OnScheduleChangesSeen invokes updateScheduleChangesSeen and emits CancelScheduleUpdateNotification effect`() = runTest {
             val repository = createRepository()
             val viewModel = createViewModel(repository)
-            viewModel.updateScheduleChangesSeen(changesSeen = true)
-            viewModel.scheduleChangesSeen.test {
-                assertThat(awaitItem()).isEqualTo(Unit)
+            viewModel.onViewEvent(OnScheduleChangesSeen)
+            viewModel.effects.test {
+                assertThat(awaitItem()).isEqualTo(CancelScheduleUpdateNotification)
             }
             verifyInvokedOnce(repository).updateScheduleChangesSeen(changesSeen = true)
         }
