@@ -20,6 +20,7 @@ import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.None
 import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.anyOrNull
@@ -29,126 +30,136 @@ import org.mockito.kotlin.mock
 @ExtendWith(MainDispatcherTestExtension::class)
 class ChangeListViewModelTest {
 
-    @Test
-    fun `sessionChangesState initially emits Loading state`() = runTest {
-        val repository = createRepository(changedSessions = emptyFlow())
-        val viewModel = createViewModel(repository)
-        viewModel.sessionChangesState.test {
-            assertThat(awaitItem()).isEqualTo(Loading)
-            expectNoEvents()
+    @Nested
+    inner class SessionChangesState {
+
+        @Test
+        fun `sessionChangesState initially emits Loading state`() = runTest {
+            val repository = createRepository(changedSessions = emptyFlow())
+            val viewModel = createViewModel(repository)
+            viewModel.sessionChangesState.test {
+                assertThat(awaitItem()).isEqualTo(Loading)
+                expectNoEvents()
+            }
+            verifyInvokedNever(repository).readMeta()
+            verifyInvokedNever(repository).readUseDeviceTimeZoneEnabled()
         }
-        verifyInvokedNever(repository).readMeta()
-        verifyInvokedNever(repository).readUseDeviceTimeZoneEnabled()
+
+        @Test
+        fun `sessionChangesState emits Success state with empty list`() = runTest {
+            val repository = createRepository(changedSessions = flowOf(emptyList()))
+            val viewModel = createViewModel(repository, factory = createFactory(emptyList()))
+            val expected = Success(emptyList())
+            viewModel.sessionChangesState.test {
+                assertThat(awaitItem()).isEqualTo(expected)
+                expectNoEvents()
+            }
+        }
+
+        @Test
+        fun `sessionChangesState emits Success state with converted sessions`() = runTest {
+            val session = Session(
+                sessionId = "18",
+                title = "Title",
+                subtitle = "Subtitle",
+                recordingOptOut = false,
+                speakers = listOf("Jane Doe", "John Doe"),
+                dateUTC = 1439478900000L,
+                duration = Duration.ofMinutes(30),
+                roomName = "Main room",
+                language = "de, en",
+                dayIndex = 0,
+            )
+            val sessions = listOf(session)
+            val repository = createRepository(
+                changedSessions = flowOf(sessions),
+                meta = Meta(numDays = 1),
+                useDeviceTimeZoneEnabled = true
+            )
+            val viewModel = createViewModel(repository, factory = createFactory(sessions))
+            val expectedSessionChangeParameter = SessionChangeParameter.SessionChange(
+                id = "18",
+                title = SessionChangeProperty(
+                    value = "Title",
+                    contentDescription = "",
+                    changeType = UNCHANGED
+                ),
+                subtitle = SessionChangeProperty(
+                    value = "Subtitle",
+                    contentDescription = "",
+                    changeType = UNCHANGED
+                ),
+                speakerNames = SessionChangeProperty(
+                    value = "Jane Doe, John Doe",
+                    contentDescription = "",
+                    changeType = UNCHANGED,
+                ),
+                roomName = SessionChangeProperty(
+                    value = "Main room",
+                    contentDescription = "",
+                    changeType = UNCHANGED,
+                ),
+                dayText = SessionChangeProperty(
+                    value = "",
+                    contentDescription = "",
+                    changeType = UNCHANGED,
+                ),
+                startsAt = SessionChangeProperty(
+                    value = "",
+                    contentDescription = "",
+                    changeType = UNCHANGED,
+                ),
+                duration = SessionChangeProperty(
+                    value = "30 min",
+                    contentDescription = "",
+                    changeType = UNCHANGED,
+                ),
+                languages = SessionChangeProperty(
+                    value = "de, en",
+                    contentDescription = "",
+                    changeType = UNCHANGED,
+                ),
+                videoRecordingState = SessionChangeProperty(
+                    value = None,
+                    contentDescription = "",
+                    changeType = UNCHANGED,
+                ),
+                isCanceled = false,
+            )
+
+            val expectedState = Success(listOf(expectedSessionChangeParameter))
+            viewModel.sessionChangesState.test {
+                assertThat(awaitItem()).isEqualTo(expectedState)
+                expectNoEvents()
+            }
+            verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
+        }
+
     }
 
-    @Test
-    fun `sessionChangesState emits Success state with empty list`() = runTest {
-        val repository = createRepository(changedSessions = flowOf(emptyList()))
-        val viewModel = createViewModel(repository, factory = createFactory(emptyList()))
-        val expected = Success(emptyList())
-        viewModel.sessionChangesState.test {
-            assertThat(awaitItem()).isEqualTo(expected)
-            expectNoEvents()
+    @Nested
+    inner class OnViewEvent {
+
+        @Test
+        fun `onViewEvent(OnSessionChangeItemClick) invokes navigateToSessionDetails`() = runTest {
+            val screenNavigation = mock<ScreenNavigation>()
+            val viewModel = createViewModel(createRepository())
+            viewModel.screenNavigation = screenNavigation
+            viewModel.onViewEvent(OnSessionChangeItemClick(sessionId = "42"))
+            verifyInvokedOnce(screenNavigation).navigateToSessionDetails(sessionId = "42")
         }
-    }
 
-    @Test
-    fun `sessionChangesState emits Success state with converted sessions`() = runTest {
-        val session = Session(
-            sessionId = "18",
-            title = "Title",
-            subtitle = "Subtitle",
-            recordingOptOut = false,
-            speakers = listOf("Jane Doe", "John Doe"),
-            dateUTC = 1439478900000L,
-            duration = Duration.ofMinutes(30),
-            roomName = "Main room",
-            language = "de, en",
-            dayIndex = 0,
-        )
-        val sessions = listOf(session)
-        val repository = createRepository(
-            changedSessions = flowOf(sessions),
-            meta = Meta(numDays = 1),
-            useDeviceTimeZoneEnabled = true
-        )
-        val viewModel = createViewModel(repository, factory = createFactory(sessions))
-        val expectedSessionChangeParameter = SessionChangeParameter.SessionChange(
-            id = "18",
-            title = SessionChangeProperty(
-                value = "Title",
-                contentDescription = "",
-                changeType = UNCHANGED
-            ),
-            subtitle = SessionChangeProperty(
-                value = "Subtitle",
-                contentDescription = "",
-                changeType = UNCHANGED
-            ),
-            speakerNames = SessionChangeProperty(
-                value = "Jane Doe, John Doe",
-                contentDescription = "",
-                changeType = UNCHANGED,
-            ),
-            roomName = SessionChangeProperty(
-                value = "Main room",
-                contentDescription = "",
-                changeType = UNCHANGED,
-            ),
-            dayText = SessionChangeProperty(
-                value = "",
-                contentDescription = "",
-                changeType = UNCHANGED,
-            ),
-            startsAt = SessionChangeProperty(
-                value = "",
-                contentDescription = "",
-                changeType = UNCHANGED,
-            ),
-            duration = SessionChangeProperty(
-                value = "30 min",
-                contentDescription = "",
-                changeType = UNCHANGED,
-            ),
-            languages = SessionChangeProperty(
-                value = "de, en",
-                contentDescription = "",
-                changeType = UNCHANGED,
-            ),
-            videoRecordingState = SessionChangeProperty(
-                value = None,
-                contentDescription = "",
-                changeType = UNCHANGED,
-            ),
-            isCanceled = false,
-        )
-
-        val expectedState = Success(listOf(expectedSessionChangeParameter))
-        viewModel.sessionChangesState.test {
-            assertThat(awaitItem()).isEqualTo(expectedState)
-            expectNoEvents()
+        @Test
+        fun `updateScheduleChangesSeen invokes repository function`() = runTest {
+            val repository = createRepository()
+            val viewModel = createViewModel(repository)
+            viewModel.updateScheduleChangesSeen(changesSeen = true)
+            viewModel.scheduleChangesSeen.test {
+                assertThat(awaitItem()).isEqualTo(Unit)
+            }
+            verifyInvokedOnce(repository).updateScheduleChangesSeen(changesSeen = true)
         }
-        verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
-    }
 
-    @Test
-    fun `onViewEvent(OnSessionChangeItemClick) invokes navigateToSessionDetails`() = runTest {
-        val screenNavigation = mock<ScreenNavigation>()
-        val viewModel = createViewModel(createRepository())
-        viewModel.screenNavigation = screenNavigation
-        viewModel.onViewEvent(OnSessionChangeItemClick(sessionId = "42"))
-        verifyInvokedOnce(screenNavigation).navigateToSessionDetails(sessionId = "42")
-    }
-
-    @Test
-    fun `updateScheduleChangesSeen invokes repository function`() = runTest {
-        val repository = createRepository()
-        val viewModel = createViewModel(repository)
-        viewModel.updateScheduleChangesSeen(changesSeen = true)
-        viewModel.scheduleChangesSeen.test {
-            assertThat(awaitItem()).isEqualTo(Unit)
-        }
-        verifyInvokedOnce(repository).updateScheduleChangesSeen(changesSeen = true)
     }
 
     private fun createFactory(sessions: List<Session>): SessionChangeParametersFactory {
