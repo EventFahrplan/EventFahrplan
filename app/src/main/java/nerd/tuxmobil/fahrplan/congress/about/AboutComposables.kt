@@ -35,37 +35,36 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.toTextUnit
 
 @Composable
-internal fun AboutScreen(
+internal fun AboutContent(
     parameter: AboutParameter,
     onViewEvent: (AboutViewEvent) -> Unit,
 ) {
-    EventFahrplanTheme {
-        Scaffold { contentPadding ->
-            Box(
-                Modifier
-                    .padding(contentPadding)
-                    .fillMaxSize() // Prevent background flickering on load
-                    .verticalScroll(rememberScrollState())
-            ) {
-                Column(Modifier.padding(
-                    start = dimensionResource(R.dimen.about_padding_horizontal),
-                    top = dimensionResource(R.dimen.about_padding_top),
-                    end = dimensionResource(R.dimen.about_padding_horizontal),
-                    bottom = dimensionResource(R.dimen.about_padding_bottom)
-                )) {
-                    EventInfo(parameter, onViewEvent)
-                    UsageNote(parameter)
-                    AppDisclaimer(parameter)
-                    LogoCopyright(parameter)
-                    ProjectLinks(parameter)
-                    Libraries(parameter)
-                    DataPrivacyStatement(parameter)
-                    CopyrightNotes(parameter)
-                    BuildInfo(parameter)
-                }
+    Scaffold { contentPadding ->
+        Box(
+            Modifier
+                .padding(contentPadding)
+                .fillMaxSize() // Prevent background flickering on load
+                .verticalScroll(rememberScrollState())
+        ) {
+            Column(Modifier.padding(
+                start = dimensionResource(R.dimen.about_padding_horizontal),
+                top = dimensionResource(R.dimen.about_padding_top),
+                end = dimensionResource(R.dimen.about_padding_horizontal),
+                bottom = dimensionResource(R.dimen.about_padding_bottom)
+            )) {
+                EventInfo(parameter, onViewEvent)
+                UsageNote(parameter)
+                AppDisclaimer(parameter)
+                LogoCopyright(parameter)
+                ProjectLinks(parameter)
+                Libraries(parameter)
+                DataPrivacyStatement(parameter)
+                CopyrightNotes(parameter)
+                BuildInfo(parameter)
             }
         }
     }
+
 }
 
 @Composable
@@ -259,31 +258,33 @@ private fun SectionDivider() {
 
 @MultiDevicePreview
 @Composable
-private fun AboutScreenPreview() {
-    AboutScreen(
-        AboutParameter(
-            title = "37th Chaos Communication Congress",
-            subtitle = "Unlocked",
-            eventLocation = PostalAddress("CCH, Congressplatz 1, 20355 Hamburg"),
-            eventUrl = Html.of("https://events.ccc.de/congress/2023/"),
-            scheduleVersion = "Fahrplan BAD NETWORK/FIREWALL",
-            appVersion = "App Version 1.63.2 Kaus Australis; lounges 909; lightning Manwë; thms Tales of Monkey Island; wiki 2023-12-28 12:11",
-            usageNote = stringResource(R.string.usage),
-            appDisclaimer = stringResource(R.string.app_disclaimer),
-            logoCopyright = Html.of(stringResource(R.string.copyright_logo)),
-            translationPlatform = Html.of(BuildConfig.TRANSLATION_PLATFORM_URL, stringResource(R.string.about_translation_platform)),
-            sourceCode = Html.of(BuildConfig.SOURCE_CODE_URL, stringResource(R.string.about_source_code)),
-            issues = Html.of(BuildConfig.ISSUES_URL, stringResource(R.string.about_issues_or_feature_requests)),
-            fDroid = Html.of(BuildConfig.F_DROID_URL, stringResource(R.string.about_f_droid_listing)),
-            googlePlay = Html.of(BuildConfig.GOOGLE_PLAY_URL, stringResource(R.string.about_google_play_listing)),
-            libraries = stringResource(R.string.about_libraries_statement),
-            dataPrivacyStatement = Html.of(BuildConfig.DATA_PRIVACY_STATEMENT_DE_URL, stringResource(R.string.about_data_privacy_statement_german)),
-            copyrightNotes = stringResource(R.string.copyright_notes),
-            buildTime = stringResource(R.string.build_info_time),
-            modifiedAt = stringResource(R.string.modified_at),
-            buildVersion = stringResource(R.string.build_info_version_code),
-            buildHash = stringResource(R.string.build_info_hash),
-        ),
-        onViewEvent = {},
-    )
+private fun AboutContentPreview() {
+    EventFahrplanTheme {
+        AboutContent(
+            AboutParameter(
+                title = "37th Chaos Communication Congress",
+                subtitle = "Unlocked",
+                eventLocation = PostalAddress("CCH, Congressplatz 1, 20355 Hamburg"),
+                eventUrl = Html.of("https://events.ccc.de/congress/2023/"),
+                scheduleVersion = "Fahrplan BAD NETWORK/FIREWALL",
+                appVersion = "App Version 1.63.2 Kaus Australis; lounges 909; lightning Manwë; thms Tales of Monkey Island; wiki 2023-12-28 12:11",
+                usageNote = stringResource(R.string.usage),
+                appDisclaimer = stringResource(R.string.app_disclaimer),
+                logoCopyright = Html.of(stringResource(R.string.copyright_logo)),
+                translationPlatform = Html.of(BuildConfig.TRANSLATION_PLATFORM_URL, stringResource(R.string.about_translation_platform)),
+                sourceCode = Html.of(BuildConfig.SOURCE_CODE_URL, stringResource(R.string.about_source_code)),
+                issues = Html.of(BuildConfig.ISSUES_URL, stringResource(R.string.about_issues_or_feature_requests)),
+                fDroid = Html.of(BuildConfig.F_DROID_URL, stringResource(R.string.about_f_droid_listing)),
+                googlePlay = Html.of(BuildConfig.GOOGLE_PLAY_URL, stringResource(R.string.about_google_play_listing)),
+                libraries = stringResource(R.string.about_libraries_statement),
+                dataPrivacyStatement = Html.of(BuildConfig.DATA_PRIVACY_STATEMENT_DE_URL, stringResource(R.string.about_data_privacy_statement_german)),
+                copyrightNotes = stringResource(R.string.copyright_notes),
+                buildTime = stringResource(R.string.build_info_time),
+                modifiedAt = stringResource(R.string.modified_at),
+                buildVersion = stringResource(R.string.build_info_version_code),
+                buildHash = stringResource(R.string.build_info_hash),
+            ),
+            onViewEvent = {},
+        )
+    }
 }
