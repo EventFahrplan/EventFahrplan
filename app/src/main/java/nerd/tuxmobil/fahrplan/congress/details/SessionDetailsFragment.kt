@@ -63,9 +63,7 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
 
     private lateinit var postNotificationsPermissionRequestLauncher: ActivityResultLauncher<String>
     private lateinit var scheduleExactAlarmsPermissionRequestLauncher: ActivityResultLauncher<Intent>
-    private val viewModel: SessionDetailsViewModel by viewModels {
-        SessionDetailsViewModelFactory(requireContext())
-    }
+    private val viewModel by viewModels<SessionDetailsViewModel> { SessionDetailsViewModelFactory(requireContext()) }
     private lateinit var model: SelectedSessionParameter
     private var sidePane = false
     private var hasArguments = false

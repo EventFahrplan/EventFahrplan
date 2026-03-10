@@ -295,7 +295,7 @@ class SessionDetailsViewModelTest {
     }
 
     @Test
-    fun `addAlarm() persists the alarm deletion`() {
+    fun `addAlarm() persists the alarm creation`() {
         val repository = createRepository(selectedSession = Session("S5"))
         val alarmServices = mock<AlarmServices>()
         val viewModel = createViewModel(repository, alarmServices = alarmServices)

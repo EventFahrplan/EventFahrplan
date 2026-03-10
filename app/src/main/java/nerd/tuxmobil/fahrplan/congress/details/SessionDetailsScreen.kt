@@ -40,16 +40,12 @@ internal fun SessionDetailsScreen(
     LaunchedEffect(lifecycleOwner) {
         viewModel.effects.observe(lifecycleOwner) { effect ->
             when (effect) {
-                is OpenFeedback -> {
-                    context.startActivity(Intent(Intent.ACTION_VIEW, effect.uri)) {
-                        context.showActivityNotFoundError()
-                    }
+                is OpenFeedback -> context.startActivity(Intent(Intent.ACTION_VIEW, effect.uri)) {
+                    context.showActivityNotFoundError()
                 }
 
-                is ShareJson -> {
-                    if (!SessionSharer.shareJson(context, effect.formattedSession)) {
-                        context.showActivityNotFoundError()
-                    }
+                is ShareJson -> if (!SessionSharer.shareJson(context, effect.formattedSession)) {
+                    context.showActivityNotFoundError()
                 }
 
                 is ShareSimple -> SessionSharer.shareSimple(context, effect.formattedSession)
