@@ -33,6 +33,17 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddAlarm
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddAlarmWithChecks
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddFavoriteClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddToCalendarClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnCloseClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnDeleteAlarmClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnDeleteFavoriteClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnNavigateToRoomClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnOpenFeedbackClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnShareClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnShareToChaosflixClick
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.showToast
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
@@ -68,18 +79,18 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
     private var sidePane = false
     private var hasArguments = false
 
-    private val viewModelFunctionByMenuItemId = mapOf<Int, SessionDetailsViewModel.() -> Unit>(
-        R.id.menu_item_feedback to { openFeedback() },
-        R.id.menu_item_share_session to { share() },
-        R.id.menu_item_share_session_text to { share() },
-        R.id.menu_item_share_session_json to { shareToChaosflix() },
-        R.id.menu_item_add_to_calendar to { addToCalendar() },
-        R.id.menu_item_flag_as_favorite to { favorSession() },
-        R.id.menu_item_unflag_as_favorite to { unfavorSession() },
-        R.id.menu_item_set_alarm to { addAlarmWithChecks() },
-        R.id.menu_item_delete_alarm to { deleteAlarm() },
-        R.id.menu_item_close_session_details to { closeDetails() },
-        R.id.menu_item_navigate to { navigateToRoom() },
+    private val viewEventByMenuItemId = mapOf(
+        R.id.menu_item_feedback to OnOpenFeedbackClick,
+        R.id.menu_item_share_session to OnShareClick,
+        R.id.menu_item_share_session_text to OnShareClick,
+        R.id.menu_item_share_session_json to OnShareToChaosflixClick,
+        R.id.menu_item_add_to_calendar to OnAddToCalendarClick,
+        R.id.menu_item_flag_as_favorite to OnAddFavoriteClick,
+        R.id.menu_item_unflag_as_favorite to OnDeleteFavoriteClick,
+        R.id.menu_item_set_alarm to OnAddAlarmWithChecks,
+        R.id.menu_item_delete_alarm to OnDeleteAlarmClick,
+        R.id.menu_item_close_session_details to OnCloseClick,
+        R.id.menu_item_navigate to OnNavigateToRoomClick,
     )
 
     @MainThread
@@ -89,7 +100,7 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
 
         postNotificationsPermissionRequestLauncher = registerForActivityResult(RequestPermission()) { isGranted ->
             if (isGranted) {
-                viewModel.addAlarmWithChecks()
+                viewModel.onViewEvent(OnAddAlarmWithChecks)
             } else {
                 showMissingPostNotificationsPermissionError()
             }
@@ -99,14 +110,14 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
             registerForActivityResult(StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
                     // User granted the permission earlier.
-                    viewModel.addAlarmWithChecks()
+                    viewModel.onViewEvent(OnAddAlarmWithChecks)
                 } else {
                     // User granted the permission for the first time.
                     // Screen is resumed with RESULT_CANCELED, no indication
                     // of whether the permission was granted or not.
                     // Hence the following ugly view model bypass.
                     if (viewModel.canAddAlarms()) {
-                        viewModel.addAlarmWithChecks()
+                        viewModel.onViewEvent(OnAddAlarmWithChecks)
                     } else {
                         showMissingScheduleExactAlarmsPermissionError()
                     }
@@ -172,7 +183,7 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
                 result.containsKey(AlarmTimePickerFragment.ALARM_TIME_BUNDLE_KEY)
             ) {
                 val alarmTime = result.getInt(AlarmTimePickerFragment.ALARM_TIME_BUNDLE_KEY)
-                viewModel.addAlarm(alarmTime)
+                viewModel.onViewEvent(OnAddAlarm(alarmTime))
             }
         }
     }
@@ -218,9 +229,9 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        when (val menuFunction = viewModelFunctionByMenuItemId[menuItem.itemId]) {
+        when (val event = viewEventByMenuItemId[menuItem.itemId]) {
             null -> return false
-            else -> menuFunction(viewModel)
+            else -> viewModel.onViewEvent(event)
         }
         return true
     }

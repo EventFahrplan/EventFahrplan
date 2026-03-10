@@ -30,7 +30,18 @@ import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsParameter.SessionDe
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsProperty.MarkupLanguage.Markdown
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsState.Loading
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsState.Success
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddAlarm
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddAlarmWithChecks
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddFavoriteClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddToCalendarClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnCloseClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnDeleteAlarmClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnDeleteFavoriteClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnNavigateToRoomClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnOpenFeedbackClick
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnSessionLinkClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnShareClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnShareToChaosflixClick
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.models.Room
@@ -133,13 +144,13 @@ class SessionDetailsViewModelTest {
     inner class OnViewEvent {
 
         @Test
-        fun `openFeedback() emits OpenFeedback effect`() = runTest {
+        fun `OnOpenFeedbackClick emits OpenFeedback effect`() = runTest {
             val repository = createRepository()
             val fakeFeedbackUrlComposition = mock<FeedbackUrlComposition> {
                 on { getFeedbackUrl(any()) } doReturn SAMPLE_FEEDBACK_URL
             }
             val viewModel = createViewModel(repository, feedbackUrlComposition = fakeFeedbackUrlComposition)
-            viewModel.openFeedback()
+            viewModel.onViewEvent(OnOpenFeedbackClick)
             viewModel.effects.test {
                 val effect = awaitItem()
                 assertThat(effect).isInstanceOf(OpenFeedback::class.java)
@@ -149,13 +160,13 @@ class SessionDetailsViewModelTest {
         }
 
         @Test
-        fun `share() emits ShareSimple effect with formatted session`() = runTest {
+        fun `OnShareClick emits ShareSimple effect with formatted session`() = runTest {
             val repository = createRepository()
             val fakeSessionFormat = mock<SimpleSessionFormat> {
                 on { format(any(), anyOrNull(), any()) } doReturn "An example session"
             }
             val viewModel = createViewModel(repository, simpleSessionFormat = fakeSessionFormat)
-            viewModel.share()
+            viewModel.onViewEvent(OnShareClick)
             viewModel.effects.test {
                 val effect = awaitItem()
                 assertThat(effect).isInstanceOf(ShareSimple::class.java)
@@ -166,13 +177,13 @@ class SessionDetailsViewModelTest {
         }
 
         @Test
-        fun `shareToChaosflix() emits ShareJson effect with formatted session`() = runTest {
+        fun `OnShareToChaosflixClick emits ShareJson effect with formatted session`() = runTest {
             val repository = createRepository()
             val fakeSessionFormat = mock<JsonSessionFormat> {
                 on { format(any<Session>()) } doReturn """{ "session" : "example" }"""
             }
             val viewModel = createViewModel(repository, jsonSessionFormat = fakeSessionFormat)
-            viewModel.shareToChaosflix()
+            viewModel.onViewEvent(OnShareToChaosflixClick)
             viewModel.effects.test {
                 val effect = awaitItem()
                 assertThat(effect).isInstanceOf(ShareJson::class.java)
@@ -182,10 +193,10 @@ class SessionDetailsViewModelTest {
         }
 
         @Test
-        fun `addToCalendar() emits AddToCalendar effect`() = runTest {
+        fun `OnAddToCalendarClick emits AddToCalendar effect`() = runTest {
             val repository = createRepository(selectedSession = Session("S2"))
             val viewModel = createViewModel(repository)
-            viewModel.addToCalendar()
+            viewModel.onViewEvent(OnAddToCalendarClick)
             verifyInvokedOnce(repository).loadSelectedSession()
             viewModel.effects.test {
                 val effect = awaitItem()
@@ -195,23 +206,23 @@ class SessionDetailsViewModelTest {
         }
 
         @Test
-        fun `favorSession() flags the session as a favorite and persists it`() {
+        fun `OnAddFavoriteClick flags the session as a favorite and persists it`() {
             val actualSession = Session(sessionId = "S3", isHighlight = false)
             val expectedSession = Session(sessionId = "S3", isHighlight = true)
             val repository = createRepository(selectedSession = actualSession)
             val viewModel = createViewModel(repository)
-            viewModel.favorSession()
+            viewModel.onViewEvent(OnAddFavoriteClick)
             verifyInvokedOnce(repository).loadSelectedSession()
             verifyInvokedOnce(repository).updateHighlight(expectedSession)
         }
 
         @Test
-        fun `unfavorSession() unflags the session as a favorite and persists it`() {
+        fun `OnDeleteFavoriteClick unflags the session as a favorite and persists it`() {
             val actualSession = Session(sessionId = "S4", isHighlight = true)
             val expectedSession = Session(sessionId = "S4", isHighlight = false)
             val repository = createRepository(selectedSession = actualSession)
             val viewModel = createViewModel(repository)
-            viewModel.unfavorSession()
+            viewModel.onViewEvent(OnDeleteFavoriteClick)
             verifyInvokedOnce(repository).loadSelectedSession()
             verifyInvokedOnce(repository).updateHighlight(expectedSession)
         }
@@ -231,7 +242,7 @@ class SessionDetailsViewModelTest {
         }
 
         @Test
-        fun `addAlarmWithChecks() emits ShowAlarmTimePicker effect`() = runTest {
+        fun `OnAddAlarmWithChecks emits ShowAlarmTimePicker effect`() = runTest {
             val notificationHelper = mock<NotificationHelper> {
                 on { notificationsEnabled } doReturn true
             }
@@ -244,7 +255,7 @@ class SessionDetailsViewModelTest {
                 notificationHelper = notificationHelper,
                 alarmServices = alarmServices,
             )
-            viewModel.addAlarmWithChecks()
+            viewModel.onViewEvent(OnAddAlarmWithChecks)
             viewModel.effects.test {
                 val effect = awaitItem()
                 assertThat(effect).isEqualTo(ShowAlarmTimePicker)
@@ -254,7 +265,7 @@ class SessionDetailsViewModelTest {
         }
 
         @Test
-        fun `addAlarmWithChecks() emits RequestScheduleExactAlarmsPermission effect`() = runTest {
+        fun `OnAddAlarmWithChecks emits RequestScheduleExactAlarmsPermission effect`() = runTest {
             val notificationHelper = mock<NotificationHelper> {
                 on { notificationsEnabled } doReturn true
             }
@@ -268,7 +279,7 @@ class SessionDetailsViewModelTest {
                 alarmServices = alarmServices,
                 runsAtLeastOnAndroidTiramisu = true, // not relevant
             )
-            viewModel.addAlarmWithChecks()
+            viewModel.onViewEvent(OnAddAlarmWithChecks)
             viewModel.effects.test {
                 val effect = awaitItem()
                 assertThat(effect).isEqualTo(RequestScheduleExactAlarmsPermission)
@@ -278,7 +289,7 @@ class SessionDetailsViewModelTest {
         }
 
         @Test
-        fun `addAlarmWithChecks() emits RequestPostNotificationsPermission effect as of Android 13`() =
+        fun `OnAddAlarmWithChecks emits RequestPostNotificationsPermission effect as of Android 13`() =
             runTest {
                 val notificationHelper = mock<NotificationHelper> {
                     on { notificationsEnabled } doReturn false
@@ -289,7 +300,7 @@ class SessionDetailsViewModelTest {
                     notificationHelper = notificationHelper,
                     runsAtLeastOnAndroidTiramisu = true,
                 )
-                viewModel.addAlarmWithChecks()
+                viewModel.onViewEvent(OnAddAlarmWithChecks)
                 viewModel.effects.test {
                     val effect = awaitItem()
                     assertThat(effect).isEqualTo(RequestPostNotificationsPermission)
@@ -298,7 +309,7 @@ class SessionDetailsViewModelTest {
             }
 
         @Test
-        fun `addAlarmWithChecks() emits ShowNotificationsDisabledError effect before Android 13`() =
+        fun `OnAddAlarmWithChecks emits ShowNotificationsDisabledError effect before Android 13`() =
             runTest {
                 val notificationHelper = mock<NotificationHelper> {
                     on { notificationsEnabled } doReturn false
@@ -309,7 +320,7 @@ class SessionDetailsViewModelTest {
                     notificationHelper = notificationHelper,
                     runsAtLeastOnAndroidTiramisu = false,
                 )
-                viewModel.addAlarmWithChecks()
+                viewModel.onViewEvent(OnAddAlarmWithChecks)
                 viewModel.effects.test {
                     val effect = awaitItem()
                     assertThat(effect).isEqualTo(ShowNotificationsDisabledError)
@@ -317,24 +328,24 @@ class SessionDetailsViewModelTest {
             }
 
         @Test
-        fun `addAlarm() persists the alarm creation`() {
+        fun `OnAddAlarm persists the alarm creation`() {
             val repository = createRepository(selectedSession = Session("S5"))
             val alarmServices = mock<AlarmServices>()
             val viewModel = createViewModel(repository, alarmServices = alarmServices)
-            viewModel.addAlarm(alarmTime = 5)
+            viewModel.onViewEvent(OnAddAlarm(alarmTime = 5))
             verifyInvokedOnce(repository).loadSelectedSession()
             verifyInvokedOnce(alarmServices).addSessionAlarm(any(), any())
         }
 
         @Test
-        fun `deleteAlarm() persists the alarm deletion`() {
+        fun `OnDeleteAlarmClick persists the alarm deletion`() {
             val repository = createRepository(
                 selectedSession = Session("S6"),
                 alarms = emptyList()
             )
             val alarmServices = mock<AlarmServices>()
             val viewModel = createViewModel(repository, alarmServices = alarmServices)
-            viewModel.deleteAlarm()
+            viewModel.onViewEvent(OnDeleteAlarmClick)
             verifyInvokedOnce(repository).loadSelectedSession()
             verifyInvokedOnce(alarmServices).deleteSessionAlarm(any())
         }
@@ -345,10 +356,10 @@ class SessionDetailsViewModelTest {
     inner class Navigation {
 
         @Test
-        fun `closeDetails() emits CloseDetails effect`() = runTest {
+        fun `OnCloseClick emits CloseDetails effect`() = runTest {
             val repository = createRepository()
             val viewModel = createViewModel(repository)
-            viewModel.closeDetails()
+            viewModel.onViewEvent(OnCloseClick)
             viewModel.effects.test {
                 val effect = awaitItem()
                 assertThat(effect).isEqualTo(CloseDetails)
@@ -356,7 +367,7 @@ class SessionDetailsViewModelTest {
         }
 
         @Test
-        fun `navigateToRoom() emits NavigateToRoom effect`() = runTest {
+        fun `OnNavigateToRoomClick emits NavigateToRoom effect`() = runTest {
             val repository = createRepository(
                 selectedSession = Session(
                     sessionId = "S1",
@@ -368,7 +379,7 @@ class SessionDetailsViewModelTest {
                 repository = repository,
                 indoorNavigation = SupportedIndoorNavigation,
             )
-            viewModel.navigateToRoom()
+            viewModel.onViewEvent(OnNavigateToRoomClick)
             viewModel.effects.test {
                 val effect = awaitItem()
                 assertThat(effect).isInstanceOf(NavigateToRoom::class.java)
