@@ -16,15 +16,16 @@ import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.commons.BuildConfigProvision
 import nerd.tuxmobil.fahrplan.congress.commons.ExternalNavigation
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsDestination.PickAlarmTime
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.AddToCalendar
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.CloseDetails
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.NavigateTo
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.NavigateToRoom
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.OpenFeedback
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.RequestPostNotificationsPermission
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.RequestScheduleExactAlarmsPermission
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.ShareJson
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.ShareSimple
-import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.ShowAlarmTimePicker
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.ShowNotificationsDisabledError
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsParameter.SessionDetails
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsProperty.MarkupLanguage.Markdown
@@ -48,6 +49,8 @@ import nerd.tuxmobil.fahrplan.congress.models.Room
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.navigation.IndoorNavigation
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
+import nerd.tuxmobil.fahrplan.congress.preferences.Settings
+import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.roomstates.RoomStateFormatting
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
@@ -73,33 +76,72 @@ class SessionDetailsViewModelTest {
     }
 
     @Nested
-    inner class SessionDetailsState {
+    inner class UiState {
 
         @Test
-        fun `sessionDetailsState does emit Loading`() = runTest {
+        fun `uiState emits SessionDetailsUiState(Loading) when no repository emits`() = runTest {
             val repository = createRepository(selectedSessionFlow = emptyFlow())
+            val settingsRepository = createSettingsRepository(settingsStream = emptyFlow())
             val viewModel = createViewModel(
                 repository = repository,
+                settingsRepository = settingsRepository,
                 feedbackUrlComposition = SupportedFeedbackUrlComposer,
                 indoorNavigation = SupportedIndoorNavigation,
             )
-            viewModel.sessionDetailsState.test {
-                assertThat(awaitItem()).isEqualTo(Loading)
+            viewModel.uiState.test {
+                assertThat(awaitItem()).isEqualTo(SessionDetailsUiState(Loading))
                 expectNoEvents()
             }
         }
 
         @Test
-        fun `sessionDetailsState does emit Success`() = runTest {
+        fun `uiState does emit SessionDetailsUiState(Loading) when only selectedSessionFlow emits`() = runTest {
             val session = Session(sessionId = "S1")
             val repository = createRepository(selectedSessionFlow = flowOf(session))
+            val settingsRepository = createSettingsRepository(settingsStream = emptyFlow())
             val viewModel = createViewModel(
                 repository = repository,
+                settingsRepository = settingsRepository,
                 feedbackUrlComposition = SupportedFeedbackUrlComposer,
                 indoorNavigation = SupportedIndoorNavigation,
             )
-            viewModel.sessionDetailsState.test {
-                assertThat(awaitItem()).isInstanceOf(Success::class.java)
+            viewModel.uiState.test {
+                assertThat(awaitItem()).isEqualTo(SessionDetailsUiState(Loading))
+                expectNoEvents()
+            }
+        }
+
+        @Test
+        fun `uiState does emit SessionDetailsUiState(Loading) when only settingsStream emits`() = runTest {
+            val repository = createRepository(selectedSessionFlow = emptyFlow())
+            val settingsRepository = createSettingsRepository(settingsStream = flowOf(Settings()))
+            val viewModel = createViewModel(
+                repository = repository,
+                settingsRepository = settingsRepository,
+                feedbackUrlComposition = SupportedFeedbackUrlComposer,
+                indoorNavigation = SupportedIndoorNavigation,
+            )
+            viewModel.uiState.test {
+                assertThat(awaitItem()).isEqualTo(SessionDetailsUiState(Loading))
+                expectNoEvents()
+            }
+        }
+
+        @Test
+        fun `uiState does emit SessionDetailsUiState(Success) when both repositories emit`() = runTest {
+            val session = Session(sessionId = "S1")
+            val repository = createRepository(selectedSessionFlow = flowOf(session))
+            val settingsRepository = createSettingsRepository(settingsStream = flowOf(Settings()))
+            val viewModel = createViewModel(
+                repository = repository,
+                settingsRepository = settingsRepository,
+                feedbackUrlComposition = SupportedFeedbackUrlComposer,
+                indoorNavigation = SupportedIndoorNavigation,
+            )
+            viewModel.uiState.test {
+                val actual = awaitItem()
+                assertThat(actual).isInstanceOf(SessionDetailsUiState::class.java)
+                assertThat(actual.sessionDetailsState).isInstanceOf(Success::class.java)
                 expectNoEvents()
             }
         }
@@ -242,7 +284,7 @@ class SessionDetailsViewModelTest {
         }
 
         @Test
-        fun `OnAddAlarmWithChecks emits ShowAlarmTimePicker effect`() = runTest {
+        fun `OnAddAlarmWithChecks emits NavigateTo(PickAlarmTime) effect`() = runTest {
             val notificationHelper = mock<NotificationHelper> {
                 on { notificationsEnabled } doReturn true
             }
@@ -258,7 +300,7 @@ class SessionDetailsViewModelTest {
             viewModel.onViewEvent(OnAddAlarmWithChecks)
             viewModel.effects.test {
                 val effect = awaitItem()
-                assertThat(effect).isEqualTo(ShowAlarmTimePicker)
+                assertThat(effect).isEqualTo(NavigateTo(PickAlarmTime))
             }
             verifyInvokedOnce(notificationHelper).notificationsEnabled
             verifyInvokedOnce(alarmServices).canScheduleExactAlarms
@@ -639,8 +681,15 @@ class SessionDetailsViewModelTest {
         on { readAlarms(any()) } doReturn alarms
     }
 
+    private fun createSettingsRepository(
+        settingsStream: Flow<Settings> = emptyFlow(),
+    ) = mock<SettingsRepository> {
+        on { this.settingsStream } doReturn settingsStream
+    }
+
     private fun createViewModel(
         repository: AppRepository = createRepository(),
+        settingsRepository: SettingsRepository = createSettingsRepository(),
         logging: Logging = mock(),
         buildConfigProvision: BuildConfigProvision = mock(),
         alarmServices: AlarmServices = mock(),
@@ -654,6 +703,7 @@ class SessionDetailsViewModelTest {
         runsAtLeastOnAndroidTiramisu: Boolean = false
     ) = SessionDetailsViewModel(
         repository = repository,
+        settingsRepository = settingsRepository,
         executionContext = TestExecutionContext,
         logging = logging,
         buildConfigProvision = buildConfigProvision,

@@ -30,10 +30,8 @@ import androidx.lifecycle.Lifecycle.State.RESUMED
 import info.metadude.android.eventfahrplan.commons.flow.observe
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
-import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddAlarm
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddAlarmWithChecks
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddFavoriteClick
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddToCalendarClick
@@ -54,7 +52,6 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
     companion object {
 
         const val FRAGMENT_TAG = "detail"
-        private const val SESSION_DETAILS_FRAGMENT_REQUEST_KEY = "SESSION_DETAILS_FRAGMENT_REQUEST_KEY"
 
         fun newInstance(sidePane: Boolean): SessionDetailsFragment {
             return SessionDetailsFragment().withArguments(BundleKeys.SIDEPANE to sidePane)
@@ -147,7 +144,6 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
                         .setData("package:${BuildConfig.APPLICATION_ID}".toUri())
                     scheduleExactAlarmsPermissionRequestLauncher.launch(intent)
                 },
-                onShowAlarmTimePicker = ::showAlarmTimePicker,
             )
         }
     }.also { it.isClickable = true }
@@ -174,17 +170,6 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
         viewModel.selectedSessionParameter.observe(this) { model ->
             this.model = model
             updateOptionsMenu()
-        }
-    }
-
-    private fun showAlarmTimePicker() {
-        AlarmTimePickerFragment.show(this, SESSION_DETAILS_FRAGMENT_REQUEST_KEY) { requestKey, result ->
-            if (requestKey == SESSION_DETAILS_FRAGMENT_REQUEST_KEY &&
-                result.containsKey(AlarmTimePickerFragment.ALARM_TIME_BUNDLE_KEY)
-            ) {
-                val alarmTime = result.getInt(AlarmTimePickerFragment.ALARM_TIME_BUNDLE_KEY)
-                viewModel.onViewEvent(OnAddAlarm(alarmTime))
-            }
         }
     }
 

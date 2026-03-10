@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress.settings
+package nerd.tuxmobil.fahrplan.congress.commons
 
 import android.content.Context
 import androidx.compose.runtime.Composable
@@ -14,13 +14,14 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.preferences.Settings
 
 @Composable
-internal fun AlarmTimeDialog(
+internal fun AlarmTimePickerDialog(
+    title: String,
     currentValue: Int,
     onOptionSelected: (Int) -> Unit,
     onDismiss: () -> Unit,
 ) {
     SelectableListDialog(
-        title = stringResource(R.string.preference_dialog_title_alarm_time),
+        title = title,
         entries = getAlarmTimeEntries(LocalContext.current),
         selectedOption = currentValue,
         onOptionSelected = onOptionSelected,
@@ -58,13 +59,13 @@ internal fun Settings.alarmTimeToUiString(): String? {
 
 @PreviewLightDark
 @Composable
-internal fun AlarmTimeDialogPreview() {
+internal fun AlarmTimePickerDialogPreview() {
     EventFahrplanTheme {
-        AlarmTimeDialog(
+        AlarmTimePickerDialog(
+            title = stringResource(R.string.preference_dialog_title_alarm_time),
             currentValue = 0,
             onOptionSelected = {},
             onDismiss = {},
         )
     }
 }
-

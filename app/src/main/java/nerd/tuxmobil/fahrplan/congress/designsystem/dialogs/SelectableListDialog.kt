@@ -21,12 +21,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import kotlinx.collections.immutable.ImmutableMap
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.commons.getAlarmTimeEntries
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonText
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.RadioButton
 import nerd.tuxmobil.fahrplan.congress.designsystem.modifiers.minimumInteractiveComponentSize
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
-import nerd.tuxmobil.fahrplan.congress.settings.getAlarmTimeEntries
 
 @Composable
 internal fun <T> SelectableListDialog(

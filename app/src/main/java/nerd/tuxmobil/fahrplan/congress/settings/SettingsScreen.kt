@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -18,6 +19,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import info.metadude.android.eventfahrplan.commons.flow.observe
+import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.commons.AlarmTimePickerDialog
 import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticActivity
 import nerd.tuxmobil.fahrplan.congress.settings.AlarmToneResult.AlarmToneUri
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.LaunchNotificationSettingsScreen
@@ -93,7 +96,8 @@ internal fun SettingsScreen(
             )
         }
         dialog(route = AlarmTime.route) {
-            AlarmTimeDialog(
+            AlarmTimePickerDialog(
+                title = stringResource(R.string.preference_dialog_title_alarm_time),
                 currentValue = state.settings.alarmTime,
                 onOptionSelected = { viewModel.onViewEvent(SetAlarmTime(it)) },
                 onDismiss = { navController.popBackStack() },

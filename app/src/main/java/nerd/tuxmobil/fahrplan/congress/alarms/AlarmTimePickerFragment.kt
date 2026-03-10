@@ -15,11 +15,11 @@ import androidx.fragment.app.FragmentResultListener
 import kotlinx.collections.immutable.ImmutableMap
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.commons.getAlarmTimeEntries
 import nerd.tuxmobil.fahrplan.congress.extensions.getLayoutInflater
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
-import nerd.tuxmobil.fahrplan.congress.settings.getAlarmTimeEntries
 
 class AlarmTimePickerFragment : DialogFragment() {
 
