@@ -9,9 +9,9 @@ import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.toImmutableMap
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.designsystem.dialogs.SelectableListDialog
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.preferences.Settings
-import nerd.tuxmobil.fahrplan.congress.settings.widgets.PreferenceListDialog
 
 @Composable
 internal fun AlarmTimeDialog(
@@ -19,7 +19,7 @@ internal fun AlarmTimeDialog(
     onOptionSelected: (Int) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    PreferenceListDialog(
+    SelectableListDialog(
         title = stringResource(R.string.preference_dialog_title_alarm_time),
         entries = getAlarmTimeEntries(LocalContext.current),
         selectedOption = currentValue,

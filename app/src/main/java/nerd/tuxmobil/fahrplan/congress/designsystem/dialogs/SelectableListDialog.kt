@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress.settings.widgets
+package nerd.tuxmobil.fahrplan.congress.designsystem.dialogs
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,22 +10,26 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.Role.Companion.RadioButton
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import kotlinx.collections.immutable.ImmutableMap
+import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonText
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.RadioButton
-import nerd.tuxmobil.fahrplan.congress.designsystem.dialogs.AlertDialog
 import nerd.tuxmobil.fahrplan.congress.designsystem.modifiers.minimumInteractiveComponentSize
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
+import nerd.tuxmobil.fahrplan.congress.settings.getAlarmTimeEntries
 
 @Composable
-internal fun <T> PreferenceListDialog(
+internal fun <T> SelectableListDialog(
     title: String,
     entries: ImmutableMap<T, String>,
     selectedOption: T,
@@ -62,13 +66,13 @@ private fun <T> RadioButtonGroup(
         entries.forEach { (value, description) ->
             val isSelected = value == selectedOption
             Row(
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
                     .selectable(
                         selected = isSelected,
                         onClick = { onOptionSelected(value) },
-                        role = Role.RadioButton,
+                        role = RadioButton,
                     )
                     .minimumInteractiveComponentSize()
                     .padding(horizontal = 16.dp),
@@ -84,5 +88,21 @@ private fun <T> RadioButtonGroup(
                 )
             }
         }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun ChooseAlarmTimeSelectableListDialogPreview() {
+    EventFahrplanTheme {
+        val context = LocalContext.current
+        val entries = remember(context) { getAlarmTimeEntries(context) }
+        SelectableListDialog(
+            title = stringResource(R.string.choose_alarm_time),
+            entries = entries,
+            selectedOption = 15,
+            onOptionSelected = {},
+            onDismiss = {},
+        )
     }
 }
