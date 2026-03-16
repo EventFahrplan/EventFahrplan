@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import info.metadude.android.eventfahrplan.commons.flow.observe
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsDestination.AlarmsList
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsDestination.ConfirmDeleteAll
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsEffect.NavigateTo
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsEffect.NavigateToSession
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsViewEvent.OnDeleteAllClick
@@ -49,7 +50,7 @@ internal fun AlarmsScreen(
                 onViewEvent = viewModel::onViewEvent,
             )
         }
-        dialog(AlarmsDestination.ConfirmDeleteAll.route) {
+        dialog(ConfirmDeleteAll.route) {
             ConfirmationDialog(
                 title = stringResource(R.string.alarms_delete_all_alarms),
                 confirmationButtonText = stringResource(R.string.alarms_delete_all),

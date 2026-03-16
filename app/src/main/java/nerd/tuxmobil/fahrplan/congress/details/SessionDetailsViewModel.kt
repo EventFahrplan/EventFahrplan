@@ -34,6 +34,18 @@ import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.ShowAlarmTim
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.ShowNotificationsDisabledError
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsState.Loading
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsState.Success
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddAlarm
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddAlarmWithChecks
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddFavoriteClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddToCalendarClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnCloseClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnDeleteAlarmClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnDeleteFavoriteClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnNavigateToRoomClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnOpenFeedbackClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnSessionLinkClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnShareClick
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnShareToChaosflixClick
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.navigation.IndoorNavigation
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
@@ -117,10 +129,19 @@ internal class SessionDetailsViewModel(
             .launchIn(viewModelScope)
     }
 
-    fun onViewEvent(event: SessionDetailsViewEvent) {
-        when (event) {
-            is SessionDetailsViewEvent.OnSessionLinkClick -> openLink(event.link)
-        }
+    fun onViewEvent(viewEvent: SessionDetailsViewEvent) = when (viewEvent) {
+        is OnSessionLinkClick -> openLink(viewEvent.link)
+        OnOpenFeedbackClick -> openFeedback()
+        OnShareClick -> share()
+        OnShareToChaosflixClick -> shareToChaosflix()
+        OnAddToCalendarClick -> addToCalendar()
+        OnAddFavoriteClick -> favorSession()
+        OnDeleteFavoriteClick -> unfavorSession()
+        OnAddAlarmWithChecks -> addAlarmWithChecks()
+        is OnAddAlarm -> addAlarm(viewEvent.alarmTime)
+        OnDeleteAlarmClick -> deleteAlarm()
+        OnCloseClick -> closeDetails()
+        OnNavigateToRoomClick -> navigateToRoom()
     }
 
     private fun openLink(link: String) {
@@ -145,33 +166,33 @@ internal class SessionDetailsViewModel(
             .launchIn(viewModelScope)
     }
 
-    fun openFeedback() {
+    private fun openFeedback() {
         loadSelectedSession { session ->
             val uri = feedbackUrlComposition.getFeedbackUrl(session).toUri()
             sendEffect(OpenFeedback(uri))
         }
     }
 
-    fun share() {
+    private fun share() {
         loadSelectedSession { session ->
             val timeZoneId = repository.readMeta().timeZoneId
             sendEffect(ShareSimple(simpleSessionFormat.format(session, timeZoneId)))
         }
     }
 
-    fun shareToChaosflix() {
+    private fun shareToChaosflix() {
         loadSelectedSession { session ->
             sendEffect(ShareJson(jsonSessionFormat.format(session)))
         }
     }
 
-    fun addToCalendar() {
+    private fun addToCalendar() {
         loadSelectedSession { session ->
             sendEffect(AddToCalendar(session))
         }
     }
 
-    fun favorSession() {
+    private fun favorSession() {
         loadSelectedSession { session ->
             val favoredSession = session.copy(
                 isHighlight = true // Required: Update property because updateHighlight refers to its value!
@@ -180,7 +201,7 @@ internal class SessionDetailsViewModel(
         }
     }
 
-    fun unfavorSession() {
+    private fun unfavorSession() {
         loadSelectedSession { session ->
             val unfavoredSession = session.copy(
                 isHighlight = false // Required: Update property because updateHighlight refers to its value!
@@ -193,23 +214,23 @@ internal class SessionDetailsViewModel(
         return sessionAlarmViewModelDelegate.canAddAlarms()
     }
 
-    fun addAlarmWithChecks() {
+    private fun addAlarmWithChecks() {
         sessionAlarmViewModelDelegate.addAlarmWithChecks()
     }
 
-    fun addAlarm(alarmTime: Int) {
+    private fun addAlarm(alarmTime: Int) {
         loadSelectedSession { session ->
             sessionAlarmViewModelDelegate.addAlarm(session, alarmTime)
         }
     }
 
-    fun deleteAlarm() {
+    private fun deleteAlarm() {
         loadSelectedSession { session ->
             sessionAlarmViewModelDelegate.deleteAlarm(session)
         }
     }
 
-    fun navigateToRoom() {
+    private fun navigateToRoom() {
         loadSelectedSession { session ->
             val room = session.toRoom()
             val uri = indoorNavigation.getUri(room)
@@ -217,7 +238,7 @@ internal class SessionDetailsViewModel(
         }
     }
 
-    fun closeDetails() {
+    private fun closeDetails() {
         sendEffect(CloseDetails)
     }
 
