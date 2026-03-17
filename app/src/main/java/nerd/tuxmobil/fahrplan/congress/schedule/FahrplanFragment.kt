@@ -33,7 +33,9 @@ import androidx.appcompat.app.ActionBar.NAVIGATION_MODE_LIST
 import androidx.appcompat.app.ActionBar.OnNavigationListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
@@ -49,6 +51,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.Lifecycle.State.RESUMED
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
 import info.metadude.android.eventfahrplan.commons.flow.observe
 import info.metadude.android.eventfahrplan.commons.logging.Logging
@@ -57,8 +60,8 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
-import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing
+import nerd.tuxmobil.fahrplan.congress.commons.AlarmTimePickerDialog
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
@@ -109,7 +112,6 @@ class FahrplanFragment : Fragment(), MenuProvider {
 
         private const val LOG_TAG = "FahrplanFragment"
         const val FRAGMENT_TAG = "schedule"
-        private const val FAHRPLAN_FRAGMENT_REQUEST_KEY = "FAHRPLAN_FRAGMENT_REQUEST_KEY"
 
         const val FIFTEEN_MINUTES = 15
         const val BOX_HEIGHT_MULTIPLIER = 3
@@ -128,7 +130,6 @@ class FahrplanFragment : Fragment(), MenuProvider {
     private val logging = Logging.get()
     private var onHorizontalScrollChangeListener: OnScrollChangedListener? = null
     private var onSessionClickListener: OnSessionClickListener? = null
-    private var lastSelectedSession: Session? = null
     private var displayDensityScale = 0f
     private val timeTextColumnEdgeToEdge = TimeTextColumnEdgeToEdge {
         resources.getDimensionPixelSize(R.dimen.schedule_time_column_layout_width)
@@ -241,6 +242,24 @@ class FahrplanFragment : Fragment(), MenuProvider {
 
         val timeTextColumn = view.requireViewByIdCompat<LinearLayout>(R.id.times_layout)
         timeTextColumnEdgeToEdge.applyInsets(view, timeTextColumn)
+
+        view.requireViewByIdCompat<ComposeView>(R.id.alarm_time_picker_view)
+            .setContent {
+                val defaultAlarmTime by viewModel.defaultAlarmTime.collectAsStateWithLifecycle()
+                defaultAlarmTime?.let { alarmTime ->
+                    EventFahrplanTheme {
+                        AlarmTimePickerDialog(
+                            title = stringResource(R.string.choose_alarm_time),
+                            currentValue = alarmTime,
+                            onOptionSelected = { pickedAlarmTime ->
+                                viewModel.onAlarmTimePicked(pickedAlarmTime)
+                                updateMenuItems()
+                            },
+                            onDismiss = { viewModel.onNoAlarmTimePicked() },
+                        )
+                    }
+                }
+            }
     }
 
     override fun onDestroyView() {
@@ -321,9 +340,6 @@ class FahrplanFragment : Fragment(), MenuProvider {
             val intent = Intent(ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
                 .setData("package:${BuildConfig.APPLICATION_ID}".toUri())
             scheduleExactAlarmsPermissionRequestLauncher.launch(intent)
-        }
-        viewModel.showAlarmTimePicker.observe(viewLifecycleOwner) {
-            showAlarmTimePicker()
         }
     }
 
@@ -541,10 +557,9 @@ class FahrplanFragment : Fragment(), MenuProvider {
             }
 
             TOGGLE_ALARM -> {
-                lastSelectedSession = session // FIXME NPE on rotation while alarm time picker is opened
                 when (session.hasAlarm) {
                     true -> viewModel.deleteAlarm(session)
-                    false -> viewModel.addAlarmWithChecks()
+                    false -> viewModel.addAlarmWithChecks(session)
                 }
                 updateMenuItems()
             }
@@ -727,27 +742,6 @@ class FahrplanFragment : Fragment(), MenuProvider {
         actionBar.setListNavigationCallbacks(arrayAdapter, OnDaySelectedListener(dayMenuEntries.size))
     }
 
-    private fun showAlarmTimePicker() {
-        AlarmTimePickerFragment.show(this, FAHRPLAN_FRAGMENT_REQUEST_KEY) { requestKey, result ->
-            if (requestKey == FAHRPLAN_FRAGMENT_REQUEST_KEY &&
-                result.containsKey(AlarmTimePickerFragment.ALARM_TIME_BUNDLE_KEY)
-            ) {
-                val alarmTime = result.getInt(AlarmTimePickerFragment.ALARM_TIME_BUNDLE_KEY)
-                onAlarmTimePicked(alarmTime)
-            }
-        }
-    }
-
-    private fun onAlarmTimePicked(alarmTime: Int) {
-        if (lastSelectedSession == null) {
-            logging.e(LOG_TAG, "onAlarmTimePicked: session: null. alarmTime: $alarmTime")
-            throw MissingLastSelectedSessionException(alarmTime)
-        } else {
-            viewModel.addAlarm(lastSelectedSession!!, alarmTime)
-            updateMenuItems()
-        }
-    }
-
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.fahrplan_menu, menu)
     }
@@ -922,7 +916,3 @@ class FahrplanFragment : Fragment(), MenuProvider {
     }
 
 }
-
-private class MissingLastSelectedSessionException(alarmTime: Int) : NullPointerException(
-    "Last selected session is null for alarm time = $alarmTime."
-)
