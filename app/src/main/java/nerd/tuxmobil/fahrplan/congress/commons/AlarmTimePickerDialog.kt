@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress.settings
+package nerd.tuxmobil.fahrplan.congress.commons
 
 import android.content.Context
 import androidx.compose.runtime.Composable
@@ -9,18 +9,19 @@ import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.toImmutableMap
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.designsystem.dialogs.SelectableListDialog
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.preferences.Settings
-import nerd.tuxmobil.fahrplan.congress.settings.widgets.PreferenceListDialog
 
 @Composable
-internal fun AlarmTimeDialog(
+internal fun AlarmTimePickerDialog(
+    title: String,
     currentValue: Int,
     onOptionSelected: (Int) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    PreferenceListDialog(
-        title = stringResource(R.string.preference_dialog_title_alarm_time),
+    SelectableListDialog(
+        title = title,
         entries = getAlarmTimeEntries(LocalContext.current),
         selectedOption = currentValue,
         onOptionSelected = onOptionSelected,
@@ -58,13 +59,13 @@ internal fun Settings.alarmTimeToUiString(): String? {
 
 @PreviewLightDark
 @Composable
-internal fun AlarmTimeDialogPreview() {
+internal fun AlarmTimePickerDialogPreview() {
     EventFahrplanTheme {
-        AlarmTimeDialog(
+        AlarmTimePickerDialog(
+            title = stringResource(R.string.preference_dialog_title_alarm_time),
             currentValue = 0,
             onOptionSelected = {},
             onDismiss = {},
         )
     }
 }
-

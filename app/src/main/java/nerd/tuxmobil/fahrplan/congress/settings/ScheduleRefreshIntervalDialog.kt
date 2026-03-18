@@ -6,9 +6,9 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.toImmutableMap
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.designsystem.dialogs.SelectableListDialog
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.preferences.Settings
-import nerd.tuxmobil.fahrplan.congress.settings.widgets.PreferenceListDialog
 
 @Composable
 internal fun ScheduleRefreshIntervalDialog(
@@ -23,7 +23,7 @@ internal fun ScheduleRefreshIntervalDialog(
         120_000 to stringResource(R.string.schedule_refresh_interval_title_every_120_seconds),
     ).toImmutableMap()
 
-    PreferenceListDialog(
+    SelectableListDialog(
         title = stringResource(R.string.preference_dialog_title_schedule_refresh_interval),
         entries = entries,
         selectedOption = currentValue,

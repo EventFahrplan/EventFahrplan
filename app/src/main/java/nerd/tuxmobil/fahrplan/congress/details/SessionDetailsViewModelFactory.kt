@@ -14,6 +14,7 @@ import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.navigation.C3nav
 import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
+import nerd.tuxmobil.fahrplan.congress.preferences.DefaultSettingsRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.AppExecutionContext
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.roomstates.RoomStateFormatter
@@ -43,6 +44,7 @@ internal class SessionDetailsViewModelFactory(
         @Suppress("UNCHECKED_CAST")
         return SessionDetailsViewModel(
             repository = appRepository,
+            settingsRepository = DefaultSettingsRepository(context),
             executionContext = AppExecutionContext,
             logging = logging,
             buildConfigProvision = buildConfigProvision,

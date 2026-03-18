@@ -411,14 +411,23 @@ class FahrplanViewModelTest {
         }
 
         @Test
-        fun `addAlarmWithChecks() posts to showAlarmTimePicker`() = runTest {
+        fun `defaultAlarmTime initially emits null`() = runTest {
+            val repository = createRepository()
+            val viewModel = createViewModel(repository)
+            viewModel.defaultAlarmTime.test {
+                assertThat(awaitItem()).isNull()
+            }
+        }
+
+        @Test
+        fun `addAlarmWithChecks sets defaultAlarmTime to alarm time`() = runTest {
             val notificationHelper = mock<NotificationHelper> {
                 on { notificationsEnabled } doReturn true
             }
             val alarmServices = mock<AlarmServices> {
                 on { canScheduleExactAlarms } doReturn true
             }
-            val repository = createRepository()
+            val repository = createRepository(defaultAlarmTime = 10)
             val viewModel = createViewModel(
                 repository = repository,
                 notificationHelper = notificationHelper,
@@ -426,8 +435,31 @@ class FahrplanViewModelTest {
                 runsAtLeastOnAndroidTiramisu = true, // not relevant
             )
             viewModel.addAlarmWithChecks()
-            viewModel.showAlarmTimePicker.test {
-                assertThat(awaitItem()).isEqualTo(Unit)
+            viewModel.defaultAlarmTime.test {
+                assertThat(awaitItem()).isEqualTo(10)
+            }
+            verifyInvokedOnce(notificationHelper).notificationsEnabled
+            verifyInvokedOnce(alarmServices).canScheduleExactAlarms
+        }
+
+        @Test
+        fun `addAlarmWithChecks(session) sets defaultAlarmTime to alarm time`() = runTest {
+            val notificationHelper = mock<NotificationHelper> {
+                on { notificationsEnabled } doReturn true
+            }
+            val alarmServices = mock<AlarmServices> {
+                on { canScheduleExactAlarms } doReturn true
+            }
+            val repository = createRepository(defaultAlarmTime = 10)
+            val viewModel = createViewModel(
+                repository = repository,
+                notificationHelper = notificationHelper,
+                alarmServices = alarmServices,
+                runsAtLeastOnAndroidTiramisu = true, // not relevant
+            )
+            viewModel.addAlarmWithChecks(Session("session-52"))
+            viewModel.defaultAlarmTime.test {
+                assertThat(awaitItem()).isEqualTo(10)
             }
             verifyInvokedOnce(notificationHelper).notificationsEnabled
             verifyInvokedOnce(alarmServices).canScheduleExactAlarms
@@ -490,6 +522,58 @@ class FahrplanViewModelTest {
             viewModel.notificationsDisabled.test {
                 assertThat(awaitItem()).isEqualTo(Unit)
             }
+        }
+
+        @Test
+        fun `onAlarmTimePicked sets defaultAlarmTime to null`() = runTest {
+            val notificationHelper = mock<NotificationHelper> {
+                on { notificationsEnabled } doReturn true
+            }
+            val alarmServices = mock<AlarmServices> {
+                on { canScheduleExactAlarms } doReturn true
+            }
+            val repository = createRepository(defaultAlarmTime = 10)
+            val viewModel = createViewModel(
+                repository = repository,
+                notificationHelper = notificationHelper,
+                alarmServices = alarmServices,
+                runsAtLeastOnAndroidTiramisu = true,
+            )
+            val session = Session("session-21")
+            viewModel.defaultAlarmTime.test {
+                assertThat(awaitItem()).isNull()
+                viewModel.addAlarmWithChecks(session)
+                assertThat(awaitItem()).isEqualTo(10)
+                viewModel.onAlarmTimePicked(5)
+                assertThat(awaitItem()).isNull()
+            }
+            verifyInvokedOnce(alarmServices).addSessionAlarm(session, alarmTimeOffset = 5)
+        }
+
+        @Test
+        fun `onNoAlarmTimePicked sets defaultAlarmTime to null`() = runTest {
+            val notificationHelper = mock<NotificationHelper> {
+                on { notificationsEnabled } doReturn true
+            }
+            val alarmServices = mock<AlarmServices> {
+                on { canScheduleExactAlarms } doReturn true
+            }
+            val repository = createRepository(defaultAlarmTime = 10)
+            val viewModel = createViewModel(
+                repository = repository,
+                notificationHelper = notificationHelper,
+                alarmServices = alarmServices,
+                runsAtLeastOnAndroidTiramisu = true,
+            )
+            val session = Session("session-22")
+            viewModel.defaultAlarmTime.test {
+                assertThat(awaitItem()).isNull()
+                viewModel.addAlarmWithChecks(session)
+                assertThat(awaitItem()).isEqualTo(10)
+                viewModel.onNoAlarmTimePicked()
+                assertThat(awaitItem()).isNull()
+            }
+            verifyInvokedNever(alarmServices).addSessionAlarm(any(), any())
         }
 
         @Test
@@ -682,6 +766,7 @@ class FahrplanViewModelTest {
         isAutoUpdateEnabled: Boolean = true,
         displayDayIndex: Int = 0,
         dateInfos: DateInfos = DateInfos(),
+        defaultAlarmTime: Int = 10,
     ) = mock<AppRepository> {
         on { sessions } doReturn sessionsFlow
         on { uncanceledSessionsForDayIndex } doReturn uncanceledSessionsForDayIndexFlow
@@ -692,6 +777,7 @@ class FahrplanViewModelTest {
         on { readAutoUpdateEnabled() } doReturn isAutoUpdateEnabled
         on { readDisplayDayIndex() } doReturn displayDayIndex
         on { readDateInfos() } doReturn dateInfos
+        on { readAlarmTime() } doReturn defaultAlarmTime
     }
 
     private fun createScheduleData(sessionId: String? = null, hasAlarm: Boolean = false, isHighlight: Boolean = false): ScheduleData {

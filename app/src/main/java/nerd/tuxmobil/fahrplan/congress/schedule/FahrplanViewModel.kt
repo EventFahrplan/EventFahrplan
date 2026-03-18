@@ -116,12 +116,23 @@ internal class FahrplanViewModel(
     val requestScheduleExactAlarmsPermission = sessionAlarmViewModelDelegate
         .requestScheduleExactAlarmsPermission
 
-    val showAlarmTimePicker = sessionAlarmViewModelDelegate
-        .showAlarmTimePicker
+    /**
+     * Emits the default alarm time set in the settings screen.
+     * `null` is used to hide the related alarm time picker dialog.
+     */
+    private val mutableDefaultAlarmTime = MutableStateFlow<Int?>(null)
+    val defaultAlarmTime = mutableDefaultAlarmTime.asStateFlow()
+
+    private var pendingAlarmSession: Session? = null
 
     var preserveVerticalScrollPosition: Boolean = false
 
     init {
+        launch {
+            sessionAlarmViewModelDelegate.showAlarmTimePicker.collect {
+                mutableDefaultAlarmTime.value = repository.readAlarmTime()
+            }
+        }
         updateDayMenu()
         updateSchedule()
         requestScheduleUpdateAlarm()
@@ -288,6 +299,25 @@ internal class FahrplanViewModel(
 
     fun addAlarmWithChecks() {
         sessionAlarmViewModelDelegate.addAlarmWithChecks()
+    }
+
+    fun addAlarmWithChecks(session: Session) {
+        pendingAlarmSession = session
+        sessionAlarmViewModelDelegate.addAlarmWithChecks()
+    }
+
+    fun onAlarmTimePicked(alarmTime: Int) {
+        mutableDefaultAlarmTime.value = null
+        val session = pendingAlarmSession
+        if (session != null) {
+            pendingAlarmSession = null
+            addAlarm(session, alarmTime)
+        }
+    }
+
+    fun onNoAlarmTimePicked() {
+        mutableDefaultAlarmTime.value = null
+        pendingAlarmSession = null
     }
 
     fun addAlarm(session: Session, alarmTime: Int) {
