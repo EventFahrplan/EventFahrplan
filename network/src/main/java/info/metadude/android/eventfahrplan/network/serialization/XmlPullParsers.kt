@@ -2,21 +2,13 @@
 
 package info.metadude.android.eventfahrplan.network.serialization
 
-import androidx.annotation.VisibleForTesting
+import info.metadude.android.eventfahrplan.commons.extensions.sanitize
 import org.xmlpull.v1.XmlPullParser
 
-@VisibleForTesting
-const val ZERO_WIDTH_NO_BREAK_SPACE = '\uFEFF'
-
 fun XmlPullParser.getSanitizedText(): String =
-    text.getSanitizedText().orEmpty()
+    text.sanitize()
 
 fun XmlPullParser.getSanitizedAttributeNullableValue(name: String): String? {
-    val sanitized = getAttributeValue(null, name).getSanitizedText()
-    return if (sanitized.isNullOrEmpty()) null else sanitized
+    val sanitized = getAttributeValue(null, name).sanitize()
+    return sanitized.ifEmpty { null }
 }
-
-private fun String?.getSanitizedText(): String? = this
-    ?.replace(ZERO_WIDTH_NO_BREAK_SPACE, ' ')
-    ?.trim()
-    ?.replace("\r\n", "\n")
