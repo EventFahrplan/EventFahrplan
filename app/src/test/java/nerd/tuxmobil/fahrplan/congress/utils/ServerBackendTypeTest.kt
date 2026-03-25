@@ -27,7 +27,7 @@ class ServerBackendTypeTest {
     }
 
     @Test
-    fun `getMarkupLanguage throws error for unknown server backend type`() {
+    fun `getMarkupLanguage throws error for unknown server backend type string`() {
         val exception = assertThrows<IllegalStateException> {
             ServerBackendType.getMarkupLanguage("unknown")
         }
@@ -35,7 +35,7 @@ class ServerBackendTypeTest {
     }
 
     @Test
-    fun `getMarkupLanguage throws error for empty string backend type`() {
+    fun `getMarkupLanguage throws error for empty server backend type string`() {
         val exception = assertThrows<IllegalStateException> {
             ServerBackendType.getMarkupLanguage("")
         }

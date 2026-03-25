@@ -3,7 +3,7 @@
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser
+import info.metadude.android.eventfahrplan.network.serialization.ParserTask
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.Room
 import nerd.tuxmobil.fahrplan.congress.schedule.TrackBackgrounds
@@ -238,7 +238,7 @@ fun SessionNetworkModel.sanitize(): SessionNetworkModel {
 }
 
 /**
- * Delimiter which is used in [FahrplanParser] to construct the speakers string.
+ * Delimiter which is used in [ParserTask] to construct the speakers string.
  */
 private const val SPEAKERS_DELIMITER_FOR_SPLITTING = ";"
 

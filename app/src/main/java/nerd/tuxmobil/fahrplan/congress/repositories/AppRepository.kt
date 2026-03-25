@@ -256,7 +256,7 @@ object AppRepository : SearchRepository,
     }
 
     /**
-     * Emits all sessions from the database which have been marked as changed, cancelled or new.
+     * Emits all sessions from the database which have been marked as changed, canceled or new.
      * The returned list might be empty.
      */
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -441,7 +441,7 @@ object AppRepository : SearchRepository,
                 path = buildConfigProvision.fosdemRoomStatesPath,
                 callFactory = okHttpClient,
             ),
-            sessionsTransformer: SessionsTransformer = SessionsTransformer.createSessionsTransformer()
+            sessionsTransformer: SessionsTransformer = SessionsTransformer.createSessionsTransformer(),
     ) {
         this.logging = logging
         this.executionContext = executionContext
@@ -746,7 +746,7 @@ object AppRepository : SearchRepository,
             .also { logging.d(LOG_TAG, "${it.size} sessions starred.") }
 
     /**
-     * Loads all sessions from the database which have been marked as changed, cancelled or new.
+     * Loads all sessions from the database which have been marked as changed, canceled or new.
      * The returned list might be empty.
      */
     // TODO Stop exposing database layer model to the app layer.

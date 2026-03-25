@@ -304,7 +304,7 @@ public class ParserTask extends AsyncTask<String, Void, Boolean> {
                         session.setDescription(XmlPullParsers.getSanitizedText(parser));
                     } else if (name.equals("person")) {
                         parser.next();
-                        String separator = !session.getSpeakers().isEmpty() ? ";" : "";
+                        String separator = session.getSpeakers().isEmpty() ? "" : ";";
                         session.setSpeakers(session.getSpeakers() + separator + XmlPullParsers.getSanitizedText(parser));
                     } else if (name.equals("link")) {
                         String url = parser.getAttributeValue(null, "href");
