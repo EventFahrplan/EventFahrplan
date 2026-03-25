@@ -1,6 +1,5 @@
 package info.metadude.android.eventfahrplan.network.serialization;
 
-import static info.metadude.android.eventfahrplan.commons.contracts.Delimiters.MARKDOWN_LINKS_DELIMITER;
 import static info.metadude.android.eventfahrplan.commons.contracts.Delimiters.SPEAKER_NAMES_DELIMITER;
 
 import android.os.AsyncTask;
@@ -22,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
+import info.metadude.android.eventfahrplan.commons.schedule.SessionLinks;
 import info.metadude.android.eventfahrplan.commons.temporal.Duration;
 import info.metadude.android.eventfahrplan.network.models.HttpHeader;
 import info.metadude.android.eventfahrplan.network.models.Meta;
@@ -310,22 +310,10 @@ public class ParserTask extends AsyncTask<String, Void, Boolean> {
                         String separator = session.getSpeakers().isEmpty() ? "" : SPEAKER_NAMES_DELIMITER;
                         session.setSpeakers(session.getSpeakers() + separator + XmlPullParsers.getSanitizedText(parser));
                     } else if (name.equals("link")) {
-                        String url = parser.getAttributeValue(null, "href");
+                        String href = parser.getAttributeValue(null, "href");
                         parser.next();
                         String urlName = XmlPullParsers.getSanitizedText(parser);
-                        if (url == null) {
-                            url = urlName;
-                        }
-                        if (!url.contains("://")) {
-                            url = "http://" + url;
-                        }
-                        StringBuilder sb = new StringBuilder();
-                        if (!session.getLinks().isEmpty()) {
-                            sb.append(session.getLinks());
-                            sb.append(MARKDOWN_LINKS_DELIMITER);
-                        }
-                        sb.append("[").append(urlName).append("]").append("(").append(url).append(")");
-                        session.setLinks(sb.toString());
+                        session.setLinks(SessionLinks.appendMarkdownLink(session.getLinks(), urlName, href));
                     } else if (name.equals("start")) {
                         parser.next();
                         session.setStartTime(DateParser.getMinutes(XmlPullParsers.getSanitizedText(parser)));
