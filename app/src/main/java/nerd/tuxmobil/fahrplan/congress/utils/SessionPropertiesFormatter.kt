@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
+import info.metadude.android.eventfahrplan.commons.contracts.Delimiters.MARKDOWN_LINKS_DELIMITER
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -23,7 +24,7 @@ class SessionPropertiesFormatter(
      */
     override fun getFormattedLinks(links: String): String {
         // language=regex
-        return links.replace("\\),".toRegex(), ")<br>")
+        return links.replace("\\)${Regex.escape(MARKDOWN_LINKS_DELIMITER)}".toRegex(), ")<br>")
     }
 
     /**

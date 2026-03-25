@@ -1,5 +1,6 @@
 package info.metadude.android.eventfahrplan.network.serialization;
 
+import static info.metadude.android.eventfahrplan.commons.contracts.Delimiters.MARKDOWN_LINKS_DELIMITER;
 import static info.metadude.android.eventfahrplan.commons.contracts.Delimiters.SPEAKER_NAMES_DELIMITER;
 
 import android.os.AsyncTask;
@@ -321,7 +322,7 @@ public class ParserTask extends AsyncTask<String, Void, Boolean> {
                         StringBuilder sb = new StringBuilder();
                         if (!session.getLinks().isEmpty()) {
                             sb.append(session.getLinks());
-                            sb.append(",");
+                            sb.append(MARKDOWN_LINKS_DELIMITER);
                         }
                         sb.append("[").append(urlName).append("]").append("(").append(url).append(")");
                         session.setLinks(sb.toString());
