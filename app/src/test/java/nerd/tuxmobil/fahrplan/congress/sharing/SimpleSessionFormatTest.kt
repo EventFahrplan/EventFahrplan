@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.sharing
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.DateParser
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
+import nerd.tuxmobil.fahrplan.congress.commons.BuildConfigProvider
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType
 import org.junit.jupiter.api.AfterEach
@@ -250,7 +251,7 @@ class SimpleSessionFormatTest {
         if (isPentabarfConfigured()) createPentabarfUrl(slug) else url
 
     private fun isPentabarfConfigured() =
-        ServerBackendType.PENTABARF.name == BuildConfig.SERVER_BACKEND_TYPE
+        ServerBackendType.PENTABARF == BuildConfigProvider().serverBackendType
 
     private fun createPentabarfUrl(slug: String) = String.format(BuildConfig.EVENT_URL, slug)
 

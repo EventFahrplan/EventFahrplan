@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.commons
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
+import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType
 
 @Suppress("KotlinConstantConditions")
 data class BuildConfigProvider(
@@ -20,6 +21,6 @@ data class BuildConfigProvider(
     override val fosdemRoomStatesPath: String = BuildConfig.FOSDEM_ROOM_STATES_PATH,
     override val fosdemRoomStatesUrl: String = BuildConfig.FOSDEM_ROOM_STATES_URL,
     override val scheduleUrl: String = BuildConfig.SCHEDULE_URL,
-    override val serverBackendType: String = BuildConfig.SERVER_BACKEND_TYPE,
+    override val serverBackendType: ServerBackendType = ServerBackendType.of(BuildConfig.SERVER_BACKEND_TYPE),
     override val enableEngelsystemShifts: Boolean = BuildConfig.ENABLE_ENGELSYSTEM_SHIFTS,
 ) : BuildConfigProvision
