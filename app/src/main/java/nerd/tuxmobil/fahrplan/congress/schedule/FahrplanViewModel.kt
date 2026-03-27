@@ -243,12 +243,7 @@ internal class FahrplanViewModel(
      */
     fun requestScheduleUpdate(isUserRequest: Boolean) {
         launch {
-            repository.loadSchedule(
-                isUserRequest = isUserRequest,
-                onFetchingDone = {},
-                onParsingDone = {},
-                onLoadingShiftsDone = {}
-            )
+            repository.loadSchedule(isUserRequest = isUserRequest)
         }
     }
 
