@@ -9,6 +9,8 @@ import nerd.tuxmobil.fahrplan.congress.commons.TextResource.Html
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.PostalAddress
 import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleGenerator
+import nerd.tuxmobil.fahrplan.congress.utils.ScheduleFileFormat
+import nerd.tuxmobil.fahrplan.congress.utils.ScheduleFileFormat.ScheduleV1Xml
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.PRETALX
 import org.junit.jupiter.api.Test
@@ -215,6 +217,7 @@ private object CompleteBuildConfigProvider : BuildConfigProvision {
     override val fosdemRoomStatesPath: String = ""
     override val fosdemRoomStatesUrl: String = ""
     override val scheduleUrl: String = ""
+    override val scheduleFileFormat: ScheduleFileFormat = ScheduleV1Xml
     override val serverBackendType: ServerBackendType = PRETALX
     override val enableEngelsystemShifts: Boolean = false
 }
@@ -236,6 +239,7 @@ private object IncompleteBuildConfigProvider : BuildConfigProvision {
     override val fosdemRoomStatesPath: String = ""
     override val fosdemRoomStatesUrl: String = ""
     override val scheduleUrl: String = ""
+    override val scheduleFileFormat: ScheduleFileFormat = ScheduleV1Xml
     override val serverBackendType: ServerBackendType = PRETALX
     override val enableEngelsystemShifts: Boolean = false
 }
