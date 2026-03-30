@@ -118,4 +118,6 @@ class ScheduleV1XmlSource(
         )
     }
 
+    override fun cancelLoading() = Unit
+
 }

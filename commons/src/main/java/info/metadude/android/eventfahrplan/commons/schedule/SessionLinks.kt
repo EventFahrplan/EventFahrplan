@@ -2,7 +2,6 @@
 
 package info.metadude.android.eventfahrplan.commons.schedule
 
-import androidx.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.contracts.Delimiters.MARKDOWN_LINKS_DELIMITER
 
 /**
@@ -21,8 +20,7 @@ fun appendMarkdownLink(existingLinks: String, urlName: String, href: String?): S
  * Builds one `[urlName](url)` segment like XML schedule `<link>` parsing: if [href] is `null`
  * (attribute absent), [urlName] is used as the URL; if the URL has no `"://"`, `http://` is added.
  */
-@VisibleForTesting
-internal fun markdownLinkSegment(urlName: String, href: String?): String {
+fun markdownLinkSegment(urlName: String, href: String?): String {
     var url = href ?: urlName
     if ("://" !in url) {
         url = "http://$url"

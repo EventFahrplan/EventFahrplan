@@ -23,6 +23,8 @@ import info.metadude.kotlin.library.engelsystem.repositories.simple.SimpleEngels
 import info.metadude.kotlin.library.roomstates.base.models.Room
 import info.metadude.kotlin.library.roomstates.repositories.RoomStatesRepository
 import info.metadude.kotlin.library.roomstates.repositories.simple.SimpleRoomStatesRepository
+import info.metadude.kotlin.library.schedule.repositories.ScheduleRepository
+import info.metadude.kotlin.library.schedule.repositories.simple.SimpleScheduleRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.BufferOverflow
@@ -426,6 +428,7 @@ object AppRepository : SearchRepository,
             sessionsDatabaseRepository: SessionsDatabaseRepository = SessionsDatabaseRepository.get(context, logging),
             metaDatabaseRepository: MetaDatabaseRepository = MetaDatabaseRepository.get(context),
             scheduleNetworkRepository: ScheduleNetworkRepository = RealScheduleNetworkRepository(logging),
+            scheduleV1Repository: ScheduleRepository = SimpleScheduleRepository(okHttpClient),
             engelsystemRepository: EngelsystemRepository = SimpleEngelsystemRepository(okHttpClient),
             sharedPreferencesRepository: SharedPreferencesRepository = RealSharedPreferencesRepository(context),
             settingsRepository: SettingsRepository = SettingsRepository.getInstance(context),
@@ -437,8 +440,10 @@ object AppRepository : SearchRepository,
             sessionsTransformer: SessionsTransformer = SessionsTransformer.createSessionsTransformer(),
             scheduleSource: ScheduleSource = ScheduleSource.create(
                 scheduleFileFormat = buildConfigProvision.scheduleFileFormat,
+                networkScope = networkScope,
                 okHttpClient = okHttpClient,
                 scheduleNetworkRepository = scheduleNetworkRepository,
+                scheduleV1Repository = scheduleV1Repository,
                 scheduleSourceRepository = this,
             ),
     ) {
@@ -464,6 +469,7 @@ object AppRepository : SearchRepository,
     fun cancelLoading() {
         loadShiftsObserverJob?.cancel()
         loadShiftsObserverJob = null
+        scheduleSource.cancelLoading()
         val jobs = parentJobs.values.toList()
         parentJobs.clear()
         jobs.forEach(Job::cancel)

@@ -88,7 +88,7 @@
 		Kotlin, Google AndroidX, Jetpack Compose, BetterLinkMovementMethod,
 		Email Intent Builder, Engelsystem, Espresso, HTML Converter for Compose Multiplatform,
 		Kotlin Multiplatform Markdown Renderer, Material Components, Moshi, OkHttp,
-		Retrofit, Room states, SnackEngage, ThreeTenBp, TraceDroid
+		Retrofit, Room states, Schedule, SnackEngage, ThreeTenBp, TraceDroid
 	</string>
     <string name="about_data_privacy_statement_german">Data privacy statement (German)</string>
     <string name="about_f_droid_listing">F-Droid listing</string>
