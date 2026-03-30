@@ -87,6 +87,8 @@ The file format produced by the predecessor software, [Pentabarf][pentabarf-gith
 cannot be consumed out of the box.
 * In general, it is possible to re-deploy the app for other events which
 provide the same event file format.
+* Other file formats can be plugged in by providing file specific `ScheduleFileFormat`,
+`ScheduleSource` implementations.
 
 ## Build instructions
 

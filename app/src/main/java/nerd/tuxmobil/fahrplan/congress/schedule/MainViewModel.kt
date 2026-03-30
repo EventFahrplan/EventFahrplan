@@ -175,17 +175,12 @@ internal class MainViewModel(
      */
     fun requestScheduleUpdate(isUserRequest: Boolean) {
         launch {
-            repository.loadSchedule(
-                isUserRequest = isUserRequest,
-                onFetchingDone = {},
-                onParsingDone = {},
-                onLoadingShiftsDone = {}
-            )
+            repository.loadSchedule(isUserRequest = isUserRequest)
         }
     }
 
-    fun cancelLoading() {
-        // AppRepository wraps the call in a CoroutineScope itself.
+    override fun onCleared() {
+        super.onCleared()
         repository.cancelLoading()
     }
 

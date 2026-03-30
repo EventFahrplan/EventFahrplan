@@ -335,7 +335,7 @@ class FahrplanViewModelTest {
             val repository = createRepository()
             val viewModel = createViewModel(repository)
             viewModel.requestScheduleUpdate(isUserRequest = true)
-            verifyInvokedOnce(repository).loadSchedule(isUserRequest = true, onFetchingDone = {}, onParsingDone = {}, onLoadingShiftsDone = {})
+            verifyInvokedOnce(repository).loadSchedule(isUserRequest = true)
         }
 
         @Test
@@ -343,7 +343,7 @@ class FahrplanViewModelTest {
             val repository = createRepository(isAutoUpdateEnabled = true)
             val viewModel = createViewModel(repository)
             viewModel.requestScheduleAutoUpdate()
-            verifyInvokedOnce(repository).loadSchedule(isUserRequest = false, onFetchingDone = {}, onParsingDone = {}, onLoadingShiftsDone = {})
+            verifyInvokedOnce(repository).loadSchedule(isUserRequest = false)
         }
 
         @Test
@@ -351,7 +351,7 @@ class FahrplanViewModelTest {
             val repository = createRepository(isAutoUpdateEnabled = false)
             val viewModel = createViewModel(repository)
             viewModel.requestScheduleAutoUpdate()
-            verifyInvokedNever(repository).loadSchedule(isUserRequest = false, onFetchingDone = {}, onParsingDone = {}, onLoadingShiftsDone = {})
+            verifyInvokedNever(repository).loadSchedule(isUserRequest = false)
         }
 
     }

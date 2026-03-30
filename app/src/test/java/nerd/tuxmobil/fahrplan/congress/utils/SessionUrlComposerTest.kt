@@ -17,7 +17,6 @@ class SessionUrlComposerTest {
 
         const val NO_URL = ""
         const val NO_SESSION_URL_TEMPLATE = ""
-        const val NO_SERVER_BACKEND_TYPE = ""
 
         val PENTABARF_SESSION = Session(
             sessionId = "7294",
@@ -52,44 +51,38 @@ class SessionUrlComposerTest {
     }
 
     @Test
-    fun `getSessionUrl returns URL if unknown backend is set`() {
-        assertThat(SessionUrlComposer(NO_SESSION_URL_TEMPLATE, NO_SERVER_BACKEND_TYPE)
-                .getSessionUrl(FRAB_SESSION)).isEqualTo("https://fahrplan.events.ccc.de/congress/2018/Fahrplan/events/9985.html")
-    }
-
-    @Test
     fun `getSessionUrl returns Pentabarf URL if sessionId property and Pentabarf backend are set`() {
-        assertThat(SessionUrlComposer(PENTABARF_SESSION_URL_TEMPLATE, ServerBackendType.PENTABARF.name)
+        assertThat(SessionUrlComposer(PENTABARF_SESSION_URL_TEMPLATE, ServerBackendType.PENTABARF)
                 .getSessionUrl(PENTABARF_SESSION)).isEqualTo("https://fosdem.org/2018/schedule/event/keynotes_welcome/")
     }
 
     @Test
     fun `getSessionUrl returns Frab URL if url property and Frab backend are set`() {
-        assertThat(SessionUrlComposer(FRAB_SESSION_URL_TEMPLATE, ServerBackendType.FRAB.name)
+        assertThat(SessionUrlComposer(FRAB_SESSION_URL_TEMPLATE, ServerBackendType.FRAB)
                 .getSessionUrl(FRAB_SESSION)).isEqualTo("https://fahrplan.events.ccc.de/congress/2018/Fahrplan/events/9985.html")
     }
 
     @Test
     fun `getSessionUrl returns Pretalx URL if url property and Frab backend are set`() {
-        assertThat(SessionUrlComposer(FRAB_SESSION_URL_TEMPLATE, ServerBackendType.FRAB.name)
+        assertThat(SessionUrlComposer(FRAB_SESSION_URL_TEMPLATE, ServerBackendType.FRAB)
                 .getSessionUrl(PRETALX_SESSION)).isEqualTo("https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB")
     }
 
     @Test
     fun `getSessionUrl returns Pretalx URL if url property and Pretalx backend are set`() {
-        assertThat(SessionUrlComposer(NO_SESSION_URL_TEMPLATE, ServerBackendType.PRETALX.name)
+        assertThat(SessionUrlComposer(NO_SESSION_URL_TEMPLATE, ServerBackendType.PRETALX)
                 .getSessionUrl(PRETALX_SESSION)).isEqualTo("https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB")
     }
 
     @Test
     fun `getSessionUrl returns URL string if url property of sessionized shift is set`() {
-        assertThat(SessionUrlComposer(FRAB_SESSION_URL_TEMPLATE, ServerBackendType.FRAB.name, setOf(AppRepository.ENGELSYSTEM_ROOM_NAME))
+        assertThat(SessionUrlComposer(FRAB_SESSION_URL_TEMPLATE, ServerBackendType.FRAB, setOf(AppRepository.ENGELSYSTEM_ROOM_NAME))
                 .getSessionUrl(ENGELSYSTEM_SHIFT_SESSION_WITH_URL)).isEqualTo("https://helpful.to/the/angel")
     }
 
     @Test
     fun `getSessionUrl returns empty string if url property of sessionized shift is empty`() {
-        assertThat(SessionUrlComposer(FRAB_SESSION_URL_TEMPLATE, ServerBackendType.FRAB.name, setOf(AppRepository.ENGELSYSTEM_ROOM_NAME))
+        assertThat(SessionUrlComposer(FRAB_SESSION_URL_TEMPLATE, ServerBackendType.FRAB, setOf(AppRepository.ENGELSYSTEM_ROOM_NAME))
                 .getSessionUrl(ENGELSYSTEM_SHIFT_SESSION_WITHOUT_URL)).isEqualTo(NO_URL)
     }
 

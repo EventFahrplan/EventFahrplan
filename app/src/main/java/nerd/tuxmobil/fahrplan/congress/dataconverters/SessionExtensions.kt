@@ -2,8 +2,8 @@
 
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
+import info.metadude.android.eventfahrplan.commons.contracts.Delimiters.SPEAKER_NAMES_DELIMITER
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.Room
 import nerd.tuxmobil.fahrplan.congress.schedule.TrackBackgrounds
@@ -237,11 +237,6 @@ fun SessionNetworkModel.sanitize(): SessionNetworkModel {
     )
 }
 
-/**
- * Delimiter which is used in [FahrplanParser] to construct the speakers string.
- */
-private const val SPEAKERS_DELIMITER_FOR_SPLITTING = ";"
-
 private fun createSpeakersList(speakers: String): List<String> {
-    return if (speakers.isEmpty()) emptyList() else speakers.split(SPEAKERS_DELIMITER_FOR_SPLITTING).map { it.trim() }
+    return if (speakers.isEmpty()) emptyList() else speakers.split(SPEAKER_NAMES_DELIMITER).map { it.trim() }
 }

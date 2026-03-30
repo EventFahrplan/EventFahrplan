@@ -53,7 +53,7 @@ internal class SessionDetailsViewModelFactory(
             externalNavigation = externalNavigation,
             sessionDetailsParameterFactory = SessionDetailsParameterFactory(
                 repository = appRepository,
-                markupLanguage = ServerBackendType.getMarkupLanguage(buildConfigProvision.serverBackendType),
+                markupLanguage = buildConfigProvision.serverBackendType.markupLanguage,
                 sessionPropertiesFormatting = SessionPropertiesFormatter(resourceResolving),
                 contentDescriptionFormatting = ContentDescriptionFormatter(resourceResolving),
                 formattingDelegate = DateFormatterDelegate,

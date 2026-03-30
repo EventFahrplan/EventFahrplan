@@ -4,6 +4,7 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExtension
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
+import info.metadude.android.eventfahrplan.commons.testing.withMethod
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
@@ -392,14 +393,16 @@ class MainViewModelTest {
         val repository = createRepository()
         val viewModel = createViewModel(repository)
         viewModel.requestScheduleUpdate(isUserRequest = true)
-        verifyInvokedOnce(repository).loadSchedule(isUserRequest = true, onFetchingDone = {}, onParsingDone = {}, onLoadingShiftsDone = {})
+        verifyInvokedOnce(repository).loadSchedule(isUserRequest = true)
     }
 
     @Test
-    fun `cancelLoading invokes repository function`() {
+    fun `onCleared invokes repository function`() {
         val repository = createRepository()
         val viewModel = createViewModel(repository)
-        viewModel.cancelLoading()
+        MainViewModel::class.withMethod("onCleared") {
+            invoke(viewModel)
+        }
         verifyInvokedOnce(repository).cancelLoading()
     }
 

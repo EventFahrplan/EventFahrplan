@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
+import nerd.tuxmobil.fahrplan.congress.commons.BuildConfigProvider
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.PENTABARF
@@ -8,7 +9,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.PENTABARF
 class SessionUrlComposer(
 
         private val sessionUrlTemplate: String = BuildConfig.EVENT_URL,
-        private val serverBackEndType: String = BuildConfig.SERVER_BACKEND_TYPE,
+        private val serverBackEndType: ServerBackendType = BuildConfigProvider().serverBackendType,
         private val specialRoomNames: Set<String> = setOf(
                 AppRepository.ENGELSYSTEM_ROOM_NAME,
                 "ChaosTrawler", // rc3 2020
@@ -29,7 +30,7 @@ class SessionUrlComposer(
      * an empty string is returned.
      */
     override fun getSessionUrl(session: Session): String = when (serverBackEndType) {
-            PENTABARF.name -> getComposedSessionUrl(session.slug)
+            PENTABARF -> getComposedSessionUrl(session.slug)
             else -> session.url.ifEmpty {
                 if (session.roomName in specialRoomNames) {
                     NO_URL

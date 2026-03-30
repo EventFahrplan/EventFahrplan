@@ -43,18 +43,17 @@ import nerd.tuxmobil.fahrplan.congress.dataconverters.sanitize
 import nerd.tuxmobil.fahrplan.congress.dataconverters.shiftRoomIndicesOfMainSchedule
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toAlarmDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toAlarmsAppModel
-import nerd.tuxmobil.fahrplan.congress.dataconverters.toAppFetchScheduleResult
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toDateInfos
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toDayIndices
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toDayRanges
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toHighlightDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toMetaAppModel
-import nerd.tuxmobil.fahrplan.congress.dataconverters.toMetaDatabaseModel
-import nerd.tuxmobil.fahrplan.congress.dataconverters.toMetaNetworkModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionAppModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsNetworkModel
+import nerd.tuxmobil.fahrplan.congress.datasources.ScheduleSource
+import nerd.tuxmobil.fahrplan.congress.datasources.ScheduleSourceRepository
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsRepository
 import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParser
 import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult
@@ -70,34 +69,28 @@ import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
 import nerd.tuxmobil.fahrplan.congress.net.LoadShiftsResult
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult
-import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult
 import nerd.tuxmobil.fahrplan.congress.net.ParseShiftsResult
 import nerd.tuxmobil.fahrplan.congress.preferences.RealSharedPreferencesRepository
 import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
 import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
-import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.FetchFailure
-import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.FetchSuccess
-import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Fetching
-import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialFetching
-import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialParsing
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseFailure
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSuccess
-import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
 import nerd.tuxmobil.fahrplan.congress.schedule.Conference
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewModel
 import nerd.tuxmobil.fahrplan.congress.search.SearchRepository
+import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges.Companion.computeSessionsWithChangeFlags
-import nerd.tuxmobil.fahrplan.congress.validation.MetaValidation.validate
 import okhttp3.OkHttpClient
 import info.metadude.android.eventfahrplan.database.models.Meta as MetaDatabaseModel
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
-import info.metadude.android.eventfahrplan.network.models.HttpHeader as HttpHeaderNetworkModel
 import info.metadude.android.eventfahrplan.network.models.Meta as MetaNetworkModel
+import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
 import nerd.tuxmobil.fahrplan.congress.models.HttpHeader as HttpHeaderAppModel
 import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
 import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
 
 object AppRepository : SearchRepository,
+    ScheduleSourceRepository,
     SessionDetailsRepository {
 
     /**
@@ -118,24 +111,24 @@ object AppRepository : SearchRepository,
     private lateinit var logging: Logging
 
     private val parentJobs = mutableMapOf<String, Job>()
+    private var loadScheduleStateObserverJob: Job? = null
+    private var loadShiftsObserverJob: Job? = null
     private lateinit var executionContext: ExecutionContext
     private lateinit var buildConfigProvision: BuildConfigProvision
     private lateinit var databaseScope: DatabaseScope
     private lateinit var networkScope: NetworkScope
-
-    private lateinit var okHttpClient: OkHttpClient
 
     private lateinit var alarmsDatabaseRepository: AlarmsDatabaseRepository
     private lateinit var highlightsDatabaseRepository: HighlightsDatabaseRepository
     private lateinit var sessionsDatabaseRepository: SessionsDatabaseRepository
     private lateinit var metaDatabaseRepository: MetaDatabaseRepository
 
-    private lateinit var scheduleNetworkRepository: ScheduleNetworkRepository
     private lateinit var engelsystemRepository: EngelsystemRepository
     private lateinit var sharedPreferencesRepository: SharedPreferencesRepository
     private lateinit var settingsRepository: SettingsRepository
     private lateinit var roomStatesRepository: RoomStatesRepository
     private lateinit var sessionsTransformer: SessionsTransformer
+    private lateinit var scheduleSource: ScheduleSource
 
     private val mutableLoadScheduleState = MutableSharedFlow<LoadScheduleState>(
         replay = 1,
@@ -256,7 +249,7 @@ object AppRepository : SearchRepository,
     }
 
     /**
-     * Emits all sessions from the database which have been marked as changed, cancelled or new.
+     * Emits all sessions from the database which have been marked as changed, canceled or new.
      * The returned list might be empty.
      */
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -441,120 +434,63 @@ object AppRepository : SearchRepository,
                 path = buildConfigProvision.fosdemRoomStatesPath,
                 callFactory = okHttpClient,
             ),
-            sessionsTransformer: SessionsTransformer = SessionsTransformer.createSessionsTransformer()
+            sessionsTransformer: SessionsTransformer = SessionsTransformer.createSessionsTransformer(),
+            scheduleSource: ScheduleSource = ScheduleSource.create(
+                scheduleFileFormat = buildConfigProvision.scheduleFileFormat,
+                okHttpClient = okHttpClient,
+                scheduleNetworkRepository = scheduleNetworkRepository,
+                scheduleSourceRepository = this,
+            ),
     ) {
         this.logging = logging
         this.executionContext = executionContext
         this.buildConfigProvision = buildConfigProvision
         this.databaseScope = databaseScope
         this.networkScope = networkScope
-        this.okHttpClient = okHttpClient
         this.alarmsDatabaseRepository = alarmsDatabaseRepository
         this.highlightsDatabaseRepository = highlightsDatabaseRepository
         this.sessionsDatabaseRepository = sessionsDatabaseRepository
         this.metaDatabaseRepository = metaDatabaseRepository
-        this.scheduleNetworkRepository = scheduleNetworkRepository
         this.engelsystemRepository = engelsystemRepository
         this.sharedPreferencesRepository = sharedPreferencesRepository
         this.settingsRepository = settingsRepository
         this.roomStatesRepository = roomStatesRepository
         this.sessionsTransformer = sessionsTransformer
-    }
+        this.scheduleSource = scheduleSource
 
-    private fun loadingFailed(@Suppress("SameParameterValue") requestIdentifier: String) {
-        parentJobs.remove(requestIdentifier)
+        observeLoadScheduleState()
     }
 
     fun cancelLoading() {
+        loadShiftsObserverJob?.cancel()
+        loadShiftsObserverJob = null
         val jobs = parentJobs.values.toList()
         parentJobs.clear()
         jobs.forEach(Job::cancel)
     }
 
-    /**
-     * Loads the schedule from the given [url]. Automated calls to this function must set the
-     * [isUserRequest] parameter to `false` while call originating from a direct user interaction
-     * must set the parameter to `true`.
-     */
-    // TODO Remove zombie callbacks when cleaning up UpdateService
-    @WorkerThread
-    fun loadSchedule(url: String = readScheduleUrl(),
-                     isUserRequest: Boolean,
-                     onFetchingDone: (fetchScheduleResult: FetchScheduleResult) -> Unit,
-                     onParsingDone: (parseScheduleResult: ParseResult) -> Unit,
-                     onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit
-    ) {
-        check(onFetchingDone != {}) { "Nobody registered to receive FetchScheduleResult." }
-        // Fetching
-        val meta = readMeta().toMetaNetworkModel()
-        val fetchingStatus = if (meta.numDays == 0) InitialFetching else Fetching
-        mutableLoadScheduleState.tryEmit(fetchingStatus)
-        scheduleNetworkRepository.fetchSchedule(okHttpClient, url, meta.httpHeader) { fetchScheduleResult ->
-            val fetchResult = fetchScheduleResult.toAppFetchScheduleResult()
-            val fetchResultStatus = if (fetchResult.isSuccessful) {
-                FetchSuccess
-            } else {
-                FetchFailure(fetchResult.httpStatus, fetchResult.hostName, fetchResult.exceptionMessage, isUserRequest)
-            }
-            mutableLoadScheduleState.tryEmit(fetchResultStatus)
-            onFetchingDone.invoke(fetchResult)
-
-            if (fetchResult.isNotModified || fetchResult.isSuccessful) {
-                updateScheduleLastFetchedAt()
-            }
-
-            if (fetchResult.isSuccessful) {
-                val validMeta = meta.copy(httpHeader = fetchScheduleResult.httpHeader).validate()
-                updateMeta(validMeta.toMetaDatabaseModel())
-                check(onParsingDone != {}) { "Nobody registered to receive ParseScheduleResult." }
-                // Parsing
-                val parsingStatus = if (meta.numDays == 0) InitialParsing else Parsing
-                mutableLoadScheduleState.tryEmit(parsingStatus)
-                parseSchedule(
-                    scheduleXml = fetchScheduleResult.scheduleXml,
-                    httpHeader = fetchScheduleResult.httpHeader,
-                    oldMeta = meta,
-                    onParsingDone = onParsingDone,
-                    onLoadingShiftsDone = onLoadingShiftsDone
-                )
-            } else if (fetchResult.isNotModified) {
-                loadShifts(onLoadingShiftsDone)
+    private fun observeLoadScheduleState() {
+        loadScheduleStateObserverJob?.cancel()
+        loadScheduleStateObserverJob = networkScope.launchNamed("loadScheduleState") {
+            scheduleSource.loadScheduleState.collectLatest {
+                mutableLoadScheduleState.emit(it)
             }
         }
     }
 
-    private fun parseSchedule(scheduleXml: String,
-                              httpHeader: HttpHeaderNetworkModel,
-                              oldMeta: MetaNetworkModel,
-                              onParsingDone: (parseScheduleResult: ParseResult) -> Unit,
-                              onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit) {
-        scheduleNetworkRepository.parseSchedule(scheduleXml, httpHeader,
-                onUpdateSessions = { sessions ->
-                    val oldSessions = loadSessionsForAllDays(includeEngelsystemShifts = false).toSessionsNetworkModel()
-                    val newSessions = sessions.sanitize()
-                    val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
-                    if (scheduleChanges.foundNoteworthyChanges) {
-                        updateScheduleChangesSeen(false)
-                    }
-                    updateSessions(
-                        scheduleChanges.sessionsWithChangeFlags.toSessionsDatabaseModel(),
-                        scheduleChanges.oldCanceledSessions.toSessionsDatabaseModel(),
-                    )
-                },
-                onUpdateMeta = { meta ->
-                    val validMeta = meta.validate()
-                    updateMeta(validMeta.toMetaDatabaseModel())
-                },
-                onParsingDone = { isSuccess: Boolean, version: String ->
-                    if (!isSuccess) {
-                        updateMeta(oldMeta.copy(httpHeader = HttpHeaderNetworkModel(eTag = "", lastModified = "")).toMetaDatabaseModel())
-                    }
-                    val parseResult = ParseScheduleResult(isSuccess, version)
-                    val parseScheduleStatus = if (isSuccess) ParseSuccess else ParseFailure(parseResult)
-                    mutableLoadScheduleState.tryEmit(parseScheduleStatus)
-                    onParsingDone(parseResult)
-                    loadShifts(onLoadingShiftsDone)
-                })
+    fun loadSchedule(
+        isUserRequest: Boolean,
+        onFetchingDone: (fetchScheduleResult: FetchScheduleResult) -> Unit = {},
+        onParsingDone: (parseScheduleResult: ParseResult) -> Unit = {},
+        onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit = {},
+    ) {
+        scheduleSource.loadSchedule(
+            meta = readMeta(),
+            isUserRequest = isUserRequest,
+            onFetchingDone = onFetchingDone,
+            onParsingDone = onParsingDone,
+            onLoadShifts = { loadShifts(onLoadingShiftsDone) },
+        )
     }
 
     /**
@@ -578,8 +514,8 @@ object AppRepository : SearchRepository,
 
             is EngelsystemUriParsingResult.Parsed -> {
                 val uri = parseUriResult.uri
-                val requestIdentifier = "loadShifts"
-                parentJobs[requestIdentifier] = networkScope.launchNamed(requestIdentifier) {
+                loadShiftsObserverJob?.cancel()
+                loadShiftsObserverJob = networkScope.launchNamed("loadShifts") {
                     suspend fun notifyLoadingShiftsDone(loadShiftsResult: LoadShiftsResult) {
                         networkScope.withUiContext {
                             onLoadingShiftsDone(loadShiftsResult)
@@ -605,13 +541,11 @@ object AppRepository : SearchRepository,
                             is GetShiftsState.Error -> {
                                 if (state.isNotModified) {
                                     logging.d(LOG_TAG, "Error: $state")
-                                    loadingFailed(requestIdentifier)
                                     val loadShiftsResult = LoadShiftsResult.Success
                                     mutableLoadScheduleState.tryEmit(ParseSuccess)
                                     notifyLoadingShiftsDone(loadShiftsResult)
                                 } else {
                                     logging.e(LOG_TAG, "Error: $state")
-                                    loadingFailed(requestIdentifier)
                                     val loadShiftsError = LoadShiftsResult.Error(httpStatusCode = state.httpStatusCode, exceptionMessage = state.errorMessage)
                                     mutableLoadScheduleState.tryEmit(ParseFailure(ParseShiftsResult.of(loadShiftsError)))
                                     notifyLoadingShiftsDone(loadShiftsError)
@@ -634,6 +568,7 @@ object AppRepository : SearchRepository,
 
     private fun updateLastEngelsystemShiftsHash() {
         val identifier = "updateLastEngelsystemShiftsHash"
+        parentJobs[identifier]?.cancel()
         parentJobs[identifier] = databaseScope.launchNamed(identifier) {
             val lastShiftsHash = readLastEngelsystemShiftsHash()
             val currentShiftsHash = readEngelsystemShiftsHash()
@@ -746,7 +681,7 @@ object AppRepository : SearchRepository,
             .also { logging.d(LOG_TAG, "${it.size} sessions starred.") }
 
     /**
-     * Loads all sessions from the database which have been marked as changed, cancelled or new.
+     * Loads all sessions from the database which have been marked as changed, canceled or new.
      * The returned list might be empty.
      */
     // TODO Stop exposing database layer model to the app layer.
@@ -1017,6 +952,23 @@ object AppRepository : SearchRepository,
     fun readDateInfos() =
             readSessionsOrderedByDateUtc().toDateInfos()
 
+    override fun updateSessions(sessions: List<SessionNetworkModel>) {
+        val scheduleChanges = computeScheduleChanges(sessions)
+        if (scheduleChanges.foundNoteworthyChanges) {
+            updateScheduleChangesSeen(false)
+        }
+        updateSessions(
+            toBeUpdatedSessions = scheduleChanges.sessionsWithChangeFlags.toSessionsDatabaseModel(),
+            toBeDeletedSessions = scheduleChanges.oldCanceledSessions.toSessionsDatabaseModel(),
+        )
+    }
+
+    private fun computeScheduleChanges(sessions: List<SessionNetworkModel>): ScheduleChanges {
+        val oldSessions = loadSessionsForAllDays(false).toSessionsNetworkModel()
+        val newSessions = sessions.sanitize()
+        return computeSessionsWithChangeFlags(newSessions, oldSessions)
+    }
+
     @VisibleForTesting
     fun updateSessions(toBeUpdatedSessions: List<SessionDatabaseModel>, toBeDeletedSessions: List<SessionDatabaseModel> = emptyList()) {
         val toBeUpdated = toBeUpdatedSessions.map { it.sessionId to it.toContentValues() }
@@ -1064,7 +1016,7 @@ object AppRepository : SearchRepository,
      * See also: [HttpStatus.HTTP_OK]
      */
     @VisibleForTesting
-    fun updateMeta(meta: MetaDatabaseModel) {
+    override fun updateMeta(meta: MetaDatabaseModel) {
         val values = meta.toContentValues()
         if (metaDatabaseRepository.insert(values) != DATABASE_UPDATE_ERROR) {
             refreshMeta()
@@ -1097,7 +1049,7 @@ object AppRepository : SearchRepository,
     @WorkerThread
     fun readAutoUpdateEnabled() = settingsRepository.isAutoUpdateEnabled()
 
-    fun readScheduleUrl(): String {
+    override fun readScheduleUrl(): String {
         val alternateScheduleUrl = settingsRepository.getAlternativeScheduleUrl()
         return alternateScheduleUrl.ifEmpty {
             buildConfigProvision.scheduleUrl
@@ -1112,7 +1064,7 @@ object AppRepository : SearchRepository,
     fun readScheduleLastFetchedAt() =
             sharedPreferencesRepository.getScheduleLastFetchedAt()
 
-    private fun updateScheduleLastFetchedAt() = with(Moment.now()) {
+    override fun updateScheduleLastFetchedAt() = with(Moment.now()) {
         sharedPreferencesRepository.setScheduleLastFetchedAt(toMilliseconds())
     }
 

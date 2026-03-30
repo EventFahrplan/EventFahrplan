@@ -56,6 +56,10 @@ import nerd.tuxmobil.fahrplan.congress.roomstates.RoomStateFormatting
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
 import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposition
+import nerd.tuxmobil.fahrplan.congress.utils.ScheduleFileFormat
+import nerd.tuxmobil.fahrplan.congress.utils.ScheduleFileFormat.ScheduleV1Xml
+import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType
+import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.PRETALX
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -782,7 +786,8 @@ class SessionDetailsViewModelTest {
         override val fosdemRoomStatesPath: String = ""
         override val fosdemRoomStatesUrl: String = ""
         override val scheduleUrl: String = ""
-        override val serverBackendType: String = ""
+        override val scheduleFileFormat: ScheduleFileFormat = ScheduleV1Xml
+        override val serverBackendType: ServerBackendType = PRETALX
         override val enableEngelsystemShifts: Boolean = false
 
     }
