@@ -1,5 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.commons
 
+import nerd.tuxmobil.fahrplan.congress.utils.ScheduleFileFormat
+import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType
+
 interface BuildConfigProvision {
     val packageName: String
     val versionName: String
@@ -17,6 +20,7 @@ interface BuildConfigProvision {
     val fosdemRoomStatesPath: String
     val fosdemRoomStatesUrl: String
     val scheduleUrl: String
-    val serverBackendType: String
+    val scheduleFileFormat: ScheduleFileFormat
+    val serverBackendType: ServerBackendType
     val enableEngelsystemShifts: Boolean
 }

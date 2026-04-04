@@ -1,6 +1,7 @@
 package info.metadude.android.eventfahrplan.network.serialization
 
 import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.extensions.ZERO_WIDTH_NO_BREAK_SPACE
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.doReturn

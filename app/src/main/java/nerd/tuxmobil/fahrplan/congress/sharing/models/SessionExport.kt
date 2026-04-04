@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.sharing.models
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import info.metadude.android.eventfahrplan.commons.contracts.Delimiters.SPEAKER_NAMES_DELIMITER
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.models.Session
 
@@ -34,7 +35,7 @@ data class SessionExport(
             room = session.roomName,
             slug = session.slug,
             url = session.url,
-            speakers = session.speakers.joinToString(";"),
+            speakers = session.speakers.joinToString(SPEAKER_NAMES_DELIMITER),
             track = session.track,
             type = session.type,
             lang = session.language,

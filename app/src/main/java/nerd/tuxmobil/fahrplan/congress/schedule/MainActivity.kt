@@ -279,7 +279,6 @@ class MainActivity : BaseActivity(),
     }
 
     override fun onDestroy() {
-        viewModel.cancelLoading()
         hideProgressDialog()
         super.onDestroy()
     }

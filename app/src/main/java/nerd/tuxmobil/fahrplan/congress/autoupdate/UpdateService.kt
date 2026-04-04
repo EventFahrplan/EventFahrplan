@@ -92,10 +92,7 @@ class UpdateService : SafeJobIntentService() {
         if (MyApp.taskRunning == MyApp.TASKS.NONE) {
             MyApp.taskRunning = MyApp.TASKS.FETCH
 
-            val url = appRepository.readScheduleUrl()
-
             appRepository.loadSchedule(
-                url = url,
                 isUserRequest = false,
                 onFetchingDone = ::onGotResponse,
                 onParsingDone = ::onParseDone,
