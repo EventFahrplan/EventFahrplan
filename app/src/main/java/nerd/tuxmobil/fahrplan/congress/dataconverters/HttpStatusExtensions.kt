@@ -15,3 +15,13 @@ fun NetworkHttpStatus.toAppHttpStatus() = when (this) {
     NetworkHttpStatus.HTTP_NOT_FOUND -> AppHttpStatus.HTTP_NOT_FOUND
     NetworkHttpStatus.HTTP_CLEARTEXT_NOT_PERMITTED -> AppHttpStatus.HTTP_CLEARTEXT_NOT_PERMITTED
 }
+
+/**
+ * Maps an HTTP response status line code from a schedule v1 repository response to [AppHttpStatus].
+ */
+fun Int.toAppHttpStatusFromResponseCode() = when (this) {
+    304 -> AppHttpStatus.HTTP_NOT_MODIFIED
+    401 -> AppHttpStatus.HTTP_WRONG_HTTP_CREDENTIALS
+    404 -> AppHttpStatus.HTTP_NOT_FOUND
+    else -> AppHttpStatus.HTTP_COULD_NOT_CONNECT
+}

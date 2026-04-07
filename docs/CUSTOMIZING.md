@@ -7,7 +7,7 @@ This document describes how to create your own app for an event.
 The following information is required to configure the app for your event.
 This list is for your preparation. Step 3 guides you through where to enter the information.
 
-- Schedule URL which provides Frab compatible XML
+- Schedule URL which provides Frab compatible XML or JSON
 - Session URL template, e.g. `https://awesome-event.com/2021/events/%1$s.html`
 - Server backend type, one of: `pentabarf`, `frab`, `pretalx`
 - Google Play URL, e.g. `https://play.google.com/store/apps/details?id=com.awesome.event.schedule`
@@ -54,7 +54,7 @@ In some of the steps it is the easiest to copy and adapt configuration settings,
 2. Create a new branch for your event, e.g. `awesome-event-2021`
 3. Add a new product flavor in *app/build.gradle* e.g. `awesome2021` and the corresponding folder e.g. `app/src/awesome2021`
 4. Configure all required properties in your flavor (`applicationId`, `versionName`, `buildConfigField`, `resValue`)
-5. Configure the `SCHEDULE_URL` and `SCHEDULE_FILE_FORMAT` `buildConfigField` properties in your flavor. The latter currently only allows the following value: `schedule_v1_xml`.
+5. Configure the `SCHEDULE_URL` and `SCHEDULE_FILE_FORMAT` `buildConfigField` properties in your flavor. The latter currently allows the following values: `schedule_v1_xml`, `schedule_v1_json`.
 6. Enable showing the app disclaimer via `SHOW_APP_DISCLAIMER` to acknowledge its origin in your flavor
 7. Add a new signing config in `app/gradle.properties`
 8. Customize texts for the languages which you want to offer (`values/strings.xml`, `values-de/strings.xml`, ...) in your flavor

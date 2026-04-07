@@ -230,6 +230,7 @@ dependencies {
     implementation Libs.okhttpZstd
     implementation Libs.okhttpLoggingInterceptor
     implementation Libs.roomStates
+    implementation Libs.scheduleRepositories
     implementation Libs.snackengagePlayrate
     implementation Libs.tracedroid
 

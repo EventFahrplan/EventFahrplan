@@ -81,9 +81,10 @@ Android 5.0 (Lollipop) and newer versions are supported.
 
 ## Event data
 
-* The app is designed to consume event data published in a [specific format][frab-schedule-xml-spec]
-as provided by [Frab][frab-website], [Pretalx][pretalx-website] or [Wafer][wafer-website].
-The file format produced by the predecessor software, [Pentabarf][pentabarf-github],
+* The app is designed to consume event data published in a specific [XML format][frab-schedule-xml-spec]
+or [JSON format][frab-schedule-json-spec]. Depending on the supported backend system ([Frab][frab-website],
+[Pretalx][pretalx-website], [Wafer][wafer-website]) one or both are provided.
+* The file format produced by the predecessor backend software, [Pentabarf][pentabarf-github],
 cannot be consumed out of the box.
 * In general, it is possible to re-deploy the app for other events which
 provide the same event file format.
@@ -188,6 +189,7 @@ limitations under the License.
 [crowdin-cli-tool-website]: https://crowdin.github.io/crowdin-cli/
 [engelsystem-website]: https://engelsystem.de
 [eventfahrplan-github]: https://github.com/EventFahrplan/EventFahrplan
+[frab-schedule-json-spec]: https://github.com/voc/schedule/tree/master/validator/json
 [frab-schedule-xml-spec]: https://github.com/voc/schedule/tree/master/validator/xsd
 [frab-website]: https://frab.github.io/frab/
 [fosdem-room-status-website]: https://api.fosdem.org
