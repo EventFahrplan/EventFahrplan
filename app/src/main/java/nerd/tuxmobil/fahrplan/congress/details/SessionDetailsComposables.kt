@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -59,6 +58,7 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.R.color.text_link_on_light
 import nerd.tuxmobil.fahrplan.congress.R.color.text_link_pressed_background_on_light
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
+import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonBox
 import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconDecorative
 import nerd.tuxmobil.fahrplan.congress.designsystem.resources.floatResource
 import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.Loading
@@ -200,13 +200,9 @@ private fun DetailBar(
 @Composable
 private fun RoomState(showRoomState: Boolean, roomStateMessage: String) {
     if (showRoomState) {
-        Box(
-            modifier = Modifier
-                .padding(bottom = 16.dp)
-                .background(
-                    color = EventFahrplanTheme.colorScheme.sessionDetailsRoomStateInfoBackground,
-                    shape = RoundedCornerShape(6.dp),
-                )
+        ButtonBox(
+            modifier = Modifier.padding(bottom = 16.dp),
+            color = EventFahrplanTheme.colorScheme.sessionDetailsRoomStateInfoBackground
         ) {
             Text(
                 modifier = Modifier
