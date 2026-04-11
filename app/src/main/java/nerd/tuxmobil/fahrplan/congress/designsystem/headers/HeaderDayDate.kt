@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
@@ -36,8 +36,10 @@ fun HeaderDayDate(text: String, contentDescription: String) {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun HeaderDayDatePreview() {
-    HeaderDayDate("Day 1 - 31.02.2023", "")
+    EventFahrplanTheme {
+        HeaderDayDate("Day 1 - 31.02.2023", "")
+    }
 }
