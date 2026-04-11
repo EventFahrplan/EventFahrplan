@@ -19,10 +19,11 @@ object Compose {
 
     private object Versions {
         const val bom = "2026.03.01"
+        const val material3 = "1.5.0-alpha18"
     }
 
     const val bom = "androidx.compose:compose-bom:${Versions.bom}"
-    const val material = "androidx.compose.material3:material3"
+    const val material = "androidx.compose.material3:material3:${Versions.material3}"
     const val uiTooling = "androidx.compose.ui:ui-tooling"
     const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview"
 
