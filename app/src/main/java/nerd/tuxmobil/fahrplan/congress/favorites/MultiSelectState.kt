@@ -22,10 +22,7 @@ class MultiSelectState(
         updateTitleText(getTitleText(sessionsCount))
     }
 
-    fun onMultiSelectChanged(
-        selectedCount: Int,
-        onMultiSelectChanged: (Boolean) -> Unit,
-    ) {
+    fun onMultiSelectChanged(selectedCount: Int) {
         val wasEnabled = multiSelectEnabled
         multiSelectEnabled = selectedCount > 0
         if (multiSelectEnabled) {
@@ -33,7 +30,6 @@ class MultiSelectState(
         } else if (wasEnabled) {
             updateTitleText(getTitleText(lastKnownSessionsCount))
         }
-        onMultiSelectChanged(multiSelectEnabled)
     }
 
     private fun updateTitleText(text: String) {

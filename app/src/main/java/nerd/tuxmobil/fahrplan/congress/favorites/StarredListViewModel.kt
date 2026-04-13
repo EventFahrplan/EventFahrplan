@@ -7,7 +7,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -24,6 +23,8 @@ import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselec
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnDeleteAllClick
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnDeleteAllWithConfirmationClick
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnItemClick
+import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnShareClick
+import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnShareToChaosflixClick
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.ExecutionContext
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameterFactory
@@ -46,10 +47,6 @@ class StarredListViewModel(
 
     private val mutableEffects = Channel<StarredListEffect>()
     val effects = mutableEffects.receiveAsFlow()
-
-    val hasStarredSessions = repository.starredSessions
-        .map { it.isNotEmpty() }
-        .flowOn(executionContext.database)
 
     init {
         launch {
@@ -74,6 +71,8 @@ class StarredListViewModel(
         OnDeleteSelectedClick -> deleteSelectedFavorites()
         OnDeleteAllWithConfirmationClick -> navigateTo(ConfirmDeleteAll)
         OnSelectionModeDismiss -> clearSelection()
+        OnShareClick -> share()
+        OnShareToChaosflixClick -> shareToChaosflix()
     }
 
     private fun toggleSelection(sessionId: String) {
@@ -102,7 +101,7 @@ class StarredListViewModel(
         _selectedIds.value = emptySet()
     }
 
-    fun share() {
+    private fun share() {
         launch {
             val timeZoneId = repository.readMeta().timeZoneId
             repository.starredSessions.collectLatest { sessions ->
@@ -113,7 +112,7 @@ class StarredListViewModel(
         }
     }
 
-    fun shareToChaosflix() {
+    private fun shareToChaosflix() {
         launch {
             repository.starredSessions.collectLatest { sessions ->
                 jsonSessionFormat.format(sessions)?.let { formattedSessions ->

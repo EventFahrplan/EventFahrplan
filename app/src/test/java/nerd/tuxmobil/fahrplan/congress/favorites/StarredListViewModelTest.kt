@@ -22,6 +22,8 @@ import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselec
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnDeleteAllClick
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnDeleteAllWithConfirmationClick
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnItemClick
+import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnShareClick
+import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnShareToChaosflixClick
 import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
@@ -131,130 +133,6 @@ class StarredListViewModelTest {
     }
 
     @Nested
-    inner class HasStarredSessions {
-
-        @Test
-        fun `hasStarredSessions does not emit`() = runTest {
-            val repository = createRepository(sessions = emptyFlow())
-            val viewModel = createViewModel(repository)
-            viewModel.hasStarredSessions.test {
-                awaitComplete()
-            }
-        }
-
-        @Test
-        fun `hasStarredSessions emits false`() = runTest {
-            val repository = createRepository()
-            val viewModel = createViewModel(repository)
-            viewModel.hasStarredSessions.test {
-                assertThat(awaitItem()).isFalse()
-                awaitComplete()
-            }
-        }
-
-        @Test
-        fun `hasStarredSessions returns a single session`() = runTest {
-            val repository = createRepository(
-                sessions = flowOf(listOf(Session("23"))),
-                meta = Meta(numDays = 2),
-                useDeviceTimeZoneEnabled = true,
-            )
-            val viewModel = createViewModel(repository)
-            viewModel.hasStarredSessions.test {
-                assertThat(awaitItem()).isTrue()
-                awaitComplete()
-            }
-        }
-
-    }
-
-    @Nested
-    inner class ShareSimple {
-
-        @Test
-        fun `initialization does not emit ShareSimple effect`() = runTest {
-            val repository = createRepository()
-            val viewModel = createViewModel(repository)
-            viewModel.effects.test {
-                expectNoEvents()
-            }
-        }
-
-        @Test
-        fun `share emits ShareSimple effect when session is present`() = runTest {
-            val repository = createRepository(
-                sessions = flowOf(listOf(Session("23"))),
-                meta = Meta(numDays = 0, timeZoneId = null),
-            )
-            val fakeSessionFormat = mock<SimpleSessionFormat> {
-                on { format(any<List<Session>>(), anyOrNull()) } doReturn "session-23"
-            }
-            val viewModel = createViewModel(repository, simpleSessionFormat = fakeSessionFormat)
-            viewModel.effects.test {
-                viewModel.share()
-                assertThat(awaitItem()).isEqualTo(ShareSimple("session-23"))
-            }
-        }
-
-        @Test
-        fun `share never emits ShareSimple effect when sessions is empty`() = runTest {
-            val repository = createRepository(
-                sessions = flowOf(emptyList()),
-                meta = Meta(numDays = 0, timeZoneId = null),
-            )
-            val fakeSessionFormat = mock<SimpleSessionFormat> {
-                on { format(any<List<Session>>(), anyOrNull()) } doReturn null // simulating empty list
-            }
-            val viewModel = createViewModel(repository, simpleSessionFormat = fakeSessionFormat)
-            viewModel.share()
-            viewModel.effects.test {
-                expectNoEvents()
-            }
-        }
-
-    }
-
-    @Nested
-    inner class ShareJson {
-
-        @Test
-        fun `initialization does not emit ShareJson effect`() = runTest {
-            val repository = createRepository()
-            val viewModel = createViewModel(repository)
-            viewModel.effects.test {
-                expectNoEvents()
-            }
-        }
-
-        @Test
-        fun `shareToChaosflix emits ShareJson effect when session is present`() = runTest {
-            val repository = createRepository(sessions = flowOf(listOf(Session("17"))))
-            val fakeSessionFormat = mock<JsonSessionFormat> {
-                on { format(any<List<Session>>()) } doReturn "session-17"
-            }
-            val viewModel = createViewModel(repository, jsonSessionFormat = fakeSessionFormat)
-            viewModel.effects.test {
-                viewModel.shareToChaosflix()
-                assertThat(awaitItem()).isEqualTo(ShareJson("session-17"))
-            }
-        }
-
-        @Test
-        fun `shareToChaosflix never emits ShareJson effect when sessions is empty`() = runTest {
-            val repository = createRepository(sessions = flowOf(emptyList()))
-            val fakeSessionFormat = mock<JsonSessionFormat> {
-                on { format(any<List<Session>>()) } doReturn null // simulating empty list
-            }
-            val viewModel = createViewModel(repository, jsonSessionFormat = fakeSessionFormat)
-            viewModel.shareToChaosflix()
-            viewModel.effects.test {
-                expectNoEvents()
-            }
-        }
-
-    }
-
-    @Nested
     inner class OnViewEvent {
 
         @Test
@@ -324,6 +202,83 @@ class StarredListViewModelTest {
             }
             verifyInvokedOnce(repository).deleteHighlights("1", "2")
         }
+
+        @Test
+        fun `initialization does not emit ShareSimple effect`() = runTest {
+            val repository = createRepository()
+            val viewModel = createViewModel(repository)
+            viewModel.effects.test {
+                expectNoEvents()
+            }
+        }
+
+        @Test
+        fun `OnShareClick emits ShareSimple effect when session is present`() = runTest {
+            val repository = createRepository(
+                sessions = flowOf(listOf(Session("23"))),
+                meta = Meta(numDays = 0, timeZoneId = null),
+            )
+            val fakeSessionFormat = mock<SimpleSessionFormat> {
+                on { format(any<List<Session>>(), anyOrNull()) } doReturn "session-23"
+            }
+            val viewModel = createViewModel(repository, simpleSessionFormat = fakeSessionFormat)
+            viewModel.effects.test {
+                viewModel.onViewEvent(OnShareClick)
+                assertThat(awaitItem()).isEqualTo(ShareSimple("session-23"))
+            }
+        }
+
+        @Test
+        fun `OnShareClick never emits ShareSimple effect when sessions is empty`() = runTest {
+            val repository = createRepository(
+                sessions = flowOf(emptyList()),
+                meta = Meta(numDays = 0, timeZoneId = null),
+            )
+            val fakeSessionFormat = mock<SimpleSessionFormat> {
+                on { format(any<List<Session>>(), anyOrNull()) } doReturn null // simulating empty list
+            }
+            val viewModel = createViewModel(repository, simpleSessionFormat = fakeSessionFormat)
+            viewModel.onViewEvent(OnShareClick)
+            viewModel.effects.test {
+                expectNoEvents()
+            }
+        }
+
+        @Test
+        fun `initialization does not emit ShareJson effect`() = runTest {
+            val repository = createRepository()
+            val viewModel = createViewModel(repository)
+            viewModel.effects.test {
+                expectNoEvents()
+            }
+        }
+
+        @Test
+        fun `OnShareToChaosflixClick emits ShareJson effect when session is present`() = runTest {
+            val repository = createRepository(sessions = flowOf(listOf(Session("17"))))
+            val fakeSessionFormat = mock<JsonSessionFormat> {
+                on { format(any<List<Session>>()) } doReturn "session-17"
+            }
+            val viewModel = createViewModel(repository, jsonSessionFormat = fakeSessionFormat)
+            viewModel.effects.test {
+                viewModel.onViewEvent(OnShareToChaosflixClick)
+                assertThat(awaitItem()).isEqualTo(ShareJson("session-17"))
+            }
+        }
+
+        @Test
+        fun `OnShareToChaosflixClick never emits ShareJson effect when sessions is empty`() =
+            runTest {
+                val repository = createRepository(sessions = flowOf(emptyList()))
+                val fakeSessionFormat = mock<JsonSessionFormat> {
+                    on { format(any<List<Session>>()) } doReturn null // simulating empty list
+                }
+                val viewModel = createViewModel(repository, jsonSessionFormat = fakeSessionFormat)
+                viewModel.onViewEvent(OnShareToChaosflixClick)
+                viewModel.effects.test {
+                    expectNoEvents()
+                }
+            }
 
     }
 

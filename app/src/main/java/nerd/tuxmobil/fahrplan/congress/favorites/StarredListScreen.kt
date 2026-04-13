@@ -1,12 +1,12 @@
 package nerd.tuxmobil.fahrplan.congress.favorites
 
 import android.content.Context
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -27,6 +27,7 @@ import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.NavigateToSes
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.ShareJson
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.ShareSimple
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListUiState.Success
+import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnSelectionModeDismiss
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnDeleteAllClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.SearchResult
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
@@ -35,8 +36,7 @@ import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 fun StarredListScreen(
     viewModel: StarredListViewModel,
     showInSidePane: Boolean,
-    onTitleTextChanged: (String) -> Unit,
-    onMultiSelectChanged: (Boolean) -> Unit,
+    onBack: () -> Unit,
     onNavigateToSession: (String) -> Unit,
 ) {
     val context = LocalContext.current
@@ -44,14 +44,11 @@ fun StarredListScreen(
     val lifecycleOwner = LocalLifecycleOwner.current
 
     val headerTitle = remember { mutableStateOf("") }
-    val titleTextChangedState = rememberUpdatedState(onTitleTextChanged)
-    val multiSelectChangedState = rememberUpdatedState(onMultiSelectChanged)
     val multiSelectState = remember(context) {
         MultiSelectState(
             resourceResolving = ResourceResolver(context),
             onUpdateTitleText = { text ->
                 headerTitle.value = text
-                titleTextChangedState.value(text)
             },
             multiSelectTitle = R.string.choose_to_delete,
             defaultTitle = R.string.favorites_screen_default_title,
@@ -75,15 +72,17 @@ fun StarredListScreen(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val selectedIds by viewModel.selectedIds.collectAsStateWithLifecycle()
 
+    BackHandler(enabled = selectedIds.isNotEmpty()) {
+        viewModel.onViewEvent(OnSelectionModeDismiss)
+    }
+
     LaunchedEffect(state, selectedIds) {
         if (state is Success && selectedIds.isEmpty()) {
             multiSelectState.updateTitleText((state as Success).parameters.filterIsInstance<SearchResult>().size)
         }
     }
     LaunchedEffect(selectedIds) {
-        multiSelectState.onMultiSelectChanged(selectedIds.size) {
-            multiSelectChangedState.value(it)
-        }
+        multiSelectState.onMultiSelectChanged(selectedIds.size)
     }
 
     NavHost(
@@ -96,6 +95,7 @@ fun StarredListScreen(
                 uiState = state,
                 selectedIds = selectedIds,
                 showInSidePane = showInSidePane,
+                onBack = onBack,
                 onViewEvent = viewModel::onViewEvent,
             )
         }
@@ -116,4 +116,3 @@ fun StarredListScreen(
 private fun Context.showActivityNotFoundError() {
     showToast(R.string.share_error_activity_not_found, showShort = true)
 }
-

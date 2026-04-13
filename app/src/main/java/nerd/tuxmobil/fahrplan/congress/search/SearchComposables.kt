@@ -52,6 +52,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
+import nerd.tuxmobil.fahrplan.congress.commons.ScreenMetrics
 import nerd.tuxmobil.fahrplan.congress.commons.createSearchResultPreviewData
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonIcon
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonOutlined
@@ -312,7 +313,7 @@ private fun SearchResultList(
                     )
                     val next = parameters.getOrNull(index + 1)
                     if (index < parameters.size - 1 && next is SearchResult) {
-                        DividerHorizontal(Modifier.padding(horizontal = 12.dp))
+                        DividerHorizontal()
                     }
                 }
             }
@@ -335,7 +336,9 @@ fun SearchResultItem(
         verticalAlignment = CenterVertically,
     ) {
         ListItem(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .padding(ScreenMetrics.listItemPaddingValues())
+                .weight(1f),
             overlineContent = {
                 val text = buildString {
                     if (searchResult.startsAt.value.isNotEmpty()) {
@@ -386,7 +389,7 @@ fun SearchResultItem(
             },
         )
         if (searchResult.recordingOptOut?.value == true) {
-            IconVideoRecording(Modifier.padding(start = 8.dp, bottom = 10.dp))
+            IconVideoRecording(Modifier.padding(start = 8.dp, bottom = 10.dp, end = ScreenMetrics.END_PADDING))
         }
     }
 }
