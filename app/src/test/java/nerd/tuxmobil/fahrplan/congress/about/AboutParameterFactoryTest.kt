@@ -220,6 +220,7 @@ private object CompleteBuildConfigProvider : BuildConfigProvision {
     override val scheduleFileFormat: ScheduleFileFormat = SCHEDULE_V1_XML
     override val serverBackendType: ServerBackendType = PRETALX
     override val enableEngelsystemShifts: Boolean = false
+    override val enableChaosflixExport: Boolean = false
 }
 
 private object IncompleteBuildConfigProvider : BuildConfigProvision {
@@ -242,4 +243,5 @@ private object IncompleteBuildConfigProvider : BuildConfigProvision {
     override val scheduleFileFormat: ScheduleFileFormat = SCHEDULE_V1_XML
     override val serverBackendType: ServerBackendType = PRETALX
     override val enableEngelsystemShifts: Boolean = false
+    override val enableChaosflixExport: Boolean = false
 }

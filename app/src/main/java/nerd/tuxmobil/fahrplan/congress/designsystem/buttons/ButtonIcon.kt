@@ -11,12 +11,14 @@ import androidx.compose.material3.IconButton as Material3IconButton
 @Composable
 fun ButtonIcon(
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     onClick: () -> Unit,
     content: @Composable () -> Unit,
 ) {
     Material3IconButton(
         onClick = onClick,
         modifier = modifier,
+        enabled = enabled,
         content = content,
     )
 }

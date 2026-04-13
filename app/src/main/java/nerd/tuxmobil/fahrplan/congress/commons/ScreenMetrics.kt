@@ -22,6 +22,13 @@ object ScreenMetrics {
         )
     }
 
+    fun screenContentPaddingValues() = PaddingValues(
+        start = START_PADDING,
+        end = END_PADDING,
+        top = 0.dp,
+        bottom = 0.dp
+    )
+
 }
 
 object ToolbarMetrics {
@@ -40,6 +47,13 @@ object ToolbarMetrics {
     fun toolbarContentPaddingValues(useVerticalToolbar: Boolean) = PaddingValues(
         horizontal = if (useVerticalToolbar) 0.dp else CONTENT_PADDING,
         vertical = if (useVerticalToolbar) CONTENT_PADDING else 0.dp,
+    )
+
+    fun screenContentPaddingValues(useVerticalToolbar: Boolean) = PaddingValues(
+        start = 0.dp,
+        end = if (useVerticalToolbar) VERTICAL_BAR_WIDTH + BAR_PADDING else 0.dp,
+        top = 0.dp,
+        bottom = if (useVerticalToolbar) 0.dp else HORIZONTAL_BAR_HEIGHT + BAR_PADDING
     )
 
 }

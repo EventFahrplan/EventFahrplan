@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.material3.AppBarColumn as Material3AppBarColumn
 import androidx.compose.material3.AppBarColumnScope as Material3AppBarColumnScope
+import androidx.compose.material3.AppBarMenuState as Material3AppBarMenuState
 import androidx.compose.material3.AppBarRow as Material3AppBarRow
 import androidx.compose.material3.AppBarRowScope as Material3AppBarRowScope
 import androidx.compose.material3.AppBarScope as Material3AppBarScope
@@ -11,6 +12,7 @@ import androidx.compose.material3.AppBarScope as Material3AppBarScope
 typealias AppBarScope = Material3AppBarScope
 typealias AppBarRowScope = Material3AppBarRowScope
 typealias AppBarColumnScope = Material3AppBarColumnScope
+typealias AppBarMenuState = Material3AppBarMenuState
 
 @Composable
 fun AppBarRow(
