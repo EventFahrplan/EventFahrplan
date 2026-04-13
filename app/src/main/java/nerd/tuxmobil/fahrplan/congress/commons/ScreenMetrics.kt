@@ -26,8 +26,20 @@ object ScreenMetrics {
 
 object ToolbarMetrics {
 
+    val ELEVATION_LEVEL_2 = 3.dp
+    val ELEVATION_LEVEL_3 = 6.dp
+
     private val VERTICAL_BAR_WIDTH = 56.dp
+    private val HORIZONTAL_BAR_HEIGHT = 48.dp
+    private val BAR_PADDING = 16.dp
+    private val CONTENT_PADDING = 8.dp
 
     val BUTTON_NAVIGATION_WIDTH = VERTICAL_BAR_WIDTH + 8.dp // to match vertical toolbar width
+    val HORIZONTAL_BAR_POSITION = HORIZONTAL_BAR_HEIGHT + BAR_PADDING
+
+    fun toolbarContentPaddingValues(useVerticalToolbar: Boolean) = PaddingValues(
+        horizontal = if (useVerticalToolbar) 0.dp else CONTENT_PADDING,
+        vertical = if (useVerticalToolbar) CONTENT_PADDING else 0.dp,
+    )
 
 }
