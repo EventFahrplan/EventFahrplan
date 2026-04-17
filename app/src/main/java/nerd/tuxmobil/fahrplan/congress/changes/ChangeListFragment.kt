@@ -20,6 +20,8 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
+import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
+import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper.navigateUp
 
 /**
  * A fragment representing a list of Items.
@@ -66,6 +68,7 @@ class ChangeListFragment : Fragment() {
                 EventFahrplanTheme {
                     SessionChangesScreen(
                         showInSidePane = sidePane,
+                        onBack = ::navigateBack,
                         onNavigateToSession = ::navigateToSession,
                     )
                 }
@@ -77,6 +80,14 @@ class ChangeListFragment : Fragment() {
 
     private fun navigateToSession(sessionId: String) {
         onSessionListClickListener?.onSessionListClick(sessionId)
+    }
+
+    private fun navigateBack() {
+        val activity = requireActivity()
+        when (val listener = activity as? OnSidePaneCloseListener) {
+            null -> activity.navigateUp()
+            else -> listener.onSidePaneClose(FRAGMENT_TAG)
+        }
     }
 
     @MainThread
