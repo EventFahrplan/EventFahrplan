@@ -7,9 +7,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsDestination.ConfirmDeleteAll
@@ -41,10 +39,6 @@ internal class AlarmsViewModel(
 
     private val mutableAlarmsState = MutableStateFlow<AlarmsState>(Loading)
     val alarmsState = mutableAlarmsState.asStateFlow()
-
-    val hasAlarms = alarmsState
-        .filterIsInstance<Success>()
-        .map { it.sessionAlarmParameters.isNotEmpty() }
 
     init {
         combine(repository.alarms, repository.sessions) { alarms, sessions ->

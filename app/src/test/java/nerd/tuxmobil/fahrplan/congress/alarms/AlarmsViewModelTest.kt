@@ -86,64 +86,6 @@ class AlarmsViewModelTest {
     }
 
     @Nested
-    inner class HasAlarms {
-
-        @Test
-        fun `hasAlarms never emits when no alarms nor sessions are present`() = runTest {
-            val repository = createRepository(
-                alarms = emptyList(),
-                sessions = emptyFlow(),
-            )
-            val viewModel = createViewModel(repository)
-            viewModel.hasAlarms.test {
-                expectNoEvents()
-            }
-        }
-
-        @Test
-        fun `hasAlarms emits false when no alarms present`() = runTest {
-            val repository = createRepository(
-                alarms = emptyList(),
-                sessions = flowOf(emptyList()),
-            )
-            val viewModel = createViewModel(
-                repository = repository,
-                alarmsStateFactory = createAlarmsStateFactory(emptyList())
-            )
-            viewModel.hasAlarms.test {
-                assertThat(awaitItem()).isFalse()
-            }
-        }
-
-        @Test
-        fun `hasAlarms emits true when at least one alarm is present`() = runTest {
-            val repository = createRepository(
-                alarms = listOf(
-                    createAlarm(
-                        sessionId = "s0",
-                        alarmStartsAt = ALARM_STARTS_AT
-                    )
-                ),
-                sessions = flowOf(
-                    listOf(
-                        Session(
-                            sessionId = "s0",
-                            title = "Title",
-                            subtitle = "Subtitle",
-                            dateUTC = SESSION_STARTS_AT.toMilliseconds(),
-                        )
-                    )
-                ),
-            )
-            val viewModel = createViewModel(repository)
-            viewModel.hasAlarms.test {
-                assertThat(awaitItem()).isTrue()
-            }
-        }
-
-    }
-
-    @Nested
     inner class OnViewEvent {
 
         @Test
