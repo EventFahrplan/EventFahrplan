@@ -23,6 +23,7 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.dialogs.ConfirmationDialog
 internal fun AlarmsScreen(
     viewModel: AlarmsViewModel,
     showInSidePane: Boolean,
+    onBack: () -> Unit,
     onNavigateToSession: (String) -> Unit,
 ) {
     val navController = rememberNavController()
@@ -47,6 +48,7 @@ internal fun AlarmsScreen(
             AlarmsContent(
                 state = state,
                 showInSidePane = showInSidePane,
+                onBack = onBack,
                 onViewEvent = viewModel::onViewEvent,
             )
         }
