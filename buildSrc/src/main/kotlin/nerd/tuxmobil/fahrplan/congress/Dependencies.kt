@@ -37,7 +37,7 @@ object Plugins {
         const val ksp = "2.3.6"
         const val sonarQube = "7.2.2.6593"
         const val unMock = "0.9.0"
-        const val versions = "0.53.0"
+        const val versions = "0.54.0"
     }
 
     const val android = "com.android.tools.build:gradle:${Versions.android}"
