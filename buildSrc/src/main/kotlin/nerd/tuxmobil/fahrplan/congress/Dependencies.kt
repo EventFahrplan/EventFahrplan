@@ -72,7 +72,7 @@ object Libs {
         const val markdownRenderer = "0.38.1" // NoSuchMethodError as of 0.39.0, compileSdk 36 is required as of 0.39.1
         const val material = "1.13.0"
         const val materialIconsCore = "1.7.8"
-        const val mockitoKotlin = "6.2.3"
+        const val mockitoKotlin = "6.3.0"
         const val moshi = "1.15.2"
         const val navigation = "2.9.7"
         const val okhttp = "5.3.2"
