@@ -76,7 +76,7 @@ in order to contribute to this project.
 ## Android versions
 
 The application is designed to work on both smartphones and on tablets.
-Android 5.0 (Lollipop) and newer versions are supported.
+Android 6.0 (Marshmallow) and newer versions are supported.
 
 
 ## Event data

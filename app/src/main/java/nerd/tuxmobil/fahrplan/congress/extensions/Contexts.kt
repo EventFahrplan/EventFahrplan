@@ -10,8 +10,6 @@ import android.content.pm.PackageManager.MATCH_ALL
 import android.content.pm.PackageManager.MATCH_DEFAULT_ONLY
 import android.content.res.Configuration
 import android.net.Uri
-import android.os.Build.VERSION.SDK_INT
-import android.os.Build.VERSION_CODES.M
 import android.view.LayoutInflater
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
@@ -46,9 +44,8 @@ fun Context.getDefaultBrowsableApp(): String? {
     val intent = Intent(Intent.ACTION_VIEW, uri).apply {
         addCategory(Intent.CATEGORY_BROWSABLE)
     }
-    val flags = if (SDK_INT < M) 0 else MATCH_DEFAULT_ONLY
     return packageManager
-        .resolveActivity(intent, flags)
+        .resolveActivity(intent, MATCH_DEFAULT_ONLY)
         ?.activityInfo
         ?.packageName
 }
@@ -62,9 +59,8 @@ fun Context.getBrowserApps(): List<String> {
     val intent = Intent(Intent.ACTION_MAIN).apply {
         addCategory(Intent.CATEGORY_APP_BROWSER)
     }
-    val flags = if (SDK_INT < M) 0 else MATCH_ALL
     return packageManager
-        .queryIntentActivities(intent, flags)
+        .queryIntentActivities(intent, MATCH_ALL)
         .map { it.activityInfo.packageName }
 }
 
