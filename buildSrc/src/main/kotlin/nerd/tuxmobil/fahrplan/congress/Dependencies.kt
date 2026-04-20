@@ -69,7 +69,7 @@ object Libs {
         const val junitPlatform = "1.14.3" // emulators on CI do not run junit 6 https://github.com/mannodermaus/android-junit5/issues/392
         const val kotlinCoroutines = "1.10.2"
         const val lifecycle = "2.9.4" // minSdk 23 is required as of 2.10.0
-        const val markdownRenderer = "0.38.1"
+        const val markdownRenderer = "0.38.1" // NoSuchMethodError as of 0.39.0, compileSdk 36 is required as of 0.39.1
         const val material = "1.13.0"
         const val materialIconsCore = "1.7.8"
         const val mockitoKotlin = "6.2.3"
