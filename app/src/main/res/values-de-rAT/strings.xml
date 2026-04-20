@@ -23,7 +23,7 @@
     <string name="share_as_json">Als JSON teilen (für Chaosflix)</string>
     <!-- AlertDialog -->
     <string name="OK">OK</string>
-    <!-- CertificateErrorFragment -->
+    <!-- Certificate error -->
     <string name="certificate_error_message">        Konnte keine sichere Verbindung herstellen.\n
         (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
     </string>
@@ -183,6 +183,7 @@
     <string name="session_list_item_no_video_content_description">Ohne Videoaufzeichnung</string>
     <string name="session_list_item_video_content_description">Mit Videoaufzeichnung</string>
     <string name="session_list_item_without_video_content_description">Ohne Videoaufzeichnung</string>
+    <string name="session_list_item_zero_speakers_content_description">Keine Sprecher:innen</string>
     <!-- Session item -->
     <!-- Alarms -->
     <string name="alarms_no_alarms_title">        Keine Alarme
@@ -229,4 +230,8 @@
     <string name="room_state_full">voll</string>
     <string name="room_state_too_full">zu voll</string>
     <string name="room_state_not_retrievable">nicht abrufbar</string>
+    <!-- Search filters -->
+    <string name="search_filter_not_recorded">Keine Aufzeichnung</string>
+    <string name="search_filter_recorded">Aufzeichnung</string>
+    <!-- Engelsystem URL error -->
 </resources>
