@@ -1,6 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.designsystem.chips
 
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.FilterChipDefaults.filterChipBorder
 import androidx.compose.material3.FilterChipDefaults.filterChipColors
@@ -8,6 +10,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import androidx.compose.material3.FilterChip as Material3FilterChip
 
@@ -51,4 +55,17 @@ fun FilterChip(
         },
     )
 
+}
+
+@PreviewLightDark
+@Composable
+private fun FilterChipPreview() {
+    EventFahrplanTheme {
+        FilterChip(
+            selected = true,
+            onClick = {},
+            selectedIcon = Icons.Filled.Done,
+            label = { Text("Lorem ipsum") },
+        )
+    }
 }
