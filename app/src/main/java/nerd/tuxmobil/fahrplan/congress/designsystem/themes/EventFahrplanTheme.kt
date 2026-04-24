@@ -10,6 +10,9 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.colors.LocalColorScheme
 import nerd.tuxmobil.fahrplan.congress.designsystem.colors.darkColorScheme
 import nerd.tuxmobil.fahrplan.congress.designsystem.colors.lightColorScheme
 import nerd.tuxmobil.fahrplan.congress.designsystem.colors.toMaterial3ColorScheme
+import nerd.tuxmobil.fahrplan.congress.designsystem.dimensions.Dimensions
+import nerd.tuxmobil.fahrplan.congress.designsystem.dimensions.LocalDimensions
+import nerd.tuxmobil.fahrplan.congress.designsystem.dimensions.createEventFahrplanDimensions
 import nerd.tuxmobil.fahrplan.congress.designsystem.typography.LocalTypography
 import nerd.tuxmobil.fahrplan.congress.designsystem.typography.Typography
 import nerd.tuxmobil.fahrplan.congress.designsystem.typography.createEventFahrplanTypography
@@ -22,10 +25,12 @@ fun EventFahrplanTheme(
 ) {
     val colorScheme = if (darkMode) darkColorScheme() else lightColorScheme()
     val typography = createEventFahrplanTypography(MaterialTheme.typography)
+    val dimensions = createEventFahrplanDimensions()
 
     CompositionLocalProvider(
         LocalColorScheme provides colorScheme,
         LocalTypography provides typography,
+        LocalDimensions provides dimensions,
     ) {
         MaterialTheme(
             colorScheme = colorScheme.toMaterial3ColorScheme(),
@@ -47,5 +52,10 @@ object EventFahrplanTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalTypography.current
+
+    val dimensions: Dimensions
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalDimensions.current
 
 }
