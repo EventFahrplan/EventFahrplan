@@ -75,7 +75,7 @@ class SelectedSessionParameterFactoryTest {
     fun `createSelectedSessionParameter returns supportsFeedback as false when feedbackUrl is empty`() {
         val session = Session(
             sessionId = "S1",
-            roomName = DEFAULT_ENGELSYSTEM_ROOM_NAME,
+            roomName = "Main hall",
         )
         val result = SelectedSessionParameterFactory(
             indoorNavigation = mock(),
