@@ -8,11 +8,10 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 
 @Composable
-fun IconDelete() {
+fun IconDelete(modifier: Modifier = Modifier) {
     IconActionable(
-        modifier = Modifier.size(EventFahrplanTheme.dimensions.iconSize),
+        modifier = modifier.size(EventFahrplanTheme.dimensions.iconSize),
         icon = R.drawable.ic_delete,
-        contentDescription = R.string.menu_item_title_delete_favorite,
     )
 }
 

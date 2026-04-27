@@ -16,15 +16,15 @@ import androidx.compose.material3.Icon as Material3Icon
 @Composable
 fun IconActionable(
     @DrawableRes icon: Int,
-    @StringRes contentDescription: Int,
     modifier: Modifier = Modifier,
+    @StringRes contentDescription: Int? = null,
     tint: Color = LocalContentColor.current,
 ) {
     Material3Icon(
         modifier = modifier,
         tint = tint,
         painter = painterResource(icon),
-        contentDescription = stringResource(contentDescription),
+        contentDescription = if (contentDescription == null) null else stringResource(contentDescription),
     )
 }
 
