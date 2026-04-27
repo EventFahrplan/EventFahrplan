@@ -22,6 +22,7 @@ internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
 ).toColorScheme(
     listItemPrefixSymbol = colorResource(R.color.session_details_list_item_prefix_symbol),
     divider = colorResource(R.color.divider),
+    multiChoiceBackground = colorResource(R.color.multi_choice_background),
     searchBarDivider = colorResource(R.color.colorAccent),
     sessionListHeaderDayDate = colorResource(R.color.session_list_header_day_date),
     textLink = colorResource(R.color.text_link_on_dark),
@@ -78,6 +79,7 @@ internal fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
 ).toColorScheme(
     listItemPrefixSymbol = colorResource(R.color.session_details_list_item_prefix_symbol),
     divider = colorResource(R.color.divider),
+    multiChoiceBackground = colorResource(R.color.multi_choice_background),
     searchBarDivider = colorResource(R.color.colorAccent),
     sessionListHeaderDayDate = colorResource(R.color.session_list_header_day_date),
     textLink = colorResource(R.color.text_link_on_light),
@@ -126,6 +128,7 @@ internal val LocalColorScheme = staticCompositionLocalOf<ColorScheme> {
 private fun Material3ColorScheme.toColorScheme(
     listItemPrefixSymbol: Color,
     divider: Color,
+    multiChoiceBackground: Color,
     searchBarDivider: Color,
     sessionListHeaderDayDate: Color,
     textLink: Color,
@@ -212,6 +215,7 @@ private fun Material3ColorScheme.toColorScheme(
         // Custom colors
         listItemPrefixSymbol = listItemPrefixSymbol,
         divider = divider,
+        multiChoiceBackground = multiChoiceBackground,
         searchBarDivider = searchBarDivider,
         sessionListHeaderDayDate = sessionListHeaderDayDate,
         textLink = textLink,

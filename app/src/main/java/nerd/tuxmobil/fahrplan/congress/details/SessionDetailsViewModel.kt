@@ -7,15 +7,12 @@ import androidx.lifecycle.viewModelScope
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -27,7 +24,6 @@ import nerd.tuxmobil.fahrplan.congress.commons.ExternalNavigation
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toRoom
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsDestination.PickAlarmTime
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.AddToCalendar
-import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.CloseDetails
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.NavigateTo
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.NavigateToRoom
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.OpenFeedback
@@ -41,7 +37,6 @@ import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddAlar
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddAlarmWithChecks
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddFavoriteClick
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddToCalendarClick
-import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnCloseClick
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnDeleteAlarmClick
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnDeleteFavoriteClick
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnNavigateToRoomClick
@@ -93,16 +88,16 @@ internal class SessionDetailsViewModel(
             runsAtLeastOnAndroidTiramisu,
         )
 
-    val selectedSessionParameter: Flow<SelectedSessionParameter> = repository.selectedSession
-        .map { selectedSessionParameterFactory.createSelectedSessionParameter(it) }
-        .flowOn(executionContext.database)
-
     val uiState: StateFlow<SessionDetailsUiState> = combine(
         settingsRepository.settingsStream,
         repository.selectedSession
     ) { settings, selectedSession ->
+        val actions = createToolbarActions(selectedSessionParameterFactory.createSelectedSessionParameter(selectedSession))
         SessionDetailsUiState(
-            sessionDetailsState = Success(sessionDetailsParameterFactory.createSessionDetailsParameters(selectedSession)),
+            sessionDetailsState = Success(
+                sessionDetailsParameter = sessionDetailsParameterFactory.createSessionDetailsParameters(selectedSession),
+                toolbarActions = actions,
+            ),
             settings = settings,
         )
     }.stateIn(
@@ -155,7 +150,6 @@ internal class SessionDetailsViewModel(
         OnAddAlarmWithChecks -> addAlarmWithChecks()
         is OnAddAlarm -> addAlarm(viewEvent.alarmTime)
         OnDeleteAlarmClick -> deleteAlarm()
-        OnCloseClick -> closeDetails()
         OnNavigateToRoomClick -> navigateToRoom()
     }
 
@@ -243,10 +237,6 @@ internal class SessionDetailsViewModel(
             val uri = indoorNavigation.getUri(room)
             sendEffect(NavigateToRoom(uri))
         }
-    }
-
-    private fun closeDetails() {
-        sendEffect(CloseDetails)
     }
 
     private fun navigateTo(destination: SessionDetailsDestination) {

@@ -1,13 +1,16 @@
 package nerd.tuxmobil.fahrplan.congress.details
 
 /**
- * Payload of the observable [selectedSessionParameter][SessionDetailsViewModel.selectedSessionParameter]
- * property in the [SessionDetailsViewModel] which is observed by the [SessionDetailsFragment].
+ * Intermediate model derived from the selected session.
+ *
+ * It is used to build the toolbar actions exposed via [SessionDetailsViewModel.uiState], which is
+ * observed by the [SessionDetailsScreen].
  */
 data class SelectedSessionParameter(
     // Options menu
-    val isFlaggedAsFavorite: Boolean,
-    val hasAlarm: Boolean,
-    val supportsFeedback: Boolean,
-    val supportsIndoorNavigation: Boolean,
+    val isFlaggedAsFavorite: Boolean = false,
+    val hasAlarm: Boolean = false,
+    val supportsChaosflixExport: Boolean = false,
+    val supportsFeedback: Boolean = false,
+    val supportsIndoorNavigation: Boolean = false,
 )

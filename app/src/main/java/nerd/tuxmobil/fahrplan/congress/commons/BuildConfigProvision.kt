@@ -23,4 +23,5 @@ interface BuildConfigProvision {
     val scheduleFileFormat: ScheduleFileFormat
     val serverBackendType: ServerBackendType
     val enableEngelsystemShifts: Boolean
+    val enableChaosflixExport: Boolean
 }

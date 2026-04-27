@@ -21,7 +21,6 @@ import nerd.tuxmobil.fahrplan.congress.commons.AlarmTimePickerDialog
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsDestination.PickAlarmTime
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsDestination.SessionDetails
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.AddToCalendar
-import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.CloseDetails
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.NavigateTo
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.NavigateToRoom
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.OpenFeedback
@@ -38,6 +37,7 @@ import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 @Composable
 internal fun SessionDetailsScreen(
     viewModel: SessionDetailsViewModel,
+    showInSidePane: Boolean,
     onBack: () -> Unit,
     onRequestPostNotificationsPermission: () -> Unit,
     onRequestScheduleExactAlarmsPermission: () -> Unit,
@@ -60,7 +60,6 @@ internal fun SessionDetailsScreen(
                 is ShareSimple -> SessionSharer.shareSimple(context, effect.formattedSession)
                 is AddToCalendar -> CalendarSharing(context).addToCalendar(effect.session)
                 is NavigateToRoom -> context.startActivity(effect.uri)
-                is CloseDetails -> onBack()
                 is NavigateTo -> navController.navigate(effect.destination.route)
                 is RequestPostNotificationsPermission -> onRequestPostNotificationsPermission()
                 is RequestScheduleExactAlarmsPermission -> onRequestScheduleExactAlarmsPermission()
@@ -80,9 +79,11 @@ internal fun SessionDetailsScreen(
         composable(SessionDetails.route) {
             SessionDetailsContent(
                 sessionDetailsState = state.sessionDetailsState,
+                showInSidePane = showInSidePane,
                 onViewEvent = viewModel::onViewEvent,
                 showRoomState = showRoomState,
                 roomStateMessage = roomStateMessage,
+                onBack = onBack,
             )
         }
         dialog(PickAlarmTime.route) {

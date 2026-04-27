@@ -18,7 +18,6 @@ import nerd.tuxmobil.fahrplan.congress.commons.BuildConfigProvision
 import nerd.tuxmobil.fahrplan.congress.commons.ExternalNavigation
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsDestination.PickAlarmTime
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.AddToCalendar
-import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.CloseDetails
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.NavigateTo
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.NavigateToRoom
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsEffect.OpenFeedback
@@ -35,7 +34,6 @@ import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddAlar
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddAlarmWithChecks
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddFavoriteClick
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddToCalendarClick
-import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnCloseClick
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnDeleteAlarmClick
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnDeleteFavoriteClick
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnNavigateToRoomClick
@@ -149,40 +147,6 @@ class SessionDetailsViewModelTest {
                 expectNoEvents()
             }
         }
-
-    }
-
-    @Nested
-    inner class SelectedSessionParam {
-
-        @Test
-        fun `selectedSessionParameter does not emit SelectedSessionParameter`() = runTest {
-            val repository = createRepository(selectedSessionFlow = emptyFlow())
-            val viewModel = createViewModel(
-                repository = repository,
-                feedbackUrlComposition = SupportedFeedbackUrlComposer,
-                indoorNavigation = SupportedIndoorNavigation,
-            )
-            viewModel.selectedSessionParameter.test {
-                awaitComplete()
-            }
-        }
-
-        @Test
-        fun `selectedSessionParameter emits SelectedSessionParameter built from some session`() =
-            runTest {
-                val session = Session(sessionId = "S1")
-                val repository = createRepository(selectedSessionFlow = flowOf(session))
-                val viewModel = createViewModel(
-                    repository = repository,
-                    feedbackUrlComposition = SupportedFeedbackUrlComposer,
-                    indoorNavigation = SupportedIndoorNavigation,
-                )
-                viewModel.selectedSessionParameter.test {
-                    assertThat(awaitItem()).isInstanceOf(SelectedSessionParameter::class.java)
-                    awaitComplete()
-                }
-            }
 
     }
 
@@ -402,17 +366,6 @@ class SessionDetailsViewModelTest {
     inner class Navigation {
 
         @Test
-        fun `OnCloseClick emits CloseDetails effect`() = runTest {
-            val repository = createRepository()
-            val viewModel = createViewModel(repository)
-            viewModel.onViewEvent(OnCloseClick)
-            viewModel.effects.test {
-                val effect = awaitItem()
-                assertThat(effect).isEqualTo(CloseDetails)
-            }
-        }
-
-        @Test
         fun `OnNavigateToRoomClick emits NavigateToRoom effect`() = runTest {
             val repository = createRepository(
                 selectedSession = Session(
@@ -564,7 +517,7 @@ class SessionDetailsViewModelTest {
             viewModel.roomStateMessage.test {
                 assertThat(awaitItem()).isEqualTo("Unknown")
             }
-            verify(repository, times(2)).selectedSession // once for sessionDetailsState
+            verifyInvokedOnce(repository).selectedSession // once for sessionDetailsState
             verifyInvokedNever(repository).roomStates
             verifyInvokedNever(logging).e(any(), any())
         }
@@ -585,7 +538,7 @@ class SessionDetailsViewModelTest {
             viewModel.roomStateMessage.test {
                 assertThat(awaitItem()).isEqualTo("Unknown")
             }
-            verify(repository, times(3)).selectedSession // once for sessionDetailsState
+            verify(repository, times(2)).selectedSession // once for sessionDetailsState
             verifyInvokedOnce(repository).roomStates
             verifyInvokedNever(logging).e(any(), any())
         }
@@ -611,7 +564,7 @@ class SessionDetailsViewModelTest {
             viewModel.roomStateMessage.test {
                 assertThat(awaitItem()).isEqualTo("Crowded")
             }
-            verify(repository, times(3)).selectedSession // once for sessionDetailsState
+            verify(repository, times(2)).selectedSession // once for sessionDetailsState
             verifyInvokedOnce(repository).roomStates
             verifyInvokedNever(logging).e(any(), any())
         }
@@ -638,7 +591,7 @@ class SessionDetailsViewModelTest {
                 viewModel.roomStateMessage.test {
                     assertThat(awaitItem()).isEqualTo("Unknown")
                 }
-                verify(repository, times(3)).selectedSession // once for sessionDetailsState
+                verify(repository, times(2)).selectedSession // once for sessionDetailsState
                 verifyInvokedOnce(repository).roomStates
                 verifyInvokedOnce(logging).e(any(), any())
             }
@@ -664,7 +617,7 @@ class SessionDetailsViewModelTest {
                 viewModel.roomStateMessage.test {
                     assertThat(awaitItem()).isEqualTo("Failure")
                 }
-                verify(repository, times(3)).selectedSession // once for sessionDetailsState
+                verify(repository, times(2)).selectedSession // once for sessionDetailsState
                 verifyInvokedOnce(repository).roomStates
                 verifyInvokedOnce(logging).e(any(), any())
             }
@@ -789,7 +742,7 @@ class SessionDetailsViewModelTest {
         override val scheduleFileFormat: ScheduleFileFormat = SCHEDULE_V1_XML
         override val serverBackendType: ServerBackendType = PRETALX
         override val enableEngelsystemShifts: Boolean = false
-
+        override val enableChaosflixExport: Boolean = false
     }
 
 }

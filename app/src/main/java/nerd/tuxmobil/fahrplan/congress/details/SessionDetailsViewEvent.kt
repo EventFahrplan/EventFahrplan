@@ -11,6 +11,5 @@ sealed interface SessionDetailsViewEvent {
     data object OnAddAlarmWithChecks : SessionDetailsViewEvent
     data class OnAddAlarm(val alarmTime: Int) : SessionDetailsViewEvent
     data object OnDeleteAlarmClick : SessionDetailsViewEvent
-    data object OnCloseClick : SessionDetailsViewEvent
     data object OnNavigateToRoomClick : SessionDetailsViewEvent
 }

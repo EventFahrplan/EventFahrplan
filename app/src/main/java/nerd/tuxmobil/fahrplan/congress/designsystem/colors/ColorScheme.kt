@@ -60,6 +60,7 @@ data class ColorScheme(
     // Custom colors
     val listItemPrefixSymbol: Color,
     val divider: Color,
+    val multiChoiceBackground: Color,
     val searchBarDivider: Color,
     val sessionListHeaderDayDate: Color,
     val textLink: Color,

@@ -8,6 +8,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.navigation.IndoorNavigation
 import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposition
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
 class SelectedSessionParameterFactoryTest {
@@ -25,6 +26,9 @@ class SelectedSessionParameterFactoryTest {
             hasAlarm = false,
         )
         val result = SelectedSessionParameterFactory(
+            buildConfigProvision = mock {
+                on { enableChaosflixExport } doReturn false
+            },
             indoorNavigation = UnsupportedIndoorNavigation,
             feedbackUrlComposition = UnsupportedFeedbackUrlComposer,
             defaultEngelsystemRoomName = DEFAULT_ENGELSYSTEM_ROOM_NAME,
@@ -32,6 +36,7 @@ class SelectedSessionParameterFactoryTest {
 
         assertThat(result.isFlaggedAsFavorite).isFalse()
         assertThat(result.hasAlarm).isFalse()
+        assertThat(result.supportsChaosflixExport).isFalse()
         assertThat(result.supportsFeedback).isFalse()
         assertThat(result.supportsIndoorNavigation).isFalse()
     }
@@ -45,6 +50,9 @@ class SelectedSessionParameterFactoryTest {
             hasAlarm = true,
         )
         val result = SelectedSessionParameterFactory(
+            buildConfigProvision = mock {
+                on { enableChaosflixExport } doReturn true
+            },
             indoorNavigation = SupportedIndoorNavigation,
             feedbackUrlComposition = SupportedFeedbackUrlComposer,
             defaultEngelsystemRoomName = DEFAULT_ENGELSYSTEM_ROOM_NAME,
@@ -52,6 +60,7 @@ class SelectedSessionParameterFactoryTest {
 
         assertThat(result.isFlaggedAsFavorite).isTrue()
         assertThat(result.hasAlarm).isTrue()
+        assertThat(result.supportsChaosflixExport).isTrue()
         assertThat(result.supportsFeedback).isTrue()
         assertThat(result.supportsIndoorNavigation).isTrue()
     }
@@ -63,6 +72,7 @@ class SelectedSessionParameterFactoryTest {
             roomName = DEFAULT_ENGELSYSTEM_ROOM_NAME,
         )
         val result = SelectedSessionParameterFactory(
+            buildConfigProvision = mock(),
             indoorNavigation = mock(),
             feedbackUrlComposition = SupportedFeedbackUrlComposer,
             defaultEngelsystemRoomName = DEFAULT_ENGELSYSTEM_ROOM_NAME,
@@ -75,9 +85,10 @@ class SelectedSessionParameterFactoryTest {
     fun `createSelectedSessionParameter returns supportsFeedback as false when feedbackUrl is empty`() {
         val session = Session(
             sessionId = "S1",
-            roomName = DEFAULT_ENGELSYSTEM_ROOM_NAME,
+            roomName = "Main hall",
         )
         val result = SelectedSessionParameterFactory(
+            buildConfigProvision = mock(),
             indoorNavigation = mock(),
             feedbackUrlComposition = UnsupportedFeedbackUrlComposer,
             defaultEngelsystemRoomName = DEFAULT_ENGELSYSTEM_ROOM_NAME,

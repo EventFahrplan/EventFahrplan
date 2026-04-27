@@ -63,6 +63,7 @@ internal class SessionDetailsViewModelFactory(
                 customEngelsystemRoomName = customEngelsystemRoomName,
             ),
             selectedSessionParameterFactory = SelectedSessionParameterFactory(
+                buildConfigProvision = buildConfigProvision,
                 indoorNavigation = C3nav(BuildConfig.C3NAV_URL, RoomForC3NavConverter()),
                 feedbackUrlComposition = FeedbackUrlComposer(),
                 defaultEngelsystemRoomName = defaultEngelsystemRoomName,

@@ -25,4 +25,5 @@ data class BuildConfigProvider(
     override val scheduleFileFormat: ScheduleFileFormat = ScheduleFileFormat.of(BuildConfig.SCHEDULE_FILE_FORMAT),
     override val serverBackendType: ServerBackendType = ServerBackendType.of(BuildConfig.SERVER_BACKEND_TYPE),
     override val enableEngelsystemShifts: Boolean = BuildConfig.ENABLE_ENGELSYSTEM_SHIFTS,
+    override val enableChaosflixExport: Boolean = BuildConfig.ENABLE_CHAOSFLIX_EXPORT,
 ) : BuildConfigProvision

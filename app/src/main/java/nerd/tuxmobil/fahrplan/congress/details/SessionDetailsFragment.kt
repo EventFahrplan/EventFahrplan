@@ -8,9 +8,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
@@ -20,34 +17,23 @@ import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.annotation.MainThread
 import androidx.core.net.toUri
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.fragment.compose.content
-import androidx.lifecycle.Lifecycle.State.RESUMED
-import info.metadude.android.eventfahrplan.commons.flow.observe
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddAlarmWithChecks
-import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddFavoriteClick
-import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnAddToCalendarClick
-import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnCloseClick
-import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnDeleteAlarmClick
-import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnDeleteFavoriteClick
-import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnNavigateToRoomClick
-import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnOpenFeedbackClick
-import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnShareClick
-import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnShareToChaosflixClick
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.showToast
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
+import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper.navigateUp
 
-class SessionDetailsFragment : Fragment(), MenuProvider {
+class SessionDetailsFragment : Fragment() {
 
     companion object {
 
@@ -72,23 +58,7 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
     private lateinit var postNotificationsPermissionRequestLauncher: ActivityResultLauncher<String>
     private lateinit var scheduleExactAlarmsPermissionRequestLauncher: ActivityResultLauncher<Intent>
     private val viewModel by viewModels<SessionDetailsViewModel> { SessionDetailsViewModelFactory(requireContext()) }
-    private lateinit var model: SelectedSessionParameter
     private var sidePane = false
-    private var hasArguments = false
-
-    private val viewEventByMenuItemId = mapOf(
-        R.id.menu_item_feedback to OnOpenFeedbackClick,
-        R.id.menu_item_share_session to OnShareClick,
-        R.id.menu_item_share_session_text to OnShareClick,
-        R.id.menu_item_share_session_json to OnShareToChaosflixClick,
-        R.id.menu_item_add_to_calendar to OnAddToCalendarClick,
-        R.id.menu_item_flag_as_favorite to OnAddFavoriteClick,
-        R.id.menu_item_unflag_as_favorite to OnDeleteFavoriteClick,
-        R.id.menu_item_set_alarm to OnAddAlarmWithChecks,
-        R.id.menu_item_delete_alarm to OnDeleteAlarmClick,
-        R.id.menu_item_close_session_details to OnCloseClick,
-        R.id.menu_item_navigate to OnNavigateToRoomClick,
-    )
 
     @MainThread
     @CallSuper
@@ -120,8 +90,6 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
                     }
                 }
             }
-
-        requireActivity().addMenuProvider(this, this, RESUMED)
     }
 
     @SuppressLint("InlinedApi")
@@ -133,9 +101,8 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
         EventFahrplanTheme {
             SessionDetailsScreen(
                 viewModel = viewModel,
-                onBack = {
-                    (requireActivity() as? OnSidePaneCloseListener)?.onSidePaneClose(FRAGMENT_TAG)
-                },
+                showInSidePane = sidePane,
+                onBack = ::navigateBack,
                 onRequestPostNotificationsPermission = {
                     postNotificationsPermissionRequestLauncher.launch(POST_NOTIFICATIONS)
                 },
@@ -152,24 +119,19 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
         super.setArguments(args)
         if (args != null) {
             sidePane = args.getBoolean(BundleKeys.SIDEPANE, false)
-            hasArguments = true
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeSelectedSession()
-        val activity = requireActivity()
-        if (hasArguments) {
-            activity.invalidateOptionsMenu()
-        }
-        activity.setResult(Activity.RESULT_CANCELED)
+        requireActivity().setResult(Activity.RESULT_CANCELED)
     }
 
-    private fun observeSelectedSession() {
-        viewModel.selectedSessionParameter.observe(this) { model ->
-            this.model = model
-            updateOptionsMenu()
+    private fun navigateBack() {
+        val activity = requireActivity()
+        when (val listener = activity as? OnSidePaneCloseListener) {
+            null -> activity.navigateUp()
+            else -> listener.onSidePaneClose(FRAGMENT_TAG)
         }
     }
 
@@ -179,50 +141,6 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
 
     private fun showMissingScheduleExactAlarmsPermissionError() {
         requireContext().showToast(R.string.alarms_disabled_schedule_exact_alarm_permission_missing, showShort = false)
-    }
-
-    private fun updateOptionsMenu() {
-        requireActivity().invalidateOptionsMenu()
-    }
-
-    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        if (!::model.isInitialized) {
-            // Skip if lifecycle is faster than ViewModel.
-            return
-        }
-        menuInflater.inflate(R.menu.detailmenu, menu)
-        if (model.isFlaggedAsFavorite) {
-            menu.setMenuItemVisibility(R.id.menu_item_flag_as_favorite, false)
-            menu.setMenuItemVisibility(R.id.menu_item_unflag_as_favorite, true)
-        }
-        if (model.hasAlarm) {
-            menu.setMenuItemVisibility(R.id.menu_item_set_alarm, false)
-            menu.setMenuItemVisibility(R.id.menu_item_delete_alarm, true)
-        }
-        menu.setMenuItemVisibility(R.id.menu_item_feedback, model.supportsFeedback)
-        if (sidePane) {
-            menu.setMenuItemVisibility(R.id.menu_item_close_session_details, true)
-        }
-        menu.setMenuItemVisibility(R.id.menu_item_navigate, model.supportsIndoorNavigation)
-        @Suppress("KotlinConstantConditions")
-        val item = if (BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
-            menu.findItem(R.id.menu_item_share_session_menu)
-        } else {
-            menu.findItem(R.id.menu_item_share_session)
-        }
-        item?.let { it.isVisible = true }
-    }
-
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        when (val event = viewEventByMenuItemId[menuItem.itemId]) {
-            null -> return false
-            else -> viewModel.onViewEvent(event)
-        }
-        return true
-    }
-
-    private fun Menu.setMenuItemVisibility(itemId: Int, isVisible: Boolean) {
-        findItem(itemId)?.let { it.isVisible = isVisible }
     }
 
 }
