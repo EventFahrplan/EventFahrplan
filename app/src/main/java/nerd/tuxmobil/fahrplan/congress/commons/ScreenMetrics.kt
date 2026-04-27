@@ -7,6 +7,7 @@ object ScreenMetrics {
 
     private val START_PADDING = 22.dp
     val END_PADDING = 22.dp
+    private val LIST_VIEW_INTERNAL_HORIZONTAL_PADDING = 16.dp
 
     fun navigationSectionPaddingValues(
         showInSidePane: Boolean,
@@ -27,6 +28,20 @@ object ScreenMetrics {
         end = END_PADDING,
         top = 0.dp,
         bottom = 0.dp
+    )
+
+    fun listItemPaddingValues() = PaddingValues(
+        start = START_PADDING - LIST_VIEW_INTERNAL_HORIZONTAL_PADDING,
+        end = END_PADDING - LIST_VIEW_INTERNAL_HORIZONTAL_PADDING,
+        top = 0.dp,
+        bottom = 0.dp
+    )
+
+    fun headerDayDatePaddingValues() = PaddingValues(
+        start = START_PADDING,
+        end = END_PADDING,
+        top = 16.dp,
+        bottom = 8.dp
     )
 
 }
@@ -54,6 +69,13 @@ object ToolbarMetrics {
         end = if (useVerticalToolbar) VERTICAL_BAR_WIDTH + BAR_PADDING else 0.dp,
         top = 0.dp,
         bottom = if (useVerticalToolbar) 0.dp else HORIZONTAL_BAR_HEIGHT + BAR_PADDING
+    )
+
+    fun searchResultItemPaddingValues(useVerticalToolbar: Boolean) = PaddingValues(
+        start = 0.dp,
+        end = if (useVerticalToolbar) VERTICAL_BAR_WIDTH + BAR_PADDING else 0.dp,
+        top = 0.dp,
+        bottom = 0.dp
     )
 
 }

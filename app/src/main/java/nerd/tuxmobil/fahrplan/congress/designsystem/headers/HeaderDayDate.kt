@@ -10,6 +10,7 @@ import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nerd.tuxmobil.fahrplan.congress.commons.ScreenMetrics
 import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
@@ -18,7 +19,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
 @Composable
 fun HeaderDayDate(text: String, contentDescription: String) {
     Column(
-        Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
+        Modifier.padding(ScreenMetrics.headerDayDatePaddingValues()),
     ) {
         val color = EventFahrplanTheme.colorScheme.sessionListHeaderDayDate
         Text(

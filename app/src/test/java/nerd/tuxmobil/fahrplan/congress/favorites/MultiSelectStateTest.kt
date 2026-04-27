@@ -56,13 +56,11 @@ class MultiSelectStateTest {
     inner class OnMultiSelectChanged {
 
         @Test
-        fun `onMultiSelectChanged with positive count sets multiSelectEnabled and invokes callbacks`() {
+        fun `onMultiSelectChanged with positive count sets multiSelectEnabled`() {
             val state = createState()
-            val multiSelectEnabledChanges = mutableListOf<Boolean>()
-            state.onMultiSelectChanged(2) { multiSelectEnabledChanges.add(it) }
+            state.onMultiSelectChanged(2)
             assertThat(state.multiSelectEnabled).isTrue()
             assertThat(capturedTitleTexts).containsExactly("Select sessions")
-            assertThat(multiSelectEnabledChanges).containsExactly(true)
         }
 
         @Test
@@ -70,11 +68,9 @@ class MultiSelectStateTest {
             val state = createState()
             state.updateTitleText(3)
             capturedTitleTexts.clear()
-            val multiSelectEnabledChanges = mutableListOf<Boolean>()
-            state.onMultiSelectChanged(0) { multiSelectEnabledChanges.add(it) }
+            state.onMultiSelectChanged(0)
             assertThat(state.multiSelectEnabled).isFalse()
             assertThat(capturedTitleTexts).isEmpty()
-            assertThat(multiSelectEnabledChanges).containsExactly(false)
         }
 
         @Test
@@ -82,13 +78,11 @@ class MultiSelectStateTest {
             val state = createState()
             state.updateTitleText(5)
             capturedTitleTexts.clear()
-            state.onMultiSelectChanged(2) { } // enter multi-select
+            state.onMultiSelectChanged(2) // enter multi-select
             capturedTitleTexts.clear()
-            val multiSelectEnabledChanges = mutableListOf<Boolean>()
-            state.onMultiSelectChanged(0) { multiSelectEnabledChanges.add(it) }
+            state.onMultiSelectChanged(0)
             assertThat(state.multiSelectEnabled).isFalse()
             assertThat(capturedTitleTexts).containsExactly("5 sessions")
-            assertThat(multiSelectEnabledChanges).containsExactly(false)
         }
 
         @Test
@@ -96,10 +90,10 @@ class MultiSelectStateTest {
             val state = createState()
             state.updateTitleText(1)
             capturedTitleTexts.clear()
-            state.onMultiSelectChanged(1) { } // enter multi-select
+            state.onMultiSelectChanged(1) // enter multi-select
             assertThat(capturedTitleTexts).containsExactly("Select sessions")
             capturedTitleTexts.clear()
-            state.onMultiSelectChanged(0) { } // leave multi-select
+            state.onMultiSelectChanged(0) // leave multi-select
             assertThat(capturedTitleTexts).containsExactly("1 session")
         }
 
