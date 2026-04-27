@@ -20,6 +20,7 @@ import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 @Composable
 internal fun SessionChangesScreen(
     showInSidePane: Boolean,
+    onBack: () -> Unit,
     onNavigateToSession: (String) -> Unit,
 ) {
     val context = LocalContext.current
@@ -52,6 +53,7 @@ internal fun SessionChangesScreen(
     SessionChangesContent(
         state = state,
         showInSidePane = showInSidePane,
+        onBack = onBack,
         onViewEvent = viewModel::onViewEvent,
     )
 

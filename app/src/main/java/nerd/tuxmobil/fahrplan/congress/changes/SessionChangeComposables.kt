@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides.Companion.Bottom
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -21,6 +24,7 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextDecoration
@@ -40,6 +44,7 @@ import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeState.Success
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeViewEvent.OnSessionChangeItemClick
 import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorProperty
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
+import nerd.tuxmobil.fahrplan.congress.commons.ScreenMetrics
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Available
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Unavailable
 import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
@@ -48,6 +53,8 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.headers.HeaderSessionList
 import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconVideoRecording
 import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.Loading
 import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.NoData
+import nerd.tuxmobil.fahrplan.congress.designsystem.templates.NavigationSection
+import nerd.tuxmobil.fahrplan.congress.designsystem.templates.NavigationSectionWithContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextHeadlineContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextSupportingContent
@@ -58,20 +65,55 @@ import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
 internal fun SessionChangesContent(
     state: SessionChangeState,
     showInSidePane: Boolean,
+    onBack: () -> Unit,
     onViewEvent: (SessionChangeViewEvent) -> Unit,
 ) {
-    Scaffold {
-        Box {
+    val navigationTitle = stringResource(R.string.schedule_changes)
+    Scaffold { _ ->
+        Box(
+            Modifier
+                .fillMaxSize()
+                .semantics { paneTitle = navigationTitle },
+        ) {
             when (state) {
-                Loading -> Loading()
+                Loading -> {
+                    Column(Modifier.fillMaxSize()) {
+                        NavigationSection(
+                            showInSidePane = showInSidePane,
+                            onNavClick = onBack,
+                        )
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxWidth(),
+                        ) {
+                            Loading()
+                        }
+                    }
+                }
+
                 is Success -> {
                     val parameters = state.sessionChangeParameters
                     if (parameters.isEmpty()) {
-                        NoScheduleChanges()
+                        Column(Modifier.fillMaxSize()) {
+                            NavigationSection(
+                                showInSidePane = showInSidePane,
+                                onNavClick = onBack,
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxWidth(),
+                            ) {
+                                NoScheduleChanges()
+                            }
+                        }
                     } else {
                         SessionChangesList(
                             parameters = parameters,
                             showInSidePane = showInSidePane,
+                            navigationTitle = navigationTitle,
+                            onBack = onBack,
                             onViewEvent = onViewEvent,
                         )
                     }
@@ -94,16 +136,21 @@ private fun NoScheduleChanges() {
 private fun SessionChangesList(
     parameters: List<SessionChangeParameter>,
     showInSidePane: Boolean,
+    navigationTitle: String,
+    onBack: () -> Unit,
     onViewEvent: (SessionChangeViewEvent) -> Unit,
 ) {
     LazyColumn(
+        modifier = Modifier.fillMaxSize(),
         state = rememberLazyListState(),
-        contentPadding = WindowInsets.navigationBars.only(Bottom).asPaddingValues(),
+        contentPadding = WindowInsets.navigationBars.union(WindowInsets.ime).only(Bottom).asPaddingValues(),
     ) {
-        if (showInSidePane) {
-            item {
-                HeaderSessionList(stringResource(R.string.schedule_changes))
-            }
+        item {
+            NavigationSection(
+                showInSidePane = showInSidePane,
+                navigationTitle = navigationTitle,
+                onNavClick = onBack,
+            )
         }
         itemsIndexed(parameters) { index, parameter ->
             when (parameter) {
@@ -125,12 +172,37 @@ private fun SessionChangesList(
                     )
                     val next = parameters.getOrNull(index + 1)
                     if (index < parameters.size - 1 && next is SessionChange) {
-                        DividerHorizontal(Modifier.padding(horizontal = 12.dp))
+                        DividerHorizontal()
                     }
                 }
             }
         }
     }
+}
+
+@Composable
+private fun NavigationSection(
+    showInSidePane: Boolean,
+    navigationTitle: String,
+    onNavClick: () -> Unit,
+) {
+    NavigationSectionWithContent(
+        showInSidePane = showInSidePane,
+        contentLeftOfCloseButton = {
+            HeaderSessionList(
+                modifier = Modifier.widthIn(max = maxWidth),
+                text = navigationTitle,
+                includeDefaultPadding = false,
+            )
+        },
+        contentRightOfBackButton = {
+            HeaderSessionList(
+                text = navigationTitle,
+                includeDefaultPadding = false,
+            )
+        },
+        onNavClick = onNavClick,
+    )
 }
 
 @Composable
@@ -141,7 +213,8 @@ fun SessionChangeItem(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .padding(ScreenMetrics.screenContentPaddingValues())
+            .padding(vertical = 8.dp)
     ) {
         Row(
             Modifier.fillMaxWidth(),
@@ -340,6 +413,7 @@ private fun SessionChangesContentPreview() {
                 )
             ),
             showInSidePane = true,
+            onBack = {},
             onViewEvent = {},
         )
     }
@@ -352,6 +426,7 @@ private fun SessionChangesContentEmptyPreview() {
         SessionChangesContent(
             Success(emptyList()),
             showInSidePane = false,
+            onBack = {},
             onViewEvent = {},
         )
     }
@@ -364,6 +439,7 @@ private fun SessionChangesContentLoadingPreview() {
         SessionChangesContent(
             state = Loading,
             showInSidePane = false,
+            onBack = {},
             onViewEvent = {},
         )
     }
