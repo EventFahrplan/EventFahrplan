@@ -9,6 +9,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import nerd.tuxmobil.fahrplan.congress.R
@@ -52,6 +54,7 @@ internal fun StarredListToolbar(
     val deleteSelectedLabel = stringResource(R.string.menu_item_title_delete_favorite)
     val deleteAllLabel = stringResource(R.string.menu_item_title_delete_all)
     val shareLabel = stringResource(R.string.menu_item_title_share_favorites)
+    val deleteSelectedContentDescription = stringResource(R.string.menu_item_title_delete_favorite)
 
     GenericFloatingToolbar(
         visible = visible,
@@ -62,7 +65,13 @@ internal fun StarredListToolbar(
         toolbarContent = {
             if (multiselect) {
                 clickableItem(
-                    icon = { IconDelete() },
+                    icon = {
+                        IconDelete(
+                            Modifier.semantics {
+                                contentDescription = deleteSelectedContentDescription
+                            }
+                        )
+                    },
                     enabled = true,
                     label = deleteSelectedLabel,
                     onClick = { onViewEvent(OnDeleteSelectedClick) },
