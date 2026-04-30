@@ -12,15 +12,6 @@ internal object AlarmToneConversion {
     private const val SILENT_STRING: String = ""
 
     /**
-     * Returns a nullable `Uri` to configure a notification with.
-     */
-    fun getNotificationIntentUri(alarmTone: String?, defaultValue: Uri): Uri? = when (alarmTone) {
-        null -> defaultValue
-        SILENT_STRING -> SILENT_URI
-        else -> alarmTone.toUri()
-    }
-
-    /**
      * Returns a nullable `String` to be persisted.
      */
     fun getPersistableString(alarmToneUri: Uri?): String {
