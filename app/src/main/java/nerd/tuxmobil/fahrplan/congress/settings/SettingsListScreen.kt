@@ -175,7 +175,7 @@ private fun CategoryAlarms(
         )
 
         ClickPreference(
-            title = stringResource(R.string.preference_dialog_title_alarm_time),
+            title = stringResource(R.string.preference_title_alarm_time),
             subtitle = state.settings.alarmTimeToUiString(),
             onClick = { onViewEvent(AlarmTimeClicked) },
         )
