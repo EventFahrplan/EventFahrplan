@@ -171,7 +171,6 @@
     <string name="session_list_item_language_removed_content_description">Informacija apie kalbą buvo pašalinta</string>
     <string name="session_list_item_no_video_content_description">Nebus įrašinėjama</string>
     <string name="session_list_item_video_content_description">Bus įrašinėjama</string>
-    <string name="session_list_item_without_video_content_description">Nebus daromas vaizdo įrašas</string>
     <string name="session_list_item_zero_speakers_content_description">Nėra pranešėjų</string>
     <plurals name="session_list_item_speakers_content_description">
         <item quantity="zero" tools:ignore="UnusedQuantity">Nėra pranešėjų</item>

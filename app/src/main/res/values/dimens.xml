@@ -17,9 +17,6 @@
     <item name="min_width_dip" type="integer">160</item>
     <item name="room_title_size" type="integer">14</item>
 
-    <!-- Loading Spinner -->
-    <dimen name="progress_spinner_size">80dp</dimen>
-
     <!-- Scrollbar -->
     <!--
     If you use a value greater than 16dp make sure to adjust the padding

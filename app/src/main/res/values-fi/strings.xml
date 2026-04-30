@@ -160,7 +160,6 @@
     <string name="session_list_item_language_removed_content_description">Kielitiedot on poistettu</string>
     <string name="session_list_item_no_video_content_description">Ilman videotallennusta</string>
     <string name="session_list_item_video_content_description">Videotallennuksen kera</string>
-    <string name="session_list_item_without_video_content_description">Ilman videotallennusta</string>
     <plurals name="session_list_item_speakers_content_description">
         <item quantity="one">Puhuja: <xliff:g esimerkki="Maija Meikäläinen" id="nimi">%s</xliff:g></item>
         <item quantity="other">Puhujat: <xliff:g esimerkki="Maija Meikäläinen, Matti Näsä" id="nimet">%s</xliff:g></item>

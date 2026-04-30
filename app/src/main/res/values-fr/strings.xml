@@ -137,7 +137,6 @@
     <string name="session_list_item_language_removed_content_description">L\'information de langue a été enlevée</string>
     <string name="session_list_item_no_video_content_description">Sans enregistrement vidéo</string>
     <string name="session_list_item_video_content_description">Avec enregistrement vidéo</string>
-    <string name="session_list_item_without_video_content_description">Sans enregistrement vidéo</string>
     <!-- Session item -->
     <!-- Alarms -->
     <!-- Validation errors -->
