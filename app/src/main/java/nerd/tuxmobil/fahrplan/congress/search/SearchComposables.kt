@@ -8,15 +8,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides.Companion.Bottom
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.ime
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -72,6 +66,7 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextHeadlineContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextOverline
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextSupportingContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
+import nerd.tuxmobil.fahrplan.congress.extensions.navigationBarsImeBottomPaddingValues
 import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
 import nerd.tuxmobil.fahrplan.congress.search.SearchEffect.NavigateBack
 import nerd.tuxmobil.fahrplan.congress.search.SearchEffect.NavigateToSession
@@ -295,7 +290,7 @@ private fun SearchResultList(
 ) {
     LazyColumn(
         state = rememberLazyListState(),
-        contentPadding = WindowInsets.navigationBars.union(WindowInsets.ime).only(Bottom).asPaddingValues(),
+        contentPadding = WindowInsets.navigationBarsImeBottomPaddingValues(),
     ) {
         itemsIndexed(parameters) { index, parameter ->
             when (parameter) {
@@ -473,7 +468,7 @@ private fun SearchHistoryList(
     }
     LazyColumn(
         state = rememberLazyListState(),
-        contentPadding = WindowInsets.navigationBars.union(WindowInsets.ime).only(Bottom).asPaddingValues(),
+        contentPadding = WindowInsets.navigationBarsImeBottomPaddingValues(),
     ) {
         itemsIndexed(searchQueries) { index, searchQuery ->
             SearchHistoryItem(
