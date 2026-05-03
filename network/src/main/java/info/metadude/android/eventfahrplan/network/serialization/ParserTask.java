@@ -54,7 +54,6 @@ public class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private boolean isSuccess;
 
-    @VisibleForTesting
     public ParserTask(@NonNull Logging logging, @NonNull FahrplanParser.OnParseCompleteListener listener) {
         this.logging = logging;
         this.listener = listener;
