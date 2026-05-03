@@ -142,7 +142,7 @@ internal class FahrplanViewModel(
 
     private fun updateDayMenu() {
         launch {
-            repository.sessionsWithoutShifts.filterNotNull().collectLatest { sessions ->
+            repository.sessionsWithoutShifts.collectLatest { sessions ->
                 val displayDayIndex = repository.readDisplayDayIndex()
                 val numDays = sessions.toNumDays()
                 val dayMenuEntries = if (numDays > 1) {
