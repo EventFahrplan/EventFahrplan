@@ -156,13 +156,15 @@ internal class MainViewModel(
     }
 
     private fun onParsingDone() {
-        if (repository.readShowScheduleUpdateDialogEnabled() && !repository.readScheduleChangesSeen()) {
-            val changedSessions = repository.loadChangedSessions().toSessionsAppModel()
-            if (changedSessions.isNotEmpty()) {
-                val scheduleVersion = repository.readMeta().version
-                val allSessions = repository.loadSessionsForAllDays().toSessionsAppModel()
-                val state = changeStatisticsUiStateFactory.createChangeStatisticsUiState(changedSessions, allSessions.size, scheduleVersion)
-                mutableChangeStatisticsUiState.value = state
+        launch {
+            if (repository.readShowScheduleUpdateDialogEnabled() && !repository.readScheduleChangesSeen()) {
+                val changedSessions = repository.loadChangedSessions().toSessionsAppModel()
+                if (changedSessions.isNotEmpty()) {
+                    val scheduleVersion = repository.readMeta().version
+                    val allSessions = repository.loadSessionsForAllDays().toSessionsAppModel()
+                    val state = changeStatisticsUiStateFactory.createChangeStatisticsUiState(changedSessions, allSessions.size, scheduleVersion)
+                    mutableChangeStatisticsUiState.value = state
+                }
             }
         }
     }
@@ -197,8 +199,10 @@ internal class MainViewModel(
     }
 
     fun checkPostNotificationsPermission() {
-        if (repository.readAlarms().isNotEmpty() && !notificationHelper.notificationsEnabled) {
-            mutableMissingPostNotificationsPermission.sendOneTimeEvent(Unit)
+        launch {
+            if (repository.readAlarms().isNotEmpty() && !notificationHelper.notificationsEnabled) {
+                mutableMissingPostNotificationsPermission.sendOneTimeEvent(Unit)
+            }
         }
     }
 
@@ -223,10 +227,12 @@ internal class MainViewModel(
     }
 
     fun onCloseChangeStatisticsScreen(shouldOpenSessionChanges: Boolean) {
-        mutableChangeStatisticsUiState.value = null
-        repository.updateScheduleChangesSeen(true)
-        if (shouldOpenSessionChanges) {
-            mutableOpenSessionChanges.sendOneTimeEvent(Unit)
+        launch {
+            mutableChangeStatisticsUiState.value = null
+            repository.updateScheduleChangesSeen(true)
+            if (shouldOpenSessionChanges) {
+                mutableOpenSessionChanges.sendOneTimeEvent(Unit)
+            }
         }
     }
 
