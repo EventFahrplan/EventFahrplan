@@ -34,7 +34,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode.Companion.Polite
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.AnnotatedString
@@ -286,6 +288,9 @@ private fun RoomState(showRoomState: Boolean, roomStateMessage: String) {
         ) {
             Text(
                 modifier = Modifier
+                    .semantics {
+                        liveRegion = Polite
+                    }
                     .padding(horizontal = 8.dp, vertical = 4.dp),
                 text = roomStateMessage,
                 color = EventFahrplanTheme.colorScheme.sessionDetailsRoomStateInfoText,
