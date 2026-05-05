@@ -42,6 +42,7 @@ import nerd.tuxmobil.fahrplan.congress.search.filters.RecordedSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.WithinSpeakerNamesSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.WithinTitleSubtitleSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.WithinTrackNameSearchFilter
+import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(FlowPreview::class)
 class SearchViewModel(
@@ -53,7 +54,7 @@ class SearchViewModel(
 ) : ViewModel() {
 
     private companion object {
-        const val FINISH_TYPING_SEARCH_QUERY_DELAY = 1_000L
+        val FINISH_TYPING_SEARCH_QUERY_DELAY = 1_000.milliseconds
 
         private val SUPPORTED_SEARCH_FILTERS = listOf(
             IsFavoriteSearchFilter(),

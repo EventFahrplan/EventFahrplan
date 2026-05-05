@@ -150,7 +150,6 @@
     <string name="session_list_item_language_removed_content_description">Информация о языке удалена</string>
     <string name="session_list_item_no_video_content_description">Без видеозаписи</string>
     <string name="session_list_item_video_content_description">С видеозаписью</string>
-    <string name="session_list_item_without_video_content_description">Без видеозаписи</string>
     <!-- Alarms -->
     <!-- Validation errors -->
 </resources>

@@ -144,7 +144,6 @@
     <string name="session_list_item_language_removed_content_description">A informação do idioma foi removida</string>
     <string name="session_list_item_no_video_content_description">Sem gravação de vídeo</string>
     <string name="session_list_item_video_content_description">Com gravação de vídeo</string>
-    <string name="session_list_item_without_video_content_description">Sem gravação de vídeo</string>
     <!-- Alarms -->
     <!-- Validation errors -->
     <string name="validation_error_invalid_url">       URL <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> inválida.

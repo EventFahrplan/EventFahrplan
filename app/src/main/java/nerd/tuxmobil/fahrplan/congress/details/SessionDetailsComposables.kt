@@ -8,14 +8,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides.Companion.Bottom
-import androidx.compose.foundation.layout.WindowInsetsSides.Companion.Horizontal
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -36,7 +34,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode.Companion.Polite
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.AnnotatedString
@@ -92,6 +92,8 @@ import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsToolbarAction.Feedb
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsToolbarAction.Navigate
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsToolbarAction.Share
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewEvent.OnSessionLinkClick
+import nerd.tuxmobil.fahrplan.congress.extensions.navigationBarsBottomPadding
+import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
 import nerd.tuxmobil.fahrplan.congress.extensions.toTextUnit
 import nerd.tuxmobil.fahrplan.congress.utils.compose.ScrollPosition
 import nerd.tuxmobil.fahrplan.congress.utils.compose.rememberAutoHideOnScrollDown
@@ -132,7 +134,7 @@ internal fun SessionDetailsContent(
                             isAboveHeaderDayDate = false,
                             onNavClick = onBack,
                         )
-                        Box(Modifier.windowInsetsPadding(WindowInsets.safeContent.only(Horizontal))) {
+                        Box(Modifier.safeContentHorizontalPadding()) {
                             Loading()
                         }
                     }
@@ -223,10 +225,10 @@ fun SessionDetails(
         with(session) {
             Column(
                 modifier = Modifier
-                    .windowInsetsPadding(WindowInsets.navigationBars.only(Bottom))
+                    .navigationBarsBottomPadding()
                     .padding(ToolbarMetrics.screenContentPaddingValues(useVerticalToolbar))
                     .padding(ScreenMetrics.screenContentPaddingValues())
-                    .windowInsetsPadding(WindowInsets.safeContent.only(Horizontal)),
+                    .safeContentHorizontalPadding(),
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.session_details_common_space_between_sections)),
             ) {
                 RoomState(showRoomState, roomStateMessage)
@@ -286,6 +288,9 @@ private fun RoomState(showRoomState: Boolean, roomStateMessage: String) {
         ) {
             Text(
                 modifier = Modifier
+                    .semantics {
+                        liveRegion = Polite
+                    }
                     .padding(horizontal = 8.dp, vertical = 4.dp),
                 text = roomStateMessage,
                 color = EventFahrplanTheme.colorScheme.sessionDetailsRoomStateInfoText,

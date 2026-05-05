@@ -11,7 +11,6 @@ import androidx.core.view.WindowInsetsCompat.Type.displayCutout
 import androidx.core.view.WindowInsetsCompat.Type.ime
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePadding
 
 /**
  * See [ViewCompat.requireViewById].
@@ -51,16 +50,6 @@ fun View.applyRightInsets(
         view.updateLayoutParams<MarginLayoutParams> {
             rightMargin = insets.right
         }
-        windowInsets
-    }
-}
-
-fun View.applyBottomPadding(
-    typeMask: Int = systemBars() or displayCutout() or ime(),
-) {
-    ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
-        val insets = windowInsets.getInsets(typeMask)
-        view.updatePadding(bottom = insets.bottom)
         windowInsets
     }
 }

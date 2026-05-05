@@ -254,7 +254,6 @@
     <string name="session_list_item_language_removed_content_description">Language information has been removed</string>
     <string name="session_list_item_no_video_content_description">Without video recording</string>
     <string name="session_list_item_video_content_description">With video recording</string>
-    <string name="session_list_item_without_video_content_description">Without video recording</string>
     <string name="session_list_item_zero_speakers_content_description">No speakers</string>
     <plurals name="session_list_item_speakers_content_description">
         <item quantity="one">Speaker: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>

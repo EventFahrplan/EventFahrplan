@@ -154,7 +154,6 @@
     <string name="session_list_item_language_removed_content_description">Språkinformation har tagits bort</string>
     <string name="session_list_item_no_video_content_description">Utan videoinspelning</string>
     <string name="session_list_item_video_content_description">Med videoinspelning</string>
-    <string name="session_list_item_without_video_content_description">Utan videoinspelning</string>
     <plurals name="session_list_item_speakers_content_description">
         <item quantity="one">Högtalare: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
         <item quantity="other">Högtalare: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>

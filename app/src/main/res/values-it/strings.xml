@@ -129,7 +129,6 @@
     <string name="session_list_item_language_removed_content_description">L\'informazione sulla lingua è stata rimossa</string>
     <string name="session_list_item_no_video_content_description">Senza registrazione video</string>
     <string name="session_list_item_video_content_description">Con registrazione video</string>
-    <string name="session_list_item_without_video_content_description">Senza registrazione video</string>
     <plurals name="session_list_item_speakers_content_description">
         <item quantity="one">Relatore: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
         <item quantity="other">Relatori: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>

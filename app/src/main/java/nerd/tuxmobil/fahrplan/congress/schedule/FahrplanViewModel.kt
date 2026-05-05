@@ -45,6 +45,7 @@ import nerd.tuxmobil.fahrplan.congress.schedule.observables.TimeTextViewParamete
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc
+import kotlin.time.Duration.Companion.milliseconds
 
 internal class FahrplanViewModel(
 
@@ -66,7 +67,7 @@ internal class FahrplanViewModel(
 
     private companion object {
         const val LOG_TAG = "FahrplanViewModel"
-        const val PROGRESS_BAR_HIDING_DELAY = 100L
+        val PROGRESS_BAR_HIDING_DELAY = 100.milliseconds
     }
 
     private var sessionAlarmViewModelDelegate: SessionAlarmViewModelDelegate =
@@ -141,7 +142,7 @@ internal class FahrplanViewModel(
 
     private fun updateDayMenu() {
         launch {
-            repository.sessionsWithoutShifts.filterNotNull().collectLatest { sessions ->
+            repository.sessionsWithoutShifts.collectLatest { sessions ->
                 val displayDayIndex = repository.readDisplayDayIndex()
                 val numDays = sessions.toNumDays()
                 val dayMenuEntries = if (numDays > 1) {

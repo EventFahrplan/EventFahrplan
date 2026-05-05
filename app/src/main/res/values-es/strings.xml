@@ -158,7 +158,6 @@
     <string name="session_list_item_language_removed_content_description">La información del idioma ha sido borrada</string>
     <string name="session_list_item_no_video_content_description">Sin grabación de vídeo</string>
     <string name="session_list_item_video_content_description">Con grabación de vídeo</string>
-    <string name="session_list_item_without_video_content_description">Sin grabación de vídeo</string>
     <plurals name="session_list_item_speakers_content_description">
         <item quantity="one">Ponente: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
         <item quantity="other">Ponentes: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>

@@ -47,7 +47,7 @@
     </style>
 
     <style name="PopupMenuOverflowStyle" parent="@style/Widget.AppCompat.Light.PopupMenu.Overflow">
-        <item name="android:popupBackground">@drawable/popup_background</item>
+        <item name="android:popupBackground">@color/popupBackground</item>
     </style>
 
     <style name="ProgressBar" parent="Base.Widget.AppCompat.ProgressBar.Horizontal">

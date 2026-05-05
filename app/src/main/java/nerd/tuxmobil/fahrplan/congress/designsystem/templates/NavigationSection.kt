@@ -4,16 +4,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides.Companion.Horizontal
-import androidx.compose.foundation.layout.WindowInsetsSides.Companion.Top
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContent
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -23,6 +16,8 @@ import nerd.tuxmobil.fahrplan.congress.commons.ToolbarMetrics
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonNavigation
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
+import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
+import nerd.tuxmobil.fahrplan.congress.extensions.statusBarsTopPadding
 
 @Composable
 fun NavigationSection(
@@ -59,10 +54,10 @@ fun NavigationSectionWithContent(
             .then(
                 when {
                     showInSidePane -> Modifier
-                    else -> Modifier.windowInsetsPadding(WindowInsets.statusBars.only(Top))
+                    else -> Modifier.statusBarsTopPadding()
                 },
             )
-            .windowInsetsPadding(WindowInsets.safeContent.only(Horizontal))
+            .safeContentHorizontalPadding()
             .padding(
                 ScreenMetrics.navigationSectionPaddingValues(
                     showInSidePane = showInSidePane,

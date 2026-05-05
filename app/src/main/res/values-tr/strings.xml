@@ -165,7 +165,6 @@ Hatanın nasıl ve ne zaman olduğunu açıklayabilirsen bu bize hayli yardım e
     <string name="session_list_item_language_removed_content_description">Dil bilgisi kaldırıldı</string>
     <string name="session_list_item_no_video_content_description">Video kaydı yok</string>
     <string name="session_list_item_video_content_description">Video kaydı var</string>
-    <string name="session_list_item_without_video_content_description">Video kaydı yok</string>
     <string name="session_list_item_zero_speakers_content_description">Konuşmacı yok</string>
     <plurals name="session_list_item_speakers_content_description">
         <item quantity="one">Konuşmacı: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>

@@ -74,7 +74,8 @@ android {
         release {
             resValue("string", "build_time", "")
             minifyEnabled true
-            proguardFiles getDefaultProguardFile("proguard-android.txt"),
+            shrinkResources true
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"),
                     "proguard-rules/proguard-project.txt",
                     "proguard-rules/okhttp3.pro",
                     "proguard-rules/okio.pro"

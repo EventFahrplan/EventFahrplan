@@ -150,7 +150,6 @@
     <string name="session_list_item_language_removed_content_description">言語情報が削除されました</string>
     <string name="session_list_item_no_video_content_description">ビデオ録画なし</string>
     <string name="session_list_item_video_content_description">ビデオ録画あり</string>
-    <string name="session_list_item_without_video_content_description">ビデオ録画なし</string>
     <!-- Alarms -->
     <!-- Validation errors -->
     <string name="validation_error_invalid_url">        無効の <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL。
