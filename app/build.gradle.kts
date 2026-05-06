@@ -1,3 +1,4 @@
+import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 import com.android.build.api.dsl.ApplicationProductFlavor
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.text.SimpleDateFormat
@@ -11,9 +12,13 @@ plugins {
     alias(libs.plugins.unmock)
     alias(libs.plugins.dexcount)
     alias(libs.plugins.sonarqube)
+    alias(libs.plugins.roborazzi)
 }
 
 extra["APP_VERSION"] = gitSha()
+
+// Align Roborazzi Compose Preview shards with JVM unit-test parallelism (Roborazzi generatedTestClassCount).
+val unitTestMaxParallelForks = maxOf(1, Runtime.getRuntime().availableProcessors() / 2)
 
 apply(from = "../gradle/sonarqube.gradle")
 
@@ -178,6 +183,37 @@ android {
         }
     }
 
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            // Robolectric/Roborazzi preview rendering: scope to AGP unit-test tasks only (not all Test tasks).
+            all { test ->
+                test.maxParallelForks = unitTestMaxParallelForks
+                test.systemProperty("robolectric.pixelCopyRenderMode", "hardware")
+                test.maxHeapSize = "4096m"
+            }
+        }
+    }
+
+}
+
+@OptIn(ExperimentalRoborazziApi::class)
+roborazzi {
+    outputDir.set(file("src/test/screenshots"))
+    generateComposePreviewRobolectricTests {
+        enable.set(true)
+        packages.set(listOf("nerd.tuxmobil.fahrplan.congress"))
+        includePrivatePreviews.set(true)
+        useScanOptionParametersInTester.set(true)
+        generatedTestClassCount.set(unitTestMaxParallelForks)
+        testerQualifiedClassName.set("nerd.tuxmobil.fahrplan.congress.screenshottesting.PackageStrippingComposePreviewTester")
+        robolectricConfig.set(
+            mapOf(
+                "sdk" to "[35]",
+                "qualifiers" to "RobolectricDeviceQualifiers.Pixel9Pro",
+            )
+        )
+    }
 }
 
 kotlin {
@@ -212,7 +248,13 @@ gradle.projectsEvaluated {
     }
 }
 
+configurations {
+    maybeCreate("roborazziPluginRequiredDirectDeps")
+}
+
 dependencies {
+    "roborazziPluginRequiredDirectDeps"(libs.junit)
+
     implementation(project(":commons"))
     implementation(project(":database"))
     implementation(project(":network"))
@@ -223,6 +265,7 @@ dependencies {
     // Android Studio preview support
     implementation(libs.compose.ui.tooling.preview)
     debugImplementation(libs.compose.ui.tooling)
+    debugImplementation(libs.compose.ui.test.manifest)
 
     implementation(libs.compose.material3)
 
@@ -254,7 +297,9 @@ dependencies {
     implementation(libs.tracedroid)
 
     testImplementation(project(":commons-testing"))
+    testImplementation(libs.compose.ui.test.junit4)
     testImplementation(libs.annotation)
+    testImplementation(libs.composable.preview.scanner)
     testImplementation(libs.core.testing)
     testImplementation(libs.junit.jupiter.api)
     testRuntimeOnly(libs.junit.jupiter.engine)
@@ -265,10 +310,13 @@ dependencies {
         exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-debug")
     }
     testImplementation(libs.threetenbp)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.roborazzi.compose.preview.scanner.support)
     testImplementation(libs.truth)
     testImplementation(libs.turbine)
+    testRuntimeOnly(libs.junit.vintage.engine)
 
-    unmock(libs.robolectric)
+    unmock(libs.robolectric.android.all)
 
     androidTestImplementation(libs.android.test.core)
     androidTestRuntimeOnly(libs.android.test.runner)

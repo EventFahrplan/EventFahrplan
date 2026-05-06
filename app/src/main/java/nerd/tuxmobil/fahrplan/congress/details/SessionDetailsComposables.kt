@@ -814,15 +814,22 @@ private const val EXAMPLE_MARKDOWN = """# About
  # Your ideas
  - I am looking forward to getting to know your ideas shared with everyone. Let them become reality!"""
 
-@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF, widthDp = 411, heightDp = 891)
 @Composable
 private fun TextMarkdownPreview() {
     EventFahrplanTheme {
-        TextMarkdown(
-            text = EXAMPLE_MARKDOWN,
-            contentDescription = "",
-            isAbstract = false,
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+                .padding(16.dp),
+        ) {
+            TextMarkdown(
+                text = EXAMPLE_MARKDOWN,
+                contentDescription = "",
+                isAbstract = false,
+            )
+        }
     }
 }
 
