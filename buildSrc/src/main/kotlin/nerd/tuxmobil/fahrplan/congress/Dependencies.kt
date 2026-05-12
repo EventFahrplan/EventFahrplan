@@ -19,7 +19,7 @@ object Compose {
 
     private object Versions {
         const val bom = "2026.05.00"
-        const val material3 = "1.5.0-alpha18"
+        const val material3 = "1.5.0-alpha18" // compileSdk 37 is required as of 1.5.0-alpha19
     }
 
     const val bom = "androidx.compose:compose-bom:${Versions.bom}"
