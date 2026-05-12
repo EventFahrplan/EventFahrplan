@@ -81,7 +81,7 @@ object Libs {
         const val roomStates = "2.0.0"
         const val schedule = "1.0.0"
         const val snackengage = "0.30"
-        const val threeTenBp = "1.7.2"
+        const val threeTenBp = "1.7.3"
         const val tracedroid = "3.1"
         const val truth = "1.4.4" // NoSuchFieldError as of 1.4.5, see https://github.com/google/truth/issues/1608
         const val turbine = "1.2.1"
