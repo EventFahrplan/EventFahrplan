@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.favorites
 
 import androidx.annotation.VisibleForTesting
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -24,10 +25,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
 import nerd.tuxmobil.fahrplan.congress.commons.ToolbarMetrics
@@ -290,10 +293,24 @@ private fun CheckableItem(
     onClick: () -> Unit,
     content: @Composable () -> Unit,
 ) {
-    val color = if (checked) EventFahrplanTheme.colorScheme.multiChoiceBackground else EventFahrplanTheme.colorScheme.background
+    val backgroundColor = if (checked) EventFahrplanTheme.colorScheme.multiChoiceBackground else EventFahrplanTheme.colorScheme.background
+    val selectionIndicatorColor = EventFahrplanTheme.colorScheme.primary
+    val selectionIndicatorWidth by animateDpAsState(
+        targetValue = if (checked) 6.dp else 0.dp,
+        label = "selectionIndicatorWidth",
+    )
     Box(
         modifier = modifier
-            .background(color)
+            .background(backgroundColor)
+            .drawBehind {
+                val indicatorWidth = selectionIndicatorWidth.toPx()
+                if (indicatorWidth > 0f) {
+                    drawRect(
+                        color = selectionIndicatorColor,
+                        size = size.copy(width = indicatorWidth),
+                    )
+                }
+            }
             .combinedClickable(
                 onClick = { onClick() },
                 onLongClick = { onCheckedChange() },
