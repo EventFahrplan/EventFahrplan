@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.search
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -188,11 +189,15 @@ private fun SearchBarContent(
     state: SearchResultState,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
-    when (state) {
-        is Loading -> Loading()
-        is NoSearchResults -> NoSearchResult(onBack = { onViewEvent(state.backEvent) })
-        is SearchHistory -> SearchHistoryList(state.searchTerms, onViewEvent)
-        is SearchResults -> SearchResultList(state.searchResults, onViewEvent)
+    Crossfade(targetState = state) { state ->
+        Column {
+            when (state) {
+                is Loading -> Loading()
+                is NoSearchResults -> NoSearchResult(onBack = { onViewEvent(state.backEvent) })
+                is SearchHistory -> SearchHistoryList(state.searchTerms, onViewEvent)
+                is SearchResults -> SearchResultList(state.searchResults, onViewEvent)
+            }
+        }
     }
 }
 
