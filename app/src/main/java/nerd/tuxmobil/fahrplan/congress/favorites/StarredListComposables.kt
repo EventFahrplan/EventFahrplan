@@ -24,7 +24,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
@@ -34,7 +33,6 @@ import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
 import nerd.tuxmobil.fahrplan.congress.commons.ToolbarMetrics
 import nerd.tuxmobil.fahrplan.congress.commons.createSearchResultPreviewData
 import nerd.tuxmobil.fahrplan.congress.commons.useVerticalFloatingToolbar
-import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
 import nerd.tuxmobil.fahrplan.congress.designsystem.headers.HeaderDayDate
 import nerd.tuxmobil.fahrplan.congress.designsystem.headers.HeaderSessionList
 import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.Loading
@@ -250,9 +248,13 @@ private fun LazyListScope.searchResultItems(
     onItemClick: (String) -> Unit,
     onItemLongClick: (String) -> Unit,
 ) {
-    itemsIndexed(parameters) { index, parameter ->
+    itemsIndexed(
+        items = parameters,
+        key = { _, parameter -> parameter.hashCode() },
+    ) { index, parameter ->
         when (parameter) {
             is Separator -> HeaderDayDate(
+                modifier = Modifier.animateItem(),
                 text = parameter.daySeparator.value,
                 contentDescription = parameter.daySeparator.contentDescription,
             )
@@ -260,20 +262,20 @@ private fun LazyListScope.searchResultItems(
             is SearchResult -> {
                 val isChecked = checkedStates[parameter.id] ?: false
                 CheckableItem(
+                    modifier = Modifier.animateItem(),
                     checked = isChecked,
                     onCheckedChange = { onItemLongClick(parameter.id) },
                     onClick = { onItemClick(parameter.id) },
                     content = {
+                        val next = parameters.getOrNull(index + 1)
+                        val showDivider = index < parameters.size - 1 && (next is SearchResult)
                         SearchResultItem(
                             modifier = Modifier.padding(ToolbarMetrics.searchResultItemPaddingValues(useVerticalToolbar)),
+                            showDivider = showDivider,
                             searchResult = parameter,
                         )
                     },
                 )
-                val next = parameters.getOrNull(index + 1)
-                if (index < parameters.size - 1 && (next is SearchResult)) {
-                    DividerHorizontal()
-                }
             }
         }
     }
@@ -288,7 +290,7 @@ private fun CheckableItem(
     onClick: () -> Unit,
     content: @Composable () -> Unit,
 ) {
-    val color = if (checked) EventFahrplanTheme.colorScheme.multiChoiceBackground else Transparent
+    val color = if (checked) EventFahrplanTheme.colorScheme.multiChoiceBackground else EventFahrplanTheme.colorScheme.background
     Box(
         modifier = modifier
             .background(color)
