@@ -127,7 +127,7 @@ class AlarmServicesTest {
         val alarmServices = createAlarmServices(pendingIntentDelegate)
         alarmServices.scheduleSessionAlarm(alarm, true)
         verifyInvokedOnce(alarmManager).cancel(pendingIntent)
-        verifyInvokedOnce(alarmManager).setExact(AlarmManager.RTC_WAKEUP, alarm.startTime.toMilliseconds(), pendingIntent)
+        verifyInvokedOnce(alarmManager).setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarm.startTime.toMilliseconds(), pendingIntent)
     }
 
     @Test
@@ -141,7 +141,7 @@ class AlarmServicesTest {
         val alarmServices = createAlarmServices(pendingIntentDelegate)
         alarmServices.scheduleSessionAlarm(alarm, false)
         verifyInvokedNever(alarmManager).cancel(pendingIntent)
-        verifyInvokedOnce(alarmManager).setExact(AlarmManager.RTC_WAKEUP, alarm.startTime.toMilliseconds(), pendingIntent)
+        verifyInvokedOnce(alarmManager).setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarm.startTime.toMilliseconds(), pendingIntent)
     }
 
     @Test
