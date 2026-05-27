@@ -157,9 +157,9 @@ Jasper van der Graaf, Joergi, Julius Vitkauskas, koelnkalkverbot, kpc21, Larissa
 lepawa, ligi, lucadelu, Luis Azcuaga, María Arias de Reyna, Mateus Baptista,
 Matthias Geisler, Matthias Hunstock, Matthias Mair, MichaelRocks, Miguel Beltran,
 mtpa, Muha Aliss, nautilusx, Nghiem Xuan Hien, NiciDieNase, Noemis, NWuensche, Oguz Yuksel,
-Omicron, ozgurbaykal, Poschi, Qwertele, Róbert Papp, Robin Janssens, rotrot, Sjors van Mierlo,
-Smarzaro, Stefan Medack, SubOptimal, Su Jade, taseret, tct123, Teeranai.P, Torsten Grote,
-Victor Herasme, Vladimir Alabov, Yanicka, zadintuvas
+Omicron, ozgurbaykal, Poschi, Qwertele, Róbert Papp, Robin Janssens, rotrot, Sebastian Zabel,
+Sjors van Mierlo, Smarzaro, Stefan Medack, SubOptimal, Su Jade, taseret, tct123, Teeranai.P,
+Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka, zadintuvas
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
