@@ -147,17 +147,25 @@ private fun SessionChangesList(
                 onNavClick = onBack,
             )
         }
-        itemsIndexed(parameters) { index, parameter ->
+        itemsIndexed(
+            items = parameters,
+            key = { _, parameter -> parameter.hashCode() },
+        ) { index, parameter ->
             when (parameter) {
                 is Separator -> HeaderDayDate(
+                    modifier = Modifier.animateItem(),
                     text = parameter.daySeparator.value,
                     contentDescription = parameter.daySeparator.contentDescription,
                 )
 
                 is SessionChange -> {
+                    val next = parameters.getOrNull(index + 1)
+                    val showDivider = index < parameters.size - 1 && next is SessionChange
                     SessionChangeItem(
                         session = parameter,
+                        showDivider = showDivider,
                         modifier = Modifier
+                            .animateItem()
                             .safeContentHorizontalPadding()
                             .clickable {
                                 if (!parameter.isCanceled) {
@@ -165,10 +173,6 @@ private fun SessionChangesList(
                                 }
                             }
                     )
-                    val next = parameters.getOrNull(index + 1)
-                    if (index < parameters.size - 1 && next is SessionChange) {
-                        DividerHorizontal()
-                    }
                 }
             }
         }
@@ -204,68 +208,74 @@ private fun NavigationSection(
 fun SessionChangeItem(
     session: SessionChange,
     modifier: Modifier = Modifier,
+    showDivider: Boolean = true,
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(ScreenMetrics.screenContentPaddingValues())
-            .padding(vertical = 8.dp)
-    ) {
-        Row(
-            Modifier.fillMaxWidth(),
-            horizontalArrangement = SpaceBetween,
-            verticalAlignment = CenterVertically,
+    Column {
+        Column(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(ScreenMetrics.screenContentPaddingValues())
+                .padding(vertical = 8.dp)
         ) {
-            val titleColor = session.title.changeType.color()
-            val textDecoration = textDecorationOf(session.title)
-            TextHeadlineContent(
-                modifier = Modifier
-                    .weight(1f)
-                    .semantics {
-                        contentDescription = session.title.contentDescription
-                    },
-                text = session.title.value,
-                fontSize = 16.sp,
-                fontWeight = Bold,
-                color = titleColor,
-                textDecoration = textDecoration,
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = SpaceBetween,
+                verticalAlignment = CenterVertically,
+            ) {
+                val titleColor = session.title.changeType.color()
+                val textDecoration = textDecorationOf(session.title)
+                TextHeadlineContent(
+                    modifier = Modifier
+                        .weight(1f)
+                        .semantics {
+                            contentDescription = session.title.contentDescription
+                        },
+                    text = session.title.value,
+                    fontSize = 16.sp,
+                    fontWeight = Bold,
+                    color = titleColor,
+                    textDecoration = textDecoration,
+                )
+                val iconColor = session.videoRecordingState.changeType.color()
+                IconVideoRecording(
+                    session.videoRecordingState.value,
+                    iconColor,
+                )
+            }
+            SecondaryText(
+                session.subtitle
             )
-            val iconColor = session.videoRecordingState.changeType.color()
-            IconVideoRecording(
-                session.videoRecordingState.value,
-                iconColor,
+            SecondaryText(
+                modifier = Modifier.padding(top = 4.dp),
+                property = session.speakerNames,
             )
+            Row {
+                SecondaryText(
+                    modifier = Modifier.padding(end = 8.dp),
+                    property = session.dayText,
+                )
+                SecondaryText(
+                    modifier = Modifier.padding(end = 8.dp),
+                    property = session.startsAt,
+                )
+                SecondaryText(
+                    modifier = Modifier
+                        .widthIn(55.dp)
+                        .padding(end = 8.dp),
+                    property = session.duration,
+                )
+                SecondaryText(
+                    modifier = Modifier.weight(1f),
+                    property = session.roomName,
+                )
+                SecondaryText(
+                    modifier = Modifier.padding(start = 16.dp),
+                    property = session.languages,
+                )
+            }
         }
-        SecondaryText(
-            session.subtitle
-        )
-        SecondaryText(
-            modifier = Modifier.padding(top = 4.dp),
-            property = session.speakerNames,
-        )
-        Row {
-            SecondaryText(
-                modifier = Modifier.padding(end = 8.dp),
-                property = session.dayText,
-            )
-            SecondaryText(
-                modifier = Modifier.padding(end = 8.dp),
-                property = session.startsAt,
-            )
-            SecondaryText(
-                modifier = Modifier
-                    .widthIn(55.dp)
-                    .padding(end = 8.dp),
-                property = session.duration,
-            )
-            SecondaryText(
-                modifier = Modifier.weight(1f),
-                property = session.roomName,
-            )
-            SecondaryText(
-                modifier = Modifier.padding(start = 16.dp),
-                property = session.languages,
-            )
+        if (showDivider) {
+            DividerHorizontal()
         }
     }
 }

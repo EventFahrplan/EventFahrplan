@@ -17,9 +17,13 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
 
 @Composable
-fun HeaderDayDate(text: String, contentDescription: String) {
+fun HeaderDayDate(
+    text: String,
+    contentDescription: String,
+    modifier: Modifier = Modifier,
+) {
     Column(
-        Modifier.padding(ScreenMetrics.headerDayDatePaddingValues()),
+        modifier.padding(ScreenMetrics.headerDayDatePaddingValues()),
     ) {
         val color = EventFahrplanTheme.colorScheme.sessionListHeaderDayDate
         Text(

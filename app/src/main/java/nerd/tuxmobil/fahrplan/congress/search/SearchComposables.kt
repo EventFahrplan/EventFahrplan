@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.search
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -188,11 +189,15 @@ private fun SearchBarContent(
     state: SearchResultState,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
-    when (state) {
-        is Loading -> Loading()
-        is NoSearchResults -> NoSearchResult(onBack = { onViewEvent(state.backEvent) })
-        is SearchHistory -> SearchHistoryList(state.searchTerms, onViewEvent)
-        is SearchResults -> SearchResultList(state.searchResults, onViewEvent)
+    Crossfade(targetState = state) { state ->
+        Column {
+            when (state) {
+                is Loading -> Loading()
+                is NoSearchResults -> NoSearchResult(onBack = { onViewEvent(state.backEvent) })
+                is SearchHistory -> SearchHistoryList(state.searchTerms, onViewEvent)
+                is SearchResults -> SearchResultList(state.searchResults, onViewEvent)
+            }
+        }
     }
 }
 
@@ -292,24 +297,28 @@ private fun SearchResultList(
         state = rememberLazyListState(),
         contentPadding = WindowInsets.navigationBarsImeBottomPaddingValues(),
     ) {
-        itemsIndexed(parameters) { index, parameter ->
+        itemsIndexed(
+            items = parameters,
+            key = { _, parameter -> parameter.hashCode() },
+        ) { index, parameter ->
             when (parameter) {
                 is Separator -> HeaderDayDate(
+                    modifier = Modifier.animateItem(),
                     text = parameter.daySeparator.value,
                     contentDescription = parameter.daySeparator.contentDescription,
                 )
 
                 is SearchResult -> {
+                    val next = parameters.getOrNull(index + 1)
+                    val showDivider = index < parameters.size - 1 && next is SearchResult
                     SearchResultItem(
                         searchResult = parameter,
                         modifier = Modifier
+                            .animateItem()
                             .clickable { onViewEvent(OnSearchResultItemClick(parameter.id)) }
-                            .safeContentHorizontalPadding()
+                            .safeContentHorizontalPadding(),
+                        showDivider = showDivider,
                     )
-                    val next = parameters.getOrNull(index + 1)
-                    if (index < parameters.size - 1 && next is SearchResult) {
-                        DividerHorizontal()
-                    }
                 }
             }
         }
@@ -323,68 +332,74 @@ private fun SearchResultList(
 fun SearchResultItem(
     searchResult: SearchResult,
     modifier: Modifier = Modifier,
+    showDivider: Boolean = true,
 ) {
-    Row(
-        modifier = modifier.clearAndSetSemantics {
-            contentDescription = createContentDescription(searchResult)
-        },
-        verticalAlignment = CenterVertically,
-    ) {
-        ListItem(
-            modifier = Modifier
-                .padding(ScreenMetrics.listItemPaddingValues())
-                .weight(1f),
-            overlineContent = {
-                val text = buildString {
-                    if (searchResult.startsAt.value.isNotEmpty()) {
-                        append(searchResult.startsAt.value)
-                    }
-                    if (searchResult.startsAt.value.isNotEmpty() && searchResult.endsAt.value.isNotEmpty()) {
-                        append(" - ")
-                    }
-                    if (searchResult.endsAt.value.isNotEmpty()) {
-                        append(searchResult.endsAt.value)
-                    }
-                    if (searchResult.roomName.value.isNotEmpty()) {
-                        append(" | ${searchResult.roomName.value}")
-                    }
-                }
-                TextOverline(
-                    text = text,
-                    color = searchResult.startsAt.tenseType.color(),
-                )
+    Column {
+        Row(
+            modifier = modifier.clearAndSetSemantics {
+                contentDescription = createContentDescription(searchResult)
             },
-            headlineContent = {
-                TextHeadlineContent(
-                    text = searchResult.title.value,
-                    fontWeight = Bold,
-                    color = searchResult.title.tenseType.color(),
-                )
-            },
-            supportingContent = {
-                Column {
+            verticalAlignment = CenterVertically,
+        ) {
+            ListItem(
+                modifier = Modifier
+                    .padding(ScreenMetrics.listItemPaddingValues())
+                    .weight(1f),
+                overlineContent = {
                     val text = buildString {
-                        if (searchResult.speakerNames.value.isNotEmpty()) {
-                            append(searchResult.speakerNames.value.uppercase())
+                        if (searchResult.startsAt.value.isNotEmpty()) {
+                            append(searchResult.startsAt.value)
                         }
-                        if (searchResult.speakerNames.value.isNotEmpty() && searchResult.languages.value.isNotEmpty()) {
-                            append(" ")
+                        if (searchResult.startsAt.value.isNotEmpty() && searchResult.endsAt.value.isNotEmpty()) {
+                            append(" - ")
                         }
-                        if (searchResult.languages.value.isNotEmpty()) {
-                            append("[${searchResult.languages.value.uppercase()}]")
+                        if (searchResult.endsAt.value.isNotEmpty()) {
+                            append(searchResult.endsAt.value)
+                        }
+                        if (searchResult.roomName.value.isNotEmpty()) {
+                            append(" | ${searchResult.roomName.value}")
                         }
                     }
-                    if (text.isNotEmpty()) {
-                        TextSupportingContent(
-                            text = text,
-                            color = searchResult.speakerNames.tenseType.color(),
-                        )
+                    TextOverline(
+                        text = text,
+                        color = searchResult.startsAt.tenseType.color(),
+                    )
+                },
+                headlineContent = {
+                    TextHeadlineContent(
+                        text = searchResult.title.value,
+                        fontWeight = Bold,
+                        color = searchResult.title.tenseType.color(),
+                    )
+                },
+                supportingContent = {
+                    Column {
+                        val text = buildString {
+                            if (searchResult.speakerNames.value.isNotEmpty()) {
+                                append(searchResult.speakerNames.value.uppercase())
+                            }
+                            if (searchResult.speakerNames.value.isNotEmpty() && searchResult.languages.value.isNotEmpty()) {
+                                append(" ")
+                            }
+                            if (searchResult.languages.value.isNotEmpty()) {
+                                append("[${searchResult.languages.value.uppercase()}]")
+                            }
+                        }
+                        if (text.isNotEmpty()) {
+                            TextSupportingContent(
+                                text = text,
+                                color = searchResult.speakerNames.tenseType.color(),
+                            )
+                        }
                     }
-                }
-            },
-        )
-        if (searchResult.recordingOptOut?.value == true) {
-            IconVideoRecording(Modifier.padding(start = 8.dp, bottom = 10.dp, end = ScreenMetrics.END_PADDING))
+                },
+            )
+            if (searchResult.recordingOptOut?.value == true) {
+                IconVideoRecording(Modifier.padding(start = 8.dp, bottom = 10.dp, end = ScreenMetrics.END_PADDING))
+            }
+        }
+        if (showDivider) {
+            DividerHorizontal()
         }
     }
 }
