@@ -26,7 +26,6 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LINKS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_LICENSE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_OPTOUT
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REL_START
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_IDENTIFIER
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_NAME
@@ -59,7 +58,6 @@ fun Session.toContentValues() = contentValuesOf(
         LINKS to links,
         REC_LICENSE to recordingLicense,
         REC_OPTOUT to if (recordingOptOut) REC_OPT_OUT_ON else REC_OPT_OUT_OFF,
-        REL_START to relativeStartTime.toWholeMinutes().toInt(),
         ROOM_NAME to roomName,
         ROOM_IDENTIFIER to roomIdentifier,
         ROOM_INDEX to roomIndex,

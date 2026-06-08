@@ -106,7 +106,6 @@ public class ParserTask extends AsyncTask<String, Void, Boolean> {
             String roomName = null;
             String roomGuid = "";
             int dayIndex = 0;
-            int dayChangeTime = 600; // Only provided by Pentabarf; corresponds to 10:00 am.
             String dateText = "";
             Set<String> uniqueDateTexts = new HashSet<>();
             int roomIndex = 0;
@@ -145,7 +144,6 @@ public class ParserTask extends AsyncTask<String, Void, Boolean> {
                             if (end == null) {
                                 throw new MissingXmlAttributeException("day", "end");
                             }
-                            dayChangeTime = DateParser.getDayChange(end);
                             if (dayIndex > numdays) {
                                 numdays = dayIndex;
                             }
@@ -162,9 +160,9 @@ public class ParserTask extends AsyncTask<String, Void, Boolean> {
                             roomGuid = parser.getAttributeValue(null, "guid");
                         }
                         if (name.equalsIgnoreCase("event")) {
-                            parseEvent(parser, dayIndex, dayChangeTime, roomMapIndex, roomName, roomGuid, dateText);
+                            parseEvent(parser, dayIndex, roomMapIndex, roomName, roomGuid, dateText);
                         } else if (name.equalsIgnoreCase("conference")) {
-                            dayChangeTime = parseConference(parser);
+                            parseConference(parser);
                         }
                         break;
                 }
@@ -193,11 +191,10 @@ public class ParserTask extends AsyncTask<String, Void, Boolean> {
         meta.setScheduleGenerator(new ScheduleGenerator(name, version));
     }
 
-    private int parseConference(XmlPullParser parser) throws IOException, XmlPullParserException {
+    private void parseConference(XmlPullParser parser) throws IOException, XmlPullParserException {
         String name;
         int eventType;
         boolean confDone = false;
-        int dayChangeTime = 0;
         eventType = parser.next();
         while (eventType != XmlPullParser.END_DOCUMENT && !confDone) {
             switch (eventType) {
@@ -221,10 +218,6 @@ public class ParserTask extends AsyncTask<String, Void, Boolean> {
                         parser.next();
                         meta.setVersion(XmlPullParsers.getSanitizedText(parser));
                     }
-                    if (name.equals("day_change")) {
-                        parser.next();
-                        dayChangeTime = (int) DateParser.getMinutes(XmlPullParsers.getSanitizedText(parser)).toWholeMinutes();
-                    }
                     if (name.equals("time_zone_name")) {
                         parser.next();
                         meta.setTimeZoneName(XmlPullParsers.getSanitizedText(parser));
@@ -236,13 +229,11 @@ public class ParserTask extends AsyncTask<String, Void, Boolean> {
             }
             eventType = parser.next();
         }
-        return dayChangeTime;
     }
 
     private void parseEvent(
             XmlPullParser parser,
             int dayIndex,
-            int dayChangeTime,
             int roomMapIndex,
             String roomName,
             String roomGuid,
@@ -316,10 +307,6 @@ public class ParserTask extends AsyncTask<String, Void, Boolean> {
                     } else if (name.equals("start")) {
                         parser.next();
                         session.setStartTime(DateParser.getMinutes(XmlPullParsers.getSanitizedText(parser)));
-                        session.setRelativeStartTime(session.getStartTime());
-                        if (((int) session.getRelativeStartTime().toWholeMinutes()) < dayChangeTime) {
-                            session.setRelativeStartTime(session.getRelativeStartTime().plus(Duration.ofDays(1)));
-                        }
                     } else if (name.equals("duration")) {
                         parser.next();
                         Duration minutes = DurationParser.getMinutes(XmlPullParsers.getSanitizedText(parser));

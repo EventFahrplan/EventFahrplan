@@ -32,7 +32,6 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LINKS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_LICENSE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_OPTOUT
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REL_START
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_IDENTIFIER
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_NAME
@@ -71,8 +70,6 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.St
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RECORDING_LICENSE_PRESENT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RECORDING_OPTOUT_NONE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RECORDING_OPTOUT_PRESENT
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RELATIVE_START_TIME_NONE
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RELATIVE_START_TIME_PRESENT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ROOM_IDENTIFIER_NONE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ROOM_IDENTIFIER_PRESENT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ROOM_INDEX_NONE
@@ -289,7 +286,6 @@ internal class RealSessionsDatabaseRepository(
                     language = cursor.getString(LANG),
                     links = cursor.getString(LINKS),
                     recordingLicense = cursor.getString(REC_LICENSE),
-                    relativeStartTime = cursor.toDuration(REL_START),
                     roomName = cursor.getString(ROOM_NAME),
                     roomIdentifier = cursor.getString(ROOM_IDENTIFIER),
                     roomIndex = cursor.getInt(ROOM_INDEX),
@@ -390,11 +386,6 @@ internal class RealSessionsDatabaseRepository(
                             name = DESCR,
                             columnNameNone = DESCRIPTION_NONE,
                             columnNamePresent = DESCRIPTION_PRESENT,
-                        ),
-                        cursor.toColumnStatistic(
-                            name = REL_START,
-                            columnNameNone = RELATIVE_START_TIME_NONE,
-                            columnNamePresent = RELATIVE_START_TIME_PRESENT,
                         ),
                         cursor.toColumnStatistic(
                             name = DATE_TEXT,

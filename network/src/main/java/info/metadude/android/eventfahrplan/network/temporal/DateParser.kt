@@ -2,7 +2,6 @@ package info.metadude.android.eventfahrplan.network.temporal
 
 import info.metadude.android.eventfahrplan.commons.temporal.DateParser
 import info.metadude.android.eventfahrplan.commons.temporal.Duration
-import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_SECOND
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneOffset
@@ -28,17 +27,6 @@ class DateParser {
             val parsed = LocalDate.parse(text)
             val atUTCOffset = parsed.atTime(0, 0).atOffset(ZoneOffset.UTC)
             atUTCOffset.toEpochSecond() * MILLISECONDS_OF_ONE_SECOND
-        }
-
-        /**
-         * Returns [Moment.minuteOfDay] of given parse [text].
-         *
-         * @param text see [getDateTime] for valid formats
-         */
-        @JvmStatic
-        fun getDayChange(text: String): Int {
-            val timeUTC = getDateTime(text)
-            return Moment.ofEpochMilli(timeUTC).minuteOfDay
         }
 
         /**

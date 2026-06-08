@@ -3,7 +3,6 @@ package info.metadude.android.eventfahrplan.network.temporal
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.network.temporal.DateParser.Companion.getDateTime
-import info.metadude.android.eventfahrplan.network.temporal.DateParser.Companion.getDayChange
 import info.metadude.android.eventfahrplan.network.temporal.DateParser.Companion.getMinutes
 import org.junit.jupiter.api.Test
 
@@ -30,33 +29,6 @@ class DateParserTest {
     fun `getDateTime returns milliseconds for last day in 2020 date`() {
         // If there are off-by-one errors, e.g. parsing for 0-based month-numbers, this may fail.
         assertThat(getDateTime("2020-12-31")).isEqualTo(1609372800000)
-    }
-
-    @Test
-    fun `getDayChange returns minutes of a day for first day in 2019 date and time`() {
-        assertThat(getDayChange("2019-01-01T00:00:00Z")).isEqualTo(0)
-    }
-
-    @Test
-    fun `getDayChange returns minutes of a day for first hour and minute in 2019 date and time`() {
-        assertThat(getDayChange("2019-01-01T01:01:00Z")).isEqualTo(61)
-    }
-
-    @Test
-    fun `getDayChange returns minutes of a day for first day in 2019 date`() {
-        assertThat(getDayChange("2019-01-01")).isEqualTo(0)
-    }
-
-    @Test
-    fun `getDayChange returns minutes of a day for last CET minute of 2020 leap year`() {
-        // DST change CET/CEST 2020 was on 03-29 (but rather boring with explicit offsets)
-        assertThat(getDayChange("2020-03-29T01:59:00+01:00")).isEqualTo(59)
-    }
-
-    @Test
-    fun `getDayChange returns minutes of a day for first CEST minute of 2020 leap year`() {
-        // DST change CET/CEST 2020 was on 03-29 (but rather boring with explicit offsets)
-        assertThat(getDayChange("2020-03-29T03:00:00+02:00")).isEqualTo(60)
     }
 
     @Test

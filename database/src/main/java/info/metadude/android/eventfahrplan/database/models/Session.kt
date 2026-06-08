@@ -20,7 +20,6 @@ data class Session(
         val isHighlight: Boolean = false,
         val language: String = "",
         val links: String = "",
-        val relativeStartTime: Duration = Duration.ZERO, // minutes since conference start
         val recordingLicense: String = "",
         val recordingOptOut: Boolean = RECORDING_OPT_OUT_OFF,
         val roomName: String = "",

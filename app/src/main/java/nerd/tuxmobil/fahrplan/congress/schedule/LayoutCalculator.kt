@@ -77,14 +77,9 @@ data class LayoutCalculator(
     }
 
     private fun getStartTime(session: Session, previousSessionEndsAt: Int): Int {
-        var startTime: Int
-        if (session.dateUTC > 0) {
-            startTime = session.startsAt.minuteOfDay
-            if (startTime < previousSessionEndsAt) {
-                startTime += Duration.ofDays(1).toWholeMinutes().toInt()
-            }
-        } else {
-            startTime = session.relativeStartTime.toWholeMinutes().toInt()
+        var startTime = session.startsAt.minuteOfDay
+        if (startTime < previousSessionEndsAt) {
+            startTime += Duration.ofDays(1).toWholeMinutes().toInt()
         }
         return startTime
     }

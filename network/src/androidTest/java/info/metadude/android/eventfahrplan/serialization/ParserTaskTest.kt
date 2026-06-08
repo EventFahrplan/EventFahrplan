@@ -53,7 +53,6 @@ class ParserTaskTest {
                 links = "",
                 feedbackUrl = "https://fahrplan.events.ccc.de/congress/2024/fahrplan/talk/HQCCYH/feedback/",
                 startTime = Duration.ofMinutes(630), // 10:30 = 10*60 + 30
-                relativeStartTime = Duration.ofMinutes(630),
                 duration = Duration.ofMinutes(30), // 00:30
                 roomName = "Saal 1",
                 roomGuid = "ba692ba3-421b-5371-8309-60acc34a3c05",
@@ -88,7 +87,6 @@ class ParserTaskTest {
                 links = "",
                 feedbackUrl = "https://cfp.cccv.de/38c3-community-stages/talk/VDLGBQ/feedback/",
                 startTime = Duration.ofMinutes(810), // 13:30 = 13*60 + 30
-                relativeStartTime = Duration.ofMinutes(810),
                 duration = Duration.ofHours(1),
                 roomName = "Stage HUFF",
                 roomGuid = "53f436a0-705b-40eb-974f-2bfce8857b1b",

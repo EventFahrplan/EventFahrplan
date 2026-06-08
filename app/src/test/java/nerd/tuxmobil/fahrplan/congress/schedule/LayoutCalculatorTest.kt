@@ -7,6 +7,7 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.models.SessionTest.Companion.createSession
 import org.junit.jupiter.api.Test
 
 class LayoutCalculatorTest {
@@ -15,21 +16,17 @@ class LayoutCalculatorTest {
     private val layoutCalculator = LayoutCalculator(standardHeight = 1, logging = NoLogging)
 
     private fun createSession(
-        date: String? = null,
+        date: String,
         startTime: Duration = Duration.ZERO,
         duration: Duration = Duration.ZERO,
-    ): Session {
-        var session = Session((sessionId++).toString(), duration = duration)
-
-        if (date == null) {
-            session = session.copy(relativeStartTime = startTime)
-        } else {
-            val dateUTC = Moment.parseDate(date).plusMinutes(startTime.toWholeMinutes())
-            session = session.copy(dateUTC = dateUTC.toMilliseconds())
-        }
-
-        return session
-    }
+    ) = Session(
+        sessionId = (sessionId++).toString(),
+        dateUTC = Moment
+            .parseDate(date)
+            .plusMinutes(startTime.toWholeMinutes())
+            .toMilliseconds(),
+        duration = duration,
+    )
 
     @Test
     fun `calculateLayoutParams for single session returns margins 0`() {

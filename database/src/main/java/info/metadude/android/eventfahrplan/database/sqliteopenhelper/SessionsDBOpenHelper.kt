@@ -30,7 +30,6 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LINKS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_LICENSE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_OPTOUT
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REL_START
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_IDENTIFIER
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_NAME
@@ -71,8 +70,6 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.St
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RECORDING_LICENSE_PRESENT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RECORDING_OPTOUT_NONE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RECORDING_OPTOUT_PRESENT
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RELATIVE_START_TIME_NONE
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RELATIVE_START_TIME_PRESENT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ROOM_IDENTIFIER_NONE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ROOM_IDENTIFIER_PRESENT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ROOM_INDEX_NONE
@@ -101,6 +98,7 @@ import info.metadude.android.eventfahrplan.database.extensions.addIntegerColumn
 import info.metadude.android.eventfahrplan.database.extensions.addTextColumn
 import info.metadude.android.eventfahrplan.database.extensions.columnExists
 import info.metadude.android.eventfahrplan.database.extensions.dropTableIfExist
+import info.metadude.android.eventfahrplan.database.extensions.dropViewIfExist
 
 internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
     context.applicationContext,
@@ -132,7 +130,7 @@ internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
                 "$LANG TEXT, " +
                 "$ABSTRACT TEXT, " +
                 "$DESCR TEXT, " +
-                "$REL_START INTEGER, " +
+                // "relStart" kept; SQLite <3.35 lacks DROP COLUMN (pre-Android 14)
                 "$DATE_TEXT TEXT, " +
                 "$LINKS TEXT, " +
                 "$DATE_UTC INTEGER, " +
@@ -191,8 +189,6 @@ internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
                     "COUNT(CASE WHEN $ABSTRACT IS NOT NULL AND $ABSTRACT != '' THEN 1 END) AS $ABSTRACT_PRESENT, " +
                     "COUNT(CASE WHEN $DESCR IS NULL OR $DESCR = '' THEN 1 END) AS $DESCRIPTION_NONE, " +
                     "COUNT(CASE WHEN $DESCR IS NOT NULL AND $DESCR != '' THEN 1 END) AS $DESCRIPTION_PRESENT, " +
-                    "COUNT(CASE WHEN $REL_START IS NULL OR $REL_START = '' THEN 1 END) AS $RELATIVE_START_TIME_NONE, " +
-                    "COUNT(CASE WHEN $REL_START IS NOT NULL AND $REL_START != '' THEN 1 END) AS $RELATIVE_START_TIME_PRESENT, " +
                     "COUNT(CASE WHEN $DATE_TEXT IS NULL OR $DATE_TEXT = '' THEN 1 END) AS $DATE_TEXT_NONE, " +
                     "COUNT(CASE WHEN $DATE_TEXT IS NOT NULL AND $DATE_TEXT != '' THEN 1 END) AS $DATE_TEXT_PRESENT, " +
                     "COUNT(CASE WHEN $LINKS IS NULL OR $LINKS = '' THEN 1 END) AS $LINKS_NONE, " +
@@ -304,12 +300,14 @@ internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
             // Clear database from Camp 2023 & 37C3 2023.
             dropTableIfExist(SessionsTable.NAME)
             dropTableIfExist(SessionByNotificationIdTable.NAME)
+            dropViewIfExist(StatisticsView.NAME)
             onCreate(this)
         }
         if (oldVersion < 18) {
             // Clear database from 38C3 2024.
             dropTableIfExist(SessionsTable.NAME)
             dropTableIfExist(SessionByNotificationIdTable.NAME)
+            dropViewIfExist(StatisticsView.NAME)
             onCreate(this)
         }
         if (oldVersion < 19) {

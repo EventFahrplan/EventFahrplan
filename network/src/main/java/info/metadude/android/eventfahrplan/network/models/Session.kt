@@ -22,7 +22,6 @@ data class Session(
         var isHighlight: Boolean = false,
         var language: String = "",
         var links: String = "",
-        var relativeStartTime: Duration = Duration.ZERO,
         var recordingLicense: String = "",
         var recordingOptOut: Boolean = RECORDING_OPT_OUT_OFF,
         var roomName: String = "",

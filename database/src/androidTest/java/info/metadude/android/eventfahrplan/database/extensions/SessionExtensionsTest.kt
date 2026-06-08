@@ -25,7 +25,6 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LINKS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_LICENSE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_OPTOUT
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REL_START
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_IDENTIFIER
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_NAME
@@ -60,7 +59,6 @@ class SessionExtensionsTest {
                 isHighlight = true,
                 language = "en",
                 links = "[Website](https://www.example.com/path)",
-                relativeStartTime = Duration.ofMinutes(1035),
                 recordingLicense = "CC 0",
                 recordingOptOut = Session.RECORDING_OPT_OUT_ON,
                 roomName = "Simulacron-3",
@@ -102,7 +100,6 @@ class SessionExtensionsTest {
         // The value of "isHighlight" is not persisted.
         assertThat(values.getAsString(LANG)).isEqualTo("en")
         assertThat(values.getAsString(LINKS)).isEqualTo("[Website](https://www.example.com/path)")
-        assertThat(values.getAsInteger(REL_START)).isEqualTo(1035)
         assertThat(values.getAsString(REC_LICENSE)).isEqualTo("CC 0")
         assertThat(values.getAsBoolean(REC_OPTOUT)).isEqualTo(Session.RECORDING_OPT_OUT_ON)
         assertThat(values.getAsString(ROOM_NAME)).isEqualTo("Simulacron-3")

@@ -87,7 +87,6 @@ class ShiftExtensionsTest {
         val dayRange = DayRange(day)
         val session = shift.toSessionNetworkModel(NoLogging, "", listOf(dayRange))
         assertThat(session.startTime).isEqualTo(Duration.ZERO) // nevertheless, we still expect sessions time data to be based on UTC
-        assertThat(session.relativeStartTime).isEqualTo(Duration.ZERO)
     }
 
     @Test

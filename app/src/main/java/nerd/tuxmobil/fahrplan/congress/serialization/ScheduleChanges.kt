@@ -178,7 +178,6 @@ data class ScheduleChanges private constructor(
                     dateText == session.dateText &&
                     dateUTC == session.dateUTC &&
                     timeZoneOffset == session.timeZoneOffset &&
-                    relativeStartTime == session.relativeStartTime &&
                     type == session.type &&
                     slug == session.slug &&
                     abstractt == session.abstractt &&

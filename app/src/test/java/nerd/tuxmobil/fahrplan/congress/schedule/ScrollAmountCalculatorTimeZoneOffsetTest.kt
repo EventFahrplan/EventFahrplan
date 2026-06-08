@@ -80,7 +80,6 @@ class ScrollAmountCalculatorTimeZoneOffsetTest {
         dateText = moment.toZonedDateTime(ZoneOffset.UTC).toLocalDate().toString(),
         dateUTC = moment.toMilliseconds(),
         startTime = Duration.ofMinutes(moment.minuteOfDay),
-        relativeStartTime = Duration.ofMinutes(moment.minuteOfDay), // This might now always be the case, see ParserTask.parseFahrplan
         duration = Duration.ofMinutes(60),
         roomName = "Main hall",
     )
