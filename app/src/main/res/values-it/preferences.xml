@@ -1,48 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Screen -->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Category development -->
     <!-- Schedule refresh interval -->
-    <!--
-    Synchronize with string-array/preference_entry_values_schedule_refresh
-    -->
-    <!--
-    Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
-    -->
+    <string name="preference_dialog_title_schedule_refresh_interval">Scegli un intervallo di aggiornamento del programma</string>
+    <string name="preference_title_schedule_refresh_interval">Scegli un intervallo di aggiornamento del programma</string>
+    <string name="schedule_refresh_interval_title_unmodified">non modificare</string>
+    <string name="schedule_refresh_interval_title_every_30_seconds">ogni 30 secondi</string>
+    <string name="schedule_refresh_interval_title_every_60_seconds">ogni minuto</string>
+    <string name="schedule_refresh_interval_title_every_120_seconds">ogni 2 minuti</string>
+    <!-- Schedule statistic -->
+    <string name="preference_title_schedule_statistic">Statistiche sul programma</string>
+    <string name="preference_summary_schedule_statistic">Verifica i valori delle colonne del programma</string>
     <!-- Category general -->
     <!-- Automatic schedule updates -->
     <string name="preference_title_auto_update_enabled">Abilita gli aggiornamenti automatici</string>
     <string name="preference_summary_auto_update_enabled">Scarica periodicamente il programma.</string>
-    <!-- Alarm time index -->
-    <!--
-    Synchronize with @strings/preference_default_value_alarm_time_value
-    -->
-    <!--
-    Synchronize with @integers/preference_default_value_alarm_time_index
-    and string-array/preference_entry_values_alarm_time
-    -->
-    <string name="preference_dialog_title_alarm_time">Scegli un tempo predefinito per la sveglia</string>
-    <string name="preference_title_alarm_time">Scegli un tempo predefinito per la sveglia</string>
-    <!--
-    Synchronize with @strings/preference_default_value_alarm_time_value
-    and @integers/preference_default_value_alarm_time_index
-    -->
+    <string name="preference_summary_auto_update_next_fetch_approximately_at">        Prossimo aggiornamento intorno a: <xliff:g example="2/26/25 13:00" id="nextFetchAt">%1$s</xliff:g>
+        (<xliff:g example="every 1.5 hours" id="interval">%2$s</xliff:g>)
+    </string>
+    <plurals name="preference_summary_auto_update_interval_days">
+        <item quantity="one">ogni giorno</item>
+        <item quantity="other">ogni <xliff:g example="5" id="days">%s</xliff:g> giorni</item>
+    </plurals>
+    <plurals name="preference_summary_auto_update_interval_hours">
+        <item quantity="one">ogni ora</item>
+        <item quantity="other">ogni <xliff:g example="5" id="hours">%s</xliff:g> ore</item>
+    </plurals>
+    <plurals name="preference_summary_auto_update_interval_minutes">
+        <item quantity="one">ogni minuto</item>
+        <item quantity="other">ogni <xliff:g example="5" id="minutes">%s</xliff:g> minuti</item>
+    </plurals>
+    <plurals name="preference_summary_auto_update_interval_seconds">
+        <item quantity="one">ogni secondo</item>
+        <item quantity="other">ogni <xliff:g example="5" id="seconds">%s</xliff:g> secondi</item>
+    </plurals>
+    <!-- Alarm time -->
+    <string name="preference_dialog_title_alarm_time">Scegli un orario predefinito per l\'avviso</string>
+    <string name="preference_title_alarm_time">Scegli un orario predefinito per l\'avviso</string>
     <!-- Alarm tone -->
-    <string name="preference_title_alarm_tone">Seleziona il tono della sveglia</string>
+    <string name="preference_title_alarm_tone">Seleziona il suono dell\'avviso</string>
     <string name="preference_summary_alarm_tone">Apre la schermata di selezione dei suoni da qui.</string>
     <!-- Device time zone -->
-    <string name="preference_title_use_device_time_zone_enabled">Usa fuso orario del dispositivo</string>
+    <string name="preference_title_use_device_time_zone_enabled">Usa il fuso orario del dispositivo</string>
     <string name="preference_summary_use_device_time_zone_enabled">Visualizza date e orari di conseguenza.</string>
     <!-- Alternative highlighting -->
-    <string name="preference_title_alternative_highlighting_enabled">Abilita evidenziazione alternativa</string>
-    <string name="preference_summary_alternative_highlighting_enabled">Aggiunge un bordo intorno alle sessioni preferite.</string>
+    <string name="preference_title_alternative_highlighting_enabled">Abilita l\'evidenziazione alternativa</string>
+    <string name="preference_summary_alternative_highlighting_enabled">Aggiungi un bordo intorno alle sessioni preferite.</string>
+    <!-- Fast swiping -->
+    <string name="preference_title_fast_swiping_enabled">Abilita lo scorrimento rapido</string>
+    <string name="preference_summary_fast_swiping_enabled">Consenti lo scorrimento su più stanze.</string>
+    <!-- Schedule update dialog -->
+    <string name="preference_title_show_schedule_update_dialog_enabled">Mostra la finestra di aggiornamento del programma</string>
+    <string name="preference_summary_show_schedule_update_dialog_enabled">Visualizza la finestra di aggiornamento quando il programma viene aggiornato.</string>
+    <!-- Show schedule on lockscreen -->
+    <string name="preference_title_show_on_lockscreen_enabled">Mostra l\'app sulla schermata di blocco</string>
+    <string name="preference_summary_show_on_lockscreen_enabled">Consente di interagire con l\'app anche quando il dispositivo è bloccato.</string>
     <!-- Alternative schedule URL -->
     <string name="preference_title_alternative_schedule_url">Configura l\'URL alternativo del programma</string>
-    <string name="preference_summary_alternative_schedule_url">Inserire un URL di backup se il server preconfigurato non può essere raggiunto.</string>
+    <string name="preference_summary_alternative_schedule_url">Inserisci un URL di backup se non è possibile raggiungere il server preconfigurato.</string>
+    <string name="preference_url_type_friendly_name_alternative_schedule">programma alternativo</string>
     <!-- App notification settings -->
     <string name="preference_title_app_notification_settings">Personalizza le notifiche</string>
+    <string name="preference_summary_app_notification_settings">Apri la schermata delle impostazioni di sistema collegate da qui.</string>
     <!-- Insistent session alarms -->
-    <string name="preference_title_insistent_alarms_enabled">Abilita sveglia insistente</string>
+    <string name="preference_title_insistent_alarms_enabled">Abilita un allarme ricorrente</string>
+    <string name="preference_summary_insistent_alarms_enabled">Mantieni l\'avviso attivo indefinitamente.</string>
     <!-- Category Engelsystem -->
-    <string name="preference_title_engelsystem_json_export_url">Configura URL di esportazione JSON</string>
+    <string name="preference_summary_engelsystem_json_export_url"><![CDATA[Per vedere i tuoi impegni inserisci l\'URL <u>personale</u> qui.<br/><br/>
+        1. Accedi al tuo account <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>.<br/>
+        2. Copia l\'URL dietro al pulsante <u>JSON Export</u> nella pagina del tuo profilo.<br/>
+        3. Incolla l\'URL qui.<br/><br/>
+        Gli impegni prima e dopo i giorni di conferenza principali <u>non</u> vengono visualizzati.]]></string>
+    <string name="preference_title_engelsystem_json_export_url">Configura l\'URL di esportazione JSON</string>
 </resources>
