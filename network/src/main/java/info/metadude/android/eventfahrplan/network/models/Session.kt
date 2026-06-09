@@ -45,7 +45,7 @@ data class Session(
         var changedRecordingOptOut: Boolean = false,
         var changedRoomName: Boolean = false,
         var changedSpeakers: Boolean = false,
-        var changedStartTime: Boolean = false,
+        var changedDateUtc: Boolean = false,
         var changedSubtitle: Boolean = false,
         var changedTitle: Boolean = false,
         var changedTrack: Boolean = false
@@ -68,7 +68,7 @@ data class Session(
         changedSubtitle = false,
         changedRoomName = false,
         changedDayIndex = false,
-        changedStartTime = false,
+        changedDateUtc = false,
         changedDuration = false,
         changedSpeakers = false,
         changedLanguage = false,

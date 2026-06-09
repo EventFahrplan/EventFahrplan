@@ -39,8 +39,8 @@ class SessionIsChangedTest {
     }
 
     @Test
-    fun `changedStartTime = true marks a session as changed`() {
-        val session = createSession().copy(changedStartTime = true)
+    fun `changedDateUtc = true marks a session as changed`() {
+        val session = createSession().copy(changedDateUtc = true)
         assertThat(session.isChanged).isTrue()
     }
 
@@ -80,7 +80,7 @@ class SessionIsChangedTest {
         changedSubtitle = false,
         changedRoomName = false,
         changedDayIndex = false,
-        changedStartTime = false,
+        changedDateUtc = false,
         changedDuration = false,
         changedSpeakers = false,
         changedLanguage = false,

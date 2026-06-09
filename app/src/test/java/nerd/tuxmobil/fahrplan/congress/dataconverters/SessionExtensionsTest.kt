@@ -93,7 +93,7 @@ class SessionExtensionsTest {
                 changedRecordingOptOut = true,
                 changedRoomName = true,
                 changedSpeakers = true,
-                changedStartTime = true,
+                changedDateUtc = true,
                 changedSubtitle = true,
                 changedTitle = true,
                 changedTrack = true
@@ -136,7 +136,7 @@ class SessionExtensionsTest {
             changedRoomName = true,
             changedSpeakers = true,
             changedSubtitle = true,
-            changedStartTime = true,
+            changedDateUtc = true,
             changedTitle = true,
             changedTrack = true,
         )
@@ -183,7 +183,7 @@ class SessionExtensionsTest {
                 changedRoomName = true,
                 changedSpeakers = true,
                 changedSubtitle = true,
-                changedStartTime = true,
+                changedDateUtc = true,
                 changedTitle = true,
                 changedTrack = true
         )

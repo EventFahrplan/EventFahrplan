@@ -99,8 +99,8 @@ data class ScheduleChanges private constructor(
                     sessionChange.changedDayIndex = true
                     foundNoteworthyChanges = true
                 }
-                if (newSession.startTime != oldSession.startTime) {
-                    sessionChange.changedStartTime = true
+                if (newSession.dateUTC != oldSession.dateUTC) {
+                    sessionChange.changedDateUtc = true
                     foundNoteworthyChanges = true
                 }
                 if (newSession.duration != oldSession.duration) {
@@ -116,7 +116,7 @@ data class ScheduleChanges private constructor(
                     changedTrack = sessionChange.changedTrack,
                     changedRecordingOptOut = sessionChange.changedRecordingOptOut,
                     changedDayIndex = sessionChange.changedDayIndex,
-                    changedStartTime = sessionChange.changedStartTime,
+                    changedDateUtc = sessionChange.changedDateUtc,
                     changedDuration = sessionChange.changedDuration,
                 )
                 oldNotCanceledSessions -= oldSession
@@ -147,7 +147,7 @@ data class ScheduleChanges private constructor(
                 var changedDayIndex: Boolean = false,
                 var changedTrack: Boolean = false,
                 var changedRecordingOptOut: Boolean = false,
-                var changedStartTime: Boolean = false,
+                var changedDateUtc: Boolean = false,
                 var changedDuration: Boolean = false
         )
 
@@ -160,7 +160,7 @@ data class ScheduleChanges private constructor(
                     track == session.track &&
                     recordingOptOut == session.recordingOptOut &&
                     dayIndex == session.dayIndex &&
-                    startTime == session.startTime &&
+                    dateUTC == session.dateUTC &&
                     duration == session.duration
         }
 

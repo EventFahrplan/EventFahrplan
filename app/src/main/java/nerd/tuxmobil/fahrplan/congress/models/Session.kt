@@ -46,7 +46,7 @@ data class Session(
     val changedSubtitle: Boolean = false,
     val changedRoomName: Boolean = false,
     val changedDayIndex: Boolean = false,
-    val changedStartTime: Boolean = false,
+    val changedDateUtc: Boolean = false,
     val changedDuration: Boolean = false,
     val changedSpeakers: Boolean = false,
     val changedLanguage: Boolean = false,
@@ -93,7 +93,7 @@ data class Session(
                 changedSubtitle ||
                 changedRoomName ||
                 changedDayIndex ||
-                changedStartTime ||
+                changedDateUtc ||
                 changedDuration ||
                 changedSpeakers ||
                 changedLanguage ||

@@ -3,6 +3,7 @@ package info.metadude.android.eventfahrplan.database.extensions
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ABSTRACT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DATE_UTC
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DAY_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DURATION
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_IS_CANCELED
@@ -11,7 +12,6 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_RECORDING_OPTOUT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_ROOM_NAME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SPEAKERS
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_START_TIME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SUBTITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TRACK
@@ -81,7 +81,7 @@ class SessionExtensionsTest {
                 changedRecordingOptOut = true,
                 changedRoomName = true,
                 changedSpeakers = true,
-                changedStartTime = true,
+                changedDateUtc = true,
                 changedSubtitle = true,
                 changedTitle = true,
                 changedTrack = true
@@ -123,7 +123,7 @@ class SessionExtensionsTest {
         assertThat(values.getAsBoolean(CHANGED_ROOM_NAME)).isEqualTo(true)
         assertThat(values.getAsBoolean(CHANGED_SPEAKERS)).isEqualTo(true)
         assertThat(values.getAsBoolean(CHANGED_SUBTITLE)).isEqualTo(true)
-        assertThat(values.getAsBoolean(CHANGED_START_TIME)).isEqualTo(true)
+        assertThat(values.getAsBoolean(CHANGED_DATE_UTC)).isEqualTo(true)
         assertThat(values.getAsBoolean(CHANGED_TITLE)).isEqualTo(true)
         assertThat(values.getAsBoolean(CHANGED_TRACK)).isEqualTo(true)
     }
