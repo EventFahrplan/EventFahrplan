@@ -9,6 +9,8 @@ import nerd.tuxmobil.fahrplan.congress.models.DateInfos
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment.Companion.BOX_HEIGHT_MULTIPLIER
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment.Companion.FIFTEEN_MINUTES
 import org.junit.jupiter.api.Test
 import org.threeten.bp.ZoneOffset
 
@@ -97,7 +99,64 @@ class ScrollAmountCalculatorTest {
                 currentDayIndex = session.dayIndex
         )
         assertThat(scrollAmount).isEqualTo(408)
+        assertThat(scrollAmount).isEqualTo(scrollAmountFor(session.startsAt.minutesUntil(session.endsAt)))
+        assertThat(scrollAmount).isEqualTo(scrollAmountFor(session.duration.toWholeMinutes()))
     }
+
+    @Test
+    fun `calculateScrollAmount returns start of 2nd session`() {
+        val s1 = createFirstSession()
+        val s2 = createSecondSession()
+        val scrollAmount = calculateScrollAmount(
+            sessions = listOf(s1, s2),
+            nowMoment = s2.startsAt,
+            currentDayIndex = s1.dayIndex
+        )
+        assertThat(scrollAmount).isEqualTo(816)
+        assertThat(scrollAmount).isEqualTo(scrollAmountFor(s1.startsAt.minutesUntil(s2.startsAt)))
+    }
+
+    @Test
+    fun `calculateScrollAmount returns start of late session`() {
+        val s1 = createFirstSession()
+        val s2 = createLateSession()
+        val scrollAmount = calculateScrollAmount(
+            sessions = listOf(s1, s2),
+            nowMoment = s2.startsAt,
+            currentDayIndex = s1.dayIndex
+        )
+        assertThat(scrollAmount).isEqualTo(6324)
+        assertThat(scrollAmount).isEqualTo(scrollAmountFor(s1.startsAt.minutesUntil(s2.startsAt)))
+    }
+
+    @Test
+    fun `calculateScrollAmount returns end of late session`() {
+        val s1 = createFirstSession()
+        val s2 = createLateSession()
+        val scrollAmount = calculateScrollAmount(
+            sessions = listOf(s1, s2),
+            nowMoment = s2.endsAt,
+            currentDayIndex = s1.dayIndex
+        )
+        assertThat(scrollAmount).isEqualTo(6732)
+        assertThat(scrollAmount).isEqualTo(scrollAmountFor(s1.startsAt.minutesUntil(s2.endsAt)))
+    }
+
+    @Test
+    fun `calculateScrollAmount returns start of 2nd session one minute before it ends the next day`() {
+        val s1 = createFirstSession()   // 08:00..09:00 -> 480..540   -> 0..408
+        val s2 = createLateSession()    // 23:30..00:30 -> 1410..1470 -> 6324..6732
+        val s3 = createNextDaySession() // 02:00..03:00 -> 1560..1620 -> 7344..7752
+        val scrollAmount = calculateScrollAmount(
+            sessions = listOf(s1, s2, s3),
+            nowMoment = s2.endsAt.minusMinutes(1), // March 1, 2020 00:29:00 AM GMT
+            currentDayIndex = s1.dayIndex
+        )
+        assertThat(scrollAmount).isEqualTo(6324)
+        assertThat(scrollAmount).isEqualTo(scrollAmountFor(s1.startsAt.minutesUntil(s2.startsAt)))
+    }
+
+    private fun scrollAmountFor(minutes: Long) = minutes / FIFTEEN_MINUTES * BOX_HEIGHT * BOX_HEIGHT_MULTIPLIER
 
     @Test
     fun `calculateScrollAmount returns 408 for a session crossing the intra-day limit`() {
@@ -129,8 +188,16 @@ class ScrollAmountCalculatorTest {
             Moment.ofEpochMilli(1582963200000L) // February 29, 2020 08:00:00 AM GMT
     )
 
-    private fun createLateSession() = createBaseSession("s2",
+    private fun createSecondSession() = createBaseSession("s2",
+            Moment.ofEpochMilli(1582970400000L) // February 29, 2020 10:00:00 AM GMT
+    )
+
+    private fun createLateSession() = createBaseSession("s3",
             Moment.ofEpochMilli(1583019000000L) // February 29, 2020 11:30:00 PM GMT
+    )
+
+    private fun createNextDaySession() = createBaseSession("s4",
+            Moment.ofEpochMilli(1583028000000L) // March 1, 2020 02:00:00 AM GMT
     )
 
     private fun createBaseSession(sessionId: String, moment: Moment) = Session(
