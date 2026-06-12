@@ -60,11 +60,11 @@ internal class ScrollAmountCalculator(
             if (columnIndex >= 0 && columnIndex < roomDataList.size) {
                 val roomData = roomDataList[columnIndex]
                 for (session in roomData.sessions) {
-                    if (session.startsAt.minuteOfDay <= time && session.endsAt.minuteOfDay > time) {
+                    if (session.isStillRunningAt(time)) {
                         logging.d(LOG_TAG, session.title)
                         val startTime = session.startsAt.minuteOfDay
                         logging.d(LOG_TAG, "$time $startTime/${session.duration.toWholeMinutes().toInt()}")
-                        scrollAmount -= (time - startTime) / TIME_GRID_MINIMUM_SEGMENT_HEIGHT * boxHeight
+                        scrollAmount -= startTime.minutesUntil(time) / TIME_GRID_MINIMUM_SEGMENT_HEIGHT * boxHeight
                         time = startTime
                     }
                 }
@@ -72,6 +72,24 @@ internal class ScrollAmountCalculator(
         }
         return scrollAmount
     }
+
+    private fun Session.isStillRunningAt(minuteOfDay: Int): Boolean {
+        val start = startsAt.minuteOfDay
+        val end = endsAt.minuteOfDay
+        return when (start < end) {
+            true -> minuteOfDay in start..<end
+            false -> minuteOfDay !in end..<start
+        }
+    }
+
+    private fun Int.minutesUntil(endTime: Int): Int {
+        var minutes = endTime - this
+        if (endTime < this) {
+            minutes += MINUTES_OF_ONE_DAY
+        }
+        return minutes
+    }
+
 
     /**
      * Returns the scroll amount for the given [session].
