@@ -55,6 +55,18 @@ class ScrollAmountCalculatorTest {
     }
 
     @Test
+    fun `calculateScrollAmount returns start of second session with timezone offset data`() {
+        val s1 = createFirstTimezoneOffsetSession()
+        val s2 = createSecondTimezoneOffsetSession()
+        val scrollAmount = calculateScrollAmount(
+                sessions = listOf(s1, s2),
+                nowMoment = s2.startsAt, // 10:00 UTC -> 816 UTC minutes
+                currentDayIndex = s1.dayIndex
+        )
+        assertThat(scrollAmount).isEqualTo(816)
+    }
+
+    @Test
     fun `calculateScrollAmount returns 0 if conference starts now`() {
         val session = createFirstSession()
         val scrollAmount = calculateScrollAmount(
@@ -127,6 +139,28 @@ class ScrollAmountCalculatorTest {
         dateText = moment.toZonedDateTime(ZoneOffset.UTC).toLocalDate().toString(),
         dateUTC = moment.toMilliseconds(),
         startTime = Duration.ofMinutes(moment.minuteOfDay),
+        duration = Duration.ofMinutes(60),
+        roomName = "Main hall",
+    )
+
+    private fun createFirstTimezoneOffsetSession() = createTimezoneOffsetSession("first legacy",
+        Moment.ofEpochMilli(1582963200000L), // February 29, 2020 08:00:00 AM GMT
+        60 * 10, // simulating +02:00 timezone offset as in JSON/XML data
+    )
+
+    private fun createSecondTimezoneOffsetSession() = createTimezoneOffsetSession("second legacy",
+        Moment.ofEpochMilli(1582970400000L), // February 29, 2020 10:00:00 AM GMT
+        60 * 12, // simulating +02:00 timezone offset as in JSON/XML data
+    )
+
+    // In JSON/XML the "start" property value is independent of the UTC value in the "date" property.
+    // The "start" value comes in the local timezone of the event.
+    private fun createTimezoneOffsetSession(sessionId: String, moment: Moment, startTime: Int) = Session(
+        sessionId = sessionId,
+        dayIndex = 0,
+        dateText = moment.toZonedDateTime(ZoneOffset.UTC).toLocalDate().toString(),
+        dateUTC = moment.toMilliseconds(),
+        startTime = Duration.ofMinutes(startTime),
         duration = Duration.ofMinutes(60),
         roomName = "Main hall",
     )
