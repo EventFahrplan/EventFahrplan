@@ -23,7 +23,7 @@ class ScrollAmountCalculatorTest {
     fun `calculateScrollAmount returns 0 if room index preceeds the valid column indices`() {
         val session = createFirstSession()
         val scrollAmount = calculateScrollAmount(
-                session = session,
+                sessions = listOf(session),
                 nowMoment = session.startsAt,
                 currentDayIndex = session.dayIndex,
                 columnIndex = -1
@@ -35,7 +35,7 @@ class ScrollAmountCalculatorTest {
     fun `calculateScrollAmount returns 0 if room index exceeds the valid column indices`() {
         val session = createFirstSession()
         val scrollAmount = calculateScrollAmount(
-                session = session,
+                sessions = listOf(session),
                 nowMoment = session.startsAt,
                 currentDayIndex = session.dayIndex,
                 columnIndex = COLUMN_INDEX + 1
@@ -47,7 +47,7 @@ class ScrollAmountCalculatorTest {
     fun `calculateScrollAmount returns 0 if conference has not started but it will today`() {
         val session = createFirstSession()
         val scrollAmount = calculateScrollAmount(
-                session = session,
+                sessions = listOf(session),
                 nowMoment = session.startsAt.minusMinutes(1),
                 currentDayIndex = session.dayIndex
         )
@@ -58,7 +58,7 @@ class ScrollAmountCalculatorTest {
     fun `calculateScrollAmount returns 0 if conference starts now`() {
         val session = createFirstSession()
         val scrollAmount = calculateScrollAmount(
-                session = session,
+                sessions = listOf(session),
                 nowMoment = session.startsAt,
                 currentDayIndex = session.dayIndex
         )
@@ -69,7 +69,7 @@ class ScrollAmountCalculatorTest {
     fun `calculateScrollAmount returns 0 if first session is almost done`() {
         val session = createFirstSession()
         val scrollAmount = calculateScrollAmount(
-                session = session,
+                sessions = listOf(session),
                 nowMoment = session.endsAt.minusMinutes(1),
                 currentDayIndex = session.dayIndex
         )
@@ -80,7 +80,7 @@ class ScrollAmountCalculatorTest {
     fun `calculateScrollAmount returns end of session if first session is done`() {
         val session = createFirstSession()
         val scrollAmount = calculateScrollAmount(
-                session = session,
+                sessions = listOf(session),
                 nowMoment = session.endsAt,
                 currentDayIndex = session.dayIndex
         )
@@ -91,7 +91,7 @@ class ScrollAmountCalculatorTest {
     fun `calculateScrollAmount returns 408 for a session crossing the intra-day limit`() {
         val session = createLateSession()
         val scrollAmount = calculateScrollAmount(
-                session = session,
+                sessions = listOf(session),
                 nowMoment = session.endsAt,
                 currentDayIndex = session.dayIndex
         )
@@ -99,12 +99,12 @@ class ScrollAmountCalculatorTest {
     }
 
     private fun calculateScrollAmount(
-            session: Session,
+            sessions: List<Session>,
             nowMoment: Moment,
             currentDayIndex: Int,
             columnIndex: Int = COLUMN_INDEX
     ): Int {
-        val sessions = listOf(session)
+        val session = sessions.first()
         val roomData = RoomData(roomName = session.roomName, sessions = sessions)
         val scheduleData = ScheduleData(dayIndex = session.dayIndex, roomDataList = listOf(roomData))
         val conference = Conference.ofSessions(sessions)
