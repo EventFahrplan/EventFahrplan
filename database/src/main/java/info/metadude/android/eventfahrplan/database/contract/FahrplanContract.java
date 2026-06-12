@@ -102,7 +102,6 @@ public interface FahrplanContract {
             String LANG = "lang";
             String ABSTRACT = "abstract";
             String DESCR = "descr";
-            String REL_START = "relStart";
             String DATE_TEXT = "date";
             String LINKS = "links";
             String DATE_UTC = "dateUTC";
@@ -120,7 +119,7 @@ public interface FahrplanContract {
             String CHANGED_LANGUAGE = "changed_language";
             String CHANGED_TRACK = "changed_track";
             String CHANGED_IS_NEW = "changed_is_new";
-            String CHANGED_START_TIME = "changed_time";
+            String CHANGED_DATE_UTC = "changed_time"; // Keep column name to avoid database migration.
             String CHANGED_DURATION = "changed_duration";
             String CHANGED_IS_CANCELED = "changed_is_canceled";
             String SESSION_GUID = "event_guid"; // Keep column name to avoid database migration.
@@ -180,9 +179,6 @@ public interface FahrplanContract {
 
             String DESCRIPTION_NONE = "description_none_count";
             String DESCRIPTION_PRESENT = "description_present_count";
-
-            String RELATIVE_START_TIME_NONE = "relative_start_time_none_count";
-            String RELATIVE_START_TIME_PRESENT = "relative_start_time_present_count";
 
             String DATE_TEXT_NONE = "date_text_none_count";
             String DATE_TEXT_PRESENT = "date_text_present_count";

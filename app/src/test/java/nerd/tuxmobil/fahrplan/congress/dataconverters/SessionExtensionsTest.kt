@@ -70,7 +70,6 @@ class SessionExtensionsTest {
                 isHighlight = true,
                 language = "en",
                 links = "[Website](https://www.example.com/path)",
-                relativeStartTime = Duration.ofMinutes(1035),
                 recordingLicense = "CC 0",
                 recordingOptOut = RECORDING_OPT_OUT_ON,
                 roomName = "Simulacron-3",
@@ -94,7 +93,7 @@ class SessionExtensionsTest {
                 changedRecordingOptOut = true,
                 changedRoomName = true,
                 changedSpeakers = true,
-                changedStartTime = true,
+                changedDateUtc = true,
                 changedSubtitle = true,
                 changedTitle = true,
                 changedTrack = true
@@ -113,7 +112,6 @@ class SessionExtensionsTest {
             isHighlight = true,
             language = "en",
             links = "[Website](https://www.example.com/path)",
-            relativeStartTime = Duration.ofMinutes(1035),
             recordingLicense = "CC 0",
             recordingOptOut = RECORDING_OPT_OUT_ON,
             roomName = "Simulacron-3",
@@ -138,7 +136,7 @@ class SessionExtensionsTest {
             changedRoomName = true,
             changedSpeakers = true,
             changedSubtitle = true,
-            changedStartTime = true,
+            changedDateUtc = true,
             changedTitle = true,
             changedTrack = true,
         )
@@ -161,7 +159,6 @@ class SessionExtensionsTest {
                 isHighlight = true,
                 language = "en",
                 links = "[Website](https://www.example.com/path)",
-                relativeStartTime = Duration.ofMinutes(1035),
                 recordingLicense = "CC 0",
                 recordingOptOut = RECORDING_OPT_OUT_ON,
                 roomName = "Simulacron-3",
@@ -186,7 +183,7 @@ class SessionExtensionsTest {
                 changedRoomName = true,
                 changedSpeakers = true,
                 changedSubtitle = true,
-                changedStartTime = true,
+                changedDateUtc = true,
                 changedTitle = true,
                 changedTrack = true
         )

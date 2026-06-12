@@ -3,6 +3,7 @@ package info.metadude.android.eventfahrplan.database.extensions
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ABSTRACT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DATE_UTC
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DAY_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DURATION
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_IS_CANCELED
@@ -11,7 +12,6 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_RECORDING_OPTOUT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_ROOM_NAME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SPEAKERS
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_START_TIME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SUBTITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TRACK
@@ -25,7 +25,6 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LINKS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_LICENSE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_OPTOUT
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REL_START
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_IDENTIFIER
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_NAME
@@ -60,7 +59,6 @@ class SessionExtensionsTest {
                 isHighlight = true,
                 language = "en",
                 links = "[Website](https://www.example.com/path)",
-                relativeStartTime = Duration.ofMinutes(1035),
                 recordingLicense = "CC 0",
                 recordingOptOut = Session.RECORDING_OPT_OUT_ON,
                 roomName = "Simulacron-3",
@@ -83,7 +81,7 @@ class SessionExtensionsTest {
                 changedRecordingOptOut = true,
                 changedRoomName = true,
                 changedSpeakers = true,
-                changedStartTime = true,
+                changedDateUtc = true,
                 changedSubtitle = true,
                 changedTitle = true,
                 changedTrack = true
@@ -102,7 +100,6 @@ class SessionExtensionsTest {
         // The value of "isHighlight" is not persisted.
         assertThat(values.getAsString(LANG)).isEqualTo("en")
         assertThat(values.getAsString(LINKS)).isEqualTo("[Website](https://www.example.com/path)")
-        assertThat(values.getAsInteger(REL_START)).isEqualTo(1035)
         assertThat(values.getAsString(REC_LICENSE)).isEqualTo("CC 0")
         assertThat(values.getAsBoolean(REC_OPTOUT)).isEqualTo(Session.RECORDING_OPT_OUT_ON)
         assertThat(values.getAsString(ROOM_NAME)).isEqualTo("Simulacron-3")
@@ -126,7 +123,7 @@ class SessionExtensionsTest {
         assertThat(values.getAsBoolean(CHANGED_ROOM_NAME)).isEqualTo(true)
         assertThat(values.getAsBoolean(CHANGED_SPEAKERS)).isEqualTo(true)
         assertThat(values.getAsBoolean(CHANGED_SUBTITLE)).isEqualTo(true)
-        assertThat(values.getAsBoolean(CHANGED_START_TIME)).isEqualTo(true)
+        assertThat(values.getAsBoolean(CHANGED_DATE_UTC)).isEqualTo(true)
         assertThat(values.getAsBoolean(CHANGED_TITLE)).isEqualTo(true)
         assertThat(values.getAsBoolean(CHANGED_TRACK)).isEqualTo(true)
     }

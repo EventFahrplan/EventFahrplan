@@ -122,6 +122,13 @@ internal fun SQLiteDatabase.dropTableIfExist(tableName: String) {
 }
 
 /**
+ * Deletes the given [view][viewName] if it exists.
+ */
+internal fun SQLiteDatabase.dropViewIfExist(viewName: String) {
+        execSQL("DROP VIEW IF EXISTS $viewName")
+}
+
+/**
  * Adds an INTEGER [column][columnName] to the given [table][tableName] with a [default value][default].
  */
 internal fun SQLiteDatabase.addIntegerColumn(tableName: String, columnName: String, default: Int?) {

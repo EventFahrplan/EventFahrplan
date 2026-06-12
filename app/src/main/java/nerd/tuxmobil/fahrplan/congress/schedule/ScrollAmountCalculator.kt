@@ -25,7 +25,16 @@ internal class ScrollAmountCalculator(
     }
 
     /**
-     * Returns the amount to be scrolled. Valid values are 0 and positive integers.
+     * Returns the vertical scroll amount in pixels needed to bring the current moment into view
+     * for the given [currentDayIndex] and [columnIndex].
+     *
+     * The algorithm walks the time grid in [FIFTEEN_MINUTES] steps from the first session of the
+     * conference, adding a fixed number of pixels per step, until the step that contains
+     * [nowMoment] is reached.  If a session in [columnIndex] is still running at that point,
+     * the amount is reduced so the top of that session is scrolled to instead.
+     *
+     * Scroll amount in pixels (≥ 0). Returns 0 when [nowMoment] falls before the first session
+     * starts on the current day.
      */
     fun calculateScrollAmount(
         conference: Conference,
@@ -45,19 +54,20 @@ internal class ScrollAmountCalculator(
             var timeSegment: TimeSegment
             val minutesToAdd = if (conference.spansMultipleDays) MINUTES_OF_ONE_DAY else 0
             val lastSessionEndsAtMinutes = conference.lastSessionEndsAt.minuteOfDay + minutesToAdd
+            val segmentHeight = boxHeight * BOX_HEIGHT_MULTIPLIER
             while (sessionStartsAtMinutes < lastSessionEndsAtMinutes) {
                 timeSegment = TimeSegment.ofMoment(sessionStartsAt)
                 scrollAmount += if (timeSegment.isMatched(nowMoment, FIFTEEN_MINUTES)) {
                     break
                 } else {
-                    boxHeight * BOX_HEIGHT_MULTIPLIER
+                    segmentHeight
                 }
                 sessionStartsAt = sessionStartsAt.plusMinutes(FIFTEEN_MINUTES.toLong())
                 sessionStartsAtMinutes += FIFTEEN_MINUTES
             }
             var time = sessionStartsAt.minuteOfDay
             val roomDataList = scheduleData.roomDataList
-            if (columnIndex >= 0 && columnIndex < roomDataList.size) {
+            if (columnIndex in roomDataList.indices) {
                 val roomData = roomDataList[columnIndex]
                 for (session in roomData.sessions) {
                     if (session.isStillRunningAt(time)) {

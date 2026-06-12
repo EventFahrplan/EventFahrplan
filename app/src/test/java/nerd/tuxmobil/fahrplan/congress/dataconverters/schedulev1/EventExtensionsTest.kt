@@ -11,9 +11,6 @@ import info.metadude.kotlin.library.schedule.v1.models.Link
 import info.metadude.kotlin.library.schedule.v1.models.Person
 import info.metadude.kotlin.library.schedule.v1.models.Room
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments.of
-import org.junit.jupiter.params.provider.MethodSource
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 import org.threeten.bp.OffsetDateTime
@@ -22,76 +19,6 @@ import kotlin.uuid.Uuid
 import org.threeten.bp.Duration as ThreeTenDuration
 
 class EventExtensionsTest {
-
-    private companion object {
-
-        val day1StartsAt: OffsetDateTime = OffsetDateTime.parse("2025-12-27T11:00:00+01:00")
-        val day1EndsAt: OffsetDateTime = OffsetDateTime.parse("2025-12-28T06:00:00+01:00")
-
-        private fun scenarioOf(
-            dayStartsAt: OffsetDateTime,
-            dayEndsAt: OffsetDateTime,
-            eventStartsAt: OffsetDateTime,
-            eventStartsAtHourMinute: LocalTime,
-            expectedRelativeStartTime: Duration,
-        ) = of(
-            dayStartsAt,
-            dayEndsAt,
-            eventStartsAt,
-            eventStartsAtHourMinute,
-            expectedRelativeStartTime,
-        )
-
-        @JvmStatic
-        fun relativeStartTimeData() = listOf(
-            scenarioOf(
-                dayStartsAt = day1StartsAt,
-                dayEndsAt = day1EndsAt,
-                eventStartsAt = OffsetDateTime.parse("2025-12-27T10:30:00+01:00"),
-                eventStartsAtHourMinute = LocalTime.of(10, 30),
-                expectedRelativeStartTime = Duration.ofHours(10) + Duration.ofMinutes(30),
-            ),
-            scenarioOf(
-                dayStartsAt = day1StartsAt,
-                dayEndsAt = day1EndsAt,
-                eventStartsAt = OffsetDateTime.parse("2025-12-28T04:59:00+01:00"),
-                eventStartsAtHourMinute = LocalTime.of(4, 59),
-                expectedRelativeStartTime = Duration.ofHours(24 + 4) + Duration.ofMinutes(59),
-            ),
-            scenarioOf(
-                dayStartsAt = day1StartsAt,
-                dayEndsAt = day1EndsAt,
-                eventStartsAt = OffsetDateTime.parse("2025-12-28T05:00:00+01:00"),
-                eventStartsAtHourMinute = LocalTime.of(5, 0),
-                expectedRelativeStartTime = Duration.ofHours(5)
-            ),
-        )
-
-    }
-
-    @ParameterizedTest(name = "{index}: day={0} .. {1}, event={2} @ {3} -> expected={4}")
-    @MethodSource("relativeStartTimeData")
-    fun getRelativeStartTimeWithDayChangeAdjustment(
-        dayStartsAt: OffsetDateTime,
-        dayEndsAt: OffsetDateTime,
-        eventStartsAt: OffsetDateTime,
-        eventStartsAtHourMinute: LocalTime,
-        expectedRelativeStartTime: Duration,
-    ) {
-        val day = dayOf(
-            index = 1,
-            date = LocalDate.parse("2025-12-27"),
-            startsAt = dayStartsAt,
-            endsAt = dayEndsAt,
-        )
-        val event = eventOf(
-            startsAt = eventStartsAt,
-            startsAtHourMinute = eventStartsAtHourMinute,
-        )
-
-        assertThat(event.getRelativeStartTimeWithDayChangeAdjustment(day))
-            .isEqualTo(expectedRelativeStartTime)
-    }
 
     @Test
     fun `toSessionNetworkModel maps event fields to a network session`() {
@@ -151,7 +78,6 @@ class EventExtensionsTest {
         assertThat(session.abstractt).isEqualTo("Abstract")
         assertThat(session.description).isEqualTo("Description")
         assertThat(session.duration).isEqualTo(Duration.ofMinutes(45))
-        assertThat(session.relativeStartTime).isEqualTo(Duration.ofMinutes(9 * 60 + 30))
         assertThat(session.roomName).isEqualTo("One")
         assertThat(session.roomGuid).isEqualTo("00000000-4444-3333-2222-000000000000")
         assertThat(session.roomIndex).isEqualTo(7)

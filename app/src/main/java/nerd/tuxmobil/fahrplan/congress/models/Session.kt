@@ -28,7 +28,6 @@ data class Session(
     val dateUTC: Long = 0, // milliseconds
     val timeZoneOffset: ZoneOffset? = null,
     val startTime: Duration = Duration.ZERO, // minutes since day start
-    val relativeStartTime: Duration = Duration.ZERO, // minutes since conference start
     val duration: Duration = Duration.ZERO, // minutes
     val roomName: String = "",
     val roomIdentifier: String = "", // Unique identifier of a room, e.g. "bccb6a5b-b26b-4f17-90b9-b5966f5e34d8"
@@ -47,7 +46,7 @@ data class Session(
     val changedSubtitle: Boolean = false,
     val changedRoomName: Boolean = false,
     val changedDayIndex: Boolean = false,
-    val changedStartTime: Boolean = false,
+    val changedDateUtc: Boolean = false,
     val changedDuration: Boolean = false,
     val changedSpeakers: Boolean = false,
     val changedLanguage: Boolean = false,
@@ -71,7 +70,7 @@ data class Session(
     /**
      * Returns a moment based on the start time milliseconds.
      *
-     * Don't use in [Conference.ofSessions] as long as [relativeStartTime] is supported.
+     * Don't use in [Conference.ofSessions] as long as `relativeStartTime` is supported.
      * See: [5a402](https://github.com/EventFahrplan/EventFahrplan/commit/5a4022b00434700274a824cc63f6d54a18b06fac)
      */
     val startsAt: Moment
@@ -94,7 +93,7 @@ data class Session(
                 changedSubtitle ||
                 changedRoomName ||
                 changedDayIndex ||
-                changedStartTime ||
+                changedDateUtc ||
                 changedDuration ||
                 changedSpeakers ||
                 changedLanguage ||

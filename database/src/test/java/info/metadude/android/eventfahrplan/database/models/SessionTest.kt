@@ -43,7 +43,7 @@ class SessionTest {
             changedSubtitle = changedSubtitle,
             changedRoomName = changedRoomName,
             changedDayIndex = changedDay,
-            changedStartTime = changedTime,
+            changedDateUtc = changedTime,
             changedDuration = changedDuration,
             changedSpeakers = changedSpeakers,
             changedLanguage = changedLanguage,

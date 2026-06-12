@@ -109,7 +109,7 @@ class SessionChangeParametersFactory(
                 value = startsAt,
                 contentDescription = contentDescriptionFormatting
                     .getStartTimeContentDescription(startsAt),
-                changeType = changeTypeOf(session, session.changedStartTime),
+                changeType = changeTypeOf(session, session.changedDateUtc),
             ),
             duration = SessionChangeProperty(
                 value = duration,
