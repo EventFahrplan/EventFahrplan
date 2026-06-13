@@ -73,7 +73,12 @@ class SearchViewModel(
 
     private val searchQuery = MutableStateFlow("")
 
-    private val searchFiltersState = MutableStateFlow(searchFilters.associateWith { false })
+    private val searchFiltersState = MutableStateFlow(
+        SearchFiltersState(
+            filters = searchFilters.associateWith { false },
+            selectedFilterLabels = emptyList(),
+        )
+    )
 
     private val useDeviceTimeZone: Boolean
         get() = repository.readUseDeviceTimeZoneEnabled()
@@ -84,7 +89,8 @@ class SearchViewModel(
             searchFiltersState,
             repository.sessions,
             searchHistoryManager.searchHistory,
-        ) { query, filters, sessions, searchHistory ->
+        ) { query, searchFiltersState, sessions, searchHistory ->
+            val filters = searchFiltersState.filters
             val activeFilters = filters
                 .asSequence()
                 .filter { it.value }
@@ -120,7 +126,7 @@ class SearchViewModel(
         .stateIn(
             scope = viewModelScope,
             initialValue = SearchUiState(
-                filters = searchFiltersState.value.toUiState(),
+                filters = searchFiltersState.value.filters.toUiState(),
             ),
             started = WhileSubscribed(5_000)
         )
@@ -136,9 +142,19 @@ class SearchViewModel(
 
     fun onViewEvent(viewEvent: SearchViewEvent) {
         when (viewEvent) {
-            OnBackPress -> sendEffect(NavigateBack)
+            OnBackPress -> {
+                if (!unselectLastSelectedSearchFilter()) {
+                    sendEffect(NavigateBack)
+                }
+            }
+
             OnBackIconClick -> searchQuery.value = ""
-            OnSearchSubScreenBackPress -> searchQuery.value = ""
+            OnSearchSubScreenBackPress -> {
+                if (!unselectLastSelectedSearchFilter()) {
+                    searchQuery.value = ""
+                }
+            }
+
             is OnSearchResultItemClick -> sendEffect(NavigateToSession(viewEvent.sessionId))
             is OnSearchHistoryItemClick -> searchQuery.value = viewEvent.searchQuery
             OnSearchHistoryClear -> searchHistoryManager.clear(viewModelScope)
@@ -149,16 +165,45 @@ class SearchViewModel(
     }
 
     private fun toggleSearchFilter(filter: SearchFilterUiState) {
-        searchFiltersState.update { filters ->
-            filters.mapValues { (key, value) ->
-                if (key.label == filter.label) {
-                    !value
+        searchFiltersState.update { state ->
+            val isSelected = state.filters
+                .entries
+                .firstOrNull { (searchFilter, _) -> searchFilter.label == filter.label }
+                ?.value
+                ?: return@update state
+
+            state.copy(
+                filters = state.filters.mapValues { (searchFilter, selected) ->
+                    if (searchFilter.label == filter.label) !selected else selected
+                },
+                selectedFilterLabels = if (isSelected) {
+                    state.selectedFilterLabels - filter.label
                 } else {
-                    value
-                }
-            }
+                    state.selectedFilterLabels
+                        .filterNot { it == filter.label }
+                        .plus(filter.label)
+                },
+            )
         }
     }
+
+    private fun unselectLastSelectedSearchFilter(): Boolean {
+        val lastLabel = searchFiltersState.value.selectedFilterLabels.lastOrNull() ?: return false
+        searchFiltersState.update { state ->
+            state.copy(
+                filters = state.filters.mapValues { (filter, selected) ->
+                    if (filter.label == lastLabel) false else selected
+                },
+                selectedFilterLabels = state.selectedFilterLabels.dropLast(1),
+            )
+        }
+        return true
+    }
+
+    private data class SearchFiltersState(
+        val filters: Map<SearchFilter, Boolean>,
+        val selectedFilterLabels: List<Int>,
+    )
 
     private fun sendEffect(effect: SearchEffect) {
         viewModelScope.launch {

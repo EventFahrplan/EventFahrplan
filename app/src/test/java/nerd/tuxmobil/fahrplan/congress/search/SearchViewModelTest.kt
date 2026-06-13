@@ -23,6 +23,7 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.SearchHistory
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.SearchResults
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnBackIconClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnBackPress
+import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnFilterToggled
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchHistoryClear
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchHistoryItemClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchQueryChange
@@ -31,6 +32,7 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchResultItem
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchSubScreenBackPress
 import nerd.tuxmobil.fahrplan.congress.search.filters.HasAlarmSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.IsFavoriteSearchFilter
+import nerd.tuxmobil.fahrplan.congress.search.filters.NotRecordedSearchFilter
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -274,7 +276,7 @@ class SearchViewModelTest {
                 val initialState = awaitItem()
 
                 // Select filter
-                viewModel.onViewEvent(SearchViewEvent.OnFilterToggled(initialState.filters.first()))
+                viewModel.onViewEvent(OnFilterToggled(initialState.filters.first()))
 
                 val filterSelectedState = awaitItem()
                 assertThat(filterSelectedState.filters).containsExactly(
@@ -282,8 +284,68 @@ class SearchViewModelTest {
                 )
 
                 // Deselect filter
-                viewModel.onViewEvent(SearchViewEvent.OnFilterToggled(filterSelectedState.filters.first()))
+                viewModel.onViewEvent(OnFilterToggled(filterSelectedState.filters.first()))
 
+                assertThat(awaitItem().filters).containsExactly(
+                    SearchFilterUiState(label = filter.label, selected = false)
+                )
+            }
+        }
+
+        @Test
+        fun `back press unselects selected filters in reverse selection order`() = runTest {
+            val favoriteFilter = IsFavoriteSearchFilter()
+            val alarmFilter = HasAlarmSearchFilter()
+            val notRecordedFilter = NotRecordedSearchFilter()
+            val viewModel = createViewModel(
+                searchFilters = listOf(favoriteFilter, alarmFilter, notRecordedFilter),
+            )
+
+            viewModel.uiState.test {
+                val initialState = awaitItem()
+                viewModel.onViewEvent(OnFilterToggled(initialState.filters[0]))
+                awaitItem()
+                viewModel.onViewEvent(OnFilterToggled(initialState.filters[1]))
+                awaitItem()
+                viewModel.onViewEvent(OnFilterToggled(initialState.filters[2]))
+                awaitItem()
+
+                viewModel.onViewEvent(OnSearchSubScreenBackPress)
+                assertThat(awaitItem().filters).containsExactly(
+                    SearchFilterUiState(label = favoriteFilter.label, selected = true),
+                    SearchFilterUiState(label = alarmFilter.label, selected = true),
+                    SearchFilterUiState(label = notRecordedFilter.label, selected = false),
+                ).inOrder()
+
+                viewModel.onViewEvent(OnSearchSubScreenBackPress)
+                assertThat(awaitItem().filters).containsExactly(
+                    SearchFilterUiState(label = favoriteFilter.label, selected = true),
+                    SearchFilterUiState(label = alarmFilter.label, selected = false),
+                    SearchFilterUiState(label = notRecordedFilter.label, selected = false),
+                ).inOrder()
+
+                viewModel.onViewEvent(OnSearchSubScreenBackPress)
+                assertThat(awaitItem().filters).containsExactly(
+                    SearchFilterUiState(label = favoriteFilter.label, selected = false),
+                    SearchFilterUiState(label = alarmFilter.label, selected = false),
+                    SearchFilterUiState(label = notRecordedFilter.label, selected = false),
+                ).inOrder()
+            }
+        }
+
+        @Test
+        fun `root back press unselects selected filter`() = runTest {
+            val filter = IsFavoriteSearchFilter()
+            val viewModel = createViewModel(
+                searchFilters = listOf(filter),
+            )
+
+            viewModel.uiState.test {
+                val initialState = awaitItem()
+                viewModel.onViewEvent(OnFilterToggled(initialState.filters.first()))
+                awaitItem()
+
+                viewModel.onViewEvent(OnBackPress)
                 assertThat(awaitItem().filters).containsExactly(
                     SearchFilterUiState(label = filter.label, selected = false)
                 )
