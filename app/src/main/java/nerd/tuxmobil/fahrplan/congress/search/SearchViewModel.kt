@@ -2,7 +2,6 @@ package nerd.tuxmobil.fahrplan.congress.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
@@ -34,14 +33,6 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchQueryChang
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchQueryClear
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchResultItemClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchSubScreenBackPress
-import nerd.tuxmobil.fahrplan.congress.search.filters.HasAlarmSearchFilter
-import nerd.tuxmobil.fahrplan.congress.search.filters.IsFavoriteSearchFilter
-import nerd.tuxmobil.fahrplan.congress.search.filters.NotFavoriteSearchFilter
-import nerd.tuxmobil.fahrplan.congress.search.filters.NotRecordedSearchFilter
-import nerd.tuxmobil.fahrplan.congress.search.filters.RecordedSearchFilter
-import nerd.tuxmobil.fahrplan.congress.search.filters.WithinSpeakerNamesSearchFilter
-import nerd.tuxmobil.fahrplan.congress.search.filters.WithinTitleSubtitleSearchFilter
-import nerd.tuxmobil.fahrplan.congress.search.filters.WithinTrackNameSearchFilter
 import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(FlowPreview::class)
@@ -55,17 +46,6 @@ class SearchViewModel(
 
     private companion object {
         val FINISH_TYPING_SEARCH_QUERY_DELAY = 1_000.milliseconds
-
-        private val SUPPORTED_SEARCH_FILTERS = listOf(
-            IsFavoriteSearchFilter(),
-            NotFavoriteSearchFilter(),
-            HasAlarmSearchFilter(),
-            NotRecordedSearchFilter(),
-            RecordedSearchFilter(),
-            WithinSpeakerNamesSearchFilter(),
-            WithinTitleSubtitleSearchFilter(),
-            WithinTrackNameSearchFilter(),
-        )
     }
 
     private val mutableEffects = Channel<SearchEffect>()
@@ -73,7 +53,9 @@ class SearchViewModel(
 
     private val searchQuery = MutableStateFlow("")
 
-    private val searchFiltersState = MutableStateFlow(searchFilters.associateWith { false })
+    private val searchFiltersState = MutableStateFlow(
+        SearchFiltersState.of(searchFilters)
+    )
 
     private val useDeviceTimeZone: Boolean
         get() = repository.readUseDeviceTimeZoneEnabled()
@@ -84,13 +66,8 @@ class SearchViewModel(
             searchFiltersState,
             repository.sessions,
             searchHistoryManager.searchHistory,
-        ) { query, filters, sessions, searchHistory ->
-            val activeFilters = filters
-                .asSequence()
-                .filter { it.value }
-                .map { it.key }
-                .toSet()
-
+        ) { query, searchFiltersState, sessions, searchHistory ->
+            val activeFilters = searchFiltersState.activeFilters
             val resultsState = if (query.isEmpty() && activeFilters.isEmpty()) {
                 if (searchHistory.isEmpty()) {
                     NoSearchResults(backEvent = OnBackPress)
@@ -113,14 +90,14 @@ class SearchViewModel(
 
             SearchUiState(
                 query = query,
-                filters = filters.toUiState(),
+                filters = searchFiltersState.uiState,
                 resultsState = resultsState,
             )
         }
         .stateIn(
             scope = viewModelScope,
             initialValue = SearchUiState(
-                filters = searchFiltersState.value.toUiState(),
+                filters = searchFiltersState.value.uiState,
             ),
             started = WhileSubscribed(5_000)
         )
@@ -136,28 +113,32 @@ class SearchViewModel(
 
     fun onViewEvent(viewEvent: SearchViewEvent) {
         when (viewEvent) {
-            OnBackPress -> sendEffect(NavigateBack)
+            OnBackPress -> {
+                if (!unselectLastSelectedSearchFilter()) {
+                    sendEffect(NavigateBack)
+                }
+            }
+
             OnBackIconClick -> searchQuery.value = ""
-            OnSearchSubScreenBackPress -> searchQuery.value = ""
+            OnSearchSubScreenBackPress -> {
+                if (!unselectLastSelectedSearchFilter()) {
+                    searchQuery.value = ""
+                }
+            }
+
             is OnSearchResultItemClick -> sendEffect(NavigateToSession(viewEvent.sessionId))
             is OnSearchHistoryItemClick -> searchQuery.value = viewEvent.searchQuery
             OnSearchHistoryClear -> searchHistoryManager.clear(viewModelScope)
             is OnSearchQueryChange -> searchQuery.value = viewEvent.updatedQuery
-            is OnFilterToggled -> toggleSearchFilter(viewEvent.filter)
+            is OnFilterToggled -> searchFiltersState.update { it.toggle(viewEvent.filter) }
             OnSearchQueryClear -> searchQuery.value = ""
         }
     }
 
-    private fun toggleSearchFilter(filter: SearchFilterUiState) {
-        searchFiltersState.update { filters ->
-            filters.mapValues { (key, value) ->
-                if (key.label == filter.label) {
-                    !value
-                } else {
-                    value
-                }
-            }
-        }
+    private fun unselectLastSelectedSearchFilter(): Boolean {
+        if (!searchFiltersState.value.hasSelectedFilters) return false
+        searchFiltersState.update { it.unselectLastSelected() }
+        return true
     }
 
     private fun sendEffect(effect: SearchEffect) {
@@ -165,10 +146,4 @@ class SearchViewModel(
             mutableEffects.send(effect)
         }
     }
-}
-
-private fun Map<SearchFilter, Boolean>.toUiState(): ImmutableList<SearchFilterUiState> {
-    return map { (filter, selected) ->
-        SearchFilterUiState(filter.label, selected)
-    }.toImmutableList()
 }
