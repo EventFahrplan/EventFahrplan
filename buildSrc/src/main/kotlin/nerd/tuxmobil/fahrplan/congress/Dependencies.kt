@@ -65,7 +65,7 @@ object Libs {
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "11.0.0"
         const val fragmentCompose = "1.8.9"
-        const val htmlConverter = "1.1.0"
+        const val htmlConverter = "1.1.1"
         const val junitJupiter = "5.14.3" // emulators on CI do not run junit 6 https://github.com/mannodermaus/android-junit5/issues/392
         const val junitPlatform = "1.14.3" // emulators on CI do not run junit 6 https://github.com/mannodermaus/android-junit5/issues/392
         const val kotlinCoroutines = "1.11.0"
