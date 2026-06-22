@@ -14,21 +14,21 @@ apply plugin: "com.getkeepsafe.dexcount"
 apply from: "../gradle/sonarqube.gradle"
 
 android {
-    namespace "nerd.tuxmobil.fahrplan.congress"
+    namespace = "nerd.tuxmobil.fahrplan.congress"
 
     compileSdk = Android.compileSdkVersion
     buildToolsVersion = Android.buildToolsVersion
 
     defaultConfig {
-        versionCode 119
-        versionName "1.76.0"
-        minSdk Android.minSdkVersion
-        targetSdk Android.targetSdkVersion
+        versionCode = 119
+        versionName = "1.76.0"
+        minSdk = Android.minSdkVersion
+        targetSdk = Android.targetSdkVersion
         base.archivesName = "Fahrplan-$versionName"
 
         vectorDrawables.useSupportLibrary = true // allows using fillColor, fillType, strokeColor functionalities below Android 7.0 (API 24)
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments runnerBuilder: "de.mannodermaus.junit5.AndroidJUnit5Builder"
 
         // Build information
@@ -60,21 +60,21 @@ android {
     }
 
     buildFeatures {
-        buildConfig true
-        compose true
+        buildConfig = true
+        compose = true
     }
 
     buildTypes {
         debug {
             resValue("string", "build_time", "\"${buildTime()}\"")
-            versionNameSuffix "-DEBUG"
-            applicationIdSuffix ".debug"
-            debuggable true
+            versionNameSuffix = "-DEBUG"
+            applicationIdSuffix = ".debug"
+            debuggable = true
         }
         release {
             resValue("string", "build_time", "")
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled = true
+            shrinkResources = true
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"),
                     "proguard-rules/proguard-project.txt",
                     "proguard-rules/okhttp3.pro",
@@ -92,9 +92,9 @@ android {
 
     productFlavors {
         cccamp2023 {
-            dimension defaultDimension
-            applicationId "info.metadude.android.cccamp.schedule"
-            versionName "${defaultConfig.versionName}-CCCamp-Edition"
+            dimension = defaultDimension
+            applicationId = "info.metadude.android.cccamp.schedule"
+            versionName = "${defaultConfig.versionName}-CCCamp-Edition"
             buildConfigField "String", "GOOGLE_PLAY_URL", '"https://play.google.com/store/apps/details?id=info.metadude.android.cccamp.schedule"'
             buildConfigField "String", "F_DROID_URL", '"https://f-droid.org/packages/info.metadude.android.cccamp.schedule"'
             buildConfigField "String", "SCHEDULE_URL", '"https://events.ccc.de/camp/2023/hub/api/c/camp23/schedule.xml"'
@@ -115,8 +115,8 @@ android {
             buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/camp2023/public/events/%s/feedback/new"'
         }
         ccc39c3 {
-            dimension defaultDimension
-            applicationId "info.metadude.android.congress.schedule"
+            dimension = defaultDimension
+            applicationId = "info.metadude.android.congress.schedule"
             buildConfigField "String", "GOOGLE_PLAY_URL", '"https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule"'
             buildConfigField "String", "F_DROID_URL", '"https://f-droid.org/packages/info.metadude.android.congress.schedule"'
             buildConfigField "String", "SCHEDULE_URL", '"https://fahrplan.events.ccc.de/congress/2025/fahrplan/schedules/schedule.xml"'
@@ -145,15 +145,15 @@ android {
     }
 
     lint {
-        checkDependencies true
+        checkDependencies = true
         // for okio - https://github.com/square/okio/issues/58
         warning "InvalidPackage"
         warning "MissingDefaultResource"
     }
 
     compileOptions {
-        targetCompatibility Config.compatibleJavaVersion
-        sourceCompatibility Config.compatibleJavaVersion
+        targetCompatibility = Config.compatibleJavaVersion
+        sourceCompatibility = Config.compatibleJavaVersion
     }
 
     kotlinOptions {

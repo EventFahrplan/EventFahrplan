@@ -6,23 +6,23 @@ apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
 
 android {
-    namespace "info.metadude.android.eventfahrplan.commons"
+    namespace = "info.metadude.android.eventfahrplan.commons"
 
     compileSdk = Android.compileSdkVersion
     buildToolsVersion = Android.buildToolsVersion
 
     buildFeatures {
-        buildConfig true
+        buildConfig = true
     }
 
     defaultConfig {
-        minSdk Android.minSdkVersion
-        targetSdk Android.targetSdkVersion
+        minSdk = Android.minSdkVersion
+        targetSdk = Android.targetSdkVersion
     }
 
     compileOptions {
-        targetCompatibility Config.compatibleJavaVersion
-        sourceCompatibility Config.compatibleJavaVersion
+        targetCompatibility = Config.compatibleJavaVersion
+        sourceCompatibility = Config.compatibleJavaVersion
     }
 
     kotlinOptions {

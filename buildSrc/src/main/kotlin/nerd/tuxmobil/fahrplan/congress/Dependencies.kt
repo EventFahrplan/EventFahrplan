@@ -18,7 +18,7 @@ object Android {
 object Compose {
 
     private object Versions {
-        const val bom = "2026.05.00"
+        const val bom = "2026.06.00"
         const val material3 = "1.5.0-alpha18" // compileSdk 37 is required as of 1.5.0-alpha19
     }
 
@@ -35,8 +35,8 @@ object Plugins {
         const val android = "8.13.2"
         const val dexcount = "4.0.0"
         const val kotlin = "2.3.21"
-        const val ksp = "2.3.7"
-        const val sonarQube = "7.3.0.8198"
+        const val ksp = "2.3.9"
+        const val sonarQube = "7.3.1.8318"
         const val unMock = "0.9.0"
         const val versions = "0.54.0"
     }
@@ -60,23 +60,23 @@ object Libs {
         const val appCompat = "1.7.1"
         const val betterLinkMovementMethod = "2.2.0"
         const val constraintLayout = "2.2.1"
-        const val coreKtx = "1.18.0"
+        const val coreKtx = "1.18.0" // compileSdk 37 is required as of 1.19.0
         const val coreTesting = "2.2.0"
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "11.0.0"
         const val fragmentCompose = "1.8.9"
-        const val htmlConverter = "1.1.0"
+        const val htmlConverter = "1.1.1"
         const val junitJupiter = "5.14.3" // emulators on CI do not run junit 6 https://github.com/mannodermaus/android-junit5/issues/392
         const val junitPlatform = "1.14.3" // emulators on CI do not run junit 6 https://github.com/mannodermaus/android-junit5/issues/392
         const val kotlinCoroutines = "1.11.0"
-        const val lifecycle = "2.10.0"
-        const val markdownRenderer = "0.40.2"
-        const val material = "1.13.0"
+        const val lifecycle = "2.10.0" // compileSdk 37 is required as of 2.11.0
+        const val markdownRenderer = "0.41.0" // compileSdk 37 is required as of 0.42.0
+        const val material = "1.14.0"
         const val materialIconsCore = "1.7.8"
         const val mockitoKotlin = "6.3.0"
         const val moshi = "1.15.2"
         const val navigation = "2.9.8"
-        const val okhttp = "5.3.2"
+        const val okhttp = "5.4.0"
         const val robolectric = "4.3_r2-robolectric-0"
         const val roomStates = "2.0.0"
         const val schedule = "1.0.0"

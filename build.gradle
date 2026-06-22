@@ -24,7 +24,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url "https://jitpack.io" }
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
@@ -37,10 +37,10 @@ subprojects {
                     TestLogEvent.SKIPPED,
                     TestLogEvent.STANDARD_ERROR,
                     TestLogEvent.STANDARD_OUT
-            exceptionFormat TestExceptionFormat.FULL
-            showCauses true
-            showExceptions true
-            showStackTraces true
+            exceptionFormat = TestExceptionFormat.FULL
+            showCauses = true
+            showExceptions = true
+            showStackTraces = true
         }
     }
 }
