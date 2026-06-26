@@ -1,44 +1,42 @@
-import nerd.tuxmobil.fahrplan.congress.Android
-import nerd.tuxmobil.fahrplan.congress.Config
-import nerd.tuxmobil.fahrplan.congress.Libs
-
-apply plugin: "com.android.library"
-apply plugin: "kotlin-android"
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+}
 
 android {
     namespace = "info.metadude.android.eventfahrplan.commons"
 
-    compileSdk = Android.compileSdkVersion
-    buildToolsVersion = Android.buildToolsVersion
+    compileSdk = config.versions.compile.sdk.get().toInteger()
+    buildToolsVersion = config.versions.build.tools.get()
 
     buildFeatures {
         buildConfig = true
     }
 
     defaultConfig {
-        minSdk = Android.minSdkVersion
-        targetSdk = Android.targetSdkVersion
+        minSdk = config.versions.min.sdk.get().toInteger()
+        targetSdk = config.versions.target.sdk.get().toInteger()
     }
 
     compileOptions {
-        targetCompatibility = Config.compatibleJavaVersion
-        sourceCompatibility = Config.compatibleJavaVersion
+        targetCompatibility = JavaVersion.toVersion(config.versions.java.get())
+        sourceCompatibility = JavaVersion.toVersion(config.versions.java.get())
     }
 
     kotlinOptions {
-        jvmTarget = Config.compatibleJavaVersion
+        jvmTarget = config.versions.java.get()
     }
 }
 
 dependencies {
-    implementation Libs.lifecycleRuntime
-    implementation Libs.tracedroid
-    api Libs.threeTenBp
+    implementation(libs.lifecycle.runtime)
+    implementation(libs.tracedroid)
+    api(libs.threetenbp)
 
-    testImplementation project(":commons-testing")
-    testImplementation Libs.junitJupiterApi
-    testRuntimeOnly Libs.junitJupiterEngine
-    testRuntimeOnly Libs.junitPlatformLauncher
-    testImplementation Libs.junitJupiterParams
-    testImplementation Libs.truth
+    testImplementation(project(":commons-testing"))
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testRuntimeOnly(libs.junit.platform.launcher)
+    testImplementation(libs.junit.jupiter.params)
+    testImplementation(libs.truth)
 }

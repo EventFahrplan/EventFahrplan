@@ -1,28 +1,26 @@
-import nerd.tuxmobil.fahrplan.congress.Android
-import nerd.tuxmobil.fahrplan.congress.Config
-import nerd.tuxmobil.fahrplan.congress.Libs
-
-apply plugin: "com.android.library"
-apply plugin: "kotlin-android"
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+}
 
 android {
     namespace = "info.metadude.android.eventfahrplan.commons.testing"
 
-    compileSdk = Android.compileSdkVersion
-    buildToolsVersion = Android.buildToolsVersion
+    compileSdk = config.versions.compile.sdk.get().toInteger()
+    buildToolsVersion = config.versions.build.tools.get()
 
     defaultConfig {
-        minSdk = Android.minSdkVersion
-        targetSdk = Android.targetSdkVersion
+        minSdk = config.versions.min.sdk.get().toInteger()
+        targetSdk = config.versions.target.sdk.get().toInteger()
     }
 
     compileOptions {
-        targetCompatibility = Config.compatibleJavaVersion
-        sourceCompatibility = Config.compatibleJavaVersion
+        targetCompatibility = JavaVersion.toVersion(config.versions.java.get())
+        sourceCompatibility = JavaVersion.toVersion(config.versions.java.get())
     }
 
     kotlinOptions {
-        jvmTarget = Config.compatibleJavaVersion
+        jvmTarget = config.versions.java.get()
         freeCompilerArgs = [
                 "-opt-in=kotlin.RequiresOptIn"
         ]
@@ -39,13 +37,11 @@ android {
 }
 
 dependencies {
-
-    implementation Libs.junitJupiterApi
-    implementation (Libs.kotlinCoroutinesTest) {
+    implementation(libs.junit.jupiter.api)
+    implementation(libs.kotlin.coroutines.test) {
         // workaround for https://github.com/Kotlin/kotlinx.coroutines/issues/2023
         exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
     }
-    implementation Libs.truth
-    api Libs.mockitoKotlin
-
+    implementation(libs.truth)
+    api(libs.mockito.kotlin)
 }

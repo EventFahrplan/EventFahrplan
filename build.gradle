@@ -1,23 +1,16 @@
-import nerd.tuxmobil.fahrplan.congress.Plugins
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath Plugins.android
-        classpath Plugins.composeCompiler
-        classpath Plugins.dexcount
-        classpath Plugins.kotlin
-        classpath Plugins.ksp
-        classpath Plugins.sonarQube
-        classpath Plugins.unMock
-        classpath Plugins.versions
-    }
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.dexcount) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.compose) apply false
+    alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.sonarqube) apply false
+    alias(libs.plugins.unmock) apply false
+    alias(libs.plugins.versions)
 }
 
 allprojects {

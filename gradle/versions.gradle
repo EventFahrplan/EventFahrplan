@@ -1,7 +1,5 @@
 // Gradle Versions Plugin
 
-apply plugin: "com.github.ben-manes.versions"
-
 dependencyUpdates {
     def isNonStable = { String version ->
         def stableKeyword = ["RELEASE", "FINAL", "GA"].any {
