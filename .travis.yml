@@ -9,8 +9,8 @@ env:
   # Android command line tools, check for updates here https://developer.android.com/studio/#command-tools
   - COMMAND_LINE_TOOLS_VERSION=14742923
   - ANDROID_HOME=$HOME/android-sdk
-  - TARGET_SDK_VERSION=`grep -H targetSdk buildSrc/src/main/kotlin/nerd/tuxmobil/fahrplan/congress/Dependencies.kt | grep -Po "\d+"`
-  - BUILD_TOOLS_VERSION=`grep -H buildToolsVersion buildSrc/src/main/kotlin/nerd/tuxmobil/fahrplan/congress/Dependencies.kt | grep -Po "\d+.\d+.\d+"`
+  - TARGET_SDK_VERSION=`grep -Po '^target-sdk = "\K[^"]+' gradle/config.versions.toml`
+  - BUILD_TOOLS_VERSION=`grep -Po '^build-tools = "\K[^"]+' gradle/config.versions.toml`
 
 branches:
   except:

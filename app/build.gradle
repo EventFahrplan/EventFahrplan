@@ -1,29 +1,28 @@
-import nerd.tuxmobil.fahrplan.congress.Android
-import nerd.tuxmobil.fahrplan.congress.Compose
-import nerd.tuxmobil.fahrplan.congress.Config
-import nerd.tuxmobil.fahrplan.congress.Libs
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.unmock)
+    alias(libs.plugins.dexcount)
+    alias(libs.plugins.sonarqube)
+}
 
 ext.set("APP_VERSION", "${gitSha()}")
 
-apply plugin: "com.android.application"
-apply plugin: "kotlin-android"
-apply plugin: "org.jetbrains.kotlin.plugin.compose"
-apply plugin: "com.google.devtools.ksp"
-apply plugin: "de.mobilej.unmock"
-apply plugin: "com.getkeepsafe.dexcount"
 apply from: "../gradle/sonarqube.gradle"
 
 android {
     namespace = "nerd.tuxmobil.fahrplan.congress"
 
-    compileSdk = Android.compileSdkVersion
-    buildToolsVersion = Android.buildToolsVersion
+    compileSdk = config.versions.compile.sdk.get().toInteger()
+    buildToolsVersion = config.versions.build.tools.get()
 
     defaultConfig {
         versionCode = 119
         versionName = "1.76.0"
-        minSdk = Android.minSdkVersion
-        targetSdk = Android.targetSdkVersion
+        minSdk = config.versions.min.sdk.get().toInteger()
+        targetSdk = config.versions.target.sdk.get().toInteger()
         base.archivesName = "Fahrplan-$versionName"
 
         vectorDrawables.useSupportLibrary = true // allows using fillColor, fillType, strokeColor functionalities below Android 7.0 (API 24)
@@ -152,12 +151,12 @@ android {
     }
 
     compileOptions {
-        targetCompatibility = Config.compatibleJavaVersion
-        sourceCompatibility = Config.compatibleJavaVersion
+        targetCompatibility = JavaVersion.toVersion(config.versions.java.get())
+        sourceCompatibility = JavaVersion.toVersion(config.versions.java.get())
     }
 
     kotlinOptions {
-        jvmTarget = Config.compatibleJavaVersion
+        jvmTarget = config.versions.java.get()
         freeCompilerArgs = [
                 "-opt-in=kotlin.RequiresOptIn"
         ]
@@ -195,68 +194,68 @@ gradle.projectsEvaluated {
 }
 
 dependencies {
-    implementation project(":commons")
-    implementation project(":database")
-    implementation project(":network")
+    implementation(project(":commons"))
+    implementation(project(":database"))
+    implementation(project(":network"))
 
-    def composeBom = platform(Compose.bom)
-    implementation composeBom
+    def composeBom = platform(libs.compose.bom)
+    implementation(composeBom)
 
     // Android Studio preview support
-    implementation Compose.uiToolingPreview
-    debugImplementation Compose.uiTooling
+    implementation(libs.compose.ui.tooling.preview)
+    debugImplementation(libs.compose.ui.tooling)
 
-    implementation Compose.material
+    implementation(libs.compose.material3)
 
-    implementation Libs.activityCompose
-    implementation Libs.appCompat
-    implementation Libs.betterLinkMovementMethod
-    implementation Libs.constraintLayout
-    implementation Libs.coreKtx
-    implementation Libs.emailIntentBuilder
-    implementation Libs.engelsystem
-    implementation Libs.fragmentCompose
-    implementation Libs.htmlConverter
-    implementation Libs.kotlinCoroutinesAndroid
-    implementation Libs.kotlinCoroutinesCore
-    implementation Libs.lifecycleViewModel
-    implementation Libs.lifecycleViewModelCompose
-    implementation Libs.markdownRender
-    implementation Libs.material
-    implementation Libs.materialIconsCore
-    implementation Libs.moshi
-    ksp Libs.moshiCodeGen
-    implementation Libs.navigation
-    implementation Libs.okhttp
-    implementation Libs.okhttpZstd
-    implementation Libs.okhttpLoggingInterceptor
-    implementation Libs.roomStates
-    implementation Libs.scheduleRepositories
-    implementation Libs.snackengagePlayrate
-    implementation Libs.tracedroid
+    implementation(libs.activity.compose)
+    implementation(libs.appcompat)
+    implementation(libs.better.link.movement.method)
+    implementation(libs.constraintlayout)
+    implementation(libs.core.ktx)
+    implementation(libs.email.intent.builder)
+    implementation(libs.engelsystem)
+    implementation(libs.fragment.compose)
+    implementation(libs.htmlconverter)
+    implementation(libs.kotlin.coroutines.android)
+    implementation(libs.kotlin.coroutines.core)
+    implementation(libs.lifecycle.viewmodel)
+    implementation(libs.lifecycle.viewmodel.compose)
+    implementation(libs.markdown.renderer)
+    implementation(libs.material)
+    implementation(libs.material.icons.core)
+    implementation(libs.moshi)
+    ksp(libs.moshi.codegen)
+    implementation(libs.navigation)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.zstd)
+    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.room.states)
+    implementation(libs.schedule.repositories)
+    implementation(libs.snackengage.playrate)
+    implementation(libs.tracedroid)
 
-    testImplementation project(":commons-testing")
-    testImplementation Libs.annotation
-    testImplementation Libs.coreTesting
-    testImplementation Libs.junitJupiterApi
-    testRuntimeOnly Libs.junitJupiterEngine
-    testRuntimeOnly Libs.junitPlatformLauncher
-    testImplementation Libs.junitJupiterParams
-    testImplementation(Libs.kotlinCoroutinesTest) {
+    testImplementation(project(":commons-testing"))
+    testImplementation(libs.annotation)
+    testImplementation(libs.core.testing)
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testRuntimeOnly(libs.junit.platform.launcher)
+    testImplementation(libs.junit.jupiter.params)
+    testImplementation(libs.kotlin.coroutines.test) {
         // workaround for https://github.com/Kotlin/kotlinx.coroutines/issues/2023
         exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
     }
-    testImplementation Libs.threeTenBp
-    testImplementation Libs.truth
-    testImplementation Libs.turbine
+    testImplementation(libs.threetenbp)
+    testImplementation(libs.truth)
+    testImplementation(libs.turbine)
 
-    unmock Libs.robolectric
+    unmock(libs.robolectric)
 
-    androidTestImplementation Libs.androidTestCore
-    androidTestRuntimeOnly Libs.androidTestRunner
-    androidTestImplementation Libs.junitJupiterApi
-    androidTestImplementation Libs.junitJupiterParams
-    androidTestImplementation Libs.truth
+    androidTestImplementation(libs.android.test.core)
+    androidTestRuntimeOnly(libs.android.test.runner)
+    androidTestImplementation(libs.junit.jupiter.api)
+    androidTestImplementation(libs.junit.jupiter.params)
+    androidTestImplementation(libs.truth)
 }
 
 def gitSha() {
