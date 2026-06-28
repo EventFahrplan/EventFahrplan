@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -21,10 +23,6 @@ android {
         sourceCompatibility = JavaVersion.toVersion(config.versions.java.get())
     }
 
-    kotlinOptions {
-        jvmTarget = config.versions.java.get()
-    }
-
     packagingOptions {
         resources {
             excludes += [
@@ -32,6 +30,12 @@ android {
                     "META-INF/LICENSE-notice.md",
             ]
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.fromTarget(config.versions.java.get())
     }
 }
 
