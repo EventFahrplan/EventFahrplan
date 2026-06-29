@@ -15,7 +15,7 @@ android {
         minSdk = config.versions.min.sdk.get().toInteger()
         targetSdk = config.versions.target.sdk.get().toInteger()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments runnerBuilder: "de.mannodermaus.junit5.AndroidJUnit5Builder"
+        testInstrumentationRunnerArguments(runnerBuilder: "de.mannodermaus.junit5.AndroidJUnit5Builder")
     }
 
     compileOptions {
