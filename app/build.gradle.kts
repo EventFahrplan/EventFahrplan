@@ -1,4 +1,8 @@
+import com.android.build.api.dsl.ApplicationProductFlavor
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.TimeZone
 
 plugins {
     alias(libs.plugins.android.application)
@@ -10,54 +14,54 @@ plugins {
     alias(libs.plugins.sonarqube)
 }
 
-ext.set("APP_VERSION", "${gitSha()}")
+extra["APP_VERSION"] = gitSha()
 
-apply(from: "../gradle/sonarqube.gradle")
+apply(from = "../gradle/sonarqube.gradle")
 
 android {
     namespace = "nerd.tuxmobil.fahrplan.congress"
 
-    compileSdk = config.versions.compile.sdk.get().toInteger()
+    compileSdk = config.versions.compile.sdk.get().toInt()
     buildToolsVersion = config.versions.build.tools.get()
 
     defaultConfig {
         versionCode = 119
         versionName = "1.76.0"
-        minSdk = config.versions.min.sdk.get().toInteger()
-        targetSdk = config.versions.target.sdk.get().toInteger()
+        minSdk = config.versions.min.sdk.get().toInt()
+        targetSdk = config.versions.target.sdk.get().toInt()
         base.archivesName = "Fahrplan-$versionName"
 
         vectorDrawables.useSupportLibrary = true // allows using fillColor, fillType, strokeColor functionalities below Android 7.0 (API 24)
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments(runnerBuilder: "de.mannodermaus.junit5.AndroidJUnit5Builder")
+        testInstrumentationRunnerArguments["runnerBuilder"] = "de.mannodermaus.junit5.AndroidJUnit5Builder"
 
         // Build information
-        resValue("string", "modification_time", "\"${modificationTime()}\"")
-        resValue("string", "git_sha", "\"${gitSha()}\"")
+        resValue("string", "modification_time", """"${modificationTime()}"""")
+        resValue("string", "git_sha", """"${gitSha()}"""")
 
         // Build configuration / feature flags
-        buildConfigField("String", "F_DROID_URL", '""')
-        buildConfigField("String", "TRANSLATION_PLATFORM_URL", '"https://crowdin.com/project/eventfahrplan"')
-        buildConfigField("String", "SOURCE_CODE_URL", '"https://github.com/EventFahrplan/EventFahrplan"')
-        buildConfigField("String", "ISSUES_URL", '"https://github.com/EventFahrplan/EventFahrplan/issues"')
-        buildConfigField("String", "DATA_PRIVACY_STATEMENT_DE_URL", '"https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md"')
-        buildConfigField("String", "EVENT_POSTAL_ADDRESS", '""')
+        buildConfigField("String", "F_DROID_URL", """""""")
+        buildConfigField("String", "TRANSLATION_PLATFORM_URL", """"https://crowdin.com/project/eventfahrplan"""")
+        buildConfigField("String", "SOURCE_CODE_URL", """"https://github.com/EventFahrplan/EventFahrplan"""")
+        buildConfigField("String", "ISSUES_URL", """"https://github.com/EventFahrplan/EventFahrplan/issues"""")
+        buildConfigField("String", "DATA_PRIVACY_STATEMENT_DE_URL", """"https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md"""")
+        buildConfigField("String", "EVENT_POSTAL_ADDRESS", """""")
         buildConfigField("boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "false")
-        buildConfigField("String", "C3NAV_URL", '""')
+        buildConfigField("String", "C3NAV_URL", """""""")
         buildConfigField("boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "false")
         buildConfigField("boolean", "ENABLE_CHAOSFLIX_EXPORT", "false")
         buildConfigField("boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "false")
         resValue("string", "engelsystem_alias", "Engelsystem")
         resValue("string", "engelsystem_shifts_alias", "Engelshifts")
-        resValue("string", "preference_hint_engelsystem_json_export_url", '""')
+        resValue("string", "preference_hint_engelsystem_json_export_url", """""""")
         buildConfigField("boolean", "SHOW_APP_DISCLAIMER", "true")
         buildConfigField("boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true")
         buildConfigField("boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true")
         buildConfigField("boolean", "ENGAGE_LANDSCAPE_ORIENTATION", "true")
         buildConfigField("boolean", "ENABLE_FOSDEM_ROOM_STATES", "false")
-        buildConfigField("String", "FOSDEM_ROOM_STATES_URL", '""')
-        buildConfigField("String", "FOSDEM_ROOM_STATES_PATH", '""')
+        buildConfigField("String", "FOSDEM_ROOM_STATES_URL", """""""")
+        buildConfigField("String", "FOSDEM_ROOM_STATES_PATH", """""""")
     }
 
     buildFeatures {
@@ -70,88 +74,90 @@ android {
             resValue("string", "build_time", "\"${buildTime()}\"")
             versionNameSuffix = "-DEBUG"
             applicationIdSuffix = ".debug"
-            debuggable = true
+            isDebuggable = true
         }
         release {
             resValue("string", "build_time", "")
-            minifyEnabled = true
-            shrinkResources = true
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules/proguard-project.txt",
-                    "proguard-rules/okhttp3.pro",
-                    "proguard-rules/okio.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules/proguard-project.txt",
+                "proguard-rules/okhttp3.pro",
+                "proguard-rules/okio.pro"
             )
         }
     }
 
     signingConfigs {
-        cccamp2023
-        ccc39c3
+        create("cccamp2023")
+        create("ccc39c3")
     }
 
-    def defaultDimension = "default"
-    flavorDimensions = [defaultDimension]
+    val defaultDimension = "default"
+    flavorDimensions += defaultDimension
 
     productFlavors {
-        cccamp2023 {
+        create("cccamp2023") {
             dimension = defaultDimension
             applicationId = "info.metadude.android.cccamp.schedule"
             versionName = "${defaultConfig.versionName}-CCCamp-Edition"
-            buildConfigField("String", "GOOGLE_PLAY_URL", '"https://play.google.com/store/apps/details?id=info.metadude.android.cccamp.schedule"')
-            buildConfigField("String", "F_DROID_URL", '"https://f-droid.org/packages/info.metadude.android.cccamp.schedule"')
-            buildConfigField("String", "SCHEDULE_URL", '"https://events.ccc.de/camp/2023/hub/api/c/camp23/schedule.xml"')
-            buildConfigField("String", "SCHEDULE_FILE_FORMAT", '"schedule_v1_xml"')
-            buildConfigField("String", "EVENT_URL", '"http://events.ccc.de/camp/2023/Fahrplan/events/%1$s.html"')
-            buildConfigField("String", "EVENT_WEBSITE_URL", '"http://events.ccc.de/camp/2023/"')
-            buildConfigField("String", "EVENT_POSTAL_ADDRESS", '"Ziegeleipark Mildenberg, 16792 Zehdenick"')
-            buildConfigField("String", "SERVER_BACKEND_TYPE", '"frab"')
+            buildConfigField("String", "GOOGLE_PLAY_URL", """"https://play.google.com/store/apps/details?id=info.metadude.android.cccamp.schedule"""")
+            buildConfigField("String", "F_DROID_URL", """"https://f-droid.org/packages/info.metadude.android.cccamp.schedule"""")
+            buildConfigField("String", "SCHEDULE_URL", """"https://events.ccc.de/camp/2023/hub/api/c/camp23/schedule.xml"""")
+            buildConfigField("String", "SCHEDULE_FILE_FORMAT", """"schedule_v1_xml"""")
+            buildConfigField("String", "EVENT_URL", $$""""http://events.ccc.de/camp/2023/Fahrplan/events/%1$s.html"""")
+            buildConfigField("String", "EVENT_WEBSITE_URL", """"http://events.ccc.de/camp/2023/"""")
+            buildConfigField("String", "EVENT_POSTAL_ADDRESS", """"Ziegeleipark Mildenberg, 16792 Zehdenick"""")
+            buildConfigField("String", "SERVER_BACKEND_TYPE", """"frab"""")
             buildConfigField("boolean", "SHOW_APP_DISCLAIMER", "false")
             buildConfigField("boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "true")
-            buildConfigField("String", "C3NAV_URL", '"https://camp23.c3nav.de/l/"')
+            buildConfigField("String", "C3NAV_URL", """"https://camp23.c3nav.de/l/"""")
             buildConfigField("boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "true")
             buildConfigField("boolean", "ENABLE_CHAOSFLIX_EXPORT", "true")
             buildConfigField("boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "true")
-            resValue("string", "preference_hint_engelsystem_json_export_url", '"https://engelsystem.events.ccc.de/shifts-json-export?key=YOUR_KEY"')
-            buildConfigField("String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", '"#camp23 #CCCamp23 #fahrplan"')
-            buildConfigField("String", "TRACE_DROID_EMAIL_ADDRESS", '"tobias.preuss+camp2023@googlemail.com"')
-            buildConfigField("String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/camp2023/public/events/%s/feedback/new"')
+            resValue("string", "preference_hint_engelsystem_json_export_url", """"https://engelsystem.events.ccc.de/shifts-json-export?key=YOUR_KEY"""")
+            buildConfigField("String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", """"#camp23 #CCCamp23 #fahrplan"""")
+            buildConfigField("String", "TRACE_DROID_EMAIL_ADDRESS", """"tobias.preuss+camp2023@googlemail.com"""")
+            buildConfigField("String", "SCHEDULE_FEEDBACK_URL", """"https://frab.cccv.de/en/camp2023/public/events/%s/feedback/new"""")
         }
-        ccc39c3 {
+        create("ccc39c3") {
             dimension = defaultDimension
             applicationId = "info.metadude.android.congress.schedule"
-            buildConfigField("String", "GOOGLE_PLAY_URL", '"https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule"')
-            buildConfigField("String", "F_DROID_URL", '"https://f-droid.org/packages/info.metadude.android.congress.schedule"')
-            buildConfigField("String", "SCHEDULE_URL", '"https://fahrplan.events.ccc.de/congress/2025/fahrplan/schedules/schedule.xml"')
-            buildConfigField("String", "SCHEDULE_FILE_FORMAT", '"schedule_v1_xml"')
-            buildConfigField("String", "EVENT_URL", '""')
-            buildConfigField("String", "EVENT_WEBSITE_URL", '"https://events.ccc.de/congress/2025/"')
-            buildConfigField("String", "EVENT_POSTAL_ADDRESS", '"Congressplatz 1, 20355 Hamburg"')
-            buildConfigField("String", "SERVER_BACKEND_TYPE", '"frab"')
+            buildConfigField("String", "GOOGLE_PLAY_URL", """"https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule"""")
+            buildConfigField("String", "F_DROID_URL", """"https://f-droid.org/packages/info.metadude.android.congress.schedule"""")
+            buildConfigField("String", "SCHEDULE_URL", """"https://fahrplan.events.ccc.de/congress/2025/fahrplan/schedules/schedule.xml"""")
+            buildConfigField("String", "SCHEDULE_FILE_FORMAT", """"schedule_v1_xml"""")
+            buildConfigField("String", "EVENT_URL", """""""")
+            buildConfigField("String", "EVENT_WEBSITE_URL", """"https://events.ccc.de/congress/2025/"""")
+            buildConfigField("String", "EVENT_POSTAL_ADDRESS", """"Congressplatz 1, 20355 Hamburg"""")
+            buildConfigField("String", "SERVER_BACKEND_TYPE", """"frab"""")
             buildConfigField("boolean", "SHOW_APP_DISCLAIMER", "false")
             buildConfigField("boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "true")
-            buildConfigField("String", "C3NAV_URL", '"https://39c3.c3nav.de/l/"')
+            buildConfigField("String", "C3NAV_URL", """"https://39c3.c3nav.de/l/"""")
             buildConfigField("boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "true")
             buildConfigField("boolean", "ENABLE_CHAOSFLIX_EXPORT", "true")
             buildConfigField("boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "true")
-            resValue("string", "preference_hint_engelsystem_json_export_url", '"https://engel.events.ccc.de/shifts-json-export?key=YOUR_KEY"')
-            buildConfigField("String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", '"#39c3 #fahrplan"')
-            buildConfigField("String", "TRACE_DROID_EMAIL_ADDRESS", '"tobias.preuss+39c3@googlemail.com"')
-            buildConfigField("String", "SCHEDULE_FEEDBACK_URL", '""')
+            resValue("string", "preference_hint_engelsystem_json_export_url", """"https://engel.events.ccc.de/shifts-json-export?key=YOUR_KEY"""")
+            buildConfigField("String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", """"#39c3 #fahrplan"""")
+            buildConfigField("String", "TRACE_DROID_EMAIL_ADDRESS", """"tobias.preuss+39c3@googlemail.com"""")
+            buildConfigField("String", "SCHEDULE_FEEDBACK_URL", """""""")
         }
     }
 
-    productFlavors.configureEach { flavor ->
-        if (hasSigningConfig(flavor.name)) {
-            setSigningConfig(flavor)
+    productFlavors.configureEach {
+        if (hasSigningConfig(name)) {
+            configureSigningConfig()
         }
     }
 
     lint {
         checkDependencies = true
         // for okio - https://github.com/square/okio/issues/58
-        warning("InvalidPackage")
-        warning("MissingDefaultResource")
+        warning += setOf(
+            "InvalidPackage",
+            "MissingDefaultResource",
+        )
     }
 
     compileOptions {
@@ -159,12 +165,12 @@ android {
         sourceCompatibility = JavaVersion.toVersion(config.versions.java.get())
     }
 
-    packagingOptions {
+    packaging {
         resources {
-            excludes += [
-                    "META-INF/LICENSE.md",
-                    "META-INF/LICENSE-notice.md",
-            ]
+            excludes += setOf(
+                "META-INF/LICENSE.md",
+                "META-INF/LICENSE-notice.md",
+            )
         }
     }
 
@@ -192,8 +198,13 @@ unMock {
 }
 
 gradle.projectsEvaluated {
-    tasks.withType(JavaCompile).configureEach {
-        options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+    tasks.withType<JavaCompile>().configureEach {
+        options.compilerArgs.addAll(
+            listOf(
+                "-Xlint:unchecked",
+                "-Xlint:deprecation",
+            )
+        )
     }
 }
 
@@ -202,7 +213,7 @@ dependencies {
     implementation(project(":database"))
     implementation(project(":network"))
 
-    def composeBom = platform(libs.compose.bom)
+    val composeBom = platform(libs.compose.bom)
     implementation(composeBom)
 
     // Android Studio preview support
@@ -247,7 +258,7 @@ dependencies {
     testImplementation(libs.junit.jupiter.params)
     testImplementation(libs.kotlin.coroutines.test) {
         // workaround for https://github.com/Kotlin/kotlinx.coroutines/issues/2023
-        exclude(group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug")
+        exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-debug")
     }
     testImplementation(libs.threetenbp)
     testImplementation(libs.truth)
@@ -262,49 +273,53 @@ dependencies {
     androidTestImplementation(libs.truth)
 }
 
-def gitSha() {
-    def res = "git rev-parse --short HEAD".execute([], project.rootDir).text.trim()
-    def diff = "git diff".execute([], project.rootDir).text.trim()
-    if (diff != null && diff.length() > 0) {
-        res += "-dirty"
+private fun gitSha(): String {
+    var result = project.execAndGetStdout("git", "rev-parse", "--short", "HEAD")
+    val diff = project.execAndGetStdout("git", "diff")
+    if (diff.isNotEmpty()) {
+        result += "-dirty"
     }
-    return res
+    return result
 }
 
-def modificationTime() {
+private fun modificationTime(): String {
     // https://reproducible-builds.org/docs/source-date-epoch/
     // Set based on the current commit that is being built.
-    def committedAt = System.getenv('SOURCE_DATE_EPOCH')
-    if (committedAt == null || committedAt.length() == 0) {
-        committedAt = "git log -1 --format=%ct".execute([], project.rootDir).text.trim()
-    }
-    return getFormattedDate(new Date(Long.parseLong(committedAt) * 1000))
+    val committedAt = System.getenv("SOURCE_DATE_EPOCH")
+        .takeUnless { it.isNullOrEmpty() }
+        ?: project.execAndGetStdout("git", "log", "-1", "--format=%ct")
+    return getFormattedDate(Date(committedAt.toLong() * 1000))
 }
 
-static def buildTime() {
-    return getFormattedDate(new Date())
-}
+private fun buildTime() = getFormattedDate(Date())
 
-static def getFormattedDate(Date date) {
-    return date.format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
-}
+private fun getFormattedDate(date: Date) = SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
+    .apply { timeZone = TimeZone.getTimeZone("UTC") }
+    .format(date)
 
-def hasSigningConfig(String flavor) {
+private fun hasSigningConfig(flavor: String): Boolean {
     return project.hasProperty("signing.$flavor-release.keystoreFilePath") &&
             project.hasProperty("signing.$flavor-release.keystorePassword") &&
             project.hasProperty("signing.$flavor-release.keyAlias") &&
             project.hasProperty("signing.$flavor-release.keyPassword")
 }
 
-def setSigningConfig(flavor) {
-    def flavorName = flavor.name
-    def props = project.getProperties()
-
-    def signingConfig = android.signingConfigs[flavorName]
-    signingConfig.storeFile(file(props["signing.$flavorName-release.keystoreFilePath"]))
-    signingConfig.storePassword(props["signing.$flavorName-release.keystorePassword"])
-    signingConfig.keyAlias(props["signing.$flavorName-release.keyAlias"])
-    signingConfig.keyPassword(props["signing.$flavorName-release.keyPassword"])
-
-    flavor.signingConfig = signingConfig
+private fun ApplicationProductFlavor.configureSigningConfig() {
+    val flavorName = this.name
+    val props = project.properties
+    val signingConfig = android.signingConfigs.getByName(flavorName).apply {
+        storeFile = file(props["signing.$flavorName-release.keystoreFilePath"].toString())
+        storePassword = props["signing.$flavorName-release.keystorePassword"].toString()
+        keyAlias = props["signing.$flavorName-release.keyAlias"].toString()
+        keyPassword = props["signing.$flavorName-release.keyPassword"].toString()
+    }
+    this.signingConfig = signingConfig
 }
+
+private fun Project.execAndGetStdout(vararg command: String) = providers
+    .exec {
+        workingDir = rootDir
+        commandLine(*command)
+    }
+    .standardOutput.asText.get()
+    .trim()

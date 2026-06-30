@@ -22,15 +22,15 @@ allprojects {
 }
 
 subprojects {
-    tasks.withType(Test).configureEach {
+    tasks.withType<Test>().configureEach {
         useJUnitPlatform()
         testLogging {
             events(
-                    TestLogEvent.FAILED,
-                    TestLogEvent.PASSED,
-                    TestLogEvent.SKIPPED,
-                    TestLogEvent.STANDARD_ERROR,
-                    TestLogEvent.STANDARD_OUT
+                TestLogEvent.FAILED,
+                TestLogEvent.PASSED,
+                TestLogEvent.SKIPPED,
+                TestLogEvent.STANDARD_ERROR,
+                TestLogEvent.STANDARD_OUT,
             )
             exceptionFormat = TestExceptionFormat.FULL
             showCauses = true
@@ -40,4 +40,4 @@ subprojects {
     }
 }
 
-apply(from: "gradle/versions.gradle")
+apply(from = "gradle/versions.gradle")

@@ -7,9 +7,9 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             if (requested.id.id == "de.mobilej.unmock") {
-                def version = requested.version
+                val version = requested.version
                 if (version == null) {
-                    throw new GradleException("Plugin de.mobilej.unmock must declare a version so it can be resolved as com.github.bjoernq:unmockplugin.")
+                    throw GradleException("Plugin de.mobilej.unmock must declare a version so it can be resolved as com.github.bjoernq:unmockplugin.")
                 }
                 useModule("com.github.bjoernq:unmockplugin:$version")
             }

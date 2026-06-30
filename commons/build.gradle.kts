@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "info.metadude.android.eventfahrplan.commons"
 
-    compileSdk = config.versions.compile.sdk.get().toInteger()
+    compileSdk = config.versions.compile.sdk.get().toInt()
     buildToolsVersion = config.versions.build.tools.get()
 
     buildFeatures {
@@ -16,8 +16,8 @@ android {
     }
 
     defaultConfig {
-        minSdk = config.versions.min.sdk.get().toInteger()
-        targetSdk = config.versions.target.sdk.get().toInteger()
+        minSdk = config.versions.min.sdk.get().toInt()
+        targetSdk = config.versions.target.sdk.get().toInt()
     }
 
     compileOptions {

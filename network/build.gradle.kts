@@ -8,14 +8,14 @@ plugins {
 android {
     namespace = "info.metadude.android.eventfahrplan.network"
 
-    compileSdk = config.versions.compile.sdk.get().toInteger()
+    compileSdk = config.versions.compile.sdk.get().toInt()
     buildToolsVersion = config.versions.build.tools.get()
 
     defaultConfig {
-        minSdk = config.versions.min.sdk.get().toInteger()
-        targetSdk = config.versions.target.sdk.get().toInteger()
+        minSdk = config.versions.min.sdk.get().toInt()
+        targetSdk = config.versions.target.sdk.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments(runnerBuilder: "de.mannodermaus.junit5.AndroidJUnit5Builder")
+        testInstrumentationRunnerArguments["runnerBuilder"] = "de.mannodermaus.junit5.AndroidJUnit5Builder"
     }
 
     compileOptions {
@@ -23,12 +23,12 @@ android {
         sourceCompatibility = JavaVersion.toVersion(config.versions.java.get())
     }
 
-    packagingOptions {
+    packaging {
         resources {
-            excludes += [
-                    "META-INF/LICENSE.md",
-                    "META-INF/LICENSE-notice.md",
-            ]
+            excludes += setOf(
+                "META-INF/LICENSE.md",
+                "META-INF/LICENSE-notice.md",
+            )
         }
     }
 }
