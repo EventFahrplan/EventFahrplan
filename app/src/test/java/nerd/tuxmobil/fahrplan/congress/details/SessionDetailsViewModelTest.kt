@@ -736,7 +736,6 @@ class SessionDetailsViewModelTest {
         override val googlePlayUrl: String = ""
         override val dataPrivacyStatementDeUrl: String = ""
         override val enableFosdemRoomStates: Boolean = true
-        override val fosdemRoomStatesPath: String = ""
         override val fosdemRoomStatesUrl: String = ""
         override val scheduleUrl: String = ""
         override val scheduleFileFormat: ScheduleFileFormat = SCHEDULE_V1_XML
