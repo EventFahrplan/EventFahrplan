@@ -536,8 +536,7 @@ object AppRepository : SearchRepository,
                     engelsystemRepository.getShiftsState(
                         requestETag = requestHttpHeader.eTag,
                         requestLastModifiedAt = requestHttpHeader.lastModified,
-                        baseUrl = uri.baseUrl,
-                        path = uri.pathPart,
+                        url = "${uri.baseUrl}/${uri.pathPart}",
                         apiKey = uri.apiKey,
                     ).collectLatest { state ->
                         when (state) {
