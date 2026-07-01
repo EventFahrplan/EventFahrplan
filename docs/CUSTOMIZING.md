@@ -52,7 +52,7 @@ In some of the steps it is the easiest to copy and adapt configuration settings,
 
 1. Fork the repository
 2. Create a new branch for your event, e.g. `awesome-event-2021`
-3. Add a new product flavor in *app/build.gradle* e.g. `awesome2021` and the corresponding folder e.g. `app/src/awesome2021`
+3. Add a new product flavor in *app/build.gradle.kts* e.g. `awesome2021` and the corresponding folder e.g. `app/src/awesome2021`
 4. Configure all required properties in your flavor (`applicationId`, `versionName`, `buildConfigField`, `resValue`)
 5. Configure the `SCHEDULE_URL` and `SCHEDULE_FILE_FORMAT` `buildConfigField` properties in your flavor. The latter currently allows the following values: `schedule_v1_xml`, `schedule_v1_json`.
 6. Enable showing the app disclaimer via `SHOW_APP_DISCLAIMER` to acknowledge its origin in your flavor
@@ -87,7 +87,7 @@ associated [README](../assets/empty-states/README.md).
 
 ## 4. Optional customization
 
-The following options can be enabled via a `buildConfigField` and configured in *app/build.gradle* as needed.
+The following options can be enabled via a `buildConfigField` and configured in *app/build.gradle.kts* as needed.
 
 - Event postal address for easy map navigation via `EVENT_POSTAL_ADDRESS`
 - Social media hashtags/handles for the event via `SOCIAL_MEDIA_HASHTAGS_HANDLES`
@@ -103,7 +103,7 @@ The following options can be enabled via a `buildConfigField` and configured in 
 
 ## 5. Optional engagements
 
-The app prompts the user for in the following topics if enabled via a `buildConfigField` in *app/build.gradle*.
+The app prompts the user for in the following topics if enabled via a `buildConfigField` in *app/build.gradle.kts*.
 
 - c3nav app installation via `ENGAGE_C3NAV_APP_INSTALLATION`
 - Google Play beta testing via `ENGAGE_GOOGLE_BETA_TESTING`
@@ -133,7 +133,7 @@ To simulate a schedule change, this
 1. Prepare two schedule files with different session information
 2. Put the script and the two schedule files on a webserver of your choice
 3. Let a cronjob run the script to copy one of the two files to a specified public webserver directory
-4. Configure the webserver URL as the `SCHEDULE_URL` for the correct build flavor in the `app/build.gradle` file
+4. Configure the webserver URL as the `SCHEDULE_URL` for the correct build flavor in the `app/build.gradle.kts` file
 
 ### Schedule statistic
 
@@ -161,4 +161,3 @@ steps:
    - Configure the domain(s), subdomain(s) and path(s) to be handled.
 3. The correct session details might still not open automatically. Check *logcat's* output for error messages.
    You might need to add the missing URL path in `SlugFactory` and `SlugFactoryTest`.
-
