@@ -25,8 +25,8 @@ android {
     buildToolsVersion = config.versions.build.tools.get()
 
     defaultConfig {
-        versionCode = 119
-        versionName = "1.76.0"
+        versionCode = 120
+        versionName = "1.77.0"
         minSdk = config.versions.min.sdk.get().toInt()
         targetSdk = config.versions.target.sdk.get().toInt()
         base.archivesName = "Fahrplan-$versionName"
