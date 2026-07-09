@@ -1,6 +1,6 @@
 [versions]
 activity-compose = "1.13.0"
-android-gradle-plugin = "8.13.2"
+android-gradle-plugin = "9.2.1"
 android-test = "2.0.1"
 annotation = "1.10.0"
 appcompat = "1.7.1"
@@ -37,14 +37,13 @@ threetenbp = "1.7.3"
 tracedroid = "3.1"
 truth = "1.4.4" # NoSuchFieldError as of 1.4.5, see https://github.com/google/truth/issues/1608
 turbine = "1.2.1"
-unmock = "0.9.0"
+unmock = "0.11.0"
 versions = "0.54.0"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
 android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
 dexcount = { id = "com.getkeepsafe.dexcount", version.ref = "dexcount" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 sonarqube = { id = "org.sonarqube", version.ref = "sonarqube" }

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@color/track_background_default,@color/track_background_default_*,@color/track_background_highlight,@color/track_background_highlight_*" />
+
