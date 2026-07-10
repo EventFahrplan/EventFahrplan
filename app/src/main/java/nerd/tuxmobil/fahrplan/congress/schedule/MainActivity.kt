@@ -164,7 +164,7 @@ class MainActivity : BaseActivity(),
         if (findViewById<View>(R.id.detail) == null) {
             removeFragment(SessionDetailsFragment.FRAGMENT_TAG)
         }
-        initUserEngagement()
+        initUserEngagement(rootLayout)
         observeViewModel()
         onSessionAlarmNotificationTapped(intent)
         onScheduleUpdateNotificationTapped(intent)
