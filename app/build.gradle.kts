@@ -6,7 +6,6 @@ import java.util.TimeZone
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.unmock)
@@ -61,12 +60,12 @@ android {
         buildConfigField("boolean", "ENGAGE_LANDSCAPE_ORIENTATION", "true")
         buildConfigField("boolean", "ENABLE_FOSDEM_ROOM_STATES", "false")
         buildConfigField("String", "FOSDEM_ROOM_STATES_URL", """""""")
-        buildConfigField("String", "FOSDEM_ROOM_STATES_PATH", """""""")
     }
 
     buildFeatures {
         buildConfig = true
         compose = true
+        resValues = true
     }
 
     buildTypes {

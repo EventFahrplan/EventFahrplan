@@ -390,7 +390,10 @@ object AppRepository : SearchRepository,
     val roomStates: Flow<Result<List<Room>>> by lazy {
         refreshRoomStatesSignal
             .onStart { emit(Unit) }
-            .flatMapLatest { if (buildConfigProvision.enableFosdemRoomStates) roomStatesRepository.getRooms() else emptyFlow() }
+            .flatMapLatest {
+                if (buildConfigProvision.enableFosdemRoomStates) roomStatesRepository.getRooms(buildConfigProvision.fosdemRoomStatesUrl)
+                else emptyFlow()
+            }
             .flowOn(executionContext.network)
     }
 
@@ -436,8 +439,6 @@ object AppRepository : SearchRepository,
             sharedPreferencesRepository: SharedPreferencesRepository = RealSharedPreferencesRepository(context),
             settingsRepository: SettingsRepository = SettingsRepository.getInstance(context),
             roomStatesRepository: RoomStatesRepository = SimpleRoomStatesRepository(
-                url = buildConfigProvision.fosdemRoomStatesUrl,
-                path = buildConfigProvision.fosdemRoomStatesPath,
                 callFactory = okHttpClient,
             ),
             sessionsTransformer: SessionsTransformer = SessionsTransformer.createSessionsTransformer(),
@@ -535,8 +536,7 @@ object AppRepository : SearchRepository,
                     engelsystemRepository.getShiftsState(
                         requestETag = requestHttpHeader.eTag,
                         requestLastModifiedAt = requestHttpHeader.lastModified,
-                        baseUrl = uri.baseUrl,
-                        path = uri.pathPart,
+                        url = "${uri.baseUrl}/${uri.pathPart}",
                         apiKey = uri.apiKey,
                     ).collectLatest { state ->
                         when (state) {

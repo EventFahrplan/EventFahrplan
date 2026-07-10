@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -17,7 +16,6 @@ android {
 
     defaultConfig {
         minSdk = config.versions.min.sdk.get().toInt()
-        targetSdk = config.versions.target.sdk.get().toInt()
     }
 
     compileOptions {

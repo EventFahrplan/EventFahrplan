@@ -19,7 +19,6 @@ data class BuildConfigProvider(
     override val googlePlayUrl: String = BuildConfig.GOOGLE_PLAY_URL,
     override val dataPrivacyStatementDeUrl: String = BuildConfig.DATA_PRIVACY_STATEMENT_DE_URL,
     override val enableFosdemRoomStates: Boolean = BuildConfig.ENABLE_FOSDEM_ROOM_STATES,
-    override val fosdemRoomStatesPath: String = BuildConfig.FOSDEM_ROOM_STATES_PATH,
     override val fosdemRoomStatesUrl: String = BuildConfig.FOSDEM_ROOM_STATES_URL,
     override val scheduleUrl: String = BuildConfig.SCHEDULE_URL,
     override val scheduleFileFormat: ScheduleFileFormat = ScheduleFileFormat.of(BuildConfig.SCHEDULE_FILE_FORMAT),
