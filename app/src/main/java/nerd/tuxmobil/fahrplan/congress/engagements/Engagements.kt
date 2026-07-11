@@ -2,14 +2,15 @@
 
 package nerd.tuxmobil.fahrplan.congress.engagements
 
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.navigation.C3navSnack
 import org.ligi.snackengage.SnackEngage
 
 @Suppress("KotlinConstantConditions")
-fun AppCompatActivity.initUserEngagement() {
-    val snackEngageBuilder = SnackEngage.from(this)
+fun AppCompatActivity.initUserEngagement(view: View) {
+    val snackEngageBuilder = SnackEngage.from(view)
     if (BuildConfig.ENGAGE_GOOGLE_PLAY_RATING) {
         snackEngageBuilder.withSnack(RateSnack(this))
     }
