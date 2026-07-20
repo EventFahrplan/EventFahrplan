@@ -80,6 +80,11 @@ class Moment private constructor(private val time: Instant) : Comparable<Moment>
     fun toZonedDateTime(timeZoneOffset: ZoneOffset): ZonedDateTime = time.atZone(timeZoneOffset)
 
     /**
+     * Returns a moment with the given [days] subtracted.
+     */
+    fun minusDays(days: Long): Moment = Moment(time.minus(days, ChronoUnit.DAYS))
+
+    /**
      * Returns a moment with the given [hours] subtracted.
      */
     fun minusHours(hours: Long): Moment = Moment(time.minus(hours, ChronoUnit.HOURS))

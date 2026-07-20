@@ -20,9 +20,7 @@ class AlarmUpdaterTest {
 
     private companion object {
 
-        val DAY_20151225_235959 = Moment.ofEpochMilli(1451087999000) // 2015-12-25T23:59:59Z
-        val DAY_20151226_000000 = DAY_20151225_235959.plusSeconds(1) // 2015-12-26T00:00:00Z
-        val DAY_20151227_000000 = DAY_20151226_000000.plusDays(1) // 2015-12-27T00:00:00Z
+        val DAY_20151227_000000 = Moment.ofEpochMilli(1451174400000) // 2015-12-27T00:00:00Z
         val DAY_20151227_113000 = DAY_20151227_000000.plusHours(11).plusMinutes(30) // 2015-12-27T11:30:00Z
         val DAY_20151231_000000 = DAY_20151227_000000.plusDays(4) // 2015-12-31T00:00:00Z
 
@@ -99,7 +97,7 @@ class AlarmUpdaterTest {
         val interval = alarmUpdater.calculateInterval(LAST_DAY_END_TIME, false)
         assertThat(interval).isEqualTo(ONE_DAY)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
-        verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(ONE_DAY, LAST_DAY_END_TIME.plusMilliseconds(ONE_DAY))
+        verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(ONE_DAY, LAST_DAY_END_TIME.plusDays(1))
     }
 
     // Start <= Time < End
@@ -117,7 +115,7 @@ class AlarmUpdaterTest {
         val interval = alarmUpdater.calculateInterval(DAY_20151227_113000, true)
         assertThat(interval).isEqualTo(TWO_HOURS)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
-        val expectedNextFetch = DAY_20151227_113000.plusMilliseconds(TWO_HOURS)
+        val expectedNextFetch = DAY_20151227_113000.plusHours(2)
         verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(TWO_HOURS, expectedNextFetch)
     }
 
@@ -161,7 +159,7 @@ class AlarmUpdaterTest {
 
     @Test
     fun `calculateInterval with time one day before first day`() {
-        val interval = alarmUpdater.calculateInterval(DAY_20151226_000000, false)
+        val interval = alarmUpdater.calculateInterval(FIRST_DAY_START_TIME.minusDays(1), false)
         assertThat(interval).isEqualTo(TWO_HOURS)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
         verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(TWO_HOURS, FIRST_DAY_START_TIME)
@@ -169,7 +167,7 @@ class AlarmUpdaterTest {
 
     @Test
     fun `calculateInterval with time one day before first day initial`() {
-        val interval = alarmUpdater.calculateInterval(DAY_20151226_000000, true)
+        val interval = alarmUpdater.calculateInterval(FIRST_DAY_START_TIME.minusDays(1), true)
         assertThat(interval).isEqualTo(TWO_HOURS)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
         verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(TWO_HOURS, FIRST_DAY_START_TIME)
@@ -179,7 +177,7 @@ class AlarmUpdaterTest {
 
     @Test
     fun `calculateInterval with time more than one day before first day`() {
-        val interval = alarmUpdater.calculateInterval(DAY_20151225_235959, false)
+        val interval = alarmUpdater.calculateInterval(FIRST_DAY_START_TIME.minusDays(1).minusSeconds(1), false)
         assertThat(interval).isEqualTo(ONE_DAY)
         // TODO Is this behavior intended?
         verifyInvokedNever(mockListener).onCancelUpdateAlarm()
@@ -188,10 +186,11 @@ class AlarmUpdaterTest {
 
     @Test
     fun `calculateInterval with time more than one day before first day initial`() {
-        val interval = alarmUpdater.calculateInterval(DAY_20151225_235959, true)
+        val moment = FIRST_DAY_START_TIME.minusDays(1).minusSeconds(1)
+        val interval = alarmUpdater.calculateInterval(moment, true)
         assertThat(interval).isEqualTo(ONE_DAY)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
-        val expectedNextFetch = DAY_20151225_235959.plusMilliseconds(ONE_DAY)
+        val expectedNextFetch = moment.plusDays(1)
         verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(ONE_DAY, expectedNextFetch)
     }
 
