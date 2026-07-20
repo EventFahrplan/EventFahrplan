@@ -145,12 +145,10 @@ class SessionsTransformerTest {
         sessionId: String,
         roomName: String,
         roomIndex: Int,
-        dateUTC: Long = 0
     ) = Session(
         sessionId = sessionId,
         roomName = roomName,
         roomIndex = roomIndex,
-        dateUTC = dateUTC,
     )
 
     private fun createRoomProvider(
