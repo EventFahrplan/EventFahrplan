@@ -257,6 +257,15 @@ class MomentTest {
     }
 
     @Test
+    fun plusHours() {
+        val momentOne = Moment.ofEpochMilli(0).plusHours(1)
+        assertThat(momentOne.toMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_HOUR)
+
+        val momentTwo = Moment.ofEpochMilli(MILLISECONDS_OF_ONE_HOUR).plusHours(-1)
+        assertThat(momentTwo.toMilliseconds()).isEqualTo(0)
+    }
+
+    @Test
     fun plusDays() {
         val momentOne = Moment.ofEpochMilli(0).plusDays(1)
         assertThat(momentOne.toMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_DAY)

@@ -115,6 +115,11 @@ class Moment private constructor(private val time: Instant) : Comparable<Moment>
     fun plusMinutes(minutes: Long): Moment = Moment(time.plus(minutes, ChronoUnit.MINUTES))
 
     /**
+     * Returns a moment with the given [hours] added.
+     */
+    fun plusHours(hours: Long): Moment = Moment(time.plus(hours, ChronoUnit.HOURS))
+
+    /**
      * Returns a moment with the given [days] added.
      */
     fun plusDays(days: Long): Moment = Moment(time.plus(days, ChronoUnit.DAYS))

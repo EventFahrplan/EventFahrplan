@@ -7,6 +7,15 @@ import org.junit.jupiter.api.Test
 
 class VirtualDayTest {
 
+    private companion object {
+        val NATURAL_DAY_1_1000 = Moment.ofEpochMilli(1703671200000) // 2023-12-27T10:00:00Z
+        val NATURAL_DAY_1_1600 = NATURAL_DAY_1_1000.plusHours(6) // 2023-12-27T16:00:00Z
+        val NATURAL_DAY_2_0200 = Moment.ofEpochMilli(1703728800000) // 2023-12-28T02:00:00Z
+        val NATURAL_DAY_2_0245 = NATURAL_DAY_2_0200.plusMinutes(45) // 2023-12-28T02:45:00Z
+        val NATURAL_DAY_4_0900 = Moment.ofEpochMilli(1703926800000) // 2023-12-30T09:00:00Z
+        val NATURAL_DAY_4_1800 = NATURAL_DAY_4_0900.plusHours(9) // 2023-12-30T18:00:00Z
+    }
+
     @Test
     fun `init throws exception if index less then 1`() {
         try {
@@ -36,16 +45,14 @@ class VirtualDayTest {
         val virtualDay = VirtualDay(
             index = 1,
             sessions = listOf(
-                createSession("2023-12-27", 1703671200000, Duration.ofMinutes(60)), // 2023-12-27T10:00:00Z
-                createSession("2023-12-27", 1703692800000, Duration.ofMinutes(30)), // 2023-12-27T16:00:00Z
-                createSession("2023-12-27", 1703728800000, Duration.ofMinutes(45)), // 2023-12-28T02:00:00Z
+                createSession("2023-12-27", NATURAL_DAY_1_1000, Duration.ofMinutes(60)),
+                createSession("2023-12-27", NATURAL_DAY_1_1600, Duration.ofMinutes(30)),
+                createSession("2023-12-27", NATURAL_DAY_2_0200, Duration.ofMinutes(45)),
             )
         )
         assertThat(virtualDay.index).isEqualTo(1)
         assertThat(virtualDay.sessions.size).isEqualTo(3)
-        val expectedStartsAt = Moment.ofEpochMilli(1703671200000) // 2023-12-27T10:00:00Z
-        val expectedEndsAt = Moment.ofEpochMilli(1703731500000) // 2023-12-28T02:45:00Z
-        assertThat(virtualDay.timeFrame).isEqualTo(expectedStartsAt..expectedEndsAt)
+        assertThat(virtualDay.timeFrame).isEqualTo(NATURAL_DAY_1_1000..NATURAL_DAY_2_0245)
     }
 
     @Test
@@ -53,8 +60,8 @@ class VirtualDayTest {
         val virtualDay = VirtualDay(
             index = 4,
             sessions = listOf(
-                createSession("2023-12-30", 1703926800000, Duration.ofMinutes(90)), // 2023-12-30T09:00:00Z
-                createSession("2023-12-30", 1703959200000, Duration.ofMinutes(30)), // 2023-12-30T18:00:00Z
+                createSession("2023-12-30", NATURAL_DAY_4_0900, Duration.ofMinutes(90)),
+                createSession("2023-12-30", NATURAL_DAY_4_1800, Duration.ofMinutes(30)),
             )
         )
         assertThat("$virtualDay").isEqualTo(
@@ -62,11 +69,11 @@ class VirtualDayTest {
         )
     }
 
-    private fun createSession(dateText: String, startsAt: Long, duration: Duration) =
+    private fun createSession(dateText: String, startsAt: Moment, duration: Duration) =
         Session(
             sessionId = "",
             dateText = dateText,
-            dateUTC = startsAt,
+            dateUTC = startsAt.toMilliseconds(),
             duration = duration,
         )
 

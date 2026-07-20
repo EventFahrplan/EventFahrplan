@@ -34,7 +34,9 @@ import org.mockito.kotlin.mock
 class AlarmsViewModelTest {
 
     private companion object {
-        val SESSION_STARTS_AT = Moment.ofEpochMilli(1683981000000) // 2023-05-13T12:30:00+00:00
+        val DAY_20210513_1230 = Moment.ofEpochMilli(1620909000000) // 2021-05-13T12:30:00Z
+        val DAY_20230513_1230 = Moment.ofEpochMilli(1683981000000) // 2023-05-13T12:30:00Z
+        val SESSION_STARTS_AT = DAY_20230513_1230
         const val ALARM_TIME_IN_MIN = 10
         val ALARM_STARTS_AT = SESSION_STARTS_AT.minusMinutes(ALARM_TIME_IN_MIN.toLong())
     }
@@ -201,7 +203,7 @@ class AlarmsViewModelTest {
 
     private fun createAlarm(
         sessionId: String,
-        alarmStartsAt: Moment = Moment.ofEpochMilli(1620909000000),
+        alarmStartsAt: Moment = DAY_20210513_1230,
     ) = Alarm(
         dayIndex = 2,
         sessionId = sessionId,

@@ -11,12 +11,14 @@ import org.junit.jupiter.api.Test
 class NavigationMenuEntriesGeneratorTest {
 
     private companion object {
-        const val DAY_1_AT_8_AM = 1542528000000 // 2018-11-18T08:00:00Z
-        const val DAY_2_AT_230_AM = 1542594600000 // 2018-11-19T02:30:00Z
-        const val DAY_2_AT_8_AM = 1542614400000 // 2018-11-19T08:00:00Z
-        const val DAY_2_AT_810_AM = 1542615000000 // 2018-11-19T08:10:00Z
-        const val DAY_2_AT_830_AM = 1542616200000 // 2018-11-19T08:30:00Z
-        const val DAY_3_AT_8_AM = 1542700800000 // 2018-11-20T08:00:00Z
+        val DAY_1_AT_8_AM = Moment.ofEpochMilli(1542528000000) // 2018-11-18T08:00:00Z
+
+        val DAY_2_AT_230_AM = Moment.ofEpochMilli(1542594600000) // 2018-11-19T02:30:00Z
+        val DAY_2_AT_8_AM = Moment.ofEpochMilli(1542614400000) // 2018-11-19T08:00:00Z
+        val DAY_2_AT_810_AM = Moment.ofEpochMilli(1542615000000) // 2018-11-19T08:10:00Z
+        val DAY_2_AT_830_AM = Moment.ofEpochMilli(1542616200000) // 2018-11-19T08:30:00Z
+
+        val DAY_3_AT_8_AM = Moment.ofEpochMilli(1542700800000) // 2018-11-20T08:00:00Z
     }
 
     private val generator = NavigationMenuEntriesGenerator(
@@ -175,17 +177,17 @@ class NavigationMenuEntriesGeneratorTest {
     private fun createSession(
         dateText: String,
         dayIndex: Int,
-        startsAt: Long,
+        startsAt: Moment,
         duration: Duration,
     ) = Session(
         sessionId = "",
         dateText = dateText,
         dayIndex = dayIndex,
-        dateUTC = startsAt,
+        dateUTC = startsAt.toMilliseconds(),
         duration = duration,
     )
 
-    private fun getDayMenuEntries(numDays: Int, sessions: List<Session>, currentDate: Long) =
-        generator.getDayMenuEntries(numDays, sessions, Moment.ofEpochMilli(currentDate))
+    private fun getDayMenuEntries(numDays: Int, sessions: List<Session>, currentDate: Moment) =
+        generator.getDayMenuEntries(numDays, sessions, currentDate)
 
 }

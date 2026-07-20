@@ -3,7 +3,6 @@ package nerd.tuxmobil.fahrplan.congress.models
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.of
@@ -200,7 +199,7 @@ class SessionTest {
             dateUTC = 1584662400000L,
             duration = Duration.ofMinutes(120),
         )
-        val endsAt = Moment.ofEpochMilli(1584662400000L + 120 * MILLISECONDS_OF_ONE_MINUTE)
+        val endsAt = Moment.ofEpochMilli(1584662400000).plusMinutes(120)
         assertThat(session.endsAt).isEqualTo(endsAt)
     }
 
