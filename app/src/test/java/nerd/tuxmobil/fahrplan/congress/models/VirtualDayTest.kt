@@ -44,7 +44,7 @@ class VirtualDayTest {
         assertThat(virtualDay.index).isEqualTo(1)
         assertThat(virtualDay.sessions.size).isEqualTo(3)
         val expectedStartsAt = Moment.ofEpochMilli(1703671200000) // 2023-12-27T10:00:00Z
-        val expectedEndsAt = Moment.ofEpochMilli(1703731500000) // 2023-12-28T02:54:00Z
+        val expectedEndsAt = Moment.ofEpochMilli(1703731500000) // 2023-12-28T02:45:00Z
         assertThat(virtualDay.timeFrame).isEqualTo(expectedStartsAt..expectedEndsAt)
     }
 
