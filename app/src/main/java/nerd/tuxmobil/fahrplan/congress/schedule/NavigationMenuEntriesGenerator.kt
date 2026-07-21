@@ -30,7 +30,7 @@ internal class NavigationMenuEntriesGenerator(
      *
      * If the [currentDate] is within the time frame of a generated day then the corresponding
      * day will be suffixed with the given [todayString]. Example: ["Day 1", "Day 2 - Today", "Day 3"]
-     * An [IllegalArgumentException] is thrown the parameter restrictions are not met.
+     * An [IllegalArgumentException] is thrown if the parameter restrictions are not met.
      *
      * @param numDays Expected number of days as outlined in the schedule. Sessions or days
      * might still be missing. Must be 0 or more.

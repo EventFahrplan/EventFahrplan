@@ -14,11 +14,7 @@ import org.threeten.bp.ZoneOffset
  * The given moment is normalized. The minutes of the day value is rounded to fit
  * into the time grid determined by [TIME_GRID_MINIMUM_SEGMENT_HEIGHT].
  */
-internal class TimeSegment private constructor(
-
-        moment: Moment
-
-) {
+internal class TimeSegment private constructor(moment: Moment) {
 
     companion object {
 
@@ -49,7 +45,7 @@ internal class TimeSegment private constructor(
 
     /**
      * Returns true if the given [otherMoment] matches the internal rounded moment taken the
-     * [minutesOffset] into account. Otherwise false.
+     * [minutesOffset] into account. Otherwise, false.
      */
     fun isMatched(otherMoment: Moment, minutesOffset: Int) =
             otherMoment.hour == roundedMoment.hour &&
