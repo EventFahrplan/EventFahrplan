@@ -6,13 +6,13 @@ import nerd.tuxmobil.fahrplan.congress.schedule.TimeSegment.Companion.TIME_GRID_
 import org.threeten.bp.ZoneOffset
 
 /**
- * Holds the minutes of the day which represent a time segment (hours and minutes).
- * Day, month and year are not considered here.
+ * Represents a time column segment in the main schedule screen.
  *
- * The value is rendered in the time column in the main schedule view.
+ * The given [moment] is rounded down to the nearest grid boundary determined by
+ * [TIME_GRID_MINIMUM_SEGMENT_HEIGHT]. The full date and time are retained so matching does
+ * not accidentally include the same clock time on another day.
  *
- * The given moment is normalized. The minutes of the day value is rounded to fit
- * into the time grid determined by [TIME_GRID_MINIMUM_SEGMENT_HEIGHT].
+ * The [formatted value][getFormattedText] is rendered in the time column in the main schedule view.
  */
 internal class TimeSegment private constructor(moment: Moment) {
 
@@ -27,6 +27,14 @@ internal class TimeSegment private constructor(moment: Moment) {
 
     }
 
+    /**
+     * Moment rounded down to the nearest time grid segment.
+     *
+     * Examples with a [TIME_GRID_MINIMUM_SEGMENT_HEIGHT] of 5 minutes:
+     * - 10:00 remains 10:00.
+     * - 10:04 becomes 10:00.
+     * - 10:07 becomes 10:05.
+     */
     private val roundedMoment: Moment
 
     init {
@@ -44,13 +52,18 @@ internal class TimeSegment private constructor(moment: Moment) {
         DateFormatter.newInstance(useDeviceTimeZone).getFormattedTime24Hour(roundedMoment, sessionZoneOffset)
 
     /**
-     * Returns true if the given [otherMoment] matches the internal rounded moment taken the
-     * [minutesOffset] into account. Otherwise, false.
+     * Returns true if the given [otherMoment] is inside the half-open interval
+     * `[roundedMoment, roundedMoment + minutesOffset)`. Otherwise, false.
+     * Consequently, a [minutesOffset] of 0 spans an empty interval which never matches.
+     * An [IllegalArgumentException] is thrown if [minutesOffset] is negative.
      */
-    fun isMatched(otherMoment: Moment, minutesOffset: Int) =
-            otherMoment.hour == roundedMoment.hour &&
-                    otherMoment.minute >= roundedMoment.minute &&
-                    otherMoment.minute < roundedMoment.minute + minutesOffset
+    fun isMatched(otherMoment: Moment, minutesOffset: Int): Boolean {
+        require(minutesOffset >= 0) { "Minutes offset is $minutesOffset but must be 0 or more." }
+        if (otherMoment.isBefore(roundedMoment)) {
+            return false
+        }
+        return otherMoment.isBefore(roundedMoment.plusMinutes(minutesOffset.toLong()))
+    }
 
     override fun toString() = roundedMoment.toString()
 
