@@ -11,9 +11,13 @@ import org.junit.jupiter.api.Test
 class NavigationMenuEntriesGeneratorTest {
 
     private companion object {
+        val DAY_20181118_0000 = Moment.ofEpochMilli(1542499200000) // 2018-11-18T00:00:00Z
         val DAY_20181118_0800 = Moment.ofEpochMilli(1542528000000) // 2018-11-18T08:00:00Z
+        val DAY_20181118_2300 = Moment.ofEpochMilli(1542582000000) // 2018-11-18T23:00:00Z
 
+        val DAY_20181119_0000 = Moment.ofEpochMilli(1542585600000) // 2018-11-19T00:00:00Z
         val DAY_20181119_0230 = Moment.ofEpochMilli(1542594600000) // 2018-11-19T02:30:00Z
+        val DAY_20181119_0331 = Moment.ofEpochMilli(1542598260000) // 2018-11-19T03:31:00Z
         val DAY_20181119_0800 = Moment.ofEpochMilli(1542614400000) // 2018-11-19T08:00:00Z
         val DAY_20181119_0810 = Moment.ofEpochMilli(1542615000000) // 2018-11-19T08:10:00Z
         val DAY_20181119_0830 = Moment.ofEpochMilli(1542616200000) // 2018-11-19T08:30:00Z
@@ -172,6 +176,60 @@ class NavigationMenuEntriesGeneratorTest {
         } catch (e: IllegalArgumentException) {
             assertThat(e.message).isEqualTo("Expected maximum 1 day(s) but days list contains 2 items.")
         }
+    }
+
+    @Test
+    fun `getDayMenuEntries marks day as today before its first session once the natural day has started`() {
+        val sessions = listOf(
+            createSession(dateText = "2018-11-18", dayIndex = 1, startsAt = DAY_20181118_0800, duration = Duration.ofMinutes(60)),
+        )
+        val entries = getDayMenuEntries(
+            numDays = 1,
+            sessions,
+            DAY_20181118_0000,
+        )
+        assertThat(entries).containsExactly("Day 1 - Today")
+    }
+
+    @Test
+    fun `getDayMenuEntries keeps marking day at final session ending at midnight`() {
+        val sessions = listOf(
+            createSession(dateText = "2018-11-18", dayIndex = 1, startsAt = DAY_20181118_2300, duration = Duration.ofMinutes(60)),
+        )
+        val entries = getDayMenuEntries(
+            numDays = 1,
+            sessions,
+            DAY_20181119_0000,
+        )
+        assertThat(entries).containsExactly("Day 1 - Today")
+    }
+
+    @Test
+    fun `getDayMenuEntries marks the last matching day when day ranges overlap at midnight`() {
+        val sessions = listOf(
+            createSession(dateText = "2018-11-18", dayIndex = 1, startsAt = DAY_20181118_2300, duration = Duration.ofMinutes(60)),
+            createSession(dateText = "2018-11-19", dayIndex = 2, startsAt = DAY_20181119_0800, duration = Duration.ofMinutes(60)),
+        )
+        val entries = getDayMenuEntries(
+            numDays = 2,
+            sessions,
+            DAY_20181119_0000,
+        )
+        assertThat(entries).containsExactly("Day 1", "Day 2 - Today").inOrder()
+    }
+
+    @Test
+    fun `getDayMenuEntries stops marking day after final session ending after midnight`() {
+        val sessions = listOf(
+            createSession(dateText = "2018-11-18", dayIndex = 1, startsAt = DAY_20181118_0800, duration = Duration.ofMinutes(60)),
+            createSession(dateText = "2018-11-18", dayIndex = 1, startsAt = DAY_20181119_0230, duration = Duration.ofMinutes(60)),
+        )
+        val entries = getDayMenuEntries(
+            numDays = 1,
+            sessions,
+            DAY_20181119_0331,
+        )
+        assertThat(entries).containsExactly("Day 1")
     }
 
     private fun createSession(
