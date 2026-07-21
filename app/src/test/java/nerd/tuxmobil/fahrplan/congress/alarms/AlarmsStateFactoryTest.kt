@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.alarms
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsStateFactoryTest.Companion.DAY_20230513_1230
 import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
@@ -14,8 +15,10 @@ import org.threeten.bp.ZoneOffset
 
 class AlarmsStateFactoryTest {
 
-    private companion object {
-        val SESSION_STARTS_AT = Moment.ofEpochMilli(1683981000000) // 2023-05-13T12:30:00+00:00
+    internal companion object {
+        val DAY_20210513_1230 = Moment.ofEpochMilli(1620909000000) // 2021-05-13T12:30:00Z
+        val DAY_20230513_1230 = Moment.ofEpochMilli(1683981000000) // 2023-05-13T12:30:00Z
+        val SESSION_STARTS_AT = DAY_20230513_1230
     }
 
     @Nested
@@ -71,7 +74,7 @@ class AlarmsStateFactoryTest {
             val alarms = listOf(
                 createAlarm(
                     sessionId = "s0",
-                    alarmStartsAt = alarmStartsAt.toMilliseconds(),
+                    alarmStartsAt = alarmStartsAt,
                 )
             )
             val sessions = listOf(
@@ -113,7 +116,7 @@ class AlarmsStateFactoryTest {
             val alarms = listOf(
                 createAlarm(
                     sessionId = "s0",
-                    alarmStartsAt = alarmStartsAt.toMilliseconds(),
+                    alarmStartsAt = alarmStartsAt,
                 )
             )
             val sessions = listOf(
@@ -153,12 +156,12 @@ class AlarmsStateFactoryTest {
 
     private fun createAlarm(
         sessionId: String,
-        alarmStartsAt: Long = 1620909000000,
+        alarmStartsAt: Moment = DAY_20210513_1230,
     ) = Alarm(
         dayIndex = 2,
         sessionId = sessionId,
         sessionTitle = "Unused",
-        startTime = Moment.ofEpochMilli(alarmStartsAt),
+        startTime = alarmStartsAt,
     )
 
     private fun calculateAlarmStartsAt(alarmTimeInMin: Int) =
@@ -197,8 +200,8 @@ private class FakeFormattingDelegate : FormattingDelegate {
         moment: Moment,
         timeZoneOffset: ZoneOffset?,
     ) = when (moment) {
-        Moment.ofEpochMilli(1683980400000) -> "May 13, 2023, 12:20 PM"  // 10 minutes before
-        Moment.ofEpochMilli(1683981000000) -> "May 13, 2023, 12:30 PM"  // session start
+        DAY_20230513_1230.minusMinutes(10) -> "May 13, 2023, 12:20 PM"  // 10 minutes before
+        DAY_20230513_1230 -> "May 13, 2023, 12:30 PM"  // session start
         else -> ""
     }
 }

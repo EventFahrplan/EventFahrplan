@@ -11,12 +11,14 @@ import org.junit.jupiter.api.Test
 class NavigationMenuEntriesGeneratorTest {
 
     private companion object {
-        const val DAY_1_AT_8_AM = 1542528000000 // 2018-11-18T08:00:00Z
-        const val DAY_2_AT_230_AM = 1542594600000 // 2018-11-19T02:30:00Z
-        const val DAY_2_AT_8_AM = 1542614400000 // 2018-11-19T08:00:00Z
-        const val DAY_2_AT_810_AM = 1542615000000 // 2018-11-19T08:10:00Z
-        const val DAY_2_AT_830_AM = 1542616200000 // 2018-11-19T08:30:00Z
-        const val DAY_3_AT_8_AM = 1542700800000 // 2018-11-20T08:00:00Z
+        val DAY_20181118_0800 = Moment.ofEpochMilli(1542528000000) // 2018-11-18T08:00:00Z
+
+        val DAY_20181119_0230 = Moment.ofEpochMilli(1542594600000) // 2018-11-19T02:30:00Z
+        val DAY_20181119_0800 = Moment.ofEpochMilli(1542614400000) // 2018-11-19T08:00:00Z
+        val DAY_20181119_0810 = Moment.ofEpochMilli(1542615000000) // 2018-11-19T08:10:00Z
+        val DAY_20181119_0830 = Moment.ofEpochMilli(1542616200000) // 2018-11-19T08:30:00Z
+
+        val DAY_20181120_0800 = Moment.ofEpochMilli(1542700800000) // 2018-11-20T08:00:00Z
     }
 
     private val generator = NavigationMenuEntriesGenerator(
@@ -28,14 +30,14 @@ class NavigationMenuEntriesGeneratorTest {
     @Test
     fun `getDayMenuEntries returns three day entries with today mark`() {
         val sessions = listOf(
-            createSession(dateText = "2018-11-18", dayIndex = 1, startsAt = DAY_1_AT_8_AM, duration = Duration.ofMinutes(60)),
-            createSession(dateText = "2018-11-19", dayIndex = 2, startsAt = DAY_2_AT_8_AM, duration = Duration.ofMinutes(120)),
-            createSession(dateText = "2018-11-20", dayIndex = 3, startsAt = DAY_3_AT_8_AM, duration = Duration.ofMinutes(180)),
+            createSession(dateText = "2018-11-18", dayIndex = 1, startsAt = DAY_20181118_0800, duration = Duration.ofMinutes(60)),
+            createSession(dateText = "2018-11-19", dayIndex = 2, startsAt = DAY_20181119_0800, duration = Duration.ofMinutes(120)),
+            createSession(dateText = "2018-11-20", dayIndex = 3, startsAt = DAY_20181120_0800, duration = Duration.ofMinutes(180)),
         )
         val entries = getDayMenuEntries(
             numDays = 3,
             sessions,
-            DAY_2_AT_830_AM,
+            DAY_20181119_0830,
         )
         assertThat(entries).isNotNull()
         assertThat(entries.size).isEqualTo(3)
@@ -47,15 +49,15 @@ class NavigationMenuEntriesGeneratorTest {
     @Test
     fun `getDayMenuEntries returns three day entries although one session happens after midnight`() {
         val sessions = listOf(
-            createSession(dateText = "2018-11-18", dayIndex = 1, startsAt = DAY_1_AT_8_AM, duration = Duration.ofMinutes(60)),
-            createSession(dateText = "2018-11-18", dayIndex = 1, startsAt = DAY_2_AT_230_AM, duration = Duration.ofMinutes(60)),
-            createSession(dateText = "2018-11-19", dayIndex = 2, startsAt = DAY_2_AT_8_AM, duration = Duration.ofMinutes(10)),
-            createSession(dateText = "2018-11-20", dayIndex = 3, startsAt = DAY_3_AT_8_AM, duration = Duration.ofMinutes(180)),
+            createSession(dateText = "2018-11-18", dayIndex = 1, startsAt = DAY_20181118_0800, duration = Duration.ofMinutes(60)),
+            createSession(dateText = "2018-11-18", dayIndex = 1, startsAt = DAY_20181119_0230, duration = Duration.ofMinutes(60)),
+            createSession(dateText = "2018-11-19", dayIndex = 2, startsAt = DAY_20181119_0800, duration = Duration.ofMinutes(10)),
+            createSession(dateText = "2018-11-20", dayIndex = 3, startsAt = DAY_20181120_0800, duration = Duration.ofMinutes(180)),
         )
         val entries = getDayMenuEntries(
             numDays = 3,
             sessions,
-            DAY_2_AT_830_AM,
+            DAY_20181119_0830,
         )
         assertThat(entries).isNotNull()
         assertThat(entries.size).isEqualTo(3)
@@ -67,14 +69,14 @@ class NavigationMenuEntriesGeneratorTest {
     @Test
     fun `getDayMenuEntries returns three day entries with today mark expecting sessions for day four`() {
         val sessions = listOf(
-            createSession(dateText = "2018-11-18", dayIndex = 1, startsAt = DAY_1_AT_8_AM, duration = Duration.ofMinutes(60)),
-            createSession(dateText = "2018-11-19", dayIndex = 2, startsAt = DAY_2_AT_8_AM, duration = Duration.ofMinutes(120)),
-            createSession(dateText = "2018-11-20", dayIndex = 3, startsAt = DAY_3_AT_8_AM, duration = Duration.ofMinutes(180)),
+            createSession(dateText = "2018-11-18", dayIndex = 1, startsAt = DAY_20181118_0800, duration = Duration.ofMinutes(60)),
+            createSession(dateText = "2018-11-19", dayIndex = 2, startsAt = DAY_20181119_0800, duration = Duration.ofMinutes(120)),
+            createSession(dateText = "2018-11-20", dayIndex = 3, startsAt = DAY_20181120_0800, duration = Duration.ofMinutes(180)),
         )
         val entries = getDayMenuEntries(
             numDays = 4,
             sessions,
-            DAY_2_AT_830_AM,
+            DAY_20181119_0830,
         )
         assertThat(entries).isNotNull()
         assertThat(entries.size).isEqualTo(3)
@@ -86,12 +88,12 @@ class NavigationMenuEntriesGeneratorTest {
     @Test
     fun `getDayMenuEntries returns a single day entry without today mark because the last session ended`() {
         val sessions = listOf(
-            createSession(dateText = "2018-11-19", dayIndex = 2, startsAt = DAY_2_AT_8_AM, duration = Duration.ofMinutes(10)),
+            createSession(dateText = "2018-11-19", dayIndex = 2, startsAt = DAY_20181119_0800, duration = Duration.ofMinutes(10)),
         )
         val entries = getDayMenuEntries(
             numDays = 1,
             sessions,
-            DAY_2_AT_830_AM,
+            DAY_20181119_0830,
         )
         assertThat(entries).isNotNull()
         assertThat(entries.size).isEqualTo(1)
@@ -101,12 +103,12 @@ class NavigationMenuEntriesGeneratorTest {
     @Test
     fun `getDayMenuEntries returns a single day entry with today mark matching the session end`() {
         val sessions = listOf(
-            createSession(dateText = "2018-11-19", dayIndex = 2, startsAt = DAY_2_AT_8_AM, duration = Duration.ofMinutes(10)),
+            createSession(dateText = "2018-11-19", dayIndex = 2, startsAt = DAY_20181119_0800, duration = Duration.ofMinutes(10)),
         )
         val entries = getDayMenuEntries(
             numDays = 1,
             sessions,
-            DAY_2_AT_810_AM,
+            DAY_20181119_0810,
         )
         assertThat(entries).isNotNull()
         assertThat(entries.size).isEqualTo(1)
@@ -118,7 +120,7 @@ class NavigationMenuEntriesGeneratorTest {
         val entries = getDayMenuEntries(
             numDays = 1,
             emptyList(),
-            DAY_2_AT_830_AM,
+            DAY_20181119_0830,
         )
         assertThat(entries).isNotNull()
         assertThat(entries.size).isEqualTo(0)
@@ -129,7 +131,7 @@ class NavigationMenuEntriesGeneratorTest {
         val entries = getDayMenuEntries(
             numDays = 0,
             emptyList(),
-            DAY_2_AT_830_AM,
+            DAY_20181119_0830,
         )
         assertThat(entries).isNotNull()
         assertThat(entries.size).isEqualTo(0)
@@ -138,15 +140,15 @@ class NavigationMenuEntriesGeneratorTest {
     @Test
     fun `getDayMenuEntries throws exception when numDays is less than 0`() {
         val sessions = listOf(
-            createSession(dateText = "2018-11-18", dayIndex = 1, startsAt = DAY_1_AT_8_AM, duration = Duration.ofMinutes(60)),
-            createSession(dateText = "2018-11-19", dayIndex = 2, startsAt = DAY_2_AT_8_AM, duration = Duration.ofMinutes(120)),
-            createSession(dateText = "2018-11-20", dayIndex = 3, startsAt = DAY_3_AT_8_AM, duration = Duration.ofMinutes(180)),
+            createSession(dateText = "2018-11-18", dayIndex = 1, startsAt = DAY_20181118_0800, duration = Duration.ofMinutes(60)),
+            createSession(dateText = "2018-11-19", dayIndex = 2, startsAt = DAY_20181119_0800, duration = Duration.ofMinutes(120)),
+            createSession(dateText = "2018-11-20", dayIndex = 3, startsAt = DAY_20181120_0800, duration = Duration.ofMinutes(180)),
         )
         try {
             getDayMenuEntries(
                 numDays = -1,
                 sessions,
-                DAY_2_AT_830_AM,
+                DAY_20181119_0830,
             )
             fail("Expect an IllegalArgumentException to be thrown.")
         } catch (e: IllegalArgumentException) {
@@ -157,14 +159,14 @@ class NavigationMenuEntriesGeneratorTest {
     @Test
     fun `getDayMenuEntries throws exception when number of days is less than date list items size`() {
         val sessions = listOf(
-            createSession(dateText = "2018-11-18", dayIndex = 1, startsAt = DAY_1_AT_8_AM, duration = Duration.ofMinutes(60)),
-            createSession(dateText = "2018-11-19", dayIndex = 2, startsAt = DAY_2_AT_8_AM, duration = Duration.ofMinutes(120)),
+            createSession(dateText = "2018-11-18", dayIndex = 1, startsAt = DAY_20181118_0800, duration = Duration.ofMinutes(60)),
+            createSession(dateText = "2018-11-19", dayIndex = 2, startsAt = DAY_20181119_0800, duration = Duration.ofMinutes(120)),
         )
         try {
             getDayMenuEntries(
                 numDays = 1,
                 sessions,
-                DAY_2_AT_830_AM,
+                DAY_20181119_0830,
             )
             fail("Expect an IllegalArgumentException to be thrown.")
         } catch (e: IllegalArgumentException) {
@@ -175,17 +177,17 @@ class NavigationMenuEntriesGeneratorTest {
     private fun createSession(
         dateText: String,
         dayIndex: Int,
-        startsAt: Long,
+        startsAt: Moment,
         duration: Duration,
     ) = Session(
         sessionId = "",
         dateText = dateText,
         dayIndex = dayIndex,
-        dateUTC = startsAt,
+        dateUTC = startsAt.toMilliseconds(),
         duration = duration,
     )
 
-    private fun getDayMenuEntries(numDays: Int, sessions: List<Session>, currentDate: Long) =
-        generator.getDayMenuEntries(numDays, sessions, Moment.ofEpochMilli(currentDate))
+    private fun getDayMenuEntries(numDays: Int, sessions: List<Session>, currentDate: Moment) =
+        generator.getDayMenuEntries(numDays, sessions, currentDate)
 
 }
