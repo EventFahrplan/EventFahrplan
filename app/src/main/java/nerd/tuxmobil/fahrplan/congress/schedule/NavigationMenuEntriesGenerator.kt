@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toVirtualDays
+import nerd.tuxmobil.fahrplan.congress.models.NavigationMenuDay
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.models.VirtualDay
 
@@ -51,7 +52,7 @@ internal class NavigationMenuEntriesGenerator(
             "Expected maximum $numDays day(s) but days list contains ${virtualDays.size} items."
         }
         logging.d(LOG_TAG, "Today is $currentDate")
-        val menuEntries = virtualDays.toMenuEntries(
+        val menuEntries = virtualDays.toNavigationMenuDays().toMenuEntries(
             dayString = dayString,
             todayString = todayString,
             currentDate = currentDate
@@ -61,14 +62,19 @@ internal class NavigationMenuEntriesGenerator(
 
 }
 
-private fun List<VirtualDay>.toMenuEntries(
+private fun List<VirtualDay>.toNavigationMenuDays() = map(::NavigationMenuDay)
+
+private fun List<NavigationMenuDay>.toMenuEntries(
     dayString: String,
     todayString: String,
     currentDate: Moment
 ): List<String> {
-    return map { day ->
+    // Append the "today" suffix to the last day entry that contains the current date.
+    // If no day contains the current date then no suffix is appended.
+    val indexOfLast = indexOfLast { currentDate in it.timeFrame }
+    return mapIndexed { index, day ->
         var entry = "$dayString ${day.index}"
-        if (currentDate in day.timeFrame) {
+        if (index == indexOfLast) {
             entry += " - $todayString"
         }
         entry
