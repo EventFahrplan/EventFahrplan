@@ -1,6 +1,6 @@
 [versions]
 activity-compose = "1.13.0"
-android-gradle-plugin = "9.2.1"
+android-gradle-plugin = "9.3.1"
 android-test = "2.0.1"
 annotation = "1.10.0"
 appcompat = "1.7.1"
@@ -17,7 +17,7 @@ fragment-compose = "1.8.9"
 htmlconverter = "1.1.1"
 junit-jupiter = "5.14.3" # emulators on CI do not run junit 6 https://github.com/mannodermaus/android-junit5/issues/392
 junit-platform = "1.14.3" # emulators on CI do not run junit 6 https://github.com/mannodermaus/android-junit5/issues/392
-kotlin = "2.4.0"
+kotlin = "2.4.10"
 kotlin-coroutines = "1.11.0"
 ksp = "2.3.10"
 lifecycle = "2.10.0" # compileSdk 37 is required as of 2.11.0

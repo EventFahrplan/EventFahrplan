@@ -1,4 +1,4 @@
-dist: jammy
+dist: noble
 
 language: java
 
@@ -7,7 +7,7 @@ jdk: openjdk21
 env:
   global:
   # Android command line tools, check for updates here https://developer.android.com/studio/#command-tools
-  - COMMAND_LINE_TOOLS_VERSION=14742923
+  - COMMAND_LINE_TOOLS_VERSION=15859902
   - ANDROID_HOME=$HOME/android-sdk
   - TARGET_SDK_VERSION=`grep -Po '^target-sdk = "\K[^"]+' gradle/config.versions.toml`
   - BUILD_TOOLS_VERSION=`grep -Po '^build-tools = "\K[^"]+' gradle/config.versions.toml`
