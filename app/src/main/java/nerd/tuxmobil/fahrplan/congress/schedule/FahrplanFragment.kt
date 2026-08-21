@@ -148,6 +148,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
     private val renderedRoomHashByRoomName = mutableMapOf<String, Int>()
     private val deferredRoomColumnRenderers = mutableMapOf<String, () -> Unit>()
     private val renderedAlarmState = RenderedAlarmState()
+    private val pendingCardShakes = PendingCardShakes()
 
     private var currentDayIndex = -1
 
@@ -304,9 +305,15 @@ class FahrplanFragment : Fragment(), MenuProvider {
             .observe(this) { (scheduleData, useDeviceTimeZone) ->
                 hideNoScheduleView()
                 viewModel.fillTimes(Moment.now(), getNormalizedBoxHeight())
+                pendingCardShakes.update(scheduleData)
                 viewDay(scheduleData, useDeviceTimeZone)
                 updateHorizontalScrollingProgressLine(0)
             }
+        // Already composed room columns observe the requests, so a late firing event shakes
+        // the card without re-rendering its column.
+        viewModel.firedAlarmParameter.observe(this) { (sessionId, firedAt) ->
+            pendingCardShakes.request(sessionId, firedAt)
+        }
         viewModel.dayMenuParameter.observe(this) { parameter ->
             buildNavigationMenu(parameter.dayMenuEntries)
             updateNavigationMenuSelection(numDays = parameter.dayMenuEntries.size, dayIndex = parameter.displayDayIndex)
@@ -527,6 +534,8 @@ class FahrplanFragment : Fragment(), MenuProvider {
             )
 
             val roomColumnView = ComposeView(context).apply {
+                clipChildren = false
+                clipToPadding = false
                 layoutParams = LayoutParams(columnWidth, WRAP_CONTENT)
                 tag = roomData.roomName
             }
@@ -535,6 +544,17 @@ class FahrplanFragment : Fragment(), MenuProvider {
                     RoomColumn(
                         columnData = roomColumnData,
                         newlyAddedAlarmSessionIds = newlyAddedAlarmSessionIds,
+                        isCardShakeRequested = pendingCardShakes::isRequested,
+                        onCardShakeFinished = pendingCardShakes::onShakeFinished,
+                        onAnyCardShakingChange = { isAnyCardShaking ->
+                            // Lift the column above its neighbors so the shaking card is not
+                            // drawn below the adjacent room columns.
+                            roomColumnView.translationZ = if (isAnyCardShaking) {
+                                resources.getDimension(R.dimen.session_card_shake_elevation)
+                            } else {
+                                0f
+                            }
+                        },
                         onSessionClick = { sessionId ->
                             val session = roomData.sessions.first { it.sessionId == sessionId }
                             logging.d(LOG_TAG, """Click on: "${session.title}"""")

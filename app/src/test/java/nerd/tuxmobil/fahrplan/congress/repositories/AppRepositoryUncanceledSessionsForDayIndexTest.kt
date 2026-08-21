@@ -166,6 +166,31 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
                 }
             }
 
+        @Test
+        fun `uncanceledSessionsForDayIndex emits ScheduleData containing session without alarm when onAlarmFired is invoked`() =
+            runTest {
+                testableAppRepository.updateAlarm(createAlarm())
+
+                testableAppRepository.uncanceledSessionsForDayIndex.test {
+                    val expectedScheduleData1 = createScheduleData(createSession(
+                        isHighlight = false,
+                        hasAlarm = true, // initially alarm is set
+                    ))
+
+                    val actualScheduleData1 = awaitItem()
+                    assertThat(actualScheduleData1).isEqualTo(expectedScheduleData1)
+
+                    // Simulate the alarm firing
+                    testableAppRepository.onAlarmFired(sessionId)
+                    val expectedScheduleData2 = createScheduleData(createSession(
+                        isHighlight = false,
+                        hasAlarm = false, // fired alarm is now deleted
+                    ))
+                    val actualScheduleData2 = awaitItem()
+                    assertThat(actualScheduleData2).isEqualTo(expectedScheduleData2)
+                }
+            }
+
     }
 
     @Nested
