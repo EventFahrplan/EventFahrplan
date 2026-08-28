@@ -24,6 +24,7 @@ lifecycle = "2.10.0" # compileSdk 37 is required as of 2.11.0
 markdown-renderer = "0.41.0" # compileSdk 37 is required as of 0.42.0
 material = "1.14.0"
 material-icons-core = "1.7.8"
+mockito = "5.24.0"
 mockito-kotlin = "6.3.0"
 moshi = "1.15.2"
 navigation = "2.9.8"
@@ -82,6 +83,7 @@ markdown-renderer = { module = "com.mikepenz:multiplatform-markdown-renderer-m3"
 material = { module = "com.google.android.material:material", version.ref = "material" }
 material-icons-core = { module = "androidx.compose.material:material-icons-core", version.ref = "material-icons-core" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
 navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
