@@ -34,14 +34,14 @@ class DateFormatterTest {
 
     @Test
     fun getFormattedTimeShort() {
-        Locale.setDefault(Locale("en", "US"))
+        Locale.setDefault(Locale.US)
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+1"))
         assertThat(createDateFormatter().getFormattedTimeShort(moment, getTimeZoneOffsetNow()).compat()).isEqualTo("1:00 AM")
 
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+14"))
         assertThat(createDateFormatter().getFormattedTimeShort(moment, getTimeZoneOffsetNow()).compat()).isEqualTo("2:00 PM")
 
-        Locale.setDefault(Locale("de", "DE"))
+        Locale.setDefault(Locale.GERMANY)
         assertThat(createDateFormatter().getFormattedTimeShort(moment, getTimeZoneOffsetNow())).isEqualTo("14:00")
 
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+6"))
@@ -50,14 +50,14 @@ class DateFormatterTest {
 
     @Test
     fun getFormattedTimeNumbersOnly() {
-        Locale.setDefault(Locale("en", "US"))
+        Locale.setDefault(Locale.US)
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+1"))
         assertThat(createDateFormatter().getFormattedTime24Hour(moment, getTimeZoneOffsetNow())).isEqualTo("01:00")
 
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+14"))
         assertThat(createDateFormatter().getFormattedTime24Hour(moment, getTimeZoneOffsetNow())).isEqualTo("14:00")
 
-        Locale.setDefault(Locale("de", "DE"))
+        Locale.setDefault(Locale.GERMANY)
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+6"))
         assertThat(createDateFormatter().getFormattedTime24Hour(moment, getTimeZoneOffsetNow())).isEqualTo("06:00")
 

@@ -74,7 +74,7 @@ class SimpleSessionFormatTest {
 
     @BeforeEach
     fun setUp() {
-        Locale.setDefault(Locale("de", "DE"))
+        Locale.setDefault(Locale.GERMANY)
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+1"))
     }
 
