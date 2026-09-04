@@ -2,7 +2,6 @@ package nerd.tuxmobil.fahrplan.congress.designsystem.bars
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
@@ -10,7 +9,6 @@ import nerd.tuxmobil.fahrplan.congress.extensions.safeDrawingHorizontalAndTop
 import androidx.compose.material3.TopAppBar as Material3TopAppBar
 import androidx.compose.material3.TopAppBarDefaults as Material3TopAppBarDefaults
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopAppBar(
     title: @Composable () -> Unit,
