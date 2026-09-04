@@ -84,9 +84,9 @@ class SimpleSessionFormatTest {
     fun `format returns formatted multiline text for a session without time zone name`() {
         assertThat(
             SimpleSessionFormat().format(
-                session1,
-                NO_TIME_ZONE_ID,
-                NO_SOCIAL_MEDIA_HASHTAGS_HANDLES
+                session = session1,
+                timeZoneId = NO_TIME_ZONE_ID,
+                socialMediaHashtagsHandles = NO_SOCIAL_MEDIA_HASHTAGS_HANDLES,
             )
         ).isEqualTo(
             """
@@ -102,9 +102,9 @@ class SimpleSessionFormatTest {
     fun `format returns formatted multiline text for a session with time zone name`() {
         assertThat(
             SimpleSessionFormat().format(
-                session1,
-                TIME_ZONE_EUROPE_BERLIN,
-                NO_SOCIAL_MEDIA_HASHTAGS_HANDLES
+                session = session1,
+                timeZoneId = TIME_ZONE_EUROPE_BERLIN,
+                socialMediaHashtagsHandles = NO_SOCIAL_MEDIA_HASHTAGS_HANDLES,
             )
         ).isEqualTo(
             """
@@ -120,9 +120,9 @@ class SimpleSessionFormatTest {
     fun `format returns formatted multiline text for a session without social media hashtags`() {
         assertThat(
             SimpleSessionFormat().format(
-                session1,
-                NO_TIME_ZONE_ID,
-                NO_SOCIAL_MEDIA_HASHTAGS_HANDLES
+                session = session1,
+                timeZoneId = NO_TIME_ZONE_ID,
+                socialMediaHashtagsHandles = NO_SOCIAL_MEDIA_HASHTAGS_HANDLES,
             )
         ).isEqualTo(
             """
@@ -138,9 +138,9 @@ class SimpleSessionFormatTest {
     fun `format returns formatted multiline text for a session with social media hashtags`() {
         assertThat(
             SimpleSessionFormat().format(
-                session1,
-                NO_TIME_ZONE_ID,
-                SOCIAL_MEDIA_HASHTAGS_HANDLES
+                session = session1,
+                timeZoneId = NO_TIME_ZONE_ID,
+                socialMediaHashtagsHandles = SOCIAL_MEDIA_HASHTAGS_HANDLES,
             )
         ).isEqualTo(
             """
@@ -158,9 +158,9 @@ class SimpleSessionFormatTest {
     fun `format returns formatted multiline text for a wiki session`() {
         assertThat(
             SimpleSessionFormat().format(
-                session3,
-                TIME_ZONE_EUROPE_BERLIN,
-                NO_SOCIAL_MEDIA_HASHTAGS_HANDLES
+                session = session3,
+                timeZoneId = TIME_ZONE_EUROPE_BERLIN,
+                socialMediaHashtagsHandles = NO_SOCIAL_MEDIA_HASHTAGS_HANDLES,
             )
         ).isEqualTo(
             """
@@ -179,8 +179,8 @@ class SimpleSessionFormatTest {
     fun `format returns separated multiline text for a single session`() {
         assertThat(
             SimpleSessionFormat().format(
-                listOf(session1),
-                TIME_ZONE_EUROPE_BERLIN
+                sessions = listOf(session1),
+                timeZoneId = TIME_ZONE_EUROPE_BERLIN,
             )
         ).isEqualTo(
             """
@@ -196,8 +196,8 @@ class SimpleSessionFormatTest {
     fun `format returns separated multiline text for multiple sessions`() {
         assertThat(
             SimpleSessionFormat().format(
-                listOf(session1, session2),
-                TIME_ZONE_EUROPE_BERLIN
+                sessions = listOf(session1, session2),
+                timeZoneId = TIME_ZONE_EUROPE_BERLIN,
             )
         ).isEqualTo(
             """
@@ -220,9 +220,9 @@ class SimpleSessionFormatTest {
     fun `format returns formatted multiline text for a session in central european summer time`() {
         assertThat(
             SimpleSessionFormat().format(
-                session4,
-                TIME_ZONE_EUROPE_BERLIN,
-                NO_SOCIAL_MEDIA_HASHTAGS_HANDLES
+                session = session4,
+                timeZoneId = TIME_ZONE_EUROPE_BERLIN,
+                socialMediaHashtagsHandles = NO_SOCIAL_MEDIA_HASHTAGS_HANDLES,
             )
         ).isEqualTo(
             """

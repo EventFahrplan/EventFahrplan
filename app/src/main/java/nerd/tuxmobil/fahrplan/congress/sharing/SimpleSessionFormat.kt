@@ -20,7 +20,7 @@ class SimpleSessionFormat {
     fun format(
         session: Session,
         timeZoneId: ZoneId?,
-        socialMediaHashtagsHandles: String = BuildConfig.SOCIAL_MEDIA_HASHTAGS_HANDLES
+        socialMediaHashtagsHandles: String = BuildConfig.SOCIAL_MEDIA_HASHTAGS_HANDLES,
     ): String {
         val builder = StringBuilder()
         builder.appendSession(session, timeZoneId)
