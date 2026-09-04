@@ -6,6 +6,7 @@ import nerd.tuxmobil.fahrplan.congress.models.MarkupLanguage.Markdown
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.FRAB
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.PENTABARF
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.PRETALX
+import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.WAFER
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -31,6 +32,12 @@ class ServerBackendTypeTest {
         fun `of returns PRETALX for pretalx`() {
             val type = ServerBackendType.of("pretalx")
             assertThat(type).isEqualTo(PRETALX)
+        }
+
+        @Test
+        fun `of returns WAFER for wafer`() {
+            val type = ServerBackendType.of("wafer")
+            assertThat(type).isEqualTo(WAFER)
         }
 
         @Test
@@ -67,6 +74,11 @@ class ServerBackendTypeTest {
         @Test
         fun `PRETALX supports Markdown markup`() {
             assertThat(PRETALX.markupLanguage).isEqualTo(Markdown)
+        }
+
+        @Test
+        fun `WAFER supports Markdown markup`() {
+            assertThat(WAFER.markupLanguage).isEqualTo(Markdown)
         }
 
     }
