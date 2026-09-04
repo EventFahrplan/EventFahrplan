@@ -101,6 +101,7 @@ The following options can be enabled via a `buildConfigField` and configured in 
 - Feedback system via `SCHEDULE_FEEDBACK_URL`
 - FOSDEM room status via `ENABLE_FOSDEM_ROOM_STATUS`, `FOSDEM_ROOM_STATES_URL`
 - Live streams URL via `LIVE_STREAMS_URL`, inserted when sharing a single session
+- Video recording URL via `VIDEO_RECORDINGS_URL`, inserted when sharing a single session
 
 ## 5. Optional engagements
 

@@ -22,11 +22,15 @@ class SimpleSessionFormat {
         timeZoneId: ZoneId?,
         socialMediaHashtagsHandles: String = BuildConfig.SOCIAL_MEDIA_HASHTAGS_HANDLES,
         liveStreamsUrl: String = BuildConfig.LIVE_STREAMS_URL,
+        videoRecordingsUrl: String = BuildConfig.VIDEO_RECORDINGS_URL,
     ): String {
         val builder = StringBuilder()
         builder.appendSession(session, timeZoneId)
         if (liveStreamsUrl.isNotEmpty() && !session.links.containsWikiLink()) {
             builder.appendLiveStreamsUrl(liveStreamsUrl)
+        }
+        if (videoRecordingsUrl.isNotEmpty() && !session.links.containsWikiLink()) {
+            builder.appendVideoRecordingsUrl(videoRecordingsUrl)
         }
         if (socialMediaHashtagsHandles.isNotEmpty()) {
             builder.append(LINE_BREAK)
@@ -75,6 +79,11 @@ class SimpleSessionFormat {
     private fun StringBuilder.appendLiveStreamsUrl(liveStreamsUrl: String) {
         append(LINE_BREAK)
         append(liveStreamsUrl)
+    }
+
+    private fun StringBuilder.appendVideoRecordingsUrl(videoRecordingsUrl: String) {
+        append(LINE_BREAK)
+        append(videoRecordingsUrl)
     }
 
     private fun StringBuilder.appendDivider() {

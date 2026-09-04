@@ -61,6 +61,7 @@ android {
         buildConfigField("boolean", "ENABLE_FOSDEM_ROOM_STATES", "false")
         buildConfigField("String", "FOSDEM_ROOM_STATES_URL", """""""")
         buildConfigField("String", "LIVE_STREAMS_URL", """""""")
+        buildConfigField("String", "VIDEO_RECORDINGS_URL", """""""")
     }
 
     buildFeatures {
@@ -121,6 +122,7 @@ android {
             buildConfigField("String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", """"#camp23 #CCCamp23 #fahrplan"""")
             buildConfigField("String", "TRACE_DROID_EMAIL_ADDRESS", """"tobias.preuss+camp2023@googlemail.com"""")
             buildConfigField("String", "SCHEDULE_FEEDBACK_URL", """"https://frab.cccv.de/en/camp2023/public/events/%s/feedback/new"""")
+            buildConfigField("String", "VIDEO_RECORDINGS_URL", """"📼 https://media.ccc.de/c/camp2023"""")
         }
         create("ccc39c3") {
             dimension = defaultDimension
@@ -143,6 +145,7 @@ android {
             buildConfigField("String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", """"#39c3 #fahrplan"""")
             buildConfigField("String", "TRACE_DROID_EMAIL_ADDRESS", """"tobias.preuss+39c3@googlemail.com"""")
             buildConfigField("String", "SCHEDULE_FEEDBACK_URL", """""""")
+            buildConfigField("String", "VIDEO_RECORDINGS_URL", """"📼 https://media.ccc.de/c/39c3"""")
         }
     }
 
