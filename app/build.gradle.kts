@@ -60,6 +60,7 @@ android {
         buildConfigField("boolean", "ENGAGE_LANDSCAPE_ORIENTATION", "true")
         buildConfigField("boolean", "ENABLE_FOSDEM_ROOM_STATES", "false")
         buildConfigField("String", "FOSDEM_ROOM_STATES_URL", """""""")
+        buildConfigField("String", "LIVE_STREAMS_URL", """""""")
     }
 
     buildFeatures {
