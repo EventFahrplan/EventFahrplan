@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -25,13 +27,16 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -40,6 +45,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -281,7 +287,23 @@ private fun ClearSearchQueryIcon() {
 
 @Composable
 private fun NoSearchResult(onBack: () -> Unit) {
+    val imeWindowInsets = WindowInsets.ime
+    var containerHeightPx by remember { mutableIntStateOf(0) }
+    var contentHeightPx by remember { mutableIntStateOf(0) }
     NoData(
+        // Shifts the whole illustration + text block up together as one unit, instead of
+        // shrinking the surrounding box (which re-centers image and text independently and
+        // can visibly separate them as the keyboard height changes). The shift is capped to
+        // the room available above the centered content, so it never moves up past the top
+        // of this area into the SearchQueryInputField and SearchFilters above it.
+        modifier = Modifier
+            .onSizeChanged { containerHeightPx = it.height }
+            .offset {
+                val wantedShift = imeWindowInsets.getBottom(this) / 2
+                val maxShift = ((containerHeightPx - contentHeightPx) / 2).coerceAtLeast(0)
+                IntOffset(x = 0, y = -wantedShift.coerceIn(0, maxShift))
+            },
+        onContentSizeChanged = { contentHeightPx = it.height },
         emptyContent = R.drawable.no_search_results,
         title = stringResource(R.string.search_no_search_result_title),
         subtitle = stringResource(R.string.search_no_search_result_subtitle),
