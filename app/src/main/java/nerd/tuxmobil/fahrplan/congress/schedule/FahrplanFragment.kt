@@ -141,6 +141,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
      * Used to redraw only the rooms that visually change (e.g. because a session is favored)
      */
     private val renderedRoomHashByRoomName = mutableMapOf<String, Int>()
+    private val renderedAlarmState = RenderedAlarmState()
 
     private var currentDayIndex = -1
 
@@ -475,9 +476,12 @@ class FahrplanFragment : Fragment(), MenuProvider {
         if (currentDayIndex != scheduleData.dayIndex || columnsLayout.childCount != roomDataList.size) {
             columnsLayout.removeAllViews()
             renderedRoomHashByRoomName.clear()
+            renderedAlarmState.clear()
         }
 
         currentDayIndex = scheduleData.dayIndex
+
+        val newlyAddedAlarmSessionIds = renderedAlarmState.findNewlyAddedAlarmSessionIds(roomDataList)
 
         var skippedCount = 0
         var renderedCount = 0
@@ -509,6 +513,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
                 setContent {
                     RoomColumn(
                         columnData = roomColumnData,
+                        newlyAddedAlarmSessionIds = newlyAddedAlarmSessionIds,
                         onSessionClick = { sessionId ->
                             val session = roomData.sessions.first { it.sessionId == sessionId }
                             logging.d(LOG_TAG, """Click on: "${session.title}"""")
@@ -540,6 +545,8 @@ class FahrplanFragment : Fragment(), MenuProvider {
             columnsLayout.addView(roomColumnView, roomIndex)
             renderedRoomHashByRoomName[roomData.roomName] = roomData.hashCode()
         }
+
+        renderedAlarmState.remember(roomDataList)
 
         logging.report(LOG_TAG, buildString {
             append("addRoomColumns.complete: ")

@@ -1,5 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -21,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,6 +33,8 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.platform.LocalDensity
@@ -71,6 +76,7 @@ import nerd.tuxmobil.fahrplan.congress.schedule.SessionInteractionType.TOGGLE_FA
 @Composable
 fun RoomColumn(
     columnData: RoomColumnData,
+    newlyAddedAlarmSessionIds: Set<String> = emptySet(),
     onSessionClick: (String) -> Unit,
     onSessionInteraction: (String, SessionInteractionType) -> Unit
 ) {
@@ -88,7 +94,12 @@ fun RoomColumn(
 
                 SessionCard(
                     data = sessionData,
-                    sessionCardLayout = { SessionCardLayout(sessionData) },
+                    sessionCardLayout = {
+                        SessionCardLayout(
+                            data = sessionData,
+                            shakeAlarmIconOnEnter = sessionData.sessionId in newlyAddedAlarmSessionIds,
+                        )
+                    },
                     onClick = { onSessionClick(sessionData.sessionId) },
                     onMenuItemClick = { onSessionInteraction(sessionData.sessionId, it) },
                 )
@@ -175,7 +186,10 @@ fun SessionCard(
 
 @Suppress("kotlin:S107")
 @Composable
-private fun SessionCardLayout(data: SessionCardData) {
+private fun SessionCardLayout(
+    data: SessionCardData,
+    shakeAlarmIconOnEnter: Boolean = false,
+) {
     Column(
         modifier = Modifier
             .padding(horizontal = dimensionResource(R.dimen.session_drawable_inner_padding))
@@ -212,6 +226,7 @@ private fun SessionCardLayout(data: SessionCardData) {
                         if (data.hasAlarm) {
                             AlarmIcon(
                                 modifier = Modifier.padding(start = 4.dp),
+                                shakeOnEnter = shakeAlarmIconOnEnter,
                             )
                         }
                     }
@@ -448,12 +463,30 @@ private fun TrackName(
     }
 }
 
+private val ALARM_ICON_ROTATION_VALUES = listOf(-20f, 20f, -14f, 14f, -8f, 8f, 0f)
+private val ALARM_ICON_ANIMATION_SPEC = tween<Float>(durationMillis = 80)
+private val ALARM_ICON_TRANSFORM_ORIGIN = TransformOrigin(0.5f, 0.15f)
+
 @Composable
 private fun AlarmIcon(
     modifier: Modifier = Modifier,
+    shakeOnEnter: Boolean = false,
 ) {
+    val shaking = remember { Animatable(0f) }
+    LaunchedEffect(shakeOnEnter) {
+        if (shakeOnEnter) {
+            ALARM_ICON_ROTATION_VALUES.forEach { targetRotation ->
+                shaking.animateTo(targetRotation, ALARM_ICON_ANIMATION_SPEC)
+            }
+        }
+    }
+
     IconDecorative(
         modifier = modifier
+            .graphicsLayer {
+                rotationZ = shaking.value
+                transformOrigin = ALARM_ICON_TRANSFORM_ORIGIN
+            }
             .size(dimensionResource(R.dimen.session_drawable_icon_size))
             .padding(dimensionResource(R.dimen.session_drawable_icon_padding)),
         icon = R.drawable.ic_bell_on_session,
