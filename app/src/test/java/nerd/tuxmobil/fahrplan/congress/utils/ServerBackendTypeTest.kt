@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.models.MarkupLanguage.Html
 import nerd.tuxmobil.fahrplan.congress.models.MarkupLanguage.Markdown
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.FRAB
+import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.OPENKI
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.PENTABARF
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.PRETALX
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.WAFER
@@ -38,6 +39,12 @@ class ServerBackendTypeTest {
         fun `of returns WAFER for wafer`() {
             val type = ServerBackendType.of("wafer")
             assertThat(type).isEqualTo(WAFER)
+        }
+
+        @Test
+        fun `of returns OPENKI for openki`() {
+            val type = ServerBackendType.of("openki")
+            assertThat(type).isEqualTo(OPENKI)
         }
 
         @Test
@@ -79,6 +86,11 @@ class ServerBackendTypeTest {
         @Test
         fun `WAFER supports Markdown markup`() {
             assertThat(WAFER.markupLanguage).isEqualTo(Markdown)
+        }
+
+        @Test
+        fun `OPENKI supports Markdown markup`() {
+            assertThat(OPENKI.markupLanguage).isEqualTo(Markdown)
         }
 
     }
