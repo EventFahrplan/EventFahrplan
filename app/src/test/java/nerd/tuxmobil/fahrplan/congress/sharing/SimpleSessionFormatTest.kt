@@ -24,6 +24,8 @@ class SimpleSessionFormatTest {
         const val SOCIAL_MEDIA_HASHTAGS_HANDLES = "#fahrplan #36c3"
         const val NO_LIVE_STREAMS_URL = ""
         const val LIVE_STREAMS_URL = "https://streaming.media.ccc.de/36c3"
+        const val NO_VIDEO_RECORDINGS_URL = ""
+        const val VIDEO_RECORDINGS_URL = "https://media.ccc.de/c/36c3"
     }
 
     private val systemTimezone = TimeZone.getDefault()
@@ -90,6 +92,7 @@ class SimpleSessionFormatTest {
                 timeZoneId = NO_TIME_ZONE_ID,
                 socialMediaHashtagsHandles = NO_SOCIAL_MEDIA_HASHTAGS_HANDLES,
                 liveStreamsUrl = NO_LIVE_STREAMS_URL,
+                videoRecordingsUrl = NO_VIDEO_RECORDINGS_URL,
             )
         ).isEqualTo(
             """
@@ -109,6 +112,7 @@ class SimpleSessionFormatTest {
                 timeZoneId = TIME_ZONE_EUROPE_BERLIN,
                 socialMediaHashtagsHandles = NO_SOCIAL_MEDIA_HASHTAGS_HANDLES,
                 liveStreamsUrl = NO_LIVE_STREAMS_URL,
+                videoRecordingsUrl = NO_VIDEO_RECORDINGS_URL,
             )
         ).isEqualTo(
             """
@@ -128,6 +132,7 @@ class SimpleSessionFormatTest {
                 timeZoneId = NO_TIME_ZONE_ID,
                 socialMediaHashtagsHandles = NO_SOCIAL_MEDIA_HASHTAGS_HANDLES,
                 liveStreamsUrl = NO_LIVE_STREAMS_URL,
+                videoRecordingsUrl = NO_VIDEO_RECORDINGS_URL,
             )
         ).isEqualTo(
             """
@@ -147,6 +152,7 @@ class SimpleSessionFormatTest {
                 timeZoneId = NO_TIME_ZONE_ID,
                 socialMediaHashtagsHandles = SOCIAL_MEDIA_HASHTAGS_HANDLES,
                 liveStreamsUrl = NO_LIVE_STREAMS_URL,
+                videoRecordingsUrl = NO_VIDEO_RECORDINGS_URL,
             )
         ).isEqualTo(
             """
@@ -168,6 +174,7 @@ class SimpleSessionFormatTest {
                 timeZoneId = TIME_ZONE_EUROPE_BERLIN,
                 socialMediaHashtagsHandles = NO_SOCIAL_MEDIA_HASHTAGS_HANDLES,
                 liveStreamsUrl = NO_LIVE_STREAMS_URL,
+                videoRecordingsUrl = NO_VIDEO_RECORDINGS_URL,
             )
         ).isEqualTo(
             """
@@ -185,6 +192,7 @@ class SimpleSessionFormatTest {
                 timeZoneId = NO_TIME_ZONE_ID,
                 socialMediaHashtagsHandles = NO_SOCIAL_MEDIA_HASHTAGS_HANDLES,
                 liveStreamsUrl = LIVE_STREAMS_URL,
+                videoRecordingsUrl = NO_VIDEO_RECORDINGS_URL,
             )
         ).isEqualTo(
             """
@@ -205,6 +213,7 @@ class SimpleSessionFormatTest {
                 timeZoneId = NO_TIME_ZONE_ID,
                 socialMediaHashtagsHandles = SOCIAL_MEDIA_HASHTAGS_HANDLES,
                 liveStreamsUrl = LIVE_STREAMS_URL,
+                videoRecordingsUrl = NO_VIDEO_RECORDINGS_URL,
             )
         ).isEqualTo(
             """
@@ -227,6 +236,91 @@ class SimpleSessionFormatTest {
                 timeZoneId = TIME_ZONE_EUROPE_BERLIN,
                 socialMediaHashtagsHandles = NO_SOCIAL_MEDIA_HASHTAGS_HANDLES,
                 liveStreamsUrl = LIVE_STREAMS_URL,
+                videoRecordingsUrl = NO_VIDEO_RECORDINGS_URL,
+            )
+        ).isEqualTo(
+            """
+            Angel shifts planning
+            Sonntag, 29. Dezember 2019, 09:00 MEZ (Europe/Berlin), Main hall
+            """.trimIndent()
+        )
+    }
+
+    @Test
+    fun `format returns formatted multiline text for a session with video recordings URL`() {
+        assertThat(
+            SimpleSessionFormat().format(
+                session = session1,
+                timeZoneId = NO_TIME_ZONE_ID,
+                socialMediaHashtagsHandles = NO_SOCIAL_MEDIA_HASHTAGS_HANDLES,
+                liveStreamsUrl = NO_LIVE_STREAMS_URL,
+                videoRecordingsUrl = VIDEO_RECORDINGS_URL,
+            )
+        ).isEqualTo(
+            """
+            A talk which changes your life
+            Freitag, 27. Dezember 2019, 11:00 GMT+01:00, Yellow pavilion
+
+            $expectedSession1Url
+            $VIDEO_RECORDINGS_URL
+            """.trimIndent()
+        )
+    }
+
+    @Test
+    fun `format returns formatted multiline text for a session with social media hashtags and video recordings URL`() {
+        assertThat(
+            SimpleSessionFormat().format(
+                session = session1,
+                timeZoneId = NO_TIME_ZONE_ID,
+                socialMediaHashtagsHandles = SOCIAL_MEDIA_HASHTAGS_HANDLES,
+                liveStreamsUrl = NO_LIVE_STREAMS_URL,
+                videoRecordingsUrl = VIDEO_RECORDINGS_URL,
+            )
+        ).isEqualTo(
+            """
+            A talk which changes your life
+            Freitag, 27. Dezember 2019, 11:00 GMT+01:00, Yellow pavilion
+
+            $expectedSession1Url
+            $VIDEO_RECORDINGS_URL
+
+            #fahrplan #36c3
+            """.trimIndent()
+        )
+    }
+
+    @Test
+    fun `format returns formatted multiline text for a session with live stream URL and video recordings URL`() {
+        assertThat(
+            SimpleSessionFormat().format(
+                session = session1,
+                timeZoneId = NO_TIME_ZONE_ID,
+                socialMediaHashtagsHandles = NO_SOCIAL_MEDIA_HASHTAGS_HANDLES,
+                liveStreamsUrl = LIVE_STREAMS_URL,
+                videoRecordingsUrl = VIDEO_RECORDINGS_URL,
+            )
+        ).isEqualTo(
+            """
+            A talk which changes your life
+            Freitag, 27. Dezember 2019, 11:00 GMT+01:00, Yellow pavilion
+
+            $expectedSession1Url
+            $LIVE_STREAMS_URL
+            $VIDEO_RECORDINGS_URL
+            """.trimIndent()
+        )
+    }
+
+    @Test
+    fun `format returns formatted multiline text for a wiki session omitting the video recordings URL`() {
+        assertThat(
+            SimpleSessionFormat().format(
+                session = session3,
+                timeZoneId = TIME_ZONE_EUROPE_BERLIN,
+                socialMediaHashtagsHandles = NO_SOCIAL_MEDIA_HASHTAGS_HANDLES,
+                liveStreamsUrl = NO_LIVE_STREAMS_URL,
+                videoRecordingsUrl = VIDEO_RECORDINGS_URL,
             )
         ).isEqualTo(
             """
@@ -254,7 +348,7 @@ class SimpleSessionFormatTest {
             Freitag, 27. Dezember 2019, 11:00 MEZ (Europe/Berlin), Yellow pavilion
 
             $expectedSession1Url
-            """.trimIndent() + expectedLiveStreamsUrlSuffix
+            """.trimIndent() + expectedLiveStreamsUrlSuffix + expectedVideoRecordingsUrlSuffix
         )
     }
 
@@ -290,6 +384,7 @@ class SimpleSessionFormatTest {
                 timeZoneId = TIME_ZONE_EUROPE_BERLIN,
                 socialMediaHashtagsHandles = NO_SOCIAL_MEDIA_HASHTAGS_HANDLES,
                 liveStreamsUrl = NO_LIVE_STREAMS_URL,
+                videoRecordingsUrl = NO_VIDEO_RECORDINGS_URL,
             )
         ).isEqualTo(
             """
@@ -316,6 +411,9 @@ class SimpleSessionFormatTest {
 
     private val expectedLiveStreamsUrlSuffix =
         if (BuildConfig.LIVE_STREAMS_URL.isEmpty()) "" else "\n${BuildConfig.LIVE_STREAMS_URL}"
+
+    private val expectedVideoRecordingsUrlSuffix =
+        if (BuildConfig.VIDEO_RECORDINGS_URL.isEmpty()) "" else "\n${BuildConfig.VIDEO_RECORDINGS_URL}"
 
     private fun createSessionUrl(slug: String, url: String) =
         if (isPentabarfConfigured()) createPentabarfUrl(slug) else url
