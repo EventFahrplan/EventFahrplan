@@ -1,6 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
 import com.google.common.truth.Truth.assertThat
+import nerd.tuxmobil.fahrplan.congress.models.MarkupLanguage.Html
+import nerd.tuxmobil.fahrplan.congress.models.MarkupLanguage.Markdown
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.FRAB
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.PENTABARF
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.PRETALX
@@ -45,6 +47,26 @@ class ServerBackendTypeTest {
                 ServerBackendType.of("")
             }
             assertThat(exception).hasMessageThat().isEqualTo("""Unknown server backend type: "".""")
+        }
+
+    }
+
+    @Nested
+    inner class MarkupLanguage {
+
+        @Test
+        fun `PENTABARF supports HTML markup`() {
+            assertThat(PENTABARF.markupLanguage).isEqualTo(Html)
+        }
+
+        @Test
+        fun `FRAB supports Markdown markup`() {
+            assertThat(FRAB.markupLanguage).isEqualTo(Markdown)
+        }
+
+        @Test
+        fun `PRETALX supports Markdown markup`() {
+            assertThat(PRETALX.markupLanguage).isEqualTo(Markdown)
         }
 
     }
