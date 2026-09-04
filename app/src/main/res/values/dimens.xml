@@ -84,6 +84,7 @@
     <dimen name="empty_screen_text">16sp</dimen>
     <dimen name="empty_screen_line_spacing_extra">6sp</dimen>
     <dimen name="empty_screen_subtitle_padding_top">16dp</dimen>
+    <dimen name="empty_screen_subtitle_max_width">250dp</dimen>
     <dimen name="empty_screen_drawable_padding">16dp</dimen>
     <dimen name="empty_screen_padding">16dp</dimen>
 

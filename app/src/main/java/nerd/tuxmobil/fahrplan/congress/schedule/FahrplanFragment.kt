@@ -66,6 +66,7 @@ import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.applyHorizontalInsets
+import nerd.tuxmobil.fahrplan.congress.extensions.applyImeBottomPadding
 import nerd.tuxmobil.fahrplan.congress.extensions.applyRightInsets
 import nerd.tuxmobil.fahrplan.congress.extensions.getLayoutInflater
 import nerd.tuxmobil.fahrplan.congress.extensions.isLandscape
@@ -245,6 +246,8 @@ class FahrplanFragment : Fragment(), MenuProvider {
 
         val timeTextColumn = view.requireViewByIdCompat<LinearLayout>(R.id.times_layout)
         timeTextColumnEdgeToEdge.applyInsets(view, timeTextColumn)
+
+        view.requireViewByIdCompat<View>(R.id.schedule_no_content_view).applyImeBottomPadding()
 
         view.requireViewByIdCompat<ComposeView>(R.id.alarm_time_picker_view)
             .setContent {
