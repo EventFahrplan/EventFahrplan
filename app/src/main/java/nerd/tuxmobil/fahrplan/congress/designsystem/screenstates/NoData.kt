@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
+import androidx.compose.ui.unit.dp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
@@ -48,7 +50,9 @@ fun NoData(
             lineHeight = TextUnit(1.5f, TextUnitType.Em),
         )
         Text(
-            modifier = Modifier.padding(top = dimensionResource(R.dimen.empty_screen_subtitle_padding_top)),
+            modifier = Modifier
+                .widthIn(max = dimensionResource(R.dimen.empty_screen_subtitle_max_width))
+                .padding(top = dimensionResource(R.dimen.empty_screen_subtitle_padding_top)),
             text = subtitle,
             textAlign = TextAlign.Center,
             fontSize = dimensionResource(R.dimen.empty_screen_text).toTextUnit(),
