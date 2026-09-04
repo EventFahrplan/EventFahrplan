@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
+    <!-- Preference dialog actions -->
+    <string name="preference_dialog_action_reset">Zurücksetzen</string>
+
     <!-- App notification settings -->
     <string name="preference_title_app_notification_settings">Benachrichtigungen anpassen</string>
     <string name="preference_summary_app_notification_settings">Öffne den dazugehörigen System-Einstellungen-Bildschirm von hier.</string>
@@ -64,6 +67,12 @@
     <!-- Insistent session alarms -->
     <string name="preference_title_insistent_alarms_enabled">Dauerhaften Alarm anschalten</string>
     <string name="preference_summary_insistent_alarms_enabled">Lässt einen Alarm unendlich lange klingeln.</string>
+
+    <!-- Category Sharing -->
+
+    <string name="preference_sharing_category_title">Teilen</string>
+    <string name="preference_title_social_media_hashtags_handles">Hashtags &amp; Social Media Handles konfigurieren</string>
+    <string name="preference_summary_social_media_hashtags_handles">Wird beim Teilen einer Sitzung angehängt. Leer lassen, um keine hinzuzufügen.</string>
 
     <!-- Category Engelsystem -->
 

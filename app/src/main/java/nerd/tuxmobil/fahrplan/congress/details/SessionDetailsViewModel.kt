@@ -58,7 +58,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposition
 internal class SessionDetailsViewModel(
 
     private val repository: AppRepository,
-    settingsRepository: SettingsRepository,
+    private val settingsRepository: SettingsRepository,
     private val executionContext: ExecutionContext,
     private val logging: Logging,
     private val buildConfigProvision: BuildConfigProvision,
@@ -177,7 +177,12 @@ internal class SessionDetailsViewModel(
     private fun share() {
         loadSelectedSession { session ->
             val timeZoneId = repository.readMeta().timeZoneId
-            sendEffect(ShareSimple(simpleSessionFormat.format(session, timeZoneId)))
+            val socialMediaHashtagsHandles = settingsRepository.getSocialMediaHashtagsHandles()
+            sendEffect(ShareSimple(simpleSessionFormat.format(
+                session = session,
+                timeZoneId = timeZoneId,
+                socialMediaHashtagsHandles = socialMediaHashtagsHandles,
+            )))
         }
     }
 

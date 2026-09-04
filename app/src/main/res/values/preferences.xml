@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
+    <!-- Preference dialog actions -->
+    <string name="preference_dialog_action_reset">Reset</string>
+
     <!-- Category development -->
 
     <!-- Schedule refresh interval -->
@@ -84,6 +87,13 @@
     <!-- Insistent session alarms -->
     <string name="preference_title_insistent_alarms_enabled">Enable insistent alarm</string>
     <string name="preference_summary_insistent_alarms_enabled">Keeps an alarm on infinitely.</string>
+
+    <!-- Category Sharing -->
+
+    <string name="preference_sharing_category_title">Sharing</string>
+    <string name="preference_title_social_media_hashtags_handles">Configure hashtags &amp; social media handles</string>
+    <string name="preference_summary_social_media_hashtags_handles">Appended when sharing a session. Leave empty to not include any.</string>
+    <string name="preference_hint_social_media_hashtags_handles" translatable="false">#event #hashtag @handle</string>
 
     <!-- Category Engelsystem -->
 

@@ -23,6 +23,10 @@ internal sealed interface SettingsEvent {
     data object AlarmTimeClicked : SettingsEvent
     data class SetAlarmTime(val alarmTime: Int) : SettingsEvent
 
+    data object SocialMediaHashtagsHandlesClicked : SettingsEvent
+    data object ResetSocialMediaHashtagsHandles : SettingsEvent
+    data class SetSocialMediaHashtagsHandles(val handles: String) : SettingsEvent
+
     data object EngelsystemUrlClicked : SettingsEvent
     data class SetEngelsystemShiftsUrl(val url: String) : SettingsEvent
 }

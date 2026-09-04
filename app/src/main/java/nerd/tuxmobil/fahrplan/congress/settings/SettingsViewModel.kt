@@ -33,6 +33,7 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClic
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.EngelsystemUrlClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.FastSwipingClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.InsistentAlarmClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ResetSocialMediaHashtagsHandles
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ShowOnLockscreenClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleRefreshIntervalClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
@@ -42,11 +43,14 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTone
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlternativeScheduleUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetEngelsystemShiftsUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetScheduleRefreshInterval
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetSocialMediaHashtagsHandles
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SocialMediaHashtagsHandlesClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.AlarmTime
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.AlternativeScheduleUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.EngelSystemUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.ScheduleRefreshInterval
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.ScheduleStatistic
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.SocialMediaHashtagsHandles
 
 internal class SettingsViewModel(
     appRepository: AppRepository,
@@ -89,6 +93,9 @@ internal class SettingsViewModel(
         InsistentAlarmClicked -> toggleInsistentAlarmsEnabled()
         AlarmTimeClicked -> navigateTo(AlarmTime)
         is SetAlarmTime -> updateAlarmTime(event.alarmTime)
+        SocialMediaHashtagsHandlesClicked -> navigateTo(SocialMediaHashtagsHandles)
+        is SetSocialMediaHashtagsHandles -> updateSocialMediaHashtagsHandles(event.handles)
+        ResetSocialMediaHashtagsHandles -> resetSocialMediaHashtagsHandles()
         EngelsystemUrlClicked -> navigateTo(EngelSystemUrl)
         is SetEngelsystemShiftsUrl -> updateEngelsystemShiftsUrl(event.url)
     }
@@ -166,6 +173,16 @@ internal class SettingsViewModel(
     private fun updateEngelsystemShiftsUrl(url: String) {
         settingsRepository.setEngelsystemShiftsUrl(url)
         updateActivityResult(ENGELSYSTEM_SHIFTS_URL_UPDATED)
+        navigateBack()
+    }
+
+    private fun updateSocialMediaHashtagsHandles(handles: String) {
+        settingsRepository.setSocialMediaHashtagsHandles(handles)
+        navigateBack()
+    }
+
+    private fun resetSocialMediaHashtagsHandles() {
+        settingsRepository.resetSocialMediaHashtagsHandles()
         navigateBack()
     }
 

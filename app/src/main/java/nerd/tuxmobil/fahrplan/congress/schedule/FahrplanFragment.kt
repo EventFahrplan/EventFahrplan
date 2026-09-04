@@ -79,6 +79,7 @@ import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage.TitledMessage
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessageScreen
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
+import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.schedule.SessionInteractionType.ADD_TO_CALENDAR
 import nerd.tuxmobil.fahrplan.congress.schedule.SessionInteractionType.SHARE
@@ -153,6 +154,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
         val customEngelsystemRoomName = getString(R.string.engelsystem_alias)
         val viewModelFactory = FahrplanViewModelFactory(
             repository = appRepository,
+            settingsRepository = SettingsRepository.getInstance(context),
             alarmServices = alarmServices,
             errorMessageFactory = ErrorMessage.Factory(context),
             notificationHelper = notificationHelper,

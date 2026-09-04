@@ -30,6 +30,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage.TitledMessage
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
+import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.ExecutionContext
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState
@@ -50,6 +51,7 @@ import kotlin.time.Duration.Companion.milliseconds
 internal class FahrplanViewModel(
 
     private val repository: AppRepository,
+    private val settingsRepository: SettingsRepository,
     private val executionContext: ExecutionContext,
     private val logging: Logging,
     private val errorMessageFactory: ErrorMessage.Factory,
@@ -331,7 +333,12 @@ internal class FahrplanViewModel(
     fun share(session: Session) {
         launch {
             val timeZoneId = repository.readMeta().timeZoneId
-            simpleSessionFormat.format(session, timeZoneId).let { formattedSession ->
+            val socialMediaHashtagsHandles = settingsRepository.getSocialMediaHashtagsHandles()
+            simpleSessionFormat.format(
+                session = session,
+                timeZoneId = timeZoneId,
+                socialMediaHashtagsHandles = socialMediaHashtagsHandles,
+            ).let { formattedSession ->
                 mutableShareSimple.sendOneTimeEvent(formattedSession)
             }
         }

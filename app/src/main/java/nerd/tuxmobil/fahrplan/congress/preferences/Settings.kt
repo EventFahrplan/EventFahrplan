@@ -13,6 +13,7 @@ data class Settings(
     val alarmTime: Int = 10,
     val isShowScheduleUpdateDialogEnabled: Boolean = true,
     val isShowOnLockscreenEnabled: Boolean = true,
+    val socialMediaHashtagsHandles: String = "",
 
     // Backend preferences
     val scheduleRefreshInterval: Int = -1,

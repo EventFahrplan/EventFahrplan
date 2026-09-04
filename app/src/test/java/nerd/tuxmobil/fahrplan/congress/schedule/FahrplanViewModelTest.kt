@@ -29,6 +29,7 @@ import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage.SimpleMessage
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage.TitledMessage
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
+import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.FetchFailure
@@ -580,7 +581,7 @@ class FahrplanViewModelTest {
         fun `addAlarm invokes alarmService function`() {
             val repository = createRepository()
             val alarmServices = mock<AlarmServices>()
-            val viewModel = createViewModel(repository, alarmServices)
+            val viewModel = createViewModel(repository, alarmServices = alarmServices)
             val session = Session("session-97")
             viewModel.addAlarm(session, alarmTime = 0)
             verifyInvokedOnce(alarmServices).addSessionAlarm(session, alarmTimeOffset = 0)
@@ -590,7 +591,7 @@ class FahrplanViewModelTest {
         fun `deleteAlarm invokes alarmService function`() {
             val repository = createRepository()
             val alarmServices = mock<AlarmServices>()
-            val viewModel = createViewModel(repository, alarmServices)
+            val viewModel = createViewModel(repository, alarmServices = alarmServices)
             val session = Session("session-97")
             viewModel.deleteAlarm(session)
             verifyInvokedOnce(alarmServices).deleteSessionAlarm(session)
@@ -796,8 +797,13 @@ class FahrplanViewModelTest {
         on { getMessageForParsingResult(any()) } doReturn SimpleMessage("fake message")
     }
 
+    private fun createSettingsRepository() = mock<SettingsRepository> {
+        on { getSocialMediaHashtagsHandles() } doReturn ""
+    }
+
     private fun createViewModel(
         repository: AppRepository,
+        settingsRepository: SettingsRepository = createSettingsRepository(),
         alarmServices: AlarmServices = mock(),
         errorMessageFactory: ErrorMessage.Factory = createFakeErrorMessageFactory(),
         notificationHelper: NotificationHelper = mock(),
@@ -807,6 +813,7 @@ class FahrplanViewModelTest {
         runsAtLeastOnAndroidTiramisu: Boolean = false
     ) = FahrplanViewModel(
         repository = repository,
+        settingsRepository = settingsRepository,
         executionContext = TestExecutionContext,
         logging = NoLogging,
         errorMessageFactory = errorMessageFactory,
