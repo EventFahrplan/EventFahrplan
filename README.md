@@ -83,7 +83,7 @@ Android 6.0 (Marshmallow) and newer versions are supported.
 
 * The app is designed to consume event data published in a specific [XML format][frab-schedule-xml-spec]
 or [JSON format][frab-schedule-json-spec]. Depending on the supported backend system ([Frab][frab-website],
-[Pretalx][pretalx-website], [Wafer][wafer-website]) one or both are provided.
+[Pretalx][pretalx-website], [Wafer][wafer-website], [OpenKi][openki-website]) one or both are provided.
 * The file format produced by the predecessor backend software, [Pentabarf][pentabarf-github],
 cannot be consumed out of the box.
 * In general, it is possible to re-deploy the app for other events which
@@ -196,6 +196,7 @@ limitations under the License.
 [issues-github]: https://github.com/EventFahrplan/EventFahrplan/issues
 [johnjohndoe-github]: https://github.com/johnjohndoe
 [limitations]: docs/LIMITATIONS.md
+[openki-website]: https://openki.net
 [pentabarf-github]: https://github.com/nevs/pentabarf
 [pretalx-website]: https://pretalx.com
 [tuxmobil-github]: https://github.com/tuxmobil

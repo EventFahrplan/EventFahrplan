@@ -12,7 +12,9 @@ enum class ServerBackendType(
 
     PENTABARF("pentabarf", Html),
     FRAB("frab", Markdown),
-    PRETALX("pretalx", Markdown);
+    PRETALX("pretalx", Markdown),
+    WAFER("wafer", Markdown),
+    OPENKI("openki", Markdown);
 
     companion object {
         fun of(name: String) = entries.firstOrNull { it.value == name }
