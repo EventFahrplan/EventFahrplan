@@ -6,6 +6,7 @@ import info.metadude.android.eventfahrplan.commons.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
+import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.AppExecutionContext
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
@@ -14,6 +15,7 @@ import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
 internal class FahrplanViewModelFactory(
 
     private val repository: AppRepository,
+    private val settingsRepository: SettingsRepository,
     private val errorMessageFactory: ErrorMessage.Factory,
     private val alarmServices: AlarmServices,
     private val navigationMenuEntriesGenerator: NavigationMenuEntriesGenerator,
@@ -28,6 +30,7 @@ internal class FahrplanViewModelFactory(
         val logging = Logging.get()
         return FahrplanViewModel(
             repository = repository,
+            settingsRepository = settingsRepository,
             executionContext = AppExecutionContext,
             logging = logging,
             errorMessageFactory = errorMessageFactory,

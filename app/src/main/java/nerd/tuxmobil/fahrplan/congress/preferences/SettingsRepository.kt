@@ -26,6 +26,9 @@ interface SettingsRepository {
     fun setInsistentAlarms(enable: Boolean)
     fun getAlarmTime(): Int
     fun setAlarmTime(alarmTime: Int)
+    fun getSocialMediaHashtagsHandles(): String
+    fun setSocialMediaHashtagsHandles(handles: String)
+    fun resetSocialMediaHashtagsHandles()
 
     fun getScheduleRefreshInterval(): Int
     fun getScheduleRefreshIntervalDefaultValue(): Int

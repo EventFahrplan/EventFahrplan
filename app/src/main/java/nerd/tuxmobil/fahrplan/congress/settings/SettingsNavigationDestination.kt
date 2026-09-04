@@ -6,5 +6,6 @@ internal sealed class SettingsNavigationDestination(val route: String) {
     data object ScheduleStatistic : SettingsNavigationDestination("schedule_statistic")
     data object AlternativeScheduleUrl : SettingsNavigationDestination("alternative_schedule_url")
     data object AlarmTime : SettingsNavigationDestination("alarm_time")
+    data object SocialMediaHashtagsHandles : SettingsNavigationDestination("social_media_hashtags_handles")
     data object EngelSystemUrl : SettingsNavigationDestination("engelsystem_url")
 }

@@ -9,6 +9,7 @@ import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
 
 internal class DefaultSettingsRepository(
@@ -27,6 +28,7 @@ internal class DefaultSettingsRepository(
         private const val INSISTENT_ALARMS_ENABLED_KEY = "insistent"
         private const val SHOW_SCHEDULE_UPDATE_DIALOG_ENABLED_KEY = "show_schedule_update_dialog"
         private const val SHOW_ON_LOCKSCREEN_ENABLED_KEY = "show_on_lockscreen"
+        private const val SOCIAL_MEDIA_HASHTAGS_HANDLES_KEY = "social_media_hashtags_handles"
         private const val ENGELSYSTEM_URL_KEY = "preference_key_engelsystem_json_export_url"
 
         private val settingsDefaults = Settings()
@@ -123,6 +125,18 @@ internal class DefaultSettingsRepository(
         }
     }
 
+    override fun setSocialMediaHashtagsHandles(handles: String) {
+        preferences.edit {
+            putString(SOCIAL_MEDIA_HASHTAGS_HANDLES_KEY, handles)
+        }
+    }
+
+    override fun resetSocialMediaHashtagsHandles() {
+        preferences.edit {
+            remove(SOCIAL_MEDIA_HASHTAGS_HANDLES_KEY)
+        }
+    }
+
     override fun setEngelsystemShiftsUrl(url: String) {
         preferences.edit {
             putString(ENGELSYSTEM_URL_KEY, url)
@@ -142,6 +156,7 @@ internal class DefaultSettingsRepository(
             scheduleRefreshInterval = getScheduleRefreshInterval(),
             isAutoUpdateEnabled = isAutoUpdateEnabled(),
             alternativeScheduleUrl = getAlternativeScheduleUrl(),
+            socialMediaHashtagsHandles = getSocialMediaHashtagsHandles(),
             engelsystemShiftsUrl = getEngelsystemShiftsUrl(),
         )
     }
@@ -206,6 +221,11 @@ internal class DefaultSettingsRepository(
     override fun getAlternativeScheduleUrl(): String {
         val defaultValue = settingsDefaults.alternativeScheduleUrl
         return preferences.getString(ALTERNATIVE_SCHEDULE_URL_KEY, defaultValue)!!
+    }
+
+    override fun getSocialMediaHashtagsHandles(): String {
+        val defaultValue = BuildConfig.SOCIAL_MEDIA_HASHTAGS_HANDLES
+        return preferences.getString(SOCIAL_MEDIA_HASHTAGS_HANDLES_KEY, defaultValue)!!
     }
 
     override fun getEngelsystemShiftsUrl(): String {

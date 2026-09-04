@@ -642,6 +642,7 @@ class SessionDetailsViewModelTest {
         settingsStream: Flow<Settings> = emptyFlow(),
     ) = mock<SettingsRepository> {
         on { this.settingsStream } doReturn settingsStream
+        on { getSocialMediaHashtagsHandles() } doReturn ""
     }
 
     private fun createViewModel(

@@ -40,6 +40,7 @@ import nerd.tuxmobil.fahrplan.congress.settings.widgets.EnableAutomaticUpdatesPr
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.EngelsystemShiftsUrlPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.ExternalClickPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.PreferenceCategory
+import nerd.tuxmobil.fahrplan.congress.settings.widgets.SocialMediaHashtagsHandlesPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.SwitchPreference
 
 @Composable
@@ -71,6 +72,7 @@ internal fun SettingsListScreen(
 
                 CategoryGeneral(state, showDivider, onViewEvent)
                 CategoryAlarms(state, showDivider, onViewEvent)
+                CategorySharing(state, onViewEvent)
 
                 if (state.isEngelsystemCategoryVisible) {
                     CategoryEngelsystem(state, onViewEvent)
@@ -201,6 +203,19 @@ private fun CategoryAlarms(
             title = stringResource(R.string.preference_title_alarm_time),
             subtitle = state.settings.alarmTimeToUiString(),
             onClick = { onViewEvent(AlarmTimeClicked) },
+        )
+    }
+}
+
+@Composable
+private fun CategorySharing(
+    state: SettingsUiState,
+    onViewEvent: (SettingsEvent) -> Unit,
+) {
+    PreferenceCategory(stringResource(R.string.preference_sharing_category_title)) {
+        SocialMediaHashtagsHandlesPreference(
+            socialMediaHashtagsHandles = state.settings.socialMediaHashtagsHandles,
+            onViewEvent = onViewEvent,
         )
     }
 }

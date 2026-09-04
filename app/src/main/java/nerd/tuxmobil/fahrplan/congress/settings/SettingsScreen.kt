@@ -30,17 +30,20 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateBack
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateTo
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.PickAlarmTone
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.SetActivityResult
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ResetSocialMediaHashtagsHandles
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTime
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTone
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlternativeScheduleUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetEngelsystemShiftsUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetScheduleRefreshInterval
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetSocialMediaHashtagsHandles
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.AlarmTime
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.AlternativeScheduleUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.EngelSystemUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.ScheduleRefreshInterval
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.ScheduleStatistic
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.SettingsList
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.SocialMediaHashtagsHandles
 
 @Composable
 internal fun SettingsScreen(
@@ -105,6 +108,14 @@ internal fun SettingsScreen(
                 currentValue = state.settings.alarmTime,
                 onOptionSelected = { viewModel.onViewEvent(SetAlarmTime(it)) },
                 onDismiss = { navController.popBackStack() },
+            )
+        }
+        dialog(route = SocialMediaHashtagsHandles.route) {
+            SocialMediaHashtagsHandlesDialog(
+                currentValue = state.settings.socialMediaHashtagsHandles,
+                onValueChanged = { viewModel.onViewEvent(SetSocialMediaHashtagsHandles(it)) },
+                onReset = { viewModel.onViewEvent(ResetSocialMediaHashtagsHandles) },
+                onDismiss = { navController.popBackStack() }
             )
         }
         dialog(route = EngelSystemUrl.route) {

@@ -90,7 +90,7 @@ associated [README](../assets/empty-states/README.md).
 The following options can be enabled via a `buildConfigField` and configured in *app/build.gradle.kts* as needed.
 
 - Event postal address for easy map navigation via `EVENT_POSTAL_ADDRESS`
-- Social media hashtags/handles for the event via `SOCIAL_MEDIA_HASHTAGS_HANDLES`
+- Social media hashtags/handles for the event via `SOCIAL_MEDIA_HASHTAGS_HANDLES`, users can override this value in the app's settings
 - Alternative schedule URL via `ENABLE_ALTERNATIVE_SCHEDULE_URL`
 - c3nav integration via `C3NAV_URL`
 - Chaosflix export via `ENABLE_CHAOSFLIX_EXPORT`
