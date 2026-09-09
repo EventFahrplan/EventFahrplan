@@ -8,6 +8,8 @@ import nerd.tuxmobil.fahrplan.congress.commons.DateFormatterDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorFactory
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
+import nerd.tuxmobil.fahrplan.congress.search.languages.SearchLanguageFilterUiState
+import nerd.tuxmobil.fahrplan.congress.search.languages.SearchLanguageFiltersState
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 
@@ -26,6 +28,8 @@ class SearchViewModelFactory(
             repository = appRepository,
             searchQueryFilter = SearchQueryFilter(),
             searchHistoryManager = SearchHistoryManager(appRepository),
+            languageFiltersState = SearchLanguageFiltersState(),
+            languageFilterUiStateFactory = SearchLanguageFilterUiState.Factory(resourceResolving),
             searchResultParameterFactory = DefaultSearchResultParameterFactory(
                 resourceResolving = resourceResolving,
                 sessionPropertiesFormatting = SessionPropertiesFormatter(resourceResolving),

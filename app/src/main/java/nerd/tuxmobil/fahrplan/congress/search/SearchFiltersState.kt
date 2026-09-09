@@ -24,13 +24,11 @@ internal val SUPPORTED_SEARCH_FILTERS = listOf(
 
 internal data class SearchFiltersState(
     private val selectedByFilter: Map<SearchFilter, Boolean>,
-    private val selectedFilterLabels: List<Int>,
 ) {
 
     companion object {
         fun of(searchFilters: List<SearchFilter>) = SearchFiltersState(
             selectedByFilter = searchFilters.associateWith { false },
-            selectedFilterLabels = emptyList(),
         )
     }
 
@@ -46,37 +44,24 @@ internal data class SearchFiltersState(
             SearchFilterUiState(filter.label, selected)
         }.toImmutableList()
 
-    val hasSelectedFilters: Boolean
-        get() = selectedFilterLabels.isNotEmpty()
-
     fun toggle(filter: SearchFilterUiState): SearchFiltersState {
-        val isSelected = selectedByFilter
+        selectedByFilter
             .entries
             .firstOrNull { (searchFilter, _) -> searchFilter.label == filter.label }
-            ?.value
             ?: return this
 
         return copy(
             selectedByFilter = selectedByFilter.mapValues { (searchFilter, selected) ->
                 if (searchFilter.label == filter.label) !selected else selected
             },
-            selectedFilterLabels = if (isSelected) {
-                selectedFilterLabels - filter.label
-            } else {
-                selectedFilterLabels
-                    .filterNot { it == filter.label }
-                    .plus(filter.label)
-            },
         )
     }
 
-    fun unselectLastSelected(): SearchFiltersState {
-        val lastLabel = selectedFilterLabels.lastOrNull() ?: return this
+    fun unselect(label: Int): SearchFiltersState {
         return copy(
             selectedByFilter = selectedByFilter.mapValues { (filter, selected) ->
-                if (filter.label == lastLabel) false else selected
+                if (filter.label == label) false else selected
             },
-            selectedFilterLabels = selectedFilterLabels.dropLast(1),
         )
     }
 

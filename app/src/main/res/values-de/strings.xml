@@ -310,6 +310,9 @@
     <string name="search_filter_within_speaker_names">In Namen von Sprecher*innen</string>
     <string name="search_filter_within_title_subtitle">In Titel/Untertitel</string>
     <string name="search_filter_within_track_name">In Themenfeld</string>
+    <string name="search_filter_language">Sprache</string>
+    <string name="search_filter_language_with_count">Sprache (<xliff:g example="3" id="count">%d</xliff:g>)</string>
+    <string name="search_filter_language_name_other">Sonstige</string>
 
     <!-- Engelsystem URL error -->
     <string name="engelsystem_url_error_title">Fehler bei Einlesen der <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> JSON Export URL</string>

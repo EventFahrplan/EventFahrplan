@@ -5,6 +5,12 @@ import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 
 class LanguageTextProvider(private val resourceResolving: ResourceResolving) {
 
+    fun getSearchLanguageDisplayName(languageCode: String) =
+        if (languageCode.isEmpty()) {
+            resourceResolving.getString(R.string.search_filter_language_name_other)
+        } else
+            getLanguageName(languageCode)
+
     fun getLanguageContentDescription(languageCode: String) =
         if (languageCode.isEmpty()) {
             resourceResolving.getString(R.string.session_list_item_language_unknown_content_description)

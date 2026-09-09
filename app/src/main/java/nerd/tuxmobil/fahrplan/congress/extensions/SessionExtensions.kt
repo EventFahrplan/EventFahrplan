@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.extensions
 
+import info.metadude.android.eventfahrplan.commons.contracts.Delimiters.LANGUAGE_DELIMITER
 import nerd.tuxmobil.fahrplan.congress.models.Session
 
 /**
@@ -16,3 +17,10 @@ const val WIKI_SESSION_TRACK_NAME = "self organized sessions"
 
 val Session.originatesFromWiki
     get() = WIKI_SESSION_TRACK_NAME == track
+
+val Session.normalizedLanguage
+    get() = language
+        .split(LANGUAGE_DELIMITER)
+        .map(String::trim)
+        .sorted()
+        .joinToString(", ")
