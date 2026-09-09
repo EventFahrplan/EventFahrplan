@@ -23,26 +23,26 @@ internal val SUPPORTED_SEARCH_FILTERS = listOf(
 )
 
 internal data class SearchFiltersState(
-    private val filters: Map<SearchFilter, Boolean>,
+    private val selectedByFilter: Map<SearchFilter, Boolean>,
     private val selectedFilterLabels: List<Int>,
 ) {
 
     companion object {
         fun of(searchFilters: List<SearchFilter>) = SearchFiltersState(
-            filters = searchFilters.associateWith { false },
+            selectedByFilter = searchFilters.associateWith { false },
             selectedFilterLabels = emptyList(),
         )
     }
 
     val activeFilters: Set<SearchFilter>
-        get() = filters
+        get() = selectedByFilter
             .asSequence()
             .filter { it.value }
             .map { it.key }
             .toSet()
 
     val uiState: ImmutableList<SearchFilterUiState>
-        get() = filters.map { (filter, selected) ->
+        get() = selectedByFilter.map { (filter, selected) ->
             SearchFilterUiState(filter.label, selected)
         }.toImmutableList()
 
@@ -50,14 +50,14 @@ internal data class SearchFiltersState(
         get() = selectedFilterLabels.isNotEmpty()
 
     fun toggle(filter: SearchFilterUiState): SearchFiltersState {
-        val isSelected = filters
+        val isSelected = selectedByFilter
             .entries
             .firstOrNull { (searchFilter, _) -> searchFilter.label == filter.label }
             ?.value
             ?: return this
 
         return copy(
-            filters = filters.mapValues { (searchFilter, selected) ->
+            selectedByFilter = selectedByFilter.mapValues { (searchFilter, selected) ->
                 if (searchFilter.label == filter.label) !selected else selected
             },
             selectedFilterLabels = if (isSelected) {
@@ -73,7 +73,7 @@ internal data class SearchFiltersState(
     fun unselectLastSelected(): SearchFiltersState {
         val lastLabel = selectedFilterLabels.lastOrNull() ?: return this
         return copy(
-            filters = filters.mapValues { (filter, selected) ->
+            selectedByFilter = selectedByFilter.mapValues { (filter, selected) ->
                 if (filter.label == lastLabel) false else selected
             },
             selectedFilterLabels = selectedFilterLabels.dropLast(1),
