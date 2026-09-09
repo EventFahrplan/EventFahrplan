@@ -6,7 +6,10 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.models.Session
 
-class ContentDescriptionFormatter(val resourceResolving: ResourceResolving) : ContentDescriptionFormatting {
+class ContentDescriptionFormatter(
+    private val resourceResolving: ResourceResolving,
+    private val languageTextProvider: LanguageTextProvider = LanguageTextProvider(resourceResolving),
+) : ContentDescriptionFormatting {
 
     override fun getSessionIdContentDescription(sessionId: String) =
         if (sessionId.isEmpty()) "" else resourceResolving.getString(
@@ -49,19 +52,7 @@ class ContentDescriptionFormatter(val resourceResolving: ResourceResolving) : Co
     }
 
     override fun getLanguageContentDescription(languageCode: String): String {
-        if (languageCode.isEmpty()) {
-            return resourceResolving.getString(R.string.session_list_item_language_unknown_content_description)
-        }
-        val languageName = when (languageCode) {
-            "en" -> resourceResolving.getString(R.string.session_list_item_language_english_content_description)
-            "de" -> resourceResolving.getString(R.string.session_list_item_language_german_content_description)
-            "pt" -> resourceResolving.getString(R.string.session_list_item_language_portuguese_content_description)
-            else -> languageCode
-        }
-        return resourceResolving.getString(
-            R.string.session_list_item_language_content_description,
-            languageName
-        )
+        return languageTextProvider.getLanguageContentDescription(languageCode)
     }
 
     override fun getStartTimeContentDescription(startTimeText: String) =
