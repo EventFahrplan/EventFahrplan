@@ -22,7 +22,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -53,6 +52,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import info.metadude.android.eventfahrplan.commons.flow.observe
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
 import nerd.tuxmobil.fahrplan.congress.commons.ScreenMetrics
@@ -60,6 +60,8 @@ import nerd.tuxmobil.fahrplan.congress.commons.createSearchResultPreviewData
 import nerd.tuxmobil.fahrplan.congress.designsystem.bars.NavigationBarProtection
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonIcon
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonOutlined
+import nerd.tuxmobil.fahrplan.congress.designsystem.chips.DropdownFilterChip
+import nerd.tuxmobil.fahrplan.congress.designsystem.chips.DropdownFilterChipOption
 import nerd.tuxmobil.fahrplan.congress.designsystem.chips.FilterChip
 import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
 import nerd.tuxmobil.fahrplan.congress.designsystem.headers.HeaderDayDate
@@ -89,6 +91,7 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.SearchResults
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnBackIconClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnBackPress
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnFilterToggled
+import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnLanguageFilterToggled
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchHistoryClear
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchHistoryItemClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchQueryChange
@@ -97,6 +100,9 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchResultItem
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchSubScreenBackPress
 import nerd.tuxmobil.fahrplan.congress.search.TenseType.FUTURE
 import nerd.tuxmobil.fahrplan.congress.search.TenseType.PAST
+import nerd.tuxmobil.fahrplan.congress.search.languages.LanguageOption
+import nerd.tuxmobil.fahrplan.congress.search.languages.SYNTHETIC_LANGUAGE_KEY_OTHER
+import nerd.tuxmobil.fahrplan.congress.search.languages.SearchLanguageFilterUiState
 
 @Composable
 fun SearchScreen(
@@ -167,13 +173,18 @@ fun SearchBox(
             onViewEvent = onViewEvent,
         )
 
-        SearchFilters(state.filters, onViewEvent)
+        SearchFilters(
+            filters = state.filters,
+            languageFilter = state.languageFilter,
+            onViewEvent = onViewEvent,
+        )
     }
 }
 
 @Composable
 private fun SearchFilters(
     filters: ImmutableList<SearchFilterUiState>,
+    languageFilter: SearchLanguageFilterUiState?,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
     Row(
@@ -182,15 +193,57 @@ private fun SearchFilters(
             .horizontalScroll(rememberScrollState())
             .safeContentHorizontalPadding(),
     ) {
-        for (searchFilter in filters) {
-            FilterChip(
-                onClick = { onViewEvent(OnFilterToggled(searchFilter)) },
-                label = { Text(stringResource(searchFilter.label)) },
-                selected = searchFilter.selected,
-                selectedIcon = Icons.Filled.Done,
-            )
+        for (item in searchFilterChipItems(filters, languageFilter != null)) {
+            when (item) {
+                is SearchFilterChipItem.Filter -> {
+                    val state = item.state
+                    FilterChip(
+                        onClick = { onViewEvent(OnFilterToggled(state)) },
+                        label = { Text(stringResource(state.label)) },
+                        selected = state.selected,
+                    )
+                }
+
+                SearchFilterChipItem.LanguageFilter -> {
+                    LanguageFilterChip(
+                        languageFilter = languageFilter!!,
+                        onViewEvent = onViewEvent,
+                    )
+                }
+            }
         }
     }
+}
+
+@Composable
+private fun LanguageFilterChip(
+    languageFilter: SearchLanguageFilterUiState,
+    onViewEvent: (SearchViewEvent) -> Unit,
+) {
+    val selected = languageFilter.selectedCount > 0
+    val label = if (selected) {
+        stringResource(R.string.search_filter_language_with_count, languageFilter.selectedCount)
+    } else {
+        stringResource(R.string.search_filter_language)
+    }
+
+    DropdownFilterChip(
+        enabled = languageFilter.enabled,
+        selected = selected,
+        label = { Text(label) },
+        options = remember(languageFilter) {
+            languageFilter.languageOptions
+                .map { option ->
+                    DropdownFilterChipOption(
+                        key = option.filterKey,
+                        label = option.displayName,
+                        selected = option.selected,
+                    )
+                }
+                .toImmutableList()
+        },
+        onOptionClick = { onViewEvent(OnLanguageFilterToggled(it)) },
+    )
 }
 
 @Composable
@@ -565,6 +618,7 @@ private fun SearchContentPreview() {
             state = SearchUiState(
                 query = "Lorem ipsum",
                 filters = searchFilters(),
+                languageFilter = searchLanguageFilter(),
                 resultsState = SearchResults(createSearchResultPreviewData()),
             ),
             onViewEvent = { },
@@ -632,3 +686,11 @@ private fun searchFilters(): ImmutableList<SearchFilterUiState> {
         SearchFilterUiState(label = R.string.search_filter_within_track_name, selected = false),
     )
 }
+
+private fun searchLanguageFilter() = SearchLanguageFilterUiState(
+    languageOptions = persistentListOf(
+        LanguageOption(filterKey = "en", displayName = "English", selected = false),
+        LanguageOption(filterKey = "de, en", displayName = "German, English", selected = true),
+        LanguageOption(filterKey = SYNTHETIC_LANGUAGE_KEY_OTHER, displayName = "Other", selected = false),
+    ),
+)

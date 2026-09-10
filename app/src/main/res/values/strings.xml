@@ -340,6 +340,9 @@
     <string name="search_filter_within_speaker_names">Within speaker names</string>
     <string name="search_filter_within_title_subtitle">Within title/subtitle</string>
     <string name="search_filter_within_track_name">Within subject area</string>
+    <string name="search_filter_language">Language</string>
+    <string name="search_filter_language_with_count">Language (<xliff:g example="3" id="count">%d</xliff:g>)</string>
+    <string name="search_filter_language_name_other">Other</string>
 
     <!-- Engelsystem URL error -->
     <string name="engelsystem_url_error_title">Error parsing <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> JSON Export URL</string>

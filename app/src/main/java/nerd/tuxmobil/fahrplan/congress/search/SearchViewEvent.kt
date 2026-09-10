@@ -8,6 +8,7 @@ sealed interface SearchViewEvent {
     data class OnSearchHistoryItemClick(val searchQuery: String) : SearchViewEvent
     data object OnSearchHistoryClear : SearchViewEvent
     data class OnSearchQueryChange(val updatedQuery: String) : SearchViewEvent
-    data class OnFilterToggled(val filter: SearchFilterUiState) : SearchViewEvent
+    data class OnFilterToggled(val state: SearchFilterUiState) : SearchViewEvent
+    data class OnLanguageFilterToggled(val filterKey: String) : SearchViewEvent
     data class OnSearchResultItemClick(val sessionId: String) : SearchViewEvent
 }

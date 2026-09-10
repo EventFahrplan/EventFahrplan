@@ -1,16 +1,13 @@
 package nerd.tuxmobil.fahrplan.congress.designsystem.chips
 
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Done
-import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.FilterChipDefaults.IconSize
 import androidx.compose.material3.FilterChipDefaults.filterChipBorder
 import androidx.compose.material3.FilterChipDefaults.filterChipColors
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconCheck
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import androidx.compose.material3.FilterChip as Material3FilterChip
@@ -21,12 +18,14 @@ fun FilterChip(
     onClick: () -> Unit,
     label: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    selectedIcon: ImageVector,
+    enabled: Boolean = true,
+    trailingIcon: (@Composable () -> Unit)? = null,
 ) {
     Material3FilterChip(
         selected = selected,
         onClick = onClick,
         label = label,
+        enabled = enabled,
         colors = filterChipColors(
             containerColor = EventFahrplanTheme.colorScheme.searchFilterChipContainer,
             labelColor = EventFahrplanTheme.colorScheme.searchFilterChipLabel,
@@ -37,34 +36,54 @@ fun FilterChip(
             selectedTrailingIconColor = EventFahrplanTheme.colorScheme.searchFilterChipSelectedLabel,
         ),
         border = filterChipBorder(
-            enabled = true,
+            enabled = enabled,
             selected = selected,
             borderColor = EventFahrplanTheme.colorScheme.searchFilterChipBorder,
         ),
         modifier = modifier,
         leadingIcon = if (selected) {
             {
-                Icon(
-                    imageVector = selectedIcon,
-                    contentDescription = null,
-                    modifier = Modifier.size(FilterChipDefaults.IconSize)
-                )
+                IconCheck(Modifier.size(IconSize))
             }
         } else {
             null
         },
+        trailingIcon = trailingIcon,
     )
 
 }
 
 @PreviewLightDark
 @Composable
-private fun FilterChipPreview() {
+private fun FilterChipEnabledSelectedPreview() {
+    FilterChip(enabled = true, selected = true)
+}
+
+@PreviewLightDark
+@Composable
+private fun FilterChipDisabledSelectedPreview() {
+    FilterChip(enabled = false, selected = true)
+}
+
+@PreviewLightDark
+@Composable
+private fun FilterChipEnabledUnselectedPreview() {
+    FilterChip(enabled = true, selected = false)
+}
+
+@PreviewLightDark
+@Composable
+private fun FilterChipDisabledUnselectedPreview() {
+    FilterChip(enabled = false, selected = false)
+}
+
+@Composable
+private fun FilterChip(enabled: Boolean, selected: Boolean) {
     EventFahrplanTheme {
         FilterChip(
-            selected = true,
+            enabled = enabled,
+            selected = selected,
             onClick = {},
-            selectedIcon = Icons.Filled.Done,
             label = { Text("Lorem ipsum") },
         )
     }
