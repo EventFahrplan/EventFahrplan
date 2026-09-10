@@ -48,7 +48,7 @@ This list is for your preparation. The specific folders and files are mentioned 
 
 ## 3. Your custom app step by step
 
-In some of the steps it is the easiest to copy and adapt configuration settings, folders and files from an existing flavor.
+For some steps, the easiest approach is to copy and adapt configuration settings, folders and files from an existing flavor.
 
 1. Fork the repository
 2. Create a new branch for your event, e.g. `awesome-event-2021`
@@ -73,7 +73,7 @@ In some of the steps it is the easiest to copy and adapt configuration settings,
 The app shows illustrations on empty screens. You can customize these illustrations which fit the
 look and feel of your event by importing **your own SVG files** as vector drawables to the
 `res/drawable/` folder of **your product flavor**, e.g. `app/src/awesome2021/res/drawable/`.
-If the same file names are used than your illustrations will replace the default ones in `main`.
+If the same file names are used, your illustrations will replace the default ones in `main`.
 The following default illustrations (vector drawables) are present in the app:
 
 - No alarms: `app/src/main/res/drawable/no_alarms.xml`
@@ -99,18 +99,18 @@ The following options can be enabled via a `buildConfigField` and configured in 
   - Customize the name for the Engelsystem shifts via `engelsystem_shifts_alias`
   - Customize Engelsystem shifts JSON export URL hint via `preference_hint_engelsystem_json_export_url`
 - Feedback system via `SCHEDULE_FEEDBACK_URL`
-- FOSDEM room status via `ENABLE_FOSDEM_ROOM_STATUS`, `FOSDEM_ROOM_STATES_URL`
+- FOSDEM room status via `ENABLE_FOSDEM_ROOM_STATES`, `FOSDEM_ROOM_STATES_URL`
 - Live streams URL via `LIVE_STREAMS_URL`, inserted when sharing a single session
 - Video recording URL via `VIDEO_RECORDINGS_URL`, inserted when sharing a single session
 
 ## 5. Optional engagements
 
-The app prompts the user for in the following topics if enabled via a `buildConfigField` in *app/build.gradle.kts*.
+The app prompts the user on the following topics if enabled via a `buildConfigField` in *app/build.gradle.kts*.
 
 - c3nav app installation via `ENGAGE_C3NAV_APP_INSTALLATION`
 - Google Play beta testing via `ENGAGE_GOOGLE_BETA_TESTING`
 - Google Play rating via `ENGAGE_GOOGLE_PLAY_RATING`
-- to learn about the screen estate in landscape mode via `ENGAGE_LANDSCAPE_ORIENTATION`
+- to try landscape mode for additional screen space via `ENGAGE_LANDSCAPE_ORIENTATION`
 
 ## 6. Development features
 
@@ -122,7 +122,7 @@ app to verify that the schedule data is loaded and processed correctly.
 
 ### Schedule refresh interval
 
-The "Choose schedule refresh interval" option allows to overwrite the default refresh interval
+The "Choose schedule refresh interval" option allows you to override the default refresh interval
 which is configured internally. This can be useful to test if schedule loading and processing works
 in general. Additionally, the correct recognition of schedule changes can quickly be verified
 without waiting for the next scheduled refresh.
@@ -130,7 +130,7 @@ without waiting for the next scheduled refresh.
 ![Settings screen: Choose a schedule refresh interval dialog](gfx/settings-choose-a-schedule-interval-dialog.png)
 
 To simulate a schedule change, this
-[Python script](https://gist.github.com/johnjohndoe/b2a067c0557dd1122b16b09650498adb) becomes handy.
+[Python script](https://gist.github.com/johnjohndoe/b2a067c0557dd1122b16b09650498adb) comes in handy.
 
 1. Prepare two schedule files with different session information
 2. Put the script and the two schedule files on a webserver of your choice
@@ -152,11 +152,11 @@ steps:
 
 1. Add a [digital asset links](https://developer.android.com/training/app-links/configure-assetlinks) file
    to the domain of the event, e.g. https://myconferen.ce/.well-known/assetlinks.json.
-   - The server must  respond with `HTTP 200 OK` - otherwise the "open supported links" option will
+   - The server must respond with `HTTP 200 OK` - otherwise the "open supported links" option will
      be toggled off by default.
    - Add separate certificate fingerprints for your Google Play and F-Droid publications if they
      don't share the same signing key.
-   - Add the certificate fingerprint of your debug key store which becomes handy during development.
+   - Add the certificate fingerprint of your debug key store which is useful during development.
 2. Configure the [intent filter pattern](https://developer.android.com/training/app-links/add-applinks)
    in the `AndroidManifest.xml` of your product flavor.
    - Add `android:autoVerify="true"`. Without `autoVerify`, Android will never enable supported links automatically.

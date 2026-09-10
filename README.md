@@ -2,47 +2,53 @@
 
 # EventFahrplan
 
-EventFahrplan is a viewer for event schedules such as
-[Chaos Computer Club e.V. events][ccc-events] like [Chaos Communication Camp][camp-website]
-or [Chaos Communication Congress][congress-website].
+EventFahrplan is an open-source Android project that lets you create a branded schedule app for your
+event. Configure it with your schedule data, add your own branding, and publish to F-Droid or
+Google Play.
 
-- Chaos Communication Camp Schedule app: [F-Droid][camp-app-fdroid], [Google Play][camp-app-google-play]
-- Chaos Communication Congress Schedule app: [F-Droid][congress-app-fdroid], [Google Play][congress-app-google-play]
+It works with event schedules published as [XML][frab-schedule-xml-spec] or
+[JSON][frab-schedule-json-spec]. If your event uses [Frab][frab-website],
+[Pretalx][pretalx-website], [Wafer][wafer-website] or [OpenKi][openki-website] to manage its
+schedule, the data is already in the right format.
 
-The app is available for Android devices.
-
-Bug reports, feature requests can be submitted as an [issue][issues-github]. Please mind the
-[limitations][limitations]. Please read the instructions in the [contribution guide](CONTRIBUTING.md)
-in order to contribute to this project.
+Events using EventFahrplan include [Chaos Communication Congress][congress-website],
+[Chaos Communication Camp][camp-website], FOSDEM, FrOSCon, KotlinConf, and others.
 
 ![Picture of the 39C3 Schedule on tablet and phone](gfx/EventFahrplan-39C3-tablet-phone.png)
 
 ## Table of contents
 
-- [Features](#features)
-- [Android versions](#android-versions)
+- [Try it out](#try-it-out)
+- [Key features](#key-features)
+- [Getting started](#getting-started)
 - [Event data](#event-data)
-- [Build instructions](#build-instructions)
 - [Translations](#translations)
 - [History](#history)
 - [Funding](#funding)
 - [Licenses](#licenses)
 
-## Features
+## Try it out
 
-* View program by day and rooms (side by side)
-* Custom grid layout for smartphones (**try landscape mode**) and tablets
-* Read detailed descriptions (speaker names, start time, room name, links, ...) of sessions
-* Search and filter through all sessions
-* Add sessions to favorites list
-* Export favorites list
-* Setup alarms for individual sessions
-* Add sessions to your personal calendar
-* Share a link to a session with others
-* Keep track of program changes
-* Automatic program updates (configurable in settings)
-* Automatically open session URLs in the app. (only enabled for 39C3)
+To see a real life example, download an existing EventFahrplan app to see what your event's app
+could look like:
 
+**Chaos Communication Congress Schedule**: [F-Droid][congress-app-fdroid] | [Google Play][congress-app-google-play]
+
+## Key features
+
+* **Schedule grid**: View the program by day and room, side by side
+* **Responsive layout**: Custom grid for smartphones and tablets (try landscape mode)
+* **Session details**: Speaker names, start time, room, links, and more
+* **Search**: Find and filter sessions across the full schedule
+* **Favorites**: Save sessions to a favorites list and export them
+* **Alarms**: Set reminders for individual sessions
+* **Calendar**: Add sessions to your personal calendar
+* **Sharing**: Share a link to any session
+* **Feedback**: Rate sessions and leave comments (via Frab or Pretalx)
+* **Change tracking**: See what changed since the last schedule update
+* **Auto-updates**: Schedule refreshes automatically (configurable in settings)
+* **Offline**: The full schedule works without an internet connection
+* **Compatibility**: Runs on Android 6.0 (Marshmallow) and newer
 
 ### Supported languages
 *Session descriptions excluded*
@@ -64,48 +70,64 @@ in order to contribute to this project.
 - Swedish 🇸🇪
 - Turkish 🇹🇷
 
-### Optional integration
+### Optional integrations
 
-* The feedback system of [Frab][frab-website] and [Pretalx][pretalx-website]
-* [c3nav][c3nav-github] - An indoor navigation project
-* [Engelsystem][engelsystem-website] - Online tool for coordinating helpers and shifts at large events
-* [Chaosflix][chaosflix-github] - Android app for media.ccc.de, share Fahrplan favorites with Chaosflix to import them as bookmarks
-* [FOSDEM room status][fosdem-room-status-website] - Current status (full/empty) of a room at FOSDEM
+* [c3nav][c3nav-github] — Indoor navigation to session rooms
+* [Engelsystem][engelsystem-website] — Volunteer shift coordination at large events
+* [Chaosflix][chaosflix-github] — Share favorites with the media.ccc.de Android app
+* In-app session feedback via [Frab][frab-website] or [Pretalx][pretalx-website]
+* [FOSDEM room status][fosdem-room-status-website] — Live room capacity at FOSDEM
 
+## Getting started
 
-## Android versions
+### Prerequisites
 
-The application is designed to work on both smartphones and on tablets.
-Android 6.0 (Marshmallow) and newer versions are supported.
+- [Android Studio](https://developer.android.com/studio) (current stable release)
+- JDK 21
+- Android SDK 36 (installed via Android Studio's SDK Manager)
 
+### Build an existing flavor
+
+1. Clone the repository: `git clone https://github.com/EventFahrplan/EventFahrplan.git`
+2. Open the project in Android Studio
+3. Wait for Gradle sync to complete
+4. Select a build variant (e.g. `ccc39c3Debug`) from **Build > Select Build Variant**
+5. Run on a connected device or emulator
+
+### Create an app for your event
+
+The project uses Android [product flavors](https://developer.android.com/build/build-variants#product-flavors)
+to produce different apps from the same codebase. To create an app for your event:
+
+1. Fork the repository and create a branch for your event
+2. Add a new product flavor in `app/build.gradle.kts` (use an existing flavor as a template)
+3. Set your `SCHEDULE_URL` to point to your event's XML or JSON schedule
+4. Configure your `applicationId`, event name, and other properties
+5. Build and run to verify your schedule loads correctly
+
+For the full step-by-step guide, including branding, icons, colors, and optional features, see the
+[customization guide][customization-guide].
+
+### Signed release builds
+
+To create signed release builds for publishing, copy `app/gradle.properties.example` to
+`app/gradle.properties` and update it with your own keystore details.
 
 ## Event data
 
-* The app is designed to consume event data published in a specific [XML format][frab-schedule-xml-spec]
-or [JSON format][frab-schedule-json-spec]. Depending on the supported backend system ([Frab][frab-website],
-[Pretalx][pretalx-website], [Wafer][wafer-website], [OpenKi][openki-website]) one or both are provided.
-* The file format produced by the predecessor backend software, [Pentabarf][pentabarf-github],
-cannot be consumed out of the box.
-* In general, it is possible to re-deploy the app for other events which
-provide the same event file format.
-* Other file formats can be plugged in by providing file specific `ScheduleFileFormat`,
-`ScheduleSource` implementations.
+The supported [XML][frab-schedule-xml-spec] and [JSON][frab-schedule-json-spec] schedule formats are
+described in detail in the linked specifications. The older format produced by
+[Pentabarf][pentabarf-github] is not supported by default. Other formats can be added by providing
+custom `ScheduleFileFormat` and `ScheduleSource` implementations.
 
-## Build instructions
-
-To begin development, open the project in Android Studio.
-
-The [customization guide][customization-guide] explains in detail how to create an app for your event.
-
-If you want to create your own signed release builds, copy the `gradle.properties.example` file in the `app` folder
-and rename it to `gradle.properties`. This file contains the signing information which is used in the build process.
-Be sure to edit the contents of the file to point to your own keystore files.
+Please mind the known [limitations]. Bug reports and feature requests can be submitted as an
+[issue][issues-github]. Read the [contribution guide](CONTRIBUTING.md) before contributing.
 
 ## Translations
 
 Text translations are managed on [Crowdin][crowdin-eventfahrplan-website]. Your [contributions](CONTRIBUTING.md) are welcome!
 
-Sources (English) and translations are synchronized via the [Crowdin CLI tool][crowdin-cli-tool-website].
+English source strings and translations are synchronized via the [Crowdin CLI tool][crowdin-cli-tool-website].
 German is excluded from being managed on Crowdin as long as the maintainer is a native German speaker.
 New languages must be configured in the Crowdin configuration file `crowdin.yaml` before translations
 can be downloaded. The file also contains usage examples.
@@ -116,8 +138,8 @@ can be downloaded. The file also contains usage examples.
 by [Daniel Dorau][tuxmobil-github]. He released the app for the Chaos Communication Camp
 and the Chaos Communication Congress in the following years. The app served as a digital
 schedule for thousands of users.
-* In 2013, [Tobias Preuss][johnjohndoe-github] started contributing. Soon after he
-started to re-deploy the app for other events like FOSSGIS, FrOSCon, MRMCD and
+* In 2013, [Tobias Preuss][johnjohndoe-github] started contributing and soon began
+re-deploying the app for other events like FOSSGIS, FrOSCon, MRMCD and
 other conferences.
 * In August 2017 the project moved to a new location and was renamed to
 ["EventFahrplan"][eventfahrplan-github] to acknowledge its broader use.
@@ -133,7 +155,7 @@ No. [101092990](https://cordis.europa.eu/project/id/101092990).
 In 2023 & 2024, this project was funded by the [NGI0 Entrust Fund](https://nlnet.nl/entrust), a fund
 established by [NLnet](https://nlnet.nl) with financial support from the European Commission's
 [Next Generation Internet](https://ngi.eu) program, under the aegis of [DG Communications Networks,
-Content and Technology](https://commission.europa.eu/about-european-commission/departments-and-executive-agencies/communications-networks-content-and-technology_en) under grant agreement 
+Content and Technology](https://commission.europa.eu/about-european-commission/departments-and-executive-agencies/communications-networks-content-and-technology_en) under grant agreement
 No. [101069594](https://cordis.europa.eu/project/id/101069594).
 
 ![Logo NLnet: abstract logo of four people seen from above](gfx/nlnet-banner-160x60.png)
@@ -176,10 +198,7 @@ limitations under the License.
 
 [c3nav-github]: https://github.com/c3nav
 [campfahrplan-github]: https://github.com/tuxmobil/CampFahrplan
-[camp-app-fdroid]: https://f-droid.org/packages/info.metadude.android.cccamp.schedule
-[camp-app-google-play]: https://play.google.com/store/apps/details?id=info.metadude.android.cccamp.schedule
 [camp-website]: https://events.ccc.de/camp/
-[ccc-events]: http://events.ccc.de
 [chaosflix-github]: https://github.com/NiciDieNase/chaosflix
 [congress-app-fdroid]: https://f-droid.org/packages/info.metadude.android.congress.schedule
 [congress-app-google-play]: https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule
