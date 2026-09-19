@@ -34,6 +34,9 @@ import androidx.appcompat.app.ActionBar.OnNavigationListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
@@ -41,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.MenuProvider
+import androidx.core.view.children
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
@@ -142,6 +146,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
      * Used to redraw only the rooms that visually change (e.g. because a session is favored)
      */
     private val renderedRoomHashByRoomName = mutableMapOf<String, Int>()
+    private val deferredRoomColumnRenderers = mutableMapOf<String, () -> Unit>()
     private val renderedAlarmState = RenderedAlarmState()
 
     private var currentDayIndex = -1
@@ -238,9 +243,15 @@ class FahrplanFragment : Fragment(), MenuProvider {
         onHorizontalScrollChangeListener = OnScrollChangedListener {
             if (getView() != null) {
                 updateHorizontalScrollingProgressLine(snapScroller.scrollX)
+                renderVisibleDeferredRoomColumns(snapScroller)
             }
         }
         snapScroller.viewTreeObserver.addOnScrollChangedListener(onHorizontalScrollChangeListener)
+        // Columns may become visible without scrolling, e.g. when the viewport is
+        // wider than the initial measurement suggested (tablet landscape).
+        snapScroller.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+            renderVisibleDeferredRoomColumns(snapScroller)
+        }
 
         inflater = view.context.getLayoutInflater()
 
@@ -272,6 +283,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
         val snapScroller = requireView().requireViewByIdCompat<HorizontalSnapScrollView>(R.id.horizScroller)
         snapScroller.viewTreeObserver.removeOnScrollChangedListener(onHorizontalScrollChangeListener)
         onHorizontalScrollChangeListener = null
+        deferredRoomColumnRenderers.clear()
         super.onDestroyView()
     }
 
@@ -481,6 +493,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
         if (currentDayIndex != scheduleData.dayIndex || columnsLayout.childCount != roomDataList.size) {
             columnsLayout.removeAllViews()
             renderedRoomHashByRoomName.clear()
+            deferredRoomColumnRenderers.clear()
             renderedAlarmState.clear()
         }
 
@@ -515,7 +528,10 @@ class FahrplanFragment : Fragment(), MenuProvider {
 
             val roomColumnView = ComposeView(context).apply {
                 layoutParams = LayoutParams(columnWidth, WRAP_CONTENT)
-                setContent {
+                tag = roomData.roomName
+            }
+            val renderRoomColumn = {
+                roomColumnView.setContent {
                     RoomColumn(
                         columnData = roomColumnData,
                         newlyAddedAlarmSessionIds = newlyAddedAlarmSessionIds,
@@ -530,6 +546,22 @@ class FahrplanFragment : Fragment(), MenuProvider {
                         }
                     )
                 }
+            }
+            // The viewport shows max_cols columns. Derive it from the column width
+            // because the scroller's own width might not be measured yet.
+            val viewportEnd = horizontalScroller.scrollX + columnWidth * resources.getInteger(R.integer.max_cols)
+            val roomStart = roomIndex * columnWidth
+            val isInitiallyVisible = columnWidth <= 0 ||
+                (roomStart < viewportEnd && roomStart + columnWidth > horizontalScroller.scrollX)
+            if (isInitiallyVisible) {
+                renderRoomColumn()
+            } else {
+                val placeholderHeight = (roomColumnData.spacings.sumOf { it.value.toDouble() } +
+                    roomColumnData.sessionData.sumOf { it.cardHeight.value.toDouble() }).dp
+                roomColumnView.setContent {
+                    Spacer(Modifier.height(placeholderHeight))
+                }
+                deferredRoomColumnRenderers[roomData.roomName] = renderRoomColumn
             }
 
             val didRemove = columnsLayout.childCount > roomIndex
@@ -560,6 +592,19 @@ class FahrplanFragment : Fragment(), MenuProvider {
             append("rendered=$renderedCount, ")
             append("finalChildCount=${columnsLayout.childCount}")
         })
+    }
+
+    private fun renderVisibleDeferredRoomColumns(horizontalScroller: HorizontalSnapScrollView) {
+        if (deferredRoomColumnRenderers.isEmpty()) return
+        val viewportStart = horizontalScroller.scrollX
+        val viewportEnd = viewportStart + horizontalScroller.width
+        val columnsLayout = horizontalScroller.getChildAt(0) as? LinearLayout ?: return
+        columnsLayout.children.forEach { child ->
+            if (child.left < viewportEnd && child.right > viewportStart) {
+                val roomName = child.tag as? String ?: return@forEach
+                deferredRoomColumnRenderers.remove(roomName)?.invoke()
+            }
+        }
     }
 
     private fun handleSessionInteraction(session: Session, sessionInteractionType: SessionInteractionType) =
