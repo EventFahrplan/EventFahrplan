@@ -38,14 +38,19 @@ data class ScheduleChanges private constructor(
                 return ScheduleChanges(newSessions, emptyList(), foundNoteworthyChanges = false, foundChanges = false)
             }
 
-            val oldNotCanceledSessions = oldSessions.filterNot { it.changedIsCanceled }.toMutableList()
+            val oldNotCanceledSessionsById = oldSessions
+                    .asSequence()
+                    .filterNot { it.changedIsCanceled }
+                    .groupByTo(linkedMapOf()) { it.sessionId }
+                    .mapValuesTo(linkedMapOf()) { (_, sessions) -> sessions.toMutableList() }
             val oldCanceledSessions = oldSessions.filter { it.changedIsCanceled }
             val sessionsWithChangeFlags = mutableListOf<SessionNetworkModel>()
 
             var sessionIndex = 0
             while (sessionIndex < newSessions.size) {
                 val newSession = newSessions[sessionIndex]
-                val oldSession = oldNotCanceledSessions.singleOrNull { oldNotCanceledSession -> newSession.sessionId == oldNotCanceledSession.sessionId }
+                val oldSessionsWithSameId = oldNotCanceledSessionsById[newSession.sessionId]
+                val oldSession = oldSessionsWithSameId?.singleOrNull()
                 if (oldSession == null) {
                     sessionsWithChangeFlags += newSession.copy(changedIsNew = true)
                     foundNoteworthyChanges = true
@@ -60,7 +65,7 @@ data class ScheduleChanges private constructor(
 
                 if (oldSession.equalsInNoteworthyProperties(newSession)) {
                     sessionsWithChangeFlags += newSession
-                    oldNotCanceledSessions -= oldSession
+                    removeMatchedSession(oldNotCanceledSessionsById, oldSession)
                     sessionIndex++
                     continue
                 }
@@ -119,10 +124,11 @@ data class ScheduleChanges private constructor(
                     changedDateUtc = sessionChange.changedDateUtc,
                     changedDuration = sessionChange.changedDuration,
                 )
-                oldNotCanceledSessions -= oldSession
+                removeMatchedSession(oldNotCanceledSessionsById, oldSession)
                 sessionIndex++
             }
 
+            val oldNotCanceledSessions = oldNotCanceledSessionsById.values.flatten()
             if (oldNotCanceledSessions.isNotEmpty()) {
                 // Flag all "old" sessions which are not present in the "new" set as canceled
                 // and append them to the "new" set.
@@ -136,6 +142,17 @@ data class ScheduleChanges private constructor(
                 foundNoteworthyChanges = foundNoteworthyChanges,
                 foundChanges = foundChanges,
             )
+        }
+
+        private fun removeMatchedSession(
+                sessionsById: MutableMap<String, MutableList<SessionNetworkModel>>,
+                session: SessionNetworkModel,
+        ) {
+            val sessions = sessionsById[session.sessionId] ?: return
+            sessions.remove(session)
+            if (sessions.isEmpty()) {
+                sessionsById.remove(session.sessionId)
+            }
         }
 
         private data class SessionChange(
