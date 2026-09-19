@@ -461,6 +461,8 @@ class FahrplanFragment : Fragment(), MenuProvider {
         val contentDescriptionFormatter = ContentDescriptionFormatter(ResourceResolver(context))
         val sessionPropertiesFormatter = SessionPropertiesFormatter(ResourceResolver(context))
         val isAlternativeHighlightingEnabled = AppRepository.readAlternativeHighlightingEnabled()
+        val defaultBackgroundColorByTrackName = TrackBackgrounds.getTrackNameBackgroundColorDefaultPairs(context)
+        val highlightBackgroundColorByTrackName = TrackBackgrounds.getTrackNameBackgroundColorHighlightPairs(context)
 
         val willClear = currentDayIndex != scheduleData.dayIndex || columnsLayout.childCount != roomDataList.size
         logging.report(LOG_TAG, buildString {
@@ -507,8 +509,8 @@ class FahrplanFragment : Fragment(), MenuProvider {
                 isAlternativeHighlightingEnabled = isAlternativeHighlightingEnabled,
                 contentDescriptionFormatter = contentDescriptionFormatter,
                 sessionPropertiesFormatter = sessionPropertiesFormatter,
-                defaultBackgroundColorByTrackName = TrackBackgrounds.getTrackNameBackgroundColorDefaultPairs(context),
-                highlightBackgroundColorByTrackName = TrackBackgrounds.getTrackNameBackgroundColorHighlightPairs(context),
+                defaultBackgroundColorByTrackName = defaultBackgroundColorByTrackName,
+                highlightBackgroundColorByTrackName = highlightBackgroundColorByTrackName,
             )
 
             val roomColumnView = ComposeView(context).apply {
