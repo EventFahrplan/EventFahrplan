@@ -34,7 +34,7 @@ interface ScheduleSource {
             networkScope: NetworkScope,
             okHttpClient: OkHttpClient,
             scheduleNetworkRepository: ScheduleNetworkRepository,
-            scheduleV1Repository: ScheduleRepository,
+            scheduleRepository: ScheduleRepository,
             scheduleSourceRepository: ScheduleSourceRepository,
             logging: Logging,
         ): ScheduleSource = when (scheduleFileFormat) {
@@ -46,7 +46,7 @@ interface ScheduleSource {
 
             SCHEDULE_V1_JSON -> ScheduleV1JsonSource(
                 scope = networkScope,
-                scheduleV1Repository = scheduleV1Repository,
+                scheduleRepository = scheduleRepository,
                 scheduleSourceRepository = scheduleSourceRepository,
                 logging = logging,
             )

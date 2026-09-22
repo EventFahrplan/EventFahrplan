@@ -31,8 +31,8 @@ internal fun ScheduleUrlDialog(
     }
 
     val placeholder = when (scheduleFileFormat) {
-        SCHEDULE_V1_JSON -> R.string.preference_hint_alternative_schedule_json_url
-        SCHEDULE_V1_XML -> R.string.preference_hint_alternative_schedule_xml_url
+        SCHEDULE_V1_JSON -> R.string.preference_hint_alternative_schedule_v1_json_url
+        SCHEDULE_V1_XML -> R.string.preference_hint_alternative_schedule_v1_xml_url
     }
     PreferenceTextInputDialog(
         title = stringResource(R.string.preference_title_alternative_schedule_url),
