@@ -11,6 +11,7 @@ import nerd.tuxmobil.fahrplan.congress.repositories.NetworkScope
 import nerd.tuxmobil.fahrplan.congress.utils.ScheduleFileFormat
 import nerd.tuxmobil.fahrplan.congress.utils.ScheduleFileFormat.SCHEDULE_V1_JSON
 import nerd.tuxmobil.fahrplan.congress.utils.ScheduleFileFormat.SCHEDULE_V1_XML
+import nerd.tuxmobil.fahrplan.congress.utils.ScheduleFileFormat.SCHEDULE_V2_JSON
 import okhttp3.OkHttpClient
 import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
 
@@ -45,6 +46,13 @@ interface ScheduleSource {
             )
 
             SCHEDULE_V1_JSON -> ScheduleV1JsonSource(
+                scope = networkScope,
+                scheduleRepository = scheduleRepository,
+                scheduleSourceRepository = scheduleSourceRepository,
+                logging = logging,
+            )
+
+            SCHEDULE_V2_JSON -> ScheduleV2JsonSource(
                 scope = networkScope,
                 scheduleRepository = scheduleRepository,
                 scheduleSourceRepository = scheduleSourceRepository,

@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.utils
 import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.utils.ScheduleFileFormat.SCHEDULE_V1_JSON
 import nerd.tuxmobil.fahrplan.congress.utils.ScheduleFileFormat.SCHEDULE_V1_XML
+import nerd.tuxmobil.fahrplan.congress.utils.ScheduleFileFormat.SCHEDULE_V2_JSON
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -18,6 +19,12 @@ class ScheduleFileFormatTest {
     fun `of returns ScheduleV1Json for schedule_v1_json`() {
         val format = ScheduleFileFormat.of("schedule_v1_json")
         assertThat(format).isEqualTo(SCHEDULE_V1_JSON)
+    }
+
+    @Test
+    fun `of returns ScheduleV2Json for schedule_v2_json`() {
+        val format = ScheduleFileFormat.of("schedule_v2_json")
+        assertThat(format).isEqualTo(SCHEDULE_V2_JSON)
     }
 
     @Test

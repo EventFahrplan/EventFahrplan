@@ -12,6 +12,7 @@ import nerd.tuxmobil.fahrplan.congress.settings.widgets.PreferenceTextInputDialo
 import nerd.tuxmobil.fahrplan.congress.utils.ScheduleFileFormat
 import nerd.tuxmobil.fahrplan.congress.utils.ScheduleFileFormat.SCHEDULE_V1_JSON
 import nerd.tuxmobil.fahrplan.congress.utils.ScheduleFileFormat.SCHEDULE_V1_XML
+import nerd.tuxmobil.fahrplan.congress.utils.ScheduleFileFormat.SCHEDULE_V2_JSON
 import nerd.tuxmobil.fahrplan.congress.utils.UrlValidator
 
 @Composable
@@ -32,6 +33,7 @@ internal fun ScheduleUrlDialog(
 
     val placeholder = when (scheduleFileFormat) {
         SCHEDULE_V1_JSON -> R.string.preference_hint_alternative_schedule_v1_json_url
+        SCHEDULE_V2_JSON -> R.string.preference_hint_alternative_schedule_v2_json_url
         SCHEDULE_V1_XML -> R.string.preference_hint_alternative_schedule_v1_xml_url
     }
     PreferenceTextInputDialog(
