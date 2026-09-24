@@ -57,6 +57,7 @@ internal class TimeSegment private constructor(moment: Moment) {
      * Consequently, a [minutesOffset] of 0 spans an empty interval which never matches.
      * An [IllegalArgumentException] is thrown if [minutesOffset] is negative.
      */
+    @Suppress("RedundantIf")
     fun isMatched(otherMoment: Moment, minutesOffset: Int): Boolean {
         require(minutesOffset >= 0) { "Minutes offset is $minutesOffset but must be 0 or more." }
         if (otherMoment.isBefore(roundedMoment)) {
