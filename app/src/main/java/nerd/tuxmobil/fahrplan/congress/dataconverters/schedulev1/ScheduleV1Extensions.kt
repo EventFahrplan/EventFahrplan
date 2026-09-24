@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalUuidApi::class)
-
 package nerd.tuxmobil.fahrplan.congress.dataconverters.schedulev1
 
 import info.metadude.android.eventfahrplan.network.serialization.ParserTask
