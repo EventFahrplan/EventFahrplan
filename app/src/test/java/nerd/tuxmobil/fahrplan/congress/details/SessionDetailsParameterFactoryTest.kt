@@ -114,7 +114,7 @@ class SessionDetailsParameterFactoryTest {
     }
 
     private class FakeSessionPropertiesFormatting : SessionPropertiesFormatting {
-        override fun getFormattedSessionId(id: String) = "ID: 2342"
+        override fun getFormattedSessionId(sessionId: String) = "ID: 2342"
         override fun getFormattedLinks(links: String) = ""
         override fun getFormattedUrl(url: String) = SAMPLE_SESSION_URL
         override fun getFormattedSpeakers(session: Session) = "Jane Doe, John Doe"
