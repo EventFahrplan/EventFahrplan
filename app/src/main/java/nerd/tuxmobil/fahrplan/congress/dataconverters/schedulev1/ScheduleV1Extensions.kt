@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalUuidApi::class)
-
 package nerd.tuxmobil.fahrplan.congress.dataconverters.schedulev1
 
 import info.metadude.android.eventfahrplan.network.serialization.ParserTask
@@ -52,6 +50,7 @@ fun ScheduleV1.toSessionsNetworkModel(): List<SessionNetworkModel> {
  * Assigns each distinct room name a stable index in first-seen order (day list order, then room map
  * key order), matching [ParserTask] XML parsing.
  */
+@Suppress("DestructuringDeclaration")
 fun Conference.toRoomIndexByRoomName(): Map<String, Int> {
     val indexByName = linkedMapOf<String, Int>()
     var next = 0

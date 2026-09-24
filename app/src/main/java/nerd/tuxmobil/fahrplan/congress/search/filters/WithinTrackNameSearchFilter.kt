@@ -7,6 +7,7 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchFilter
 class WithinTrackNameSearchFilter : SearchFilter {
     override val label = R.string.search_filter_within_track_name
 
+    @Suppress("RedundantIf")
     override fun isMatch(session: Session, query: String): Boolean {
         if (query.isEmpty()) return false
 

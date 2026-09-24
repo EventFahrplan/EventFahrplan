@@ -20,9 +20,16 @@ allprojects {
     }
 }
 
+private val mockitoAgent = configurations.create("mockitoAgent")
+
+dependencies {
+    mockitoAgent(libs.mockito.core) { isTransitive = false }
+}
+
 subprojects {
     tasks.withType<Test>().configureEach {
         useJUnitPlatform()
+        jvmArgs("-javaagent:${mockitoAgent.asPath}")
         testLogging {
             events(
                 TestLogEvent.FAILED,

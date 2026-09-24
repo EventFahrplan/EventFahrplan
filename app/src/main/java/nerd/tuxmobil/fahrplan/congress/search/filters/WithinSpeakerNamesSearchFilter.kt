@@ -7,6 +7,7 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchFilter
 class WithinSpeakerNamesSearchFilter : SearchFilter {
     override val label = R.string.search_filter_within_speaker_names
 
+    @Suppress("RedundantIf")
     override fun isMatch(session: Session, query: String): Boolean {
         if (query.isEmpty()) return false
 

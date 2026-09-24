@@ -57,12 +57,9 @@ internal data class SearchFiltersState(
         )
     }
 
-    fun unselect(label: Int): SearchFiltersState {
-        return copy(
-            selectedByFilter = selectedByFilter.mapValues { (filter, selected) ->
-                if (filter.label == label) false else selected
-            },
-        )
-    }
+    fun unselect(label: Int) = copy(
+        selectedByFilter = selectedByFilter
+            .mapValues { (filter, selected) -> filter.label != label && selected },
+    )
 
 }

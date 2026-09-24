@@ -1,4 +1,3 @@
-@file:OptIn(ExperimentalUuidApi::class)
 @file:Suppress("SameParameterValue")
 
 package nerd.tuxmobil.fahrplan.congress.dataconverters.schedulev1
