@@ -2,7 +2,7 @@
 activity-compose = "1.13.0"
 android-gradle-plugin = "9.4.1"
 android-test = "2.0.1"
-annotation = "1.10.0"
+annotation = "1.11.0"
 appcompat = "1.7.1"
 better-link-movement-method = "2.2.0"
 compose-bom = "2026.06.01"
