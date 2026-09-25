@@ -1,7 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.designsystem.search
 
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SearchBarDefaults.inputFieldColors
 import androidx.compose.material3.SearchBarState
 import androidx.compose.runtime.Composable
@@ -11,7 +10,6 @@ import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.material3.SearchBarDefaults.InputField as Material3InputField
 
 @Suppress("kotlin:S107")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InputField(
     textFieldState: TextFieldState,

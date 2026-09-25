@@ -25,7 +25,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SearchBarValue.Expanded
 import androidx.compose.material3.rememberSearchBarState
 import androidx.compose.runtime.Composable
@@ -270,7 +269,6 @@ private fun SearchBarContent(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SearchQueryInputField(
     searchQuery: String,
@@ -469,7 +467,7 @@ fun SearchResultItem(
                         color = searchResult.startsAt.tenseType.color(),
                     )
                 },
-                headlineContent = {
+                content = {
                     TextHeadlineContent(
                         text = searchResult.title.value,
                         fontWeight = Bold,
@@ -617,7 +615,7 @@ private fun SearchHistoryItem(
 ) {
     ListItem(
         modifier = modifier,
-        headlineContent = {
+        content = {
             TextHeadlineContent(
                 text = searchQuery,
             )
