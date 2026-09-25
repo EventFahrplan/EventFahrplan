@@ -39,7 +39,7 @@ tracedroid = "3.1"
 truth = "1.4.4" # NoSuchFieldError as of 1.4.5, see https://github.com/google/truth/issues/1608
 turbine = "1.2.1"
 unmock = "0.11.0"
-versions = "0.54.0"
+versions = "0.65.0"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
@@ -49,7 +49,7 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 sonarqube = { id = "org.sonarqube", version.ref = "sonarqube" }
 unmock = { id = "de.mobilej.unmock", version.ref = "unmock" }
-versions = { id = "com.github.ben-manes.versions", version.ref = "versions" }
+versions = { id = "io.github.ben-manes.versions", version.ref = "versions" }
 
 [libraries]
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
