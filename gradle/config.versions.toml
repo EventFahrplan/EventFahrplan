@@ -1,6 +1,6 @@
 [versions]
 java = "21"
-build-tools = "36.0.0"
+build-tools = "37.0.0"
 min-sdk = "23"
-compile-sdk = "36"
-target-sdk = "36"
+compile-sdk = "37"
+target-sdk = "37"
