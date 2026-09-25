@@ -9,6 +9,7 @@ env:
   # Android command line tools, check for updates here https://developer.android.com/studio/#command-tools
   - COMMAND_LINE_TOOLS_VERSION=15859902
   - ANDROID_HOME=$HOME/android-sdk
+  - ANDROID_CLI_HOME=$HOME/.local
   - TARGET_SDK_VERSION=`grep -Po '^target-sdk = "\K[^"]+' gradle/config.versions.toml`
   - BUILD_TOOLS_VERSION=`grep -Po '^build-tools = "\K[^"]+' gradle/config.versions.toml`
 
@@ -61,12 +62,12 @@ cache:
 
 install:
   - mkdir -p $HOME/android-cmdline-tools
+  - mkdir -p $ANDROID_CLI_HOME
   # Download and unzip the Android command line tools (if not already there thanks to the cache mechanism)
   - if test ! -e $HOME/android-cmdline-tools/cmdline-tools.zip ; then curl "https://dl.google.com/android/repository/commandlinetools-linux-${COMMAND_LINE_TOOLS_VERSION}_latest.zip" > $HOME/android-cmdline-tools/cmdline-tools.zip ; fi
   - unzip -qq -n $HOME/android-cmdline-tools/cmdline-tools.zip -d $HOME/android-cmdline-tools
-  - echo y | $HOME/android-cmdline-tools/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/android-sdk "platform-tools"
-  - echo y | $HOME/android-cmdline-tools/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/android-sdk "build-tools;${BUILD_TOOLS_VERSION}"
-  - echo y | $HOME/android-cmdline-tools/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/android-sdk "platforms;android-${TARGET_SDK_VERSION}"
+  - if test ! -x $ANDROID_CLI_HOME/bin/android ; then curl -fsSL https://dl.google.com/android/cli/latest/linux_x86_64/install.sh | bash -s -- --prefix=$ANDROID_CLI_HOME ; fi
+  - $ANDROID_CLI_HOME/bin/android sdk install platform-tools "build-tools/${BUILD_TOOLS_VERSION}"
 
 before_script:
   # To see if the correct values have been extracted.
