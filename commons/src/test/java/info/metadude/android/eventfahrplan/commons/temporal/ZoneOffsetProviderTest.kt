@@ -79,5 +79,5 @@ private fun getAvailableZoneOffset(
 ): ZoneOffset {
     // The instant is not relevant for these tests, we care about the zone offset.
     val clock = Clock.fixed(Instant.EPOCH, deviceZoneOffset)
-    return ZoneOffsetProvider(clock, useDeviceTimeZone).getAvailableZoneOffset(sessionZoneOffset)
+    return ZoneOffsetProvider(clock, useDeviceTimeZone).getAvailableZoneOffset(clock.instant(), sessionZoneOffset)
 }
