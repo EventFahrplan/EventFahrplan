@@ -19,16 +19,23 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SearchBarValue.Expanded
+import androidx.compose.material3.rememberSearchBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -263,6 +270,7 @@ private fun SearchBarContent(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SearchQueryInputField(
     searchQuery: String,
@@ -270,17 +278,32 @@ private fun SearchQueryInputField(
 ) {
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
+    val textFieldState = rememberTextFieldState(initialText = searchQuery)
+    val searchBarState = rememberSearchBarState(initialValue = Expanded)
+    val currentSearchQuery by rememberUpdatedState(searchQuery)
+    val currentOnViewEvent by rememberUpdatedState(onViewEvent)
+
+    LaunchedEffect(searchQuery) {
+        if (textFieldState.text.toString() != searchQuery) {
+            textFieldState.setTextAndPlaceCursorAtEnd(searchQuery)
+        }
+    }
+    LaunchedEffect(textFieldState) {
+        snapshotFlow { textFieldState.text.toString() }.collect { query ->
+            if (query != currentSearchQuery) {
+                currentOnViewEvent(OnSearchQueryChange(query))
+            }
+        }
+    }
 
     InputField(
         modifier = Modifier
             .fillMaxWidth()
             .focusRequester(focusRequester)
             .safeContentHorizontalPadding(),
-        query = searchQuery,
-        onQueryChange = { onViewEvent(OnSearchQueryChange(it)) },
+        textFieldState = textFieldState,
+        searchBarState = searchBarState,
         onSearch = { keyboardController?.hide() },
-        expanded = true,
-        onExpandedChange = { },
         placeholder = { Text(stringResource(R.string.search_query_hint)) },
         leadingIcon = {
             if (searchQuery.isEmpty()) {
