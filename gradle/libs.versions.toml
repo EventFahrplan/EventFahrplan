@@ -1,45 +1,45 @@
 [versions]
 activity-compose = "1.13.0"
-android-gradle-plugin = "9.3.1"
+android-gradle-plugin = "9.4.1"
 android-test = "2.0.1"
-annotation = "1.10.0"
-appcompat = "1.7.1"
+annotation = "1.11.0"
+appcompat = "1.8.0"
 better-link-movement-method = "2.2.0"
-compose-bom = "2026.06.01"
-compose-material3 = "1.5.0-alpha18" # compileSdk 37 is required as of 1.5.0-alpha19
-constraintlayout = "2.2.1"
-core-ktx = "1.18.0" # compileSdk 37 is required as of 1.19.0
+compose-bom = "2026.09.00"
+compose-material3 = "1.5.0-alpha25" # minSdk 24 is required as of 1.5.0-alpha26
+constraintlayout = "2.2.2"
+core-ktx = "1.19.1"
 core-testing = "2.2.0"
 dexcount = "4.0.0"
 email-intent-builder = "2.0.0"
 engelsystem = "12.0.0"
-fragment-compose = "1.8.9"
+fragment-compose = "1.9.1"
 htmlconverter = "1.1.1"
-junit-jupiter = "5.14.3" # emulators on CI do not run junit 6 https://github.com/mannodermaus/android-junit5/issues/392
-junit-platform = "1.14.3" # emulators on CI do not run junit 6 https://github.com/mannodermaus/android-junit5/issues/392
-kotlin = "2.4.10"
+junit-jupiter = "5.14.4" # emulators on CI do not run junit 6 https://github.com/mannodermaus/android-junit5/issues/392
+junit-platform = "1.14.4" # emulators on CI do not run junit 6 https://github.com/mannodermaus/android-junit5/issues/392
+kotlin = "2.4.21"
 kotlin-coroutines = "1.11.0"
-ksp = "2.3.10"
-lifecycle = "2.10.0" # compileSdk 37 is required as of 2.11.0
-markdown-renderer = "0.41.0" # compileSdk 37 is required as of 0.42.0
+ksp = "2.3.12"
+lifecycle = "2.11.0"
+markdown-renderer = "0.45.0"
 material = "1.14.0"
 material-icons-core = "1.7.8"
 mockito = "5.24.0"
-mockito-kotlin = "6.3.0"
+mockito-kotlin = "6.4.0"
 moshi = "1.15.2"
-navigation = "2.9.8"
-okhttp = "5.4.0"
+navigation = "2.9.8" # minSdk 24 is required as of 2.10.0
+okhttp = "5.5.0"
 robolectric = "4.3_r2-robolectric-0"
 room-states = "3.0.0"
 schedule = "2.0.0"
 snackengage = "0.32"
-sonarqube = "7.3.1.8318"
-threetenbp = "1.7.3"
+sonarqube = "7.5.0.8588"
+threetenbp = "1.7.5"
 tracedroid = "3.1"
 truth = "1.4.4" # NoSuchFieldError as of 1.4.5, see https://github.com/google/truth/issues/1608
 turbine = "1.2.1"
 unmock = "0.11.0"
-versions = "0.54.0"
+versions = "0.65.0"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
@@ -49,7 +49,7 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 sonarqube = { id = "org.sonarqube", version.ref = "sonarqube" }
 unmock = { id = "de.mobilej.unmock", version.ref = "unmock" }
-versions = { id = "com.github.ben-manes.versions", version.ref = "versions" }
+versions = { id = "io.github.ben-manes.versions", version.ref = "versions" }
 
 [libraries]
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }

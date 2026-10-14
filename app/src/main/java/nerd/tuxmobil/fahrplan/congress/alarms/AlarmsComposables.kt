@@ -243,7 +243,7 @@ private fun SessionAlarmItem(
                         text = parameter.firesAtText,
                     )
                 },
-                headlineContent = {
+                content = {
                     TextHeadlineContent(
                         modifier = Modifier.semantics {
                             contentDescription = parameter.titleContentDescription
