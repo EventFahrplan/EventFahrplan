@@ -20,16 +20,17 @@ allprojects {
     }
 }
 
-private val mockitoAgent = configurations.create("mockitoAgent")
-
-dependencies {
-    mockitoAgent(libs.mockito.core) { isTransitive = false }
-}
-
 subprojects {
+    val mockitoAgent = configurations.create("mockitoAgent")
+    dependencies {
+        mockitoAgent(rootProject.libs.mockito.core) { isTransitive = false }
+    }
+
     tasks.withType<Test>().configureEach {
         useJUnitPlatform()
-        jvmArgs("-javaagent:${mockitoAgent.asPath}")
+        jvmArgumentProviders.add(CommandLineArgumentProvider {
+            listOf("-javaagent:${mockitoAgent.singleFile}")
+        })
         testLogging {
             events(
                 TestLogEvent.FAILED,
