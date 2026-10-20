@@ -54,7 +54,7 @@ For some steps, the easiest approach is to copy and adapt configuration settings
 2. Create a new branch for your event, e.g. `awesome-event-2021`
 3. Add a new product flavor in *app/build.gradle.kts* e.g. `awesome2021` and the corresponding folder e.g. `app/src/awesome2021`
 4. Configure all required properties in your flavor (`applicationId`, `versionName`, `buildConfigField`, `resValue`)
-5. Configure the `SCHEDULE_URL` and `SCHEDULE_FILE_FORMAT` `buildConfigField` properties in your flavor. The latter currently allows the following values: `schedule_v1_xml`, `schedule_v1_json`.
+5. Configure the `SCHEDULE_URL` and `SCHEDULE_FILE_FORMAT` `buildConfigField` properties in your flavor. The latter currently allows the following values: `schedule_v1_xml`, `schedule_v1_json`, `schedule_v2_json`.
 6. Enable showing the app disclaimer via `SHOW_APP_DISCLAIMER` to acknowledge its origin in your flavor
 7. Add a new signing config in `app/gradle.properties`
 8. Customize texts for the languages which you want to offer (`values/strings.xml`, `values-de/strings.xml`, ...) in your flavor

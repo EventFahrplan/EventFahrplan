@@ -36,7 +36,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
 
 class ScheduleV1JsonSource(
     private val scope: NetworkScope,
-    private val scheduleV1Repository: ScheduleRepository,
+    private val scheduleRepository: ScheduleRepository,
     private val scheduleSourceRepository: ScheduleSourceRepository,
     private val logging: Logging,
 ) : ScheduleSource {
@@ -139,7 +139,7 @@ class ScheduleV1JsonSource(
                 loadingFailed(requestIdentifier)
             }
 
-            scheduleV1Repository.getScheduleV1State(
+            scheduleRepository.getScheduleV1State(
                 url = url,
                 requestETag = requestHeader.eTag,
                 lastModifiedAt = requestHeader.lastModified,

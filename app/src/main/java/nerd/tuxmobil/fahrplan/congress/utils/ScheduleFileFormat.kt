@@ -7,7 +7,8 @@ enum class ScheduleFileFormat(
 ) {
 
     SCHEDULE_V1_XML("schedule_v1_xml"),
-    SCHEDULE_V1_JSON("schedule_v1_json");
+    SCHEDULE_V1_JSON("schedule_v1_json"),
+    SCHEDULE_V2_JSON("schedule_v2_json");
 
     companion object {
         fun of(name: String) = entries.firstOrNull { it.value == name }
