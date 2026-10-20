@@ -1,9 +1,12 @@
 package nerd.tuxmobil.fahrplan.congress.datasources
 
+import info.metadude.android.eventfahrplan.commons.logging.Logging
+import info.metadude.android.eventfahrplan.network.models.HttpHeader as HttpHeaderNetworkModel
 import info.metadude.kotlin.library.schedule.repositories.ScheduleRepository
 import info.metadude.kotlin.library.schedule.repositories.models.GetScheduleV1State.Error
 import info.metadude.kotlin.library.schedule.repositories.models.GetScheduleV1State.Failure
 import info.metadude.kotlin.library.schedule.repositories.models.GetScheduleV1State.Success
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST
 import kotlinx.coroutines.flow.Flow
@@ -24,6 +27,7 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.FetchFailu
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.FetchSuccess
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Fetching
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialFetching
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseFailure
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSuccess
 import nerd.tuxmobil.fahrplan.congress.repositories.NetworkScope
 import nerd.tuxmobil.fahrplan.congress.validation.MetaValidation.validate
@@ -34,7 +38,12 @@ class ScheduleV1JsonSource(
     private val scope: NetworkScope,
     private val scheduleV1Repository: ScheduleRepository,
     private val scheduleSourceRepository: ScheduleSourceRepository,
+    private val logging: Logging,
 ) : ScheduleSource {
+
+    private companion object {
+        const val LOG_TAG = "ScheduleV1JsonSource"
+    }
 
     private val parentJobs = ConcurrentHashMap<String, Job>()
 
@@ -75,16 +84,33 @@ class ScheduleV1JsonSource(
 
             suspend fun onSuccess(state: Success) {
                 scheduleSourceRepository.updateScheduleLastFetchedAt()
-                val newMeta = state.scheduleV1.toMetaNetworkModel(
-                    responseETag = state.responseETag,
-                    responseLastModifiedAt = state.responseLastModifiedAt,
-                ).validate()
-                scheduleSourceRepository.updateMeta(newMeta.toMetaDatabaseModel())
-                scheduleSourceRepository.updateSessions(state.scheduleV1.toSessionsNetworkModel())
+                val version = state.scheduleV1.schedule.version
+                try {
+                    val newMeta = state.scheduleV1.toMetaNetworkModel(
+                        responseETag = state.responseETag,
+                        responseLastModifiedAt = state.responseLastModifiedAt,
+                    ).validate()
+                    scheduleSourceRepository.updateMeta(newMeta.toMetaDatabaseModel())
+                    scheduleSourceRepository.updateSessions(state.scheduleV1.toSessionsNetworkModel())
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Exception) {
+                    logging.e(LOG_TAG, "Parsing schedule v1 failed: ${e.message}")
+                    mutableLoadScheduleState.tryEmit(FetchSuccess)
+                    notifyFetchingDone(FetchScheduleResult(HTTP_OK, url))
+                    // Reset the HTTP header to prevent a "not modified" response for the broken schedule.
+                    val resetHttpHeader = HttpHeaderNetworkModel(eTag = "", lastModified = "")
+                    scheduleSourceRepository.updateMeta(oldMeta.copy(httpHeader = resetHttpHeader).toMetaDatabaseModel())
+                    val parseResult = ParseScheduleResult(isSuccess = false, version)
+                    mutableLoadScheduleState.tryEmit(ParseFailure(parseResult))
+                    notifyParsingDone(parseResult)
+                    onLoadShifts()
+                    return
+                }
                 mutableLoadScheduleState.tryEmit(FetchSuccess)
                 notifyFetchingDone(FetchScheduleResult(HTTP_OK, url))
                 mutableLoadScheduleState.tryEmit(ParseSuccess)
-                val parseResult = ParseScheduleResult(isSuccess = true, state.scheduleV1.schedule.version)
+                val parseResult = ParseScheduleResult(isSuccess = true, version)
                 notifyParsingDone(parseResult)
                 onLoadShifts()
             }

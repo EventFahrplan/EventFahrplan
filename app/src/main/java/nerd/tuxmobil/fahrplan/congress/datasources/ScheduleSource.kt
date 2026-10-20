@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.datasources
 
+import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkRepository
 import info.metadude.kotlin.library.schedule.repositories.ScheduleRepository
 import kotlinx.coroutines.flow.Flow
@@ -35,6 +36,7 @@ interface ScheduleSource {
             scheduleNetworkRepository: ScheduleNetworkRepository,
             scheduleV1Repository: ScheduleRepository,
             scheduleSourceRepository: ScheduleSourceRepository,
+            logging: Logging,
         ): ScheduleSource = when (scheduleFileFormat) {
             SCHEDULE_V1_XML -> ScheduleV1XmlSource(
                 okHttpClient = okHttpClient,
@@ -46,6 +48,7 @@ interface ScheduleSource {
                 scope = networkScope,
                 scheduleV1Repository = scheduleV1Repository,
                 scheduleSourceRepository = scheduleSourceRepository,
+                logging = logging,
             )
         }
     }

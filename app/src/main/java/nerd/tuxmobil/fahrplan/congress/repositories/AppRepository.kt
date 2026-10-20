@@ -449,6 +449,7 @@ object AppRepository : SearchRepository,
                 scheduleNetworkRepository = scheduleNetworkRepository,
                 scheduleV1Repository = scheduleV1Repository,
                 scheduleSourceRepository = this,
+                logging = logging,
             ),
     ) {
         this.logging = logging
