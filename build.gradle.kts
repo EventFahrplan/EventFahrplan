@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.dexcount) apply false
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.roborazzi) apply false
     alias(libs.plugins.sonarqube) apply false
     alias(libs.plugins.unmock) apply false
     alias(libs.plugins.versions)
@@ -27,7 +28,23 @@ subprojects {
     }
 
     tasks.withType<Test>().configureEach {
-        useJUnitPlatform()
+        useJUnitPlatform {
+            // Roborazzi preview tests and junit-vintage-engine live only in :app; filtering
+            // other modules with -Pscreenshot would match no tests (failOnNoMatchingTests).
+            if (project.name == "app") {
+                val previewTestTag = "com.github.takahirom.roborazzi.RoborazziComposePreviewTestCategory"
+                val taskPrefixes = listOf("recordRoborazzi", "verifyRoborazzi", "compareRoborazzi")
+                val isRoborazziTaskInvocation = gradle.startParameter.taskNames.any { taskName ->
+                    taskPrefixes.any { it in taskName }
+                }
+                if (project.hasProperty("screenshot") || isRoborazziTaskInvocation) {
+                    includeTags(previewTestTag)
+                } else {
+                    // Keep regular unit test runs free of the slow Robolectric preview tests.
+                    excludeTags(previewTestTag)
+                }
+            }
+        }
         jvmArgumentProviders.add(CommandLineArgumentProvider {
             listOf("-javaagent:${mockitoAgent.singleFile}")
         })

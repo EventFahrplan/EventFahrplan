@@ -5,6 +5,7 @@ android-test = "2.0.1"
 annotation = "1.11.0"
 appcompat = "1.8.0"
 better-link-movement-method = "2.2.0"
+composable-preview-scanner = "0.9.3"
 compose-bom = "2026.09.00"
 compose-material3 = "1.5.0-alpha25" # minSdk 24 is required as of 1.5.0-alpha26
 constraintlayout = "2.2.2"
@@ -15,6 +16,7 @@ email-intent-builder = "2.0.0"
 engelsystem = "12.0.0"
 fragment-compose = "1.9.1"
 htmlconverter = "1.1.1"
+junit = "4.13.2"
 junit-jupiter = "5.14.4" # emulators on CI do not run junit 6 https://github.com/mannodermaus/android-junit5/issues/392
 junit-platform = "1.14.4" # emulators on CI do not run junit 6 https://github.com/mannodermaus/android-junit5/issues/392
 kotlin = "2.4.21"
@@ -29,7 +31,9 @@ mockito-kotlin = "6.4.0"
 moshi = "1.15.2"
 navigation = "2.9.8" # minSdk 24 is required as of 2.10.0
 okhttp = "5.5.0"
-robolectric = "4.3_r2-robolectric-0"
+robolectric = "4.17"
+robolectric-android-all = "4.3_r2-robolectric-0"
+roborazzi = "1.76.0"
 room-states = "3.0.0"
 schedule = "3.0.0"
 snackengage = "0.32"
@@ -47,6 +51,7 @@ android-library = { id = "com.android.library", version.ref = "android-gradle-pl
 dexcount = { id = "com.getkeepsafe.dexcount", version.ref = "dexcount" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 sonarqube = { id = "org.sonarqube", version.ref = "sonarqube" }
 unmock = { id = "de.mobilej.unmock", version.ref = "unmock" }
 versions = { id = "io.github.ben-manes.versions", version.ref = "versions" }
@@ -58,8 +63,11 @@ android-test-runner = { module = "de.mannodermaus.junit5:android-test-runner", v
 annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 better-link-movement-method = { module = "me.saket:better-link-movement-method", version.ref = "better-link-movement-method" }
+composable-preview-scanner = { module = "io.github.sergio-sastre.ComposablePreviewScanner:android", version.ref = "composable-preview-scanner" }
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
+compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
@@ -69,10 +77,12 @@ email-intent-builder = { module = "de.cketti.mailto:email-intent-builder", versi
 engelsystem = { module = "info.metadude.kotlin.library.engelsystem:engelsystem-repositories", version.ref = "engelsystem" }
 fragment-compose = { module = "androidx.fragment:fragment-compose", version.ref = "fragment-compose" }
 htmlconverter = { module = "be.digitalia.compose.htmlconverter:htmlconverter", version.ref = "htmlconverter" }
+junit = { module = "junit:junit", version.ref = "junit" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit-jupiter" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-jupiter" }
 junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit-jupiter" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-platform" }
+junit-vintage-engine = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "junit-jupiter" }
 kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
@@ -90,7 +100,9 @@ navigation = { module = "androidx.navigation:navigation-compose", version.ref = 
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 okhttp-zstd = { module = "com.squareup.okhttp3:okhttp-zstd", version.ref = "okhttp" }
-robolectric = { module = "org.robolectric:android-all", version.ref = "robolectric" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+robolectric-android-all = { module = "org.robolectric:android-all", version.ref = "robolectric-android-all" }
+roborazzi-compose-preview-scanner-support = { module = "io.github.takahirom.roborazzi:roborazzi-compose-preview-scanner-support", version.ref = "roborazzi" }
 room-states = { module = "info.metadude.kotlin.library.roomstates:room-states-repositories", version.ref = "room-states" }
 schedule-repositories = { module = "info.metadude.kotlin.library.schedule:schedule-repositories", version.ref = "schedule" }
 snackengage-playrate = { module = "com.github.ligi.snackengage:snackengage-playrate", version.ref = "snackengage" }
