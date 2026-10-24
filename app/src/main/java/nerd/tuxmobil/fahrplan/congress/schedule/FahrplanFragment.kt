@@ -549,10 +549,16 @@ class FahrplanFragment : Fragment(), MenuProvider {
             }
             // The viewport shows max_cols columns. Derive it from the column width
             // because the scroller's own width might not be measured yet.
-            val viewportEnd = horizontalScroller.scrollX + columnWidth * resources.getInteger(R.integer.max_cols)
+            val maxColumns = resources.getInteger(R.integer.max_cols)
+            val viewportEnd = horizontalScroller.scrollX + columnWidth * maxColumns
             val roomStart = roomIndex * columnWidth
+            // The scroll position can be transiently reset to 0 while the active column is
+            // still displayed, e.g. when re-rendering after setting an alarm. Also check the
+            // active column index to not replace a visible column with a placeholder.
+            val activeColumnIndex = horizontalScroller.columnIndex
             val isInitiallyVisible = columnWidth <= 0 ||
-                (roomStart < viewportEnd && roomStart + columnWidth > horizontalScroller.scrollX)
+                (roomStart < viewportEnd && roomStart + columnWidth > horizontalScroller.scrollX) ||
+                roomIndex in activeColumnIndex until activeColumnIndex + maxColumns
             if (isInitiallyVisible) {
                 renderRoomColumn()
             } else {
