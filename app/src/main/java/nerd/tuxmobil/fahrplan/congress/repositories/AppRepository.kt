@@ -308,6 +308,17 @@ object AppRepository : SearchRepository,
 
     private val refreshAlarmsSignal = MutableSharedFlow<Unit>()
 
+    private val mutableAlarmFiringEvents = MutableSharedFlow<String>(
+        extraBufferCapacity = 64,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
+    )
+
+    /**
+     * Emits the session ID of an alarm which has actually fired.
+     * Manual alarm deletions do not emit an event.
+     */
+    val alarmFiringEvents: Flow<String> = mutableAlarmFiringEvents
+
     private fun refreshAlarms() {
         logging.d(LOG_TAG, "Refreshing alarms ...")
         val requestIdentifier = "refreshAlarms"
@@ -800,12 +811,28 @@ object AppRepository : SearchRepository,
     @WorkerThread
     fun deleteAlarmForSessionId(sessionId: String) {
         if (alarmsDatabaseRepository.deleteForSessionId(sessionId) > 0) {
-            refreshAlarms()
-            refreshSelectedSession()
-            refreshSessions()
-            refreshRoomStates()
-            refreshUncanceledSessions()
+            refreshAfterAlarmDeletion()
         }
+    }
+
+    /**
+     * Deletes the alarm of the given session and emits a firing event on [alarmFiringEvents].
+     * No event is emitted if no alarm was stored, e.g. for a stale system alarm.
+     */
+    @WorkerThread
+    fun onAlarmFired(sessionId: String) {
+        if (alarmsDatabaseRepository.deleteForSessionId(sessionId) > 0) {
+            mutableAlarmFiringEvents.tryEmit(sessionId)
+            refreshAfterAlarmDeletion()
+        }
+    }
+
+    private fun refreshAfterAlarmDeletion() {
+        refreshAlarms()
+        refreshSelectedSession()
+        refreshSessions()
+        refreshRoomStates()
+        refreshUncanceledSessions()
     }
 
     @WorkerThread

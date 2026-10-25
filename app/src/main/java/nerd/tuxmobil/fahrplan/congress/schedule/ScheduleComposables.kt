@@ -51,6 +51,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
 import nerd.tuxmobil.fahrplan.congress.designsystem.cards.Card
@@ -77,9 +78,17 @@ import nerd.tuxmobil.fahrplan.congress.schedule.SessionInteractionType.TOGGLE_FA
 fun RoomColumn(
     columnData: RoomColumnData,
     newlyAddedAlarmSessionIds: Set<String> = emptySet(),
+    isCardShakeRequested: (sessionId: String, hasAlarm: Boolean) -> Boolean = { _, _ -> false },
+    onCardShakeFinished: (String) -> Unit = {},
+    onAnyCardShakingChange: (Boolean) -> Unit = {},
     onSessionClick: (String) -> Unit,
     onSessionInteraction: (String, SessionInteractionType) -> Unit
 ) {
+    val isAnyCardShaking = columnData.sessionData.any { isCardShakeRequested(it.sessionId, it.hasAlarm) }
+    LaunchedEffect(isAnyCardShaking) {
+        onAnyCardShakingChange(isAnyCardShaking)
+    }
+
     EventFahrplanTheme {
         Column(
             modifier = Modifier
@@ -94,6 +103,8 @@ fun RoomColumn(
 
                 SessionCard(
                     data = sessionData,
+                    shakeRequested = isCardShakeRequested(sessionData.sessionId, sessionData.hasAlarm),
+                    onShakeFinished = { onCardShakeFinished(sessionData.sessionId) },
                     sessionCardLayout = {
                         SessionCardLayout(
                             data = sessionData,
@@ -108,27 +119,68 @@ fun RoomColumn(
     }
 }
 
+/**
+ * Normalized shake offsets, scaled by [SESSION_CARD_SHAKE_DISTANCE] for the horizontal translation
+ * and by [SESSION_CARD_SHAKE_MAX_ROTATION] for the rotation of the card.
+ */
+private val SESSION_CARD_SHAKE_OFFSETS = listOf(-1f, 1f, -0.75f, 0.75f, -0.45f, 0.45f, 0f)
+private val SESSION_CARD_SHAKE_ANIMATION_SPEC = tween<Float>(durationMillis = 65)
+private val SESSION_CARD_SHAKE_DISTANCE = 10.dp
+private const val SESSION_CARD_SHAKE_MAX_ROTATION = 0.8f
 
 @Composable
 fun SessionCard(
     data: SessionCardData,
     contextMenuTextColor: Color = LocalColorScheme.current.onSurface,
+    shakeRequested: Boolean = false,
+    onShakeFinished: () -> Unit = {},
     sessionCardLayout: @Composable ColumnScope.() -> Unit,
     onClick: () -> Unit,
     onMenuItemClick: (SessionInteractionType) -> Unit,
 ) {
     var showContextMenu by remember { mutableStateOf(false) }
     var pressPosition by remember { mutableStateOf(Offset.Zero) }
+    var isShaking by remember { mutableStateOf(false) }
+    val shake = remember { Animatable(0f) }
     val interactionSource = remember { MutableInteractionSource() }
+    val shakeDistance = with(LocalDensity.current) { SESSION_CARD_SHAKE_DISTANCE.toPx() }
 
-    Box {
+    LaunchedEffect(shakeRequested) {
+        if (shakeRequested) {
+            isShaking = true
+            try {
+                SESSION_CARD_SHAKE_OFFSETS.forEach { targetOffset ->
+                    shake.animateTo(targetOffset, SESSION_CARD_SHAKE_ANIMATION_SPEC)
+                }
+                // Only a completed shake finishes the request. When the card leaves the
+                // composition mid-shake, e.g. because its column is re-rendered, the request is
+                // kept so that the new composition restarts the shake.
+                onShakeFinished()
+            } finally {
+                isShaking = false
+            }
+        } else {
+            // A shake cancelled midway must not leave the card displaced.
+            shake.snapTo(0f)
+        }
+    }
+
+    Box(
+        modifier = Modifier.zIndex(if (isShaking) 1f else 0f),
+    ) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(data.cardHeight)
+                // Placed before graphicsLayer so the press position is recorded in untransformed
+                // coordinates, matching the context menu anchor while the card shakes.
                 .pointerInteropFilter {
                     pressPosition = Offset(it.x, it.y)
                     false
+                }
+                .graphicsLayer {
+                    translationX = shake.value * shakeDistance
+                    rotationZ = shake.value * SESSION_CARD_SHAKE_MAX_ROTATION
                 }
                 .combinedClickable(
                     interactionSource = interactionSource,

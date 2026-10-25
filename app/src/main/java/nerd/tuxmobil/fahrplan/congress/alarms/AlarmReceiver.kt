@@ -77,7 +77,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 val isInsistentAlarmsEnabled = AppRepository.readInsistentAlarmsEnabled()
                 notificationHelper.notify(uniqueNotificationId, builder, isInsistentAlarmsEnabled)
 
-                AppRepository.deleteAlarmForSessionId(sessionId)
+                AppRepository.onAlarmFired(sessionId)
             }
         }
     }

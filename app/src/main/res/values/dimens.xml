@@ -61,6 +61,7 @@
     <dimen name="session_drawable_track">11sp</dimen>
     <dimen name="session_drawable_icon_padding">3dp</dimen>
     <dimen name="session_drawable_icon_size">22sp</dimen>
+    <dimen name="session_card_shake_elevation">8dp</dimen>
 
     <!-- Session details white space -->
     <dimen name="session_details_common_space_between_sections">8dp</dimen>

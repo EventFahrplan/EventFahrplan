@@ -8,6 +8,7 @@ import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExt
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
@@ -42,6 +43,7 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSucce
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.DayMenuParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FahrplanParameter
+import nerd.tuxmobil.fahrplan.congress.schedule.observables.FiredAlarmParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.ScrollToCurrentSessionParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.ScrollToSessionParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.TimeTextViewParameter
@@ -218,6 +220,32 @@ class FahrplanViewModelTest {
             }
 
         @Test
+        fun `alarm firing does not re-post a dismissed errorMessage for an empty schedule`() =
+            runTest {
+                val alarmFiringEvents = MutableSharedFlow<String>()
+                val repository = createRepository(
+                    alarmFiringEventsFlow = alarmFiringEvents,
+                    uncanceledSessionsForDayIndexFlow = flowOf(ScheduleData(0, emptyList())),
+                    meta = Meta(version = "test-version"),
+                )
+                val errorMessage = TitledMessage(title = "test-title", message = "test-message")
+                val errorMessageFactory = mock<ErrorMessage.Factory> {
+                    on { getMessageForEmptySchedule(any()) } doReturn errorMessage
+                }
+                val viewModel = createViewModel(repository, errorMessageFactory = errorMessageFactory)
+                viewModel.errorMessage.test {
+                    assertThat(awaitItem()).isEqualTo(errorMessage)
+
+                    viewModel.onCloseErrorMessageScreen()
+                    assertThat(awaitItem()).isNull()
+
+                    alarmFiringEvents.emit("session-01")
+                    expectNoEvents()
+                }
+                verifyInvokedOnce(repository).readMeta()
+            }
+
+        @Test
         fun `updateUncanceledSessions never posts to errorMessage property when schedule has never been loaded`() =
             runTest {
                 val scheduleData = ScheduleData(0, emptyList())
@@ -287,6 +315,38 @@ class FahrplanViewModelTest {
                 verifyInvokedNever(menuEntriesGenerator).getDayMenuEntries(any(), anyOrNull(), any())
                 verifyInvokedOnce(repository).readDisplayDayIndex()
             }
+
+        @Test
+        fun `firedAlarmParameter emits the session id and firing time of a fired alarm`() = runTest {
+            val alarmFiringEvents = MutableSharedFlow<String>()
+            val repository = createRepository(alarmFiringEventsFlow = alarmFiringEvents)
+            var elapsedRealtime = 1_000L
+            val viewModel = createViewModel(repository, elapsedRealtime = { elapsedRealtime })
+
+            elapsedRealtime = 5_000L
+            alarmFiringEvents.emit("session-01")
+            // The firing time is kept even if the event is received later.
+            elapsedRealtime = 9_000L
+
+            viewModel.firedAlarmParameter.test {
+                assertThat(awaitItem()).isEqualTo(FiredAlarmParameter("session-01", firedAt = 5_000L))
+            }
+        }
+
+        @Test
+        fun `firedAlarmParameter emits each of several alarms firing at the same time`() = runTest {
+            val alarmFiringEvents = MutableSharedFlow<String>()
+            val repository = createRepository(alarmFiringEventsFlow = alarmFiringEvents)
+            val viewModel = createViewModel(repository)
+
+            alarmFiringEvents.emit("session-01")
+            alarmFiringEvents.emit("session-02")
+
+            viewModel.firedAlarmParameter.test {
+                assertThat(awaitItem().sessionId).isEqualTo("session-01")
+                assertThat(awaitItem().sessionId).isEqualTo("session-02")
+            }
+        }
 
         @Test
         fun `onCloseErrorMessageScreen posts null to errorMessage property`() = runTest {
@@ -759,6 +819,7 @@ class FahrplanViewModelTest {
 
     private fun createRepository(
         sessionsFlow: Flow<List<Session>> = emptyFlow(),
+        alarmFiringEventsFlow: Flow<String> = emptyFlow(),
         uncanceledSessionsForDayIndexFlow: Flow<ScheduleData> = emptyFlow(),
         sessionsWithoutShiftsFlow: Flow<List<Session>> = emptyFlow(),
         loadUncanceledSessionsForDayIndex: ScheduleData = mock(),
@@ -770,6 +831,7 @@ class FahrplanViewModelTest {
         defaultAlarmTime: Int = 10,
     ) = mock<AppRepository> {
         on { sessions } doReturn sessionsFlow
+        on { alarmFiringEvents } doReturn alarmFiringEventsFlow
         on { uncanceledSessionsForDayIndex } doReturn uncanceledSessionsForDayIndexFlow
         on { sessionsWithoutShifts } doReturn sessionsWithoutShiftsFlow
         on { loadUncanceledSessionsForDayIndex() } doReturn loadUncanceledSessionsForDayIndex
@@ -810,7 +872,8 @@ class FahrplanViewModelTest {
         navigationMenuEntriesGenerator: NavigationMenuEntriesGenerator = mock(),
         simpleSessionFormat: SimpleSessionFormat = this.simpleSessionFormat,
         jsonSessionFormat: JsonSessionFormat = this.jsonSessionFormat,
-        runsAtLeastOnAndroidTiramisu: Boolean = false
+        runsAtLeastOnAndroidTiramisu: Boolean = false,
+        elapsedRealtime: () -> Long = { 0L },
     ) = FahrplanViewModel(
         repository = repository,
         settingsRepository = settingsRepository,
@@ -825,7 +888,8 @@ class FahrplanViewModelTest {
         scrollAmountCalculator = scrollAmountCalculator,
         defaultEngelsystemRoomName = "Engelshifts",
         customEngelsystemRoomName = "Trollshifts",
-        runsAtLeastOnAndroidTiramisu = runsAtLeastOnAndroidTiramisu
+        runsAtLeastOnAndroidTiramisu = runsAtLeastOnAndroidTiramisu,
+        elapsedRealtime = elapsedRealtime,
     )
 
 }

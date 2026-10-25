@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import android.os.Build
+import android.os.SystemClock
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import info.metadude.android.eventfahrplan.commons.logging.Logging
@@ -40,6 +41,7 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialPar
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.DayMenuParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FahrplanParameter
+import nerd.tuxmobil.fahrplan.congress.schedule.observables.FiredAlarmParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.ScrollToCurrentSessionParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.ScrollToSessionParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.TimeTextViewParameter
@@ -63,7 +65,8 @@ internal class FahrplanViewModel(
     private val scrollAmountCalculator: ScrollAmountCalculator,
     private val defaultEngelsystemRoomName: String,
     private val customEngelsystemRoomName: String,
-    runsAtLeastOnAndroidTiramisu: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+    runsAtLeastOnAndroidTiramisu: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU,
+    private val elapsedRealtime: () -> Long = SystemClock::elapsedRealtime,
 
 ) : ViewModel() {
 
@@ -110,6 +113,12 @@ internal class FahrplanViewModel(
     private val mutableScrollToSessionParameter = Channel<ScrollToSessionParameter>()
     val scrollToSessionParameter = mutableScrollToSessionParameter.receiveAsFlow()
 
+    /**
+     * Emits an alarm which has actually fired, so the view can shake its card.
+     */
+    private val mutableFiredAlarmParameter = Channel<FiredAlarmParameter>()
+    val firedAlarmParameter = mutableFiredAlarmParameter.receiveAsFlow()
+
     val requestPostNotificationsPermission = sessionAlarmViewModelDelegate
         .requestPostNotificationsPermission
 
@@ -136,10 +145,21 @@ internal class FahrplanViewModel(
                 mutableDefaultAlarmTime.value = repository.readAlarmTime()
             }
         }
+        observeAlarmFirings()
         updateDayMenu()
         updateSchedule()
         requestScheduleUpdateAlarm()
         updateHorizontalScrollingProgressLineVisibility()
+    }
+
+    private fun observeAlarmFirings() {
+        launch {
+            repository.alarmFiringEvents.collect { sessionId ->
+                // Stamped here because the event can be queued while the view is stopped.
+                val parameter = FiredAlarmParameter(sessionId, firedAt = elapsedRealtime())
+                mutableFiredAlarmParameter.sendOneTimeEvent(parameter)
+            }
+        }
     }
 
     private fun updateDayMenu() {
