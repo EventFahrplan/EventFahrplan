@@ -66,11 +66,11 @@ class SessionDetailsParameterFactoryTest {
                 sessionId = "S1",
                 dateUTC = 100,
                 abstractt = "Für Entwickler*innen",
-                description = "Für Nutzer*innen",
+                description = "•\tFür Nutzer*innen",
             )
         )
         assertThat(parameters.abstract).isEqualTo(SessionDetailsProperty(Markdown("Für Entwickler\\*innen"), "Für Entwickler*innen"))
-        assertThat(parameters.description).isEqualTo(SessionDetailsProperty(Markdown("Für Nutzer\\*innen"), "Für Nutzer*innen"))
+        assertThat(parameters.description).isEqualTo(SessionDetailsProperty(Markdown("* Für Nutzer\\*innen"), "•\tFür Nutzer*innen"))
     }
 
     @Test
@@ -80,11 +80,11 @@ class SessionDetailsParameterFactoryTest {
                 sessionId = "S1",
                 dateUTC = 100,
                 abstractt = "Für Entwickler*innen",
-                description = "Für Nutzer*innen",
+                description = "•\tFür Nutzer*innen",
             )
         )
         assertThat(parameters.abstract).isEqualTo(SessionDetailsProperty(Html("Für Entwickler*innen"), "Für Entwickler*innen"))
-        assertThat(parameters.description).isEqualTo(SessionDetailsProperty(Html("Für Nutzer*innen"), "Für Nutzer*innen"))
+        assertThat(parameters.description).isEqualTo(SessionDetailsProperty(Html("•\tFür Nutzer*innen"), "•\tFür Nutzer*innen"))
     }
 
     private fun createFactory(

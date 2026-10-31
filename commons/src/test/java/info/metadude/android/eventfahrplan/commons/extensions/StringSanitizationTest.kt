@@ -34,8 +34,8 @@ class StringSanitizationTest {
         }
 
         @Test
-        fun `keeps asterisk character untouched`() {
-            val s = "Workshop für Entwickler*innen"
+        fun `keeps asterisk and bullet point characters untouched`() {
+            val s = "•\tWorkshop für Entwickler*innen"
             assertThat(s.sanitize()).isEqualTo(s)
         }
 
@@ -77,6 +77,34 @@ class StringSanitizationTest {
         @Test
         fun `keeps intended emphasis untouched`() {
             val s = "Some *italic* and **bold** text, **bold**suffix and 2 * 3"
+            assertThat(s.sanitizeMarkdown()).isEqualTo(s)
+        }
+
+        @Test
+        fun `converts bullet point character into Markdown compatible asterisk`() {
+            assertThat("•\tSome content".sanitizeMarkdown()).isEqualTo("* Some content")
+        }
+
+        @Test
+        fun `converts bullet point character followed by space or no-break space`() {
+            assertThat("• One\n•\u00A0Two".sanitizeMarkdown()).isEqualTo("* One\n* Two")
+        }
+
+        @Test
+        fun `limits indentation of bullet points so that they interrupt a paragraph`() {
+            val s = "Badge with:\n    • Secure element\n    • Microcontroller"
+            assertThat(s.sanitizeMarkdown()).isEqualTo("Badge with:\n   * Secure element\n   * Microcontroller")
+        }
+
+        @Test
+        fun `keeps indentation of bullet points nested in an ordered list`() {
+            val s = "1. Introduction\n   •\tArtists\n   •\tMotivation"
+            assertThat(s.sanitizeMarkdown()).isEqualTo("1. Introduction\n   * Artists\n   * Motivation")
+        }
+
+        @Test
+        fun `keeps bullet point character within a line untouched`() {
+            val s = "Foo • bar"
             assertThat(s.sanitizeMarkdown()).isEqualTo(s)
         }
 
