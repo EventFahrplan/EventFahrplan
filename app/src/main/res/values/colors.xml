@@ -21,9 +21,10 @@
     <color name="foreground">#fff</color>
     <color name="text_link_on_light">@color/colorAccent</color>
     <color name="text_link_on_dark">@color/colorAccent</color>
+    <color name="text_link_pressed_background_on_light">@color/colorPrimaryDark</color>
+    <color name="text_link_pressed_background_on_dark">@color/colorPrimaryDark</color>
     <color name="text_past_content_on_light">@color/text_quaternary</color>
     <color name="text_past_content_on_dark">@color/text_tertiary</color>
-    <color name="text_link_pressed_background_on_light">#aafec700</color>
     <color name="divider">#88888888</color>
 
     <!-- Scrollbar -->

@@ -64,6 +64,7 @@ data class ColorScheme(
     val searchBarDivider: Color,
     val sessionListHeaderDayDate: Color,
     val textLink: Color,
+    val textLinkPressedBackground: Color,
     val textPastContent: Color,
     val appBarContainer: Color,
     val appBarTitleText: Color,

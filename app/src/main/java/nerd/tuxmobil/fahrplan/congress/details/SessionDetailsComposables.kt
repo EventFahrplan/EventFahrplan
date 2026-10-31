@@ -27,7 +27,6 @@ import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Alignment.Companion.TopStart
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.LiveRegionMode.Companion.Polite
@@ -60,8 +59,6 @@ import com.mikepenz.markdown.m3.markdownTypography
 import com.mikepenz.markdown.model.DefaultMarkdownAnimation
 import com.mikepenz.markdown.model.markdownPadding
 import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.R.color.text_link_on_light
-import nerd.tuxmobil.fahrplan.congress.R.color.text_link_pressed_background_on_light
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
 import nerd.tuxmobil.fahrplan.congress.commons.ScreenMetrics
 import nerd.tuxmobil.fahrplan.congress.commons.ToolbarMetrics
@@ -203,11 +200,11 @@ private val textLinkStyles: TextLinkStyles
     @Composable
     get() = TextLinkStyles(
         style = TextStyle(
-            color = colorResource(text_link_on_light),
+            color = EventFahrplanTheme.colorScheme.textLink,
             textDecoration = TextDecoration.Underline,
         ).toSpanStyle(),
         pressedStyle = TextStyle(
-            background = colorResource(text_link_pressed_background_on_light),
+            background = EventFahrplanTheme.colorScheme.textLinkPressedBackground,
         ).toSpanStyle(),
     )
 
