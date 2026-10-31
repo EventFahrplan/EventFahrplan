@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsProperty.MarkupLanguage.Html
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsProperty.MarkupLanguage.Markdown
 import nerd.tuxmobil.fahrplan.congress.models.MarkupLanguage
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -23,18 +24,7 @@ class SessionDetailsParameterFactoryTest {
 
     @Test
     fun `createSessionDetailsParameters returns session details parameters`() {
-        val factory = SessionDetailsParameterFactory(
-            repository = mock(),
-            markupLanguage = MarkupLanguage.Markdown,
-            sessionPropertiesFormatting = FakeSessionPropertiesFormatting(),
-            contentDescriptionFormatting = EmptyContentDescriptionFormatter(),
-            formattingDelegate = FakeFormattingDelegate(),
-            markdownConversion = FakeMarkdownConversion(),
-            sessionUrlComposition = FakeSessionUrlComposition(),
-            defaultEngelsystemRoomName = "Engelshifts",
-            customEngelsystemRoomName = "Trollshifts",
-        )
-        val parameters = factory.createSessionDetailsParameters(
+        val parameters = createFactory().createSessionDetailsParameters(
             Session(
                 sessionId = "S1",
                 title = "Session title",
@@ -68,6 +58,48 @@ class SessionDetailsParameterFactoryTest {
         assertThat(parameters.roomName).isEqualTo(SessionDetailsProperty("Main hall", ""))
         assertThat(parameters.sessionLink).isEqualTo(SAMPLE_SESSION_URL)
     }
+
+    @Test
+    fun `createSessionDetailsParameters escapes intra-word asterisks in abstract and description for Markdown`() {
+        val parameters = createFactory(MarkupLanguage.Markdown).createSessionDetailsParameters(
+            Session(
+                sessionId = "S1",
+                dateUTC = 100,
+                abstractt = "Für Entwickler*innen",
+                description = "Für Nutzer*innen",
+            )
+        )
+        assertThat(parameters.abstract).isEqualTo(SessionDetailsProperty(Markdown("Für Entwickler\\*innen"), "Für Entwickler*innen"))
+        assertThat(parameters.description).isEqualTo(SessionDetailsProperty(Markdown("Für Nutzer\\*innen"), "Für Nutzer*innen"))
+    }
+
+    @Test
+    fun `createSessionDetailsParameters keeps abstract and description untouched for HTML`() {
+        val parameters = createFactory(MarkupLanguage.Html).createSessionDetailsParameters(
+            Session(
+                sessionId = "S1",
+                dateUTC = 100,
+                abstractt = "Für Entwickler*innen",
+                description = "Für Nutzer*innen",
+            )
+        )
+        assertThat(parameters.abstract).isEqualTo(SessionDetailsProperty(Html("Für Entwickler*innen"), "Für Entwickler*innen"))
+        assertThat(parameters.description).isEqualTo(SessionDetailsProperty(Html("Für Nutzer*innen"), "Für Nutzer*innen"))
+    }
+
+    private fun createFactory(
+        markupLanguage: MarkupLanguage = MarkupLanguage.Markdown,
+    ) = SessionDetailsParameterFactory(
+        repository = mock(),
+        markupLanguage = markupLanguage,
+        sessionPropertiesFormatting = FakeSessionPropertiesFormatting(),
+        contentDescriptionFormatting = EmptyContentDescriptionFormatter(),
+        formattingDelegate = FakeFormattingDelegate(),
+        markdownConversion = FakeMarkdownConversion(),
+        sessionUrlComposition = FakeSessionUrlComposition(),
+        defaultEngelsystemRoomName = "Engelshifts",
+        customEngelsystemRoomName = "Trollshifts",
+    )
 
     private class FakeFormattingDelegate : FormattingDelegate {
 

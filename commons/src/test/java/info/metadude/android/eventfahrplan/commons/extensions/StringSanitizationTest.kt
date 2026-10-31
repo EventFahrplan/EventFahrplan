@@ -3,6 +3,8 @@ package info.metadude.android.eventfahrplan.commons.extensions
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 
 class StringSanitizationTest {
 
@@ -32,6 +34,12 @@ class StringSanitizationTest {
         }
 
         @Test
+        fun `keeps asterisk character untouched`() {
+            val s = "Workshop für Entwickler*innen"
+            assertThat(s.sanitize()).isEqualTo(s)
+        }
+
+        @Test
         fun `blank input becomes empty`() {
             assertThat("   ".sanitize()).isEmpty()
         }
@@ -39,6 +47,42 @@ class StringSanitizationTest {
         @Test
         fun `null input becomes empty`() {
             assertThat(null.sanitize()).isEmpty()
+        }
+    }
+
+    @Nested
+    inner class SanitizeMarkdown {
+
+        @ParameterizedTest(name = "\"{0}\" -> \"{1}\"")
+        @CsvSource(
+            delimiter = '|',
+            textBlock = """
+            Entwickler*innen                 | Entwickler\*innen
+            Nutzer*in                        | Nutzer\*in
+            Künstler*Innen                   | Künstler\*Innen
+            Ärzt*innen                       | Ärzt\*innen
+            Lehrer*in und Schüler*in         | Lehrer\*in und Schüler\*in
+            Team2*3                          | Team2\*3"""
+        )
+        fun `escapes asterisk within a word to prevent unintended italic formatting`(input: String, expected: String) {
+            assertThat(input.sanitizeMarkdown()).isEqualTo(expected)
+        }
+
+        @Test
+        fun `keeps already escaped asterisk untouched`() {
+            val s = """Entwickler\*innen"""
+            assertThat(s.sanitizeMarkdown()).isEqualTo(s)
+        }
+
+        @Test
+        fun `keeps intended emphasis untouched`() {
+            val s = "Some *italic* and **bold** text, **bold**suffix and 2 * 3"
+            assertThat(s.sanitizeMarkdown()).isEqualTo(s)
+        }
+
+        @Test
+        fun `keeps empty input empty`() {
+            assertThat("".sanitizeMarkdown()).isEmpty()
         }
     }
 
