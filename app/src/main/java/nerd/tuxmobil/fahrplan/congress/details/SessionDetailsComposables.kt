@@ -143,14 +143,16 @@ internal fun SessionDetailsContent(
                                 isInDetailsScreen = true,
                                 isAboveHeaderDayDate = false,
                                 contentLeftOfCloseButton = {
-                                    StartsAt(
+                                    StartsAtAndEndsAt(
                                         modifier = Modifier.widthIn(max = maxWidth),
                                         startsAt = session.startsAt,
+                                        endsAt = session.endsAt,
                                     )
                                 },
                                 contentRightOfBackButton = {
-                                    StartsAt(
+                                    StartsAtAndEndsAt(
                                         startsAt = session.startsAt,
+                                        endsAt = session.endsAt,
                                     )
                                 },
                                 onNavClick = onBack,
@@ -259,14 +261,21 @@ fun SessionDetails(
 }
 
 @Composable
-private fun StartsAt(
+private fun StartsAtAndEndsAt(
     startsAt: SessionDetailsProperty<String>,
+    endsAt: SessionDetailsProperty<String>,
     modifier: Modifier = Modifier,
 ) {
+    val property = if (endsAt.value.isEmpty()) startsAt else SessionDetailsProperty(
+        value = "${startsAt.value} – ${endsAt.value}",
+        contentDescription = listOf(startsAt.contentDescription, endsAt.contentDescription)
+            .filter { it.isNotEmpty() }
+            .joinToString(", "),
+    )
     TextLeadingIcon(
         modifier = modifier
             .padding(top = 2.dp), // Horizontal alignment of back arrow + icon + text
-        property = startsAt,
+        property = property,
         icon = R.drawable.ic_access_time,
     )
 }
@@ -835,6 +844,7 @@ private fun SessionDetailsContentPreview() {
                     trackName = SessionDetailsProperty(stringResource(R.string.placeholder_session_track), ""),
                     links = SessionDetailsProperty(stringResource(R.string.placeholder_session_links), ""),
                     startsAt = SessionDetailsProperty(stringResource(R.string.placeholder_session_date), ""),
+                    endsAt = SessionDetailsProperty("6:00 PM", ""),
                     roomName = SessionDetailsProperty(stringResource(R.string.placeholder_session_location), ""),
                     isRecordingOptOut = true,
                     sessionLink = stringResource(R.string.placeholder_session_online),

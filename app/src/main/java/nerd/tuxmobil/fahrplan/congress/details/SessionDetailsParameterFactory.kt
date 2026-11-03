@@ -39,6 +39,30 @@ class SessionDetailsParameterFactory(
             moment = session.startsAt,
             timeZoneOffset = session.timeZoneOffset,
         )
+        val formattedStartsAtDate = formattingDelegate.getFormattedDateShort(
+            useDeviceTimeZone = useDeviceTimeZone,
+            moment = session.startsAt,
+            timeZoneOffset = session.timeZoneOffset,
+        )
+        val formattedEndsAtDate = formattingDelegate.getFormattedDateShort(
+            useDeviceTimeZone = useDeviceTimeZone,
+            moment = session.endsAt,
+            timeZoneOffset = session.timeZoneOffset,
+        )
+        // Only show the end date if the session ends on another day than it starts.
+        val formattedEndsAt = if (formattedStartsAtDate == formattedEndsAtDate) {
+            formattingDelegate.getFormattedTimeShort(
+                useDeviceTimeZone = useDeviceTimeZone,
+                moment = session.endsAt,
+                timeZoneOffset = session.timeZoneOffset,
+            )
+        } else {
+            formattingDelegate.getFormattedDateTimeShort(
+                useDeviceTimeZone = useDeviceTimeZone,
+                moment = session.endsAt,
+                timeZoneOffset = session.timeZoneOffset,
+            )
+        }
         val formattedSessionId = sessionPropertiesFormatting.getFormattedSessionId(session.sessionId)
         val formattedSpeakerNames = sessionPropertiesFormatting.getFormattedSpeakers(session)
         val formattedLanguages = sessionPropertiesFormatting.getLanguageText(session)
@@ -98,6 +122,10 @@ class SessionDetailsParameterFactory(
             startsAt = SessionDetailsProperty(
                 value = formattedZonedDateTimeShort,
                 contentDescription = contentDescriptionFormatting.getStartTimeContentDescription(formattedZonedDateTimeLong),
+            ),
+            endsAt = SessionDetailsProperty(
+                value = formattedEndsAt,
+                contentDescription = contentDescriptionFormatting.getEndTimeContentDescription(formattedEndsAt),
             ),
             roomName = SessionDetailsProperty(
                 value = formattedRoomName,

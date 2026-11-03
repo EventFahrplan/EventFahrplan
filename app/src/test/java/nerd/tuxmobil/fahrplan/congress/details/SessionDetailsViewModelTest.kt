@@ -691,6 +691,7 @@ class SessionDetailsViewModelTest {
             trackName = SessionDetailsProperty("", ""),
             links = SessionDetailsProperty("", ""),
             startsAt = SessionDetailsProperty("", ""),
+            endsAt = SessionDetailsProperty("", ""),
             roomName = SessionDetailsProperty("", ""),
             isRecordingOptOut = false,
             sessionLink = "",

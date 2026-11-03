@@ -15,6 +15,7 @@ sealed interface SessionDetailsParameter {
         val trackName: SessionDetailsProperty<String>,
         val links: SessionDetailsProperty<String>,
         val startsAt: SessionDetailsProperty<String>,
+        val endsAt: SessionDetailsProperty<String>,
         val roomName: SessionDetailsProperty<String>,
         val isRecordingOptOut: Boolean,
         val sessionLink: String,
