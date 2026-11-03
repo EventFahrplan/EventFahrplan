@@ -692,6 +692,7 @@ class SessionDetailsViewModelTest {
             links = SessionDetailsProperty("", ""),
             startsAt = SessionDetailsProperty("", ""),
             roomName = SessionDetailsProperty("", ""),
+            isRecordingOptOut = false,
             sessionLink = "",
         )
     }

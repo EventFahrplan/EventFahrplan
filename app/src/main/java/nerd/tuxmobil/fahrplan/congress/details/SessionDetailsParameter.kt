@@ -16,6 +16,7 @@ sealed interface SessionDetailsParameter {
         val links: SessionDetailsProperty<String>,
         val startsAt: SessionDetailsProperty<String>,
         val roomName: SessionDetailsProperty<String>,
+        val isRecordingOptOut: Boolean,
         val sessionLink: String,
         @Suppress("KotlinConstantConditions", "SimplifyBooleanWithConstants")
         val showTitleBoxed: Boolean = BuildConfig.FLAVOR == "ccc39c3"

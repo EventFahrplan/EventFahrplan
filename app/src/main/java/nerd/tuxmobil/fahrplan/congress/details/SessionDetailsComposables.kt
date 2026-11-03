@@ -238,6 +238,9 @@ fun SessionDetails(
                         languagesProperty = languages,
                     )
                     RoomName(roomName)
+                    if (isRecordingOptOut) {
+                        NotRecorded()
+                    }
                 }
                 Abstract(abstract, htmlStyle)
                 Description(description, htmlStyle)
@@ -378,6 +381,18 @@ private fun RoomName(
             icon = R.drawable.ic_room,
         )
     }
+}
+
+@Composable
+private fun NotRecorded(
+    modifier: Modifier = Modifier,
+) {
+    MetadataItem(
+        modifier = modifier,
+        text = stringResource(R.string.session_details_not_recorded).uppercase(),
+        contentDescription = stringResource(R.string.session_details_not_recorded_content_description),
+        icon = R.drawable.ic_video_recording_unavailable_outline,
+    )
 }
 
 @Composable
@@ -821,6 +836,7 @@ private fun SessionDetailsContentPreview() {
                     links = SessionDetailsProperty(stringResource(R.string.placeholder_session_links), ""),
                     startsAt = SessionDetailsProperty(stringResource(R.string.placeholder_session_date), ""),
                     roomName = SessionDetailsProperty(stringResource(R.string.placeholder_session_location), ""),
+                    isRecordingOptOut = true,
                     sessionLink = stringResource(R.string.placeholder_session_online),
                 ),
                 toolbarActions = listOf(

@@ -37,6 +37,7 @@ class SessionDetailsParameterFactoryTest {
                 links = "[VOC projects](https://www.voc.com/projects/),[POC](https://poc.com/QXut1XBymAk)",
                 dateUTC = 100,
                 roomName = "Main hall",
+                recordingOptOut = true,
                 url = """<a href="$SAMPLE_SESSION_URL">$SAMPLE_SESSION_URL</a>""",
             )
         )
@@ -56,6 +57,7 @@ class SessionDetailsParameterFactoryTest {
         )
         assertThat(parameters.startsAt).isEqualTo(SessionDetailsProperty("01.11.2021 13:00", ""))
         assertThat(parameters.roomName).isEqualTo(SessionDetailsProperty("Main hall", ""))
+        assertThat(parameters.isRecordingOptOut).isTrue()
         assertThat(parameters.sessionLink).isEqualTo(SAMPLE_SESSION_URL)
     }
 

@@ -103,6 +103,7 @@ class SessionDetailsParameterFactory(
                 value = formattedRoomName,
                 contentDescription = contentDescriptionFormatting.getRoomNameContentDescription(formattedRoomName),
             ),
+            isRecordingOptOut = session.recordingOptOut,
             sessionLink = sessionLink, // Content description (headline + URL) is merged in composable.
         )
     }

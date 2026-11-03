@@ -1,0 +1,24 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="13dp"
+    android:height="13dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Camera body -->
+    <path
+        android:pathData="M4.5,6h9a1.5,1.5 0,0 1,1.5 1.5v9a1.5,1.5 0,0 1,-1.5 1.5h-9a1.5,1.5 0,0 1,-1.5 -1.5v-9a1.5,1.5 0,0 1,1.5 -1.5z"
+        android:strokeWidth="1.8"
+        android:strokeColor="@color/session_detailbar_icon"
+        android:strokeLineJoin="round" />
+    <!-- Lens -->
+    <path
+        android:pathData="M15,10.5L21,7V17L15,13.5"
+        android:strokeWidth="1.8"
+        android:strokeColor="@color/session_detailbar_icon"
+        android:strokeLineJoin="round" />
+    <!-- Slash -->
+    <path
+        android:pathData="M2.5,2.5L21.5,21.5"
+        android:strokeWidth="1.8"
+        android:strokeColor="@color/session_detailbar_icon"
+        android:strokeLineCap="round" />
+</vector>
