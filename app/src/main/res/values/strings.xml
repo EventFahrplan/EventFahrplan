@@ -293,6 +293,12 @@
     <string name="validation_error_invalid_url">
         Invalid <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL.
     </string>
+    <string name="validation_error_url_without_host">
+        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL without host. Start with \"https://\".
+    </string>
+    <string name="validation_error_url_without_https">
+        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL must use \"https://\".
+    </string>
     <string name="validation_error_url_without_query">
         <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL without query part.
     </string>
