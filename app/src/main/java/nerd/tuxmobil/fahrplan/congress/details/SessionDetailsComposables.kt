@@ -43,7 +43,6 @@ import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
 import androidx.compose.ui.text.style.TextOverflow.Companion.Visible
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
@@ -144,17 +143,14 @@ internal fun SessionDetailsContent(
                                 isInDetailsScreen = true,
                                 isAboveHeaderDayDate = false,
                                 contentLeftOfCloseButton = {
-                                    StartsAtAndRoomName(
+                                    StartsAt(
                                         modifier = Modifier.widthIn(max = maxWidth),
                                         startsAt = session.startsAt,
-                                        roomName = session.roomName,
                                     )
-
                                 },
                                 contentRightOfBackButton = {
-                                    StartsAtAndRoomName(
+                                    StartsAt(
                                         startsAt = session.startsAt,
-                                        roomName = session.roomName,
                                     )
                                 },
                                 onNavClick = onBack,
@@ -235,12 +231,14 @@ fun SessionDetails(
                 RoomState(showRoomState, roomStateMessage)
                 Title(title, showTitleBoxed)
                 Subtitle(subtitle)
-                SpeakerNamesAndLanguages(
-                    speakerNamesProperty = speakerNames,
-                    speakerCount = speakerCount,
-                    languagesProperty = languages,
-                    modifier = Modifier.padding(top = dimensionResource(R.dimen.session_details_extra_space_above_speaker_names)),
-                )
+                Column(Modifier.padding(top = dimensionResource(R.dimen.session_details_extra_space_above_metadata))) {
+                    SpeakerNamesAndLanguages(
+                        speakerNamesProperty = speakerNames,
+                        speakerCount = speakerCount,
+                        languagesProperty = languages,
+                    )
+                    RoomName(roomName)
+                }
                 Abstract(abstract, htmlStyle)
                 Description(description, htmlStyle)
                 Links(links, htmlStyle, Modifier.padding(top = dimensionResource(R.dimen.session_details_extra_space_above_section_header)))
@@ -258,27 +256,16 @@ fun SessionDetails(
 }
 
 @Composable
-private fun StartsAtAndRoomName(
+private fun StartsAt(
     startsAt: SessionDetailsProperty<String>,
-    roomName: SessionDetailsProperty<String>,
     modifier: Modifier = Modifier,
 ) {
-    Row(
+    TextLeadingIcon(
         modifier = modifier
             .padding(top = 2.dp), // Horizontal alignment of back arrow + icon + text
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = CenterVertically,
-    ) {
-        TextLeadingIcon(
-            property = startsAt,
-            ellipsizeOverflow = false,
-            icon = R.drawable.ic_access_time,
-        )
-        TextLeadingIcon(
-            property = roomName,
-            icon = R.drawable.ic_room,
-        )
-    }
+        property = startsAt,
+        icon = R.drawable.ic_access_time,
+    )
 }
 
 @Composable
@@ -365,38 +352,72 @@ private fun SpeakerNamesAndLanguages(
         }
     }
     if (text.isNotEmpty()) {
-        val fontSize = dimensionResource(R.dimen.session_details_speakers).toTextUnit()
-        Row(modifier = modifier) {
-            if (speakerCount > 0) {
-                val iconPadding = dimensionResource(R.dimen.session_detailbar_icon_padding)
-                // The invisible single-line text gives the box the height of the first text line,
-                // so the icon stays vertically centered on it regardless of the text size.
-                Box(
-                    modifier = Modifier.padding(end = iconPadding),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    DisableSelection {
-                        TextSection(
-                            modifier = Modifier.clearAndSetSemantics {},
-                            text = " ",
-                            fontSize = fontSize,
-                        )
-                    }
-                    IconDecorative(
-                        icon = if (speakerCount == 1) R.drawable.ic_person else R.drawable.ic_people,
-                        tint = EventFahrplanTheme.colorScheme.sessionDetailBarIcon,
+        MetadataItem(
+            modifier = modifier,
+            text = text,
+            contentDescription = "${speakerNamesProperty.contentDescription}, ${languagesProperty.contentDescription}",
+            icon = when {
+                speakerCount == 1 -> R.drawable.ic_person
+                speakerCount > 1 -> R.drawable.ic_people
+                else -> null
+            },
+        )
+    }
+}
+
+@Composable
+private fun RoomName(
+    property: SessionDetailsProperty<String>,
+    modifier: Modifier = Modifier,
+) {
+    if (property.value.isNotEmpty()) {
+        MetadataItem(
+            modifier = modifier,
+            text = property.value.uppercase(),
+            contentDescription = property.contentDescription,
+            icon = R.drawable.ic_room,
+        )
+    }
+}
+
+@Composable
+private fun MetadataItem(
+    text: String,
+    contentDescription: String,
+    @DrawableRes icon: Int?,
+    modifier: Modifier = Modifier,
+) {
+    val fontSize = dimensionResource(R.dimen.session_details_metadata_item).toTextUnit()
+    Row(modifier = modifier) {
+        if (icon != null) {
+            val iconPadding = dimensionResource(R.dimen.session_detailbar_icon_padding)
+            // The invisible single-line text gives the box the height of the first text line,
+            // so the icon stays vertically centered on it regardless of the text size.
+            Box(
+                modifier = Modifier.padding(end = iconPadding),
+                contentAlignment = Alignment.Center,
+            ) {
+                DisableSelection {
+                    TextSection(
+                        modifier = Modifier.clearAndSetSemantics {},
+                        text = " ",
+                        fontSize = fontSize,
                     )
                 }
+                IconDecorative(
+                    icon = icon,
+                    tint = EventFahrplanTheme.colorScheme.sessionDetailBarIcon,
+                )
             }
-            TextSection(
-                modifier = Modifier
-                    .semantics {
-                        contentDescription = "${speakerNamesProperty.contentDescription}, ${languagesProperty.contentDescription}"
-                    },
-                text = text,
-                fontSize = fontSize,
-            )
         }
+        TextSection(
+            modifier = Modifier
+                .semantics {
+                    this.contentDescription = contentDescription
+                },
+            text = text,
+            fontSize = fontSize,
+        )
     }
 }
 
@@ -652,7 +673,6 @@ private fun TextLeadingIcon(
     property: SessionDetailsProperty<String>,
     @DrawableRes icon: Int,
     modifier: Modifier = Modifier,
-    ellipsizeOverflow: Boolean = true,
 ) {
     Row(
         modifier = modifier,
@@ -673,7 +693,7 @@ private fun TextLeadingIcon(
             text = property.value.uppercase(),
             fontSize = dimensionResource(R.dimen.session_detailbar_text).toTextUnit(),
             color = EventFahrplanTheme.colorScheme.sessionDetailBarText,
-            overflow = if (ellipsizeOverflow) Ellipsis else Visible,
+            overflow = Visible,
             maxLines = 1,
         )
     }
