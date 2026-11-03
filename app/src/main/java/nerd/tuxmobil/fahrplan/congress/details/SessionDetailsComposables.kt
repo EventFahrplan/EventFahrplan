@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -30,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.LiveRegionMode.Companion.Polite
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.paneTitle
@@ -235,6 +237,7 @@ fun SessionDetails(
                 Subtitle(subtitle)
                 SpeakerNamesAndLanguages(
                     speakerNamesProperty = speakerNames,
+                    speakerCount = speakerCount,
                     languagesProperty = languages,
                     modifier = Modifier.padding(top = dimensionResource(R.dimen.session_details_extra_space_above_speaker_names)),
                 )
@@ -346,6 +349,7 @@ private fun Subtitle(
 @Composable
 private fun SpeakerNamesAndLanguages(
     speakerNamesProperty: SessionDetailsProperty<String>,
+    speakerCount: Int,
     languagesProperty: SessionDetailsProperty<String>,
     modifier: Modifier = Modifier,
 ) {
@@ -361,14 +365,38 @@ private fun SpeakerNamesAndLanguages(
         }
     }
     if (text.isNotEmpty()) {
-        TextSection(
-            modifier = modifier
-                .semantics {
-                    contentDescription = "${speakerNamesProperty.contentDescription}, ${languagesProperty.contentDescription}"
-                },
-            text = text,
-            fontSize = dimensionResource(R.dimen.session_details_speakers).toTextUnit(),
-        )
+        val fontSize = dimensionResource(R.dimen.session_details_speakers).toTextUnit()
+        Row(modifier = modifier) {
+            if (speakerCount > 0) {
+                val iconPadding = dimensionResource(R.dimen.session_detailbar_icon_padding)
+                // The invisible single-line text gives the box the height of the first text line,
+                // so the icon stays vertically centered on it regardless of the text size.
+                Box(
+                    modifier = Modifier.padding(end = iconPadding),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    DisableSelection {
+                        TextSection(
+                            modifier = Modifier.clearAndSetSemantics {},
+                            text = " ",
+                            fontSize = fontSize,
+                        )
+                    }
+                    IconDecorative(
+                        icon = if (speakerCount == 1) R.drawable.ic_person else R.drawable.ic_people,
+                        tint = EventFahrplanTheme.colorScheme.sessionDetailBarIcon,
+                    )
+                }
+            }
+            TextSection(
+                modifier = Modifier
+                    .semantics {
+                        contentDescription = "${speakerNamesProperty.contentDescription}, ${languagesProperty.contentDescription}"
+                    },
+                text = text,
+                fontSize = fontSize,
+            )
+        }
     }
 }
 
@@ -765,6 +793,7 @@ private fun SessionDetailsContentPreview() {
                     title = SessionDetailsProperty(stringResource(R.string.placeholder_session_title), ""),
                     subtitle = SessionDetailsProperty(stringResource(R.string.placeholder_session_subtitle), ""),
                     speakerNames = SessionDetailsProperty(stringResource(R.string.placeholder_session_speakers), ""),
+                    speakerCount = 2,
                     languages = SessionDetailsProperty(stringResource(R.string.placeholder_session_languages), ""),
                     abstract = SessionDetailsProperty(Markdown(stringResource(R.string.placeholder_session_abstract)), ""),
                     description = SessionDetailsProperty(Markdown(stringResource(R.string.placeholder_session_description)), ""),

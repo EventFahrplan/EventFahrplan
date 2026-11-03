@@ -74,6 +74,7 @@ class SessionDetailsParameterFactory(
                 value = formattedSpeakerNames,
                 contentDescription = contentDescriptionFormatting.getSpeakersContentDescription(session.speakers.count(), formattedSpeakerNames),
             ),
+            speakerCount = session.speakers.count(),
             languages = SessionDetailsProperty(
                 value = formattedLanguages,
                 contentDescription = contentDescriptionFormatting.getLanguageContentDescription(session.language),

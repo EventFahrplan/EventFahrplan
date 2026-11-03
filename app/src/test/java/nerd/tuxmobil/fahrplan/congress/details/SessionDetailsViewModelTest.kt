@@ -684,6 +684,7 @@ class SessionDetailsViewModelTest {
             title = SessionDetailsProperty("", ""),
             subtitle = SessionDetailsProperty("", ""),
             speakerNames = SessionDetailsProperty("", ""),
+            speakerCount = 0,
             languages = SessionDetailsProperty("", ""),
             abstract = SessionDetailsProperty(Markdown(""), ""),
             description = SessionDetailsProperty(Markdown(""), ""),
