@@ -97,7 +97,6 @@ android {
     }
 
     signingConfigs {
-        create("cccamp2023")
         create("ccc39c3")
     }
 
@@ -105,30 +104,6 @@ android {
     flavorDimensions += defaultDimension
 
     productFlavors {
-        create("cccamp2023") {
-            dimension = defaultDimension
-            applicationId = "info.metadude.android.cccamp.schedule"
-            versionName = "${defaultConfig.versionName}-CCCamp-Edition"
-            buildConfigField("String", "GOOGLE_PLAY_URL", """"https://play.google.com/store/apps/details?id=info.metadude.android.cccamp.schedule"""")
-            buildConfigField("String", "F_DROID_URL", """"https://f-droid.org/packages/info.metadude.android.cccamp.schedule"""")
-            buildConfigField("String", "SCHEDULE_URL", """"https://events.ccc.de/camp/2023/hub/api/c/camp23/schedule.xml"""")
-            buildConfigField("String", "SCHEDULE_FILE_FORMAT", """"schedule_v1_xml"""")
-            buildConfigField("String", "EVENT_URL", $$""""http://events.ccc.de/camp/2023/Fahrplan/events/%1$s.html"""")
-            buildConfigField("String", "EVENT_WEBSITE_URL", """"http://events.ccc.de/camp/2023/"""")
-            buildConfigField("String", "EVENT_POSTAL_ADDRESS", """"Ziegeleipark Mildenberg, 16792 Zehdenick"""")
-            buildConfigField("String", "SERVER_BACKEND_TYPE", """"frab"""")
-            buildConfigField("boolean", "SHOW_APP_DISCLAIMER", "false")
-            buildConfigField("boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "true")
-            buildConfigField("String", "C3NAV_URL", """"https://camp23.c3nav.de/l/"""")
-            buildConfigField("boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "true")
-            buildConfigField("boolean", "ENABLE_CHAOSFLIX_EXPORT", "true")
-            buildConfigField("boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "true")
-            resValue("string", "preference_hint_engelsystem_json_export_url", """"https://engelsystem.events.ccc.de/shifts-json-export?key=YOUR_KEY"""")
-            buildConfigField("String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", """"#camp23 #CCCamp23 #fahrplan"""")
-            buildConfigField("String", "TRACE_DROID_EMAIL_ADDRESS", """"tobias.preuss+camp2023@googlemail.com"""")
-            buildConfigField("String", "SCHEDULE_FEEDBACK_URL", """"https://frab.cccv.de/en/camp2023/public/events/%s/feedback/new"""")
-            buildConfigField("String", "VIDEO_RECORDINGS_URL", """"📼 https://media.ccc.de/c/camp2023"""")
-        }
         create("ccc39c3") {
             dimension = defaultDimension
             applicationId = "info.metadude.android.congress.schedule"
