@@ -52,10 +52,7 @@ class SessionDetailsParameterFactoryTest {
         assertThat(parameters.description).isEqualTo(Markdown("Session description"))
         assertThat(parameters.trackName).isEqualTo(SessionDetailsProperty("Session track", "Session track"))
         assertThat(parameters.links).isEqualTo(
-            SessionDetailsProperty(
-                """<a href="https://www.voc.com/projects/">VOC projects</a>,<a href="https://poc.com/QXut1XBymAk">POC</a>""",
-                """<a href="https://www.voc.com/projects/">VOC projects</a>,<a href="https://poc.com/QXut1XBymAk">POC</a>""",
-            )
+            """<a href="https://www.voc.com/projects/">VOC projects</a>,<a href="https://poc.com/QXut1XBymAk">POC</a>"""
         )
         assertThat(parameters.startsAt).isEqualTo(SessionDetailsProperty("01.11.2021 13:00", ""))
         assertThat(parameters.endsAt).isEqualTo(SessionDetailsProperty("13:45", ""))

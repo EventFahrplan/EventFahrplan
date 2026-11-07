@@ -689,7 +689,7 @@ class SessionDetailsViewModelTest {
             abstract = Markdown(""),
             description = Markdown(""),
             trackName = SessionDetailsProperty("", ""),
-            links = SessionDetailsProperty("", ""),
+            links = "",
             startsAt = SessionDetailsProperty("", ""),
             endsAt = SessionDetailsProperty("", ""),
             roomName = SessionDetailsProperty("", ""),

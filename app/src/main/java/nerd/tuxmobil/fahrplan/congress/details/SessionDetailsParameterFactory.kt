@@ -109,10 +109,7 @@ class SessionDetailsParameterFactory(
                 value = session.track,
                 contentDescription = session.track, // Content description (headline + track name) is merged in composable.
             ),
-            links = SessionDetailsProperty(
-                value = formattedLinks,
-                contentDescription = formattedLinks,
-            ),
+            links = formattedLinks,
             startsAt = SessionDetailsProperty(
                 value = formattedZonedDateTimeShort,
                 contentDescription = contentDescriptionFormatting.getStartTimeContentDescription(formattedZonedDateTimeLong),

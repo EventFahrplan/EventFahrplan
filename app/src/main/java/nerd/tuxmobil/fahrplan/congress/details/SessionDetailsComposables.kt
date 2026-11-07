@@ -577,12 +577,12 @@ private fun TextMarkdown(
 
 @Composable
 private fun Links(
-    property: SessionDetailsProperty<String>,
+    links: String,
     htmlStyle: HtmlStyle,
     modifier: Modifier = Modifier,
 ) {
-    val annotatedString = remember(property.value, htmlStyle) {
-        getAnnotatedString(property.value, htmlStyle)
+    val annotatedString = remember(links, htmlStyle) {
+        getAnnotatedString(links, htmlStyle)
     }
     if (annotatedString != null) {
         Column(modifier = modifier) {
@@ -590,10 +590,6 @@ private fun Links(
                 text = stringResource(R.string.session_details_section_title_links),
             )
             TextSection(
-                modifier = Modifier
-                    .semantics {
-                        contentDescription = property.contentDescription
-                    },
                 text = annotatedString,
             )
         }
@@ -829,7 +825,7 @@ private fun SessionDetailsContentPreview() {
                     abstract = Markdown(stringResource(R.string.placeholder_session_abstract)),
                     description = Markdown(stringResource(R.string.placeholder_session_description)),
                     trackName = SessionDetailsProperty(stringResource(R.string.placeholder_session_track), ""),
-                    links = SessionDetailsProperty(stringResource(R.string.placeholder_session_links), ""),
+                    links = stringResource(R.string.placeholder_session_links),
                     startsAt = SessionDetailsProperty(stringResource(R.string.placeholder_session_date), ""),
                     endsAt = SessionDetailsProperty("6:00 PM", ""),
                     roomName = SessionDetailsProperty(stringResource(R.string.placeholder_session_location), ""),
