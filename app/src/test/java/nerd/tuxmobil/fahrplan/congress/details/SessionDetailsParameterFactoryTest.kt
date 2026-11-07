@@ -50,7 +50,7 @@ class SessionDetailsParameterFactoryTest {
         assertThat(parameters.languages).isEqualTo(SessionDetailsProperty("de, en", ""))
         assertThat(parameters.abstract).isEqualTo(Markdown("Session abstract"))
         assertThat(parameters.description).isEqualTo(Markdown("Session description"))
-        assertThat(parameters.trackName).isEqualTo(SessionDetailsProperty("Session track", "Session track"))
+        assertThat(parameters.trackName).isEqualTo("Session track")
         assertThat(parameters.links).isEqualTo(
             """<a href="https://www.voc.com/projects/">VOC projects</a>,<a href="https://poc.com/QXut1XBymAk">POC</a>"""
         )

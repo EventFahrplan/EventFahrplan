@@ -34,6 +34,7 @@ import androidx.compose.ui.semantics.LiveRegionMode.Companion.Polite
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.AnnotatedString
@@ -598,21 +599,22 @@ private fun Links(
 
 @Composable
 private fun TrackName(
-    property: SessionDetailsProperty<String>,
+    trackName: String,
     modifier: Modifier = Modifier,
 ) {
-    if (property.value.isNotEmpty()) {
+    if (trackName.isNotEmpty()) {
         val headerText = stringResource(R.string.session_details_section_title_track)
         Column(modifier = modifier
-            .semantics(mergeDescendants = true) {
-                contentDescription = "$headerText: ${property.contentDescription}"
+            // Replace the header and value texts: merging them would be read twice
+            .clearAndSetSemantics {
+                contentDescription = "$headerText: $trackName"
             }
         ) {
             TextSectionHeader(
                 text = headerText,
             )
             TextSection(
-                text = property.value,
+                text = trackName,
             )
         }
     }
@@ -639,10 +641,23 @@ private fun SessionLink(
     }
     if (annotatedString != null) {
         val headerText = stringResource(R.string.session_details_section_title_session_online)
-        val plainSessionLink = htmlToString(sessionLink)
+        val plainSessionLink = remember(sessionLink) { htmlToString(sessionLink) }
+        val url = remember(annotatedString) {
+            annotatedString.getLinkAnnotations(0, annotatedString.length)
+                .firstNotNullOfOrNull { it.item as? LinkAnnotation.Url }
+                ?.url
+        }
         Column(modifier = modifier
-            .semantics(mergeDescendants = true) {
+            // Replace the header and link texts: merging them would be read twice.
+            // The cleared link action is provided by the onClick action instead.
+            .clearAndSetSemantics {
                 contentDescription = "$headerText: $plainSessionLink"
+                if (url != null) {
+                    onClick {
+                        onClick(url)
+                        true
+                    }
+                }
             }
         ) {
             TextSectionHeader(
@@ -662,7 +677,8 @@ private fun Identifiers(
 ) {
     val headerText = stringResource(R.string.session_details_section_title_identifiers)
     Column(modifier = modifier
-        .semantics(mergeDescendants = true) {
+        // Replace the header and value texts: merging them would be read twice
+        .clearAndSetSemantics {
             contentDescription = "$headerText: ${sessionDetails.id.contentDescription}"
         }
     ) {
@@ -824,7 +840,7 @@ private fun SessionDetailsContentPreview() {
                     languages = SessionDetailsProperty(stringResource(R.string.placeholder_session_languages), ""),
                     abstract = Markdown(stringResource(R.string.placeholder_session_abstract)),
                     description = Markdown(stringResource(R.string.placeholder_session_description)),
-                    trackName = SessionDetailsProperty(stringResource(R.string.placeholder_session_track), ""),
+                    trackName = stringResource(R.string.placeholder_session_track),
                     links = stringResource(R.string.placeholder_session_links),
                     startsAt = SessionDetailsProperty(stringResource(R.string.placeholder_session_date), ""),
                     endsAt = SessionDetailsProperty("6:00 PM", ""),

@@ -105,10 +105,7 @@ class SessionDetailsParameterFactory(
             ),
             abstract = getMarkupProperty(session.abstractt),
             description = getMarkupProperty(session.description),
-            trackName = SessionDetailsProperty(
-                value = session.track,
-                contentDescription = session.track, // Content description (headline + track name) is merged in composable.
-            ),
+            trackName = session.track, // Content description (headline + track name) is composed in composable.
             links = formattedLinks,
             startsAt = SessionDetailsProperty(
                 value = formattedZonedDateTimeShort,

@@ -688,7 +688,7 @@ class SessionDetailsViewModelTest {
             languages = SessionDetailsProperty("", ""),
             abstract = Markdown(""),
             description = Markdown(""),
-            trackName = SessionDetailsProperty("", ""),
+            trackName = "",
             links = "",
             startsAt = SessionDetailsProperty("", ""),
             endsAt = SessionDetailsProperty("", ""),

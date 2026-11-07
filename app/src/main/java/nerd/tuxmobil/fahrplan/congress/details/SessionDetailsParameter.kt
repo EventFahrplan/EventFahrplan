@@ -12,7 +12,7 @@ sealed interface SessionDetailsParameter {
         val languages: SessionDetailsProperty<String>,
         val abstract: SessionDetailsProperty.MarkupLanguage,
         val description: SessionDetailsProperty.MarkupLanguage,
-        val trackName: SessionDetailsProperty<String>,
+        val trackName: String,
         val links: String,
         val startsAt: SessionDetailsProperty<String>,
         val endsAt: SessionDetailsProperty<String>,
