@@ -447,22 +447,20 @@ private fun MetadataItem(
 
 @Composable
 private fun Abstract(
-    property: SessionDetailsProperty<MarkupLanguage>,
+    markupLanguage: MarkupLanguage,
     htmlStyle: HtmlStyle,
     modifier: Modifier = Modifier,
 ) {
-    if (property.value.text.isNotEmpty()) {
+    if (markupLanguage.text.isNotEmpty()) {
         Box(modifier = modifier) {
-            when (val markupLanguage = property.value) {
+            when (markupLanguage) {
                 is Html -> AbstractHtml(
                     text = markupLanguage.text,
-                    contentDescription = htmlToString(property.contentDescription),
                     htmlStyle = htmlStyle,
                 )
 
                 is Markdown -> TextMarkdown(
                     text = markupLanguage.text,
-                    contentDescription = property.contentDescription,
                     isAbstract = true,
                 )
             }
@@ -473,7 +471,6 @@ private fun Abstract(
 @Composable
 private fun AbstractHtml(
     text: String,
-    contentDescription: String,
     htmlStyle: HtmlStyle,
 ) {
     val annotatedString = remember(text, htmlStyle) {
@@ -481,10 +478,6 @@ private fun AbstractHtml(
     }
     if (annotatedString != null) {
         TextSectionHeader(
-            modifier = Modifier
-                .semantics {
-                    this.contentDescription = contentDescription
-                },
             text = annotatedString,
         )
     }
@@ -493,22 +486,20 @@ private fun AbstractHtml(
 
 @Composable
 private fun Description(
-    property: SessionDetailsProperty<MarkupLanguage>,
+    markupLanguage: MarkupLanguage,
     htmlStyle: HtmlStyle,
     modifier: Modifier = Modifier,
 ) {
-    if (property.value.text.isNotEmpty()) {
+    if (markupLanguage.text.isNotEmpty()) {
         Box(modifier = modifier) {
-            when (val markupLanguage = property.value) {
+            when (markupLanguage) {
                 is Html -> DescriptionHtml(
                     text = markupLanguage.text,
-                    contentDescription = htmlToString(property.contentDescription),
                     htmlStyle = htmlStyle,
                 )
 
                 is Markdown -> TextMarkdown(
                     text = markupLanguage.text,
-                    contentDescription = property.contentDescription,
                     isAbstract = false,
                 )
             }
@@ -519,7 +510,6 @@ private fun Description(
 @Composable
 private fun DescriptionHtml(
     text: String,
-    contentDescription: String,
     htmlStyle: HtmlStyle,
 ) {
     val annotatedString = remember(text, htmlStyle) {
@@ -527,28 +517,25 @@ private fun DescriptionHtml(
     }
     if (annotatedString != null) {
         TextSection(
-            modifier = Modifier
-                .semantics {
-                    this.contentDescription = contentDescription
-                },
             text = annotatedString,
         )
     }
 }
 
+/**
+ * Renders [text] as Markdown. No content description is set on the container: the rendered
+ * paragraphs, lists and links expose their own (plain) text to accessibility services. A container
+ * content description would be read in addition (twice) and contain the raw Markdown syntax.
+ */
 @Composable
 private fun TextMarkdown(
     text: String,
-    contentDescription: String,
     isAbstract: Boolean,
     modifier: Modifier = Modifier,
 ) {
     CompositionLocalProvider(LocalMarkdownColors provides markdownColor()) {
         Markdown(
-            modifier = modifier
-                .semantics {
-                    this.contentDescription = contentDescription
-                },
+            modifier = modifier,
             content = text,
             colors = LocalMarkdownColors.current,
             typography = markdownTypography(
@@ -839,8 +826,8 @@ private fun SessionDetailsContentPreview() {
                     speakerNames = SessionDetailsProperty(stringResource(R.string.placeholder_session_speakers), ""),
                     speakerCount = 2,
                     languages = SessionDetailsProperty(stringResource(R.string.placeholder_session_languages), ""),
-                    abstract = SessionDetailsProperty(Markdown(stringResource(R.string.placeholder_session_abstract)), ""),
-                    description = SessionDetailsProperty(Markdown(stringResource(R.string.placeholder_session_description)), ""),
+                    abstract = Markdown(stringResource(R.string.placeholder_session_abstract)),
+                    description = Markdown(stringResource(R.string.placeholder_session_description)),
                     trackName = SessionDetailsProperty(stringResource(R.string.placeholder_session_track), ""),
                     links = SessionDetailsProperty(stringResource(R.string.placeholder_session_links), ""),
                     startsAt = SessionDetailsProperty(stringResource(R.string.placeholder_session_date), ""),
@@ -898,7 +885,6 @@ private fun TextMarkdownPreview() {
         ) {
             TextMarkdown(
                 text = EXAMPLE_MARKDOWN,
-                contentDescription = "",
                 isAbstract = false,
             )
         }
@@ -938,7 +924,6 @@ private fun DescriptionHtmlPreview() {
     EventFahrplanTheme {
         DescriptionHtml(
             text = EXAMPLE_HTML,
-            contentDescription = "",
             htmlStyle = HtmlStyle(
                 textLinkStyles = textLinkStyles,
             ),

@@ -48,8 +48,8 @@ class SessionDetailsParameterFactoryTest {
         assertThat(parameters.subtitle).isEqualTo(SessionDetailsProperty("Session subtitle", ""))
         assertThat(parameters.speakerNames).isEqualTo(SessionDetailsProperty("Jane Doe, John Doe", ""))
         assertThat(parameters.languages).isEqualTo(SessionDetailsProperty("de, en", ""))
-        assertThat(parameters.abstract).isEqualTo(SessionDetailsProperty(Markdown("Session abstract"), "Session abstract"))
-        assertThat(parameters.description).isEqualTo(SessionDetailsProperty(Markdown("Session description"), "Session description"))
+        assertThat(parameters.abstract).isEqualTo(Markdown("Session abstract"))
+        assertThat(parameters.description).isEqualTo(Markdown("Session description"))
         assertThat(parameters.trackName).isEqualTo(SessionDetailsProperty("Session track", "Session track"))
         assertThat(parameters.links).isEqualTo(
             SessionDetailsProperty(
@@ -87,8 +87,8 @@ class SessionDetailsParameterFactoryTest {
                 description = "•\tFür Nutzer*innen",
             )
         )
-        assertThat(parameters.abstract).isEqualTo(SessionDetailsProperty(Markdown("Für Entwickler\\*innen"), "Für Entwickler*innen"))
-        assertThat(parameters.description).isEqualTo(SessionDetailsProperty(Markdown("* Für Nutzer\\*innen"), "•\tFür Nutzer*innen"))
+        assertThat(parameters.abstract).isEqualTo(Markdown("Für Entwickler\\*innen"))
+        assertThat(parameters.description).isEqualTo(Markdown("* Für Nutzer\\*innen"))
     }
 
     @Test
@@ -101,8 +101,8 @@ class SessionDetailsParameterFactoryTest {
                 description = "•\tFür Nutzer*innen",
             )
         )
-        assertThat(parameters.abstract).isEqualTo(SessionDetailsProperty(Html("Für Entwickler*innen"), "Für Entwickler*innen"))
-        assertThat(parameters.description).isEqualTo(SessionDetailsProperty(Html("•\tFür Nutzer*innen"), "•\tFür Nutzer*innen"))
+        assertThat(parameters.abstract).isEqualTo(Html("Für Entwickler*innen"))
+        assertThat(parameters.description).isEqualTo(Html("•\tFür Nutzer*innen"))
     }
 
     private fun createFactory(

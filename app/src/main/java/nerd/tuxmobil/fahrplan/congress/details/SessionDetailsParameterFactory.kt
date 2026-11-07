@@ -103,14 +103,8 @@ class SessionDetailsParameterFactory(
                 value = formattedLanguages,
                 contentDescription = contentDescriptionFormatting.getLanguageContentDescription(session.language),
             ),
-            abstract = SessionDetailsProperty(
-                value = getMarkupProperty(session.abstractt),
-                contentDescription = session.abstractt,
-            ),
-            description = SessionDetailsProperty(
-                value = getMarkupProperty(session.description),
-                contentDescription = session.description,
-            ),
+            abstract = getMarkupProperty(session.abstractt),
+            description = getMarkupProperty(session.description),
             trackName = SessionDetailsProperty(
                 value = session.track,
                 contentDescription = session.track, // Content description (headline + track name) is merged in composable.
