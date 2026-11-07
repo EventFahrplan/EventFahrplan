@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.details
 
+import info.metadude.android.eventfahrplan.commons.extensions.sanitizeMarkdown
 import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsParameter.SessionDetails
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsProperty.MarkupLanguage.Html
@@ -107,7 +108,7 @@ class SessionDetailsParameterFactory(
 
     fun getMarkupProperty(text: String) = when (markupLanguage) {
         MarkupLanguage.Html -> Html(text)
-        MarkupLanguage.Markdown -> Markdown(text)
+        MarkupLanguage.Markdown -> Markdown(text.sanitizeMarkdown())
     }
 
 }
