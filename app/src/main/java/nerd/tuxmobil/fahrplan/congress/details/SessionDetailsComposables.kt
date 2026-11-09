@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -30,8 +31,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.LiveRegionMode.Companion.Polite
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.AnnotatedString
@@ -41,7 +44,6 @@ import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
 import androidx.compose.ui.text.style.TextOverflow.Companion.Visible
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
@@ -142,17 +144,16 @@ internal fun SessionDetailsContent(
                                 isInDetailsScreen = true,
                                 isAboveHeaderDayDate = false,
                                 contentLeftOfCloseButton = {
-                                    StartsAtAndRoomName(
+                                    StartsAtAndEndsAt(
                                         modifier = Modifier.widthIn(max = maxWidth),
                                         startsAt = session.startsAt,
-                                        roomName = session.roomName,
+                                        endsAt = session.endsAt,
                                     )
-
                                 },
                                 contentRightOfBackButton = {
-                                    StartsAtAndRoomName(
+                                    StartsAtAndEndsAt(
                                         startsAt = session.startsAt,
-                                        roomName = session.roomName,
+                                        endsAt = session.endsAt,
                                     )
                                 },
                                 onNavClick = onBack,
@@ -233,11 +234,17 @@ fun SessionDetails(
                 RoomState(showRoomState, roomStateMessage)
                 Title(title, showTitleBoxed)
                 Subtitle(subtitle)
-                SpeakerNamesAndLanguages(
-                    speakerNamesProperty = speakerNames,
-                    languagesProperty = languages,
-                    modifier = Modifier.padding(top = dimensionResource(R.dimen.session_details_extra_space_above_speaker_names)),
-                )
+                Column(Modifier.padding(top = dimensionResource(R.dimen.session_details_extra_space_above_metadata))) {
+                    SpeakerNamesAndLanguages(
+                        speakerNamesProperty = speakerNames,
+                        speakerCount = speakerCount,
+                        languagesProperty = languages,
+                    )
+                    RoomName(roomName)
+                    if (isRecordingOptOut) {
+                        NotRecorded()
+                    }
+                }
                 Abstract(abstract, htmlStyle)
                 Description(description, htmlStyle)
                 Links(links, htmlStyle, Modifier.padding(top = dimensionResource(R.dimen.session_details_extra_space_above_section_header)))
@@ -255,27 +262,23 @@ fun SessionDetails(
 }
 
 @Composable
-private fun StartsAtAndRoomName(
+private fun StartsAtAndEndsAt(
     startsAt: SessionDetailsProperty<String>,
-    roomName: SessionDetailsProperty<String>,
+    endsAt: SessionDetailsProperty<String>,
     modifier: Modifier = Modifier,
 ) {
-    Row(
+    val property = if (endsAt.value.isEmpty()) startsAt else SessionDetailsProperty(
+        value = "${startsAt.value} – ${endsAt.value}",
+        contentDescription = listOf(startsAt.contentDescription, endsAt.contentDescription)
+            .filter { it.isNotEmpty() }
+            .joinToString(", "),
+    )
+    TextLeadingIcon(
         modifier = modifier
             .padding(top = 2.dp), // Horizontal alignment of back arrow + icon + text
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = CenterVertically,
-    ) {
-        TextLeadingIcon(
-            property = startsAt,
-            ellipsizeOverflow = false,
-            icon = R.drawable.ic_access_time,
-        )
-        TextLeadingIcon(
-            property = roomName,
-            icon = R.drawable.ic_room,
-        )
-    }
+        property = property,
+        icon = R.drawable.ic_access_time,
+    )
 }
 
 @Composable
@@ -346,6 +349,7 @@ private fun Subtitle(
 @Composable
 private fun SpeakerNamesAndLanguages(
     speakerNamesProperty: SessionDetailsProperty<String>,
+    speakerCount: Int,
     languagesProperty: SessionDetailsProperty<String>,
     modifier: Modifier = Modifier,
 ) {
@@ -361,35 +365,103 @@ private fun SpeakerNamesAndLanguages(
         }
     }
     if (text.isNotEmpty()) {
+        MetadataItem(
+            modifier = modifier,
+            text = text,
+            contentDescription = "${speakerNamesProperty.contentDescription}, ${languagesProperty.contentDescription}",
+            icon = when {
+                speakerCount == 1 -> R.drawable.ic_person
+                speakerCount > 1 -> R.drawable.ic_people
+                else -> null
+            },
+        )
+    }
+}
+
+@Composable
+private fun RoomName(
+    property: SessionDetailsProperty<String>,
+    modifier: Modifier = Modifier,
+) {
+    if (property.value.isNotEmpty()) {
+        MetadataItem(
+            modifier = modifier,
+            text = property.value.uppercase(),
+            contentDescription = property.contentDescription,
+            icon = R.drawable.ic_room,
+        )
+    }
+}
+
+@Composable
+private fun NotRecorded(
+    modifier: Modifier = Modifier,
+) {
+    MetadataItem(
+        modifier = modifier,
+        text = stringResource(R.string.session_details_not_recorded).uppercase(),
+        contentDescription = stringResource(R.string.session_details_not_recorded_content_description),
+        icon = R.drawable.ic_video_recording_unavailable_outline,
+    )
+}
+
+@Composable
+private fun MetadataItem(
+    text: String,
+    contentDescription: String,
+    @DrawableRes icon: Int?,
+    modifier: Modifier = Modifier,
+) {
+    val fontSize = dimensionResource(R.dimen.session_details_metadata_item).toTextUnit()
+    Row(modifier = modifier) {
+        if (icon != null) {
+            val iconPadding = dimensionResource(R.dimen.session_details_icon_padding)
+            // The invisible single-line text gives the box the height of the first text line,
+            // so the icon stays vertically centered on it regardless of the text size.
+            Box(
+                modifier = Modifier.padding(end = iconPadding),
+                contentAlignment = Alignment.Center,
+            ) {
+                DisableSelection {
+                    TextSection(
+                        modifier = Modifier.clearAndSetSemantics {},
+                        text = " ",
+                        fontSize = fontSize,
+                    )
+                }
+                IconDecorative(
+                    icon = icon,
+                    tint = EventFahrplanTheme.colorScheme.sessionDetailBarIcon,
+                )
+            }
+        }
         TextSection(
-            modifier = modifier
+            modifier = Modifier
                 .semantics {
-                    contentDescription = "${speakerNamesProperty.contentDescription}, ${languagesProperty.contentDescription}"
+                    this.contentDescription = contentDescription
                 },
             text = text,
-            fontSize = dimensionResource(R.dimen.session_details_speakers).toTextUnit(),
+            fontSize = fontSize,
         )
     }
 }
 
 @Composable
 private fun Abstract(
-    property: SessionDetailsProperty<MarkupLanguage>,
+    markupLanguage: MarkupLanguage,
     htmlStyle: HtmlStyle,
     modifier: Modifier = Modifier,
 ) {
-    if (property.value.text.isNotEmpty()) {
+    if (markupLanguage.text.isNotEmpty()) {
         Box(modifier = modifier) {
-            when (val markupLanguage = property.value) {
+            when (markupLanguage) {
                 is Html -> AbstractHtml(
                     text = markupLanguage.text,
-                    contentDescription = htmlToString(property.contentDescription),
                     htmlStyle = htmlStyle,
                 )
 
                 is Markdown -> TextMarkdown(
                     text = markupLanguage.text,
-                    contentDescription = property.contentDescription,
                     isAbstract = true,
                 )
             }
@@ -400,7 +472,6 @@ private fun Abstract(
 @Composable
 private fun AbstractHtml(
     text: String,
-    contentDescription: String,
     htmlStyle: HtmlStyle,
 ) {
     val annotatedString = remember(text, htmlStyle) {
@@ -408,10 +479,6 @@ private fun AbstractHtml(
     }
     if (annotatedString != null) {
         TextSectionHeader(
-            modifier = Modifier
-                .semantics {
-                    this.contentDescription = contentDescription
-                },
             text = annotatedString,
         )
     }
@@ -420,22 +487,20 @@ private fun AbstractHtml(
 
 @Composable
 private fun Description(
-    property: SessionDetailsProperty<MarkupLanguage>,
+    markupLanguage: MarkupLanguage,
     htmlStyle: HtmlStyle,
     modifier: Modifier = Modifier,
 ) {
-    if (property.value.text.isNotEmpty()) {
+    if (markupLanguage.text.isNotEmpty()) {
         Box(modifier = modifier) {
-            when (val markupLanguage = property.value) {
+            when (markupLanguage) {
                 is Html -> DescriptionHtml(
                     text = markupLanguage.text,
-                    contentDescription = htmlToString(property.contentDescription),
                     htmlStyle = htmlStyle,
                 )
 
                 is Markdown -> TextMarkdown(
                     text = markupLanguage.text,
-                    contentDescription = property.contentDescription,
                     isAbstract = false,
                 )
             }
@@ -446,7 +511,6 @@ private fun Description(
 @Composable
 private fun DescriptionHtml(
     text: String,
-    contentDescription: String,
     htmlStyle: HtmlStyle,
 ) {
     val annotatedString = remember(text, htmlStyle) {
@@ -454,28 +518,25 @@ private fun DescriptionHtml(
     }
     if (annotatedString != null) {
         TextSection(
-            modifier = Modifier
-                .semantics {
-                    this.contentDescription = contentDescription
-                },
             text = annotatedString,
         )
     }
 }
 
+/**
+ * Renders [text] as Markdown. No content description is set on the container: the rendered
+ * paragraphs, lists and links expose their own (plain) text to accessibility services. A container
+ * content description would be read in addition (twice) and contain the raw Markdown syntax.
+ */
 @Composable
 private fun TextMarkdown(
     text: String,
-    contentDescription: String,
     isAbstract: Boolean,
     modifier: Modifier = Modifier,
 ) {
     CompositionLocalProvider(LocalMarkdownColors provides markdownColor()) {
         Markdown(
-            modifier = modifier
-                .semantics {
-                    this.contentDescription = contentDescription
-                },
+            modifier = modifier,
             content = text,
             colors = LocalMarkdownColors.current,
             typography = markdownTypography(
@@ -517,12 +578,12 @@ private fun TextMarkdown(
 
 @Composable
 private fun Links(
-    property: SessionDetailsProperty<String>,
+    links: String,
     htmlStyle: HtmlStyle,
     modifier: Modifier = Modifier,
 ) {
-    val annotatedString = remember(property.value, htmlStyle) {
-        getAnnotatedString(property.value, htmlStyle)
+    val annotatedString = remember(links, htmlStyle) {
+        getAnnotatedString(links, htmlStyle)
     }
     if (annotatedString != null) {
         Column(modifier = modifier) {
@@ -530,10 +591,6 @@ private fun Links(
                 text = stringResource(R.string.session_details_section_title_links),
             )
             TextSection(
-                modifier = Modifier
-                    .semantics {
-                        contentDescription = property.contentDescription
-                    },
                 text = annotatedString,
             )
         }
@@ -542,21 +599,22 @@ private fun Links(
 
 @Composable
 private fun TrackName(
-    property: SessionDetailsProperty<String>,
+    trackName: String,
     modifier: Modifier = Modifier,
 ) {
-    if (property.value.isNotEmpty()) {
+    if (trackName.isNotEmpty()) {
         val headerText = stringResource(R.string.session_details_section_title_track)
         Column(modifier = modifier
-            .semantics(mergeDescendants = true) {
-                contentDescription = "$headerText: ${property.contentDescription}"
+            // Replace the header and value texts: merging them would be read twice
+            .clearAndSetSemantics {
+                contentDescription = "$headerText: $trackName"
             }
         ) {
             TextSectionHeader(
                 text = headerText,
             )
             TextSection(
-                text = property.value,
+                text = trackName,
             )
         }
     }
@@ -583,10 +641,23 @@ private fun SessionLink(
     }
     if (annotatedString != null) {
         val headerText = stringResource(R.string.session_details_section_title_session_online)
-        val plainSessionLink = htmlToString(sessionLink)
+        val plainSessionLink = remember(sessionLink) { htmlToString(sessionLink) }
+        val url = remember(annotatedString) {
+            annotatedString.getLinkAnnotations(0, annotatedString.length)
+                .firstNotNullOfOrNull { it.item as? LinkAnnotation.Url }
+                ?.url
+        }
         Column(modifier = modifier
-            .semantics(mergeDescendants = true) {
+            // Replace the header and link texts: merging them would be read twice.
+            // The cleared link action is provided by the onClick action instead.
+            .clearAndSetSemantics {
                 contentDescription = "$headerText: $plainSessionLink"
+                if (url != null) {
+                    onClick {
+                        onClick(url)
+                        true
+                    }
+                }
             }
         ) {
             TextSectionHeader(
@@ -606,7 +677,8 @@ private fun Identifiers(
 ) {
     val headerText = stringResource(R.string.session_details_section_title_identifiers)
     Column(modifier = modifier
-        .semantics(mergeDescendants = true) {
+        // Replace the header and value texts: merging them would be read twice
+        .clearAndSetSemantics {
             contentDescription = "$headerText: ${sessionDetails.id.contentDescription}"
         }
     ) {
@@ -624,13 +696,12 @@ private fun TextLeadingIcon(
     property: SessionDetailsProperty<String>,
     @DrawableRes icon: Int,
     modifier: Modifier = Modifier,
-    ellipsizeOverflow: Boolean = true,
 ) {
     Row(
         modifier = modifier,
         verticalAlignment = CenterVertically
     ) {
-        val iconPadding = dimensionResource(R.dimen.session_detailbar_icon_padding)
+        val iconPadding = dimensionResource(R.dimen.session_details_icon_padding)
         IconDecorative(
             modifier = Modifier
                 .padding(start = iconPadding, end = iconPadding, bottom = iconPadding),
@@ -645,7 +716,7 @@ private fun TextLeadingIcon(
             text = property.value.uppercase(),
             fontSize = dimensionResource(R.dimen.session_detailbar_text).toTextUnit(),
             color = EventFahrplanTheme.colorScheme.sessionDetailBarText,
-            overflow = if (ellipsizeOverflow) Ellipsis else Visible,
+            overflow = Visible,
             maxLines = 1,
         )
     }
@@ -765,13 +836,16 @@ private fun SessionDetailsContentPreview() {
                     title = SessionDetailsProperty(stringResource(R.string.placeholder_session_title), ""),
                     subtitle = SessionDetailsProperty(stringResource(R.string.placeholder_session_subtitle), ""),
                     speakerNames = SessionDetailsProperty(stringResource(R.string.placeholder_session_speakers), ""),
+                    speakerCount = 2,
                     languages = SessionDetailsProperty(stringResource(R.string.placeholder_session_languages), ""),
-                    abstract = SessionDetailsProperty(Markdown(stringResource(R.string.placeholder_session_abstract)), ""),
-                    description = SessionDetailsProperty(Markdown(stringResource(R.string.placeholder_session_description)), ""),
-                    trackName = SessionDetailsProperty(stringResource(R.string.placeholder_session_track), ""),
-                    links = SessionDetailsProperty(stringResource(R.string.placeholder_session_links), ""),
+                    abstract = Markdown(stringResource(R.string.placeholder_session_abstract)),
+                    description = Markdown(stringResource(R.string.placeholder_session_description)),
+                    trackName = stringResource(R.string.placeholder_session_track),
+                    links = stringResource(R.string.placeholder_session_links),
                     startsAt = SessionDetailsProperty(stringResource(R.string.placeholder_session_date), ""),
+                    endsAt = SessionDetailsProperty("6:00 PM", ""),
                     roomName = SessionDetailsProperty(stringResource(R.string.placeholder_session_location), ""),
+                    isRecordingOptOut = true,
                     sessionLink = stringResource(R.string.placeholder_session_online),
                 ),
                 toolbarActions = listOf(
@@ -823,7 +897,6 @@ private fun TextMarkdownPreview() {
         ) {
             TextMarkdown(
                 text = EXAMPLE_MARKDOWN,
-                contentDescription = "",
                 isAbstract = false,
             )
         }
@@ -863,7 +936,6 @@ private fun DescriptionHtmlPreview() {
     EventFahrplanTheme {
         DescriptionHtml(
             text = EXAMPLE_HTML,
-            contentDescription = "",
             htmlStyle = HtmlStyle(
                 textLinkStyles = textLinkStyles,
             ),

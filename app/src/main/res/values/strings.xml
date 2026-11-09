@@ -262,6 +262,8 @@
 
     <!-- Session item -->
     <string name="session_item_no_video_content_description" translatable="false">@string/session_list_item_no_video_content_description</string>
+    <string name="session_details_not_recorded" translatable="false">@string/search_filter_not_recorded</string>
+    <string name="session_details_not_recorded_content_description" translatable="false">@string/session_list_item_no_video_content_description</string>
     <string name="session_item_has_alarm_content_description">has alarm set</string>
 
     <!-- Alarms -->

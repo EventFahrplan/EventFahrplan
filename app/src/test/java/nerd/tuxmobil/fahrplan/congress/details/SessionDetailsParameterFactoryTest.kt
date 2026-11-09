@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.details
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_DAY
 import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsProperty.MarkupLanguage.Html
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsProperty.MarkupLanguage.Markdown
@@ -36,7 +37,9 @@ class SessionDetailsParameterFactoryTest {
                 track = "Session track",
                 links = "[VOC projects](https://www.voc.com/projects/),[POC](https://poc.com/QXut1XBymAk)",
                 dateUTC = 100,
+                duration = Duration.ofMinutes(45),
                 roomName = "Main hall",
+                recordingOptOut = true,
                 url = """<a href="$SAMPLE_SESSION_URL">$SAMPLE_SESSION_URL</a>""",
             )
         )
@@ -45,18 +48,30 @@ class SessionDetailsParameterFactoryTest {
         assertThat(parameters.subtitle).isEqualTo(SessionDetailsProperty("Session subtitle", ""))
         assertThat(parameters.speakerNames).isEqualTo(SessionDetailsProperty("Jane Doe, John Doe", ""))
         assertThat(parameters.languages).isEqualTo(SessionDetailsProperty("de, en", ""))
-        assertThat(parameters.abstract).isEqualTo(SessionDetailsProperty(Markdown("Session abstract"), "Session abstract"))
-        assertThat(parameters.description).isEqualTo(SessionDetailsProperty(Markdown("Session description"), "Session description"))
-        assertThat(parameters.trackName).isEqualTo(SessionDetailsProperty("Session track", "Session track"))
+        assertThat(parameters.abstract).isEqualTo(Markdown("Session abstract"))
+        assertThat(parameters.description).isEqualTo(Markdown("Session description"))
+        assertThat(parameters.trackName).isEqualTo("Session track")
         assertThat(parameters.links).isEqualTo(
-            SessionDetailsProperty(
-                """<a href="https://www.voc.com/projects/">VOC projects</a>,<a href="https://poc.com/QXut1XBymAk">POC</a>""",
-                """<a href="https://www.voc.com/projects/">VOC projects</a>,<a href="https://poc.com/QXut1XBymAk">POC</a>""",
+            """<a href="https://www.voc.com/projects/">VOC projects</a>,<a href="https://poc.com/QXut1XBymAk">POC</a>"""
+        )
+        assertThat(parameters.startsAt).isEqualTo(SessionDetailsProperty("01.11.2021 13:00", ""))
+        assertThat(parameters.endsAt).isEqualTo(SessionDetailsProperty("13:45", ""))
+        assertThat(parameters.roomName).isEqualTo(SessionDetailsProperty("Main hall", ""))
+        assertThat(parameters.isRecordingOptOut).isTrue()
+        assertThat(parameters.sessionLink).isEqualTo(SAMPLE_SESSION_URL)
+    }
+
+    @Test
+    fun `createSessionDetailsParameters returns end date and time if session ends on another day`() {
+        val parameters = createFactory().createSessionDetailsParameters(
+            Session(
+                sessionId = "S1",
+                dateUTC = 100,
+                duration = Duration.ofDays(1),
             )
         )
         assertThat(parameters.startsAt).isEqualTo(SessionDetailsProperty("01.11.2021 13:00", ""))
-        assertThat(parameters.roomName).isEqualTo(SessionDetailsProperty("Main hall", ""))
-        assertThat(parameters.sessionLink).isEqualTo(SAMPLE_SESSION_URL)
+        assertThat(parameters.endsAt).isEqualTo(SessionDetailsProperty("02.11.2021 13:00", ""))
     }
 
     @Test
@@ -69,8 +84,8 @@ class SessionDetailsParameterFactoryTest {
                 description = "•\tFür Nutzer*innen",
             )
         )
-        assertThat(parameters.abstract).isEqualTo(SessionDetailsProperty(Markdown("Für Entwickler\\*innen"), "Für Entwickler*innen"))
-        assertThat(parameters.description).isEqualTo(SessionDetailsProperty(Markdown("* Für Nutzer\\*innen"), "•\tFür Nutzer*innen"))
+        assertThat(parameters.abstract).isEqualTo(Markdown("Für Entwickler\\*innen"))
+        assertThat(parameters.description).isEqualTo(Markdown("* Für Nutzer\\*innen"))
     }
 
     @Test
@@ -83,8 +98,8 @@ class SessionDetailsParameterFactoryTest {
                 description = "•\tFür Nutzer*innen",
             )
         )
-        assertThat(parameters.abstract).isEqualTo(SessionDetailsProperty(Html("Für Entwickler*innen"), "Für Entwickler*innen"))
-        assertThat(parameters.description).isEqualTo(SessionDetailsProperty(Html("•\tFür Nutzer*innen"), "•\tFür Nutzer*innen"))
+        assertThat(parameters.abstract).isEqualTo(Html("Für Entwickler*innen"))
+        assertThat(parameters.description).isEqualTo(Html("•\tFür Nutzer*innen"))
     }
 
     private fun createFactory(
@@ -101,19 +116,24 @@ class SessionDetailsParameterFactoryTest {
         customEngelsystemRoomName = "Trollshifts",
     )
 
+    /**
+     * Treats the epoch day of the given moment as day 1 of November 2021.
+     */
     private class FakeFormattingDelegate : FormattingDelegate {
+
+        private fun Moment.dayOfMonth() = 1 + toMilliseconds() / MILLISECONDS_OF_ONE_DAY
 
         override fun getFormattedTimeShort(
             useDeviceTimeZone: Boolean,
             moment: Moment,
             timeZoneOffset: ZoneOffset?,
-        ) = throw NotImplementedError("Not needed for this test.")
+        ) = "13:45"
 
         override fun getFormattedDateShort(
             useDeviceTimeZone: Boolean,
             moment: Moment,
             timeZoneOffset: ZoneOffset?,
-        ) = throw NotImplementedError("Not needed for this test.")
+        ) = "%02d.11.2021".format(moment.dayOfMonth())
 
         override fun getFormattedDateLong(
             useDeviceTimeZone: Boolean,
@@ -125,7 +145,7 @@ class SessionDetailsParameterFactoryTest {
             useDeviceTimeZone: Boolean,
             moment: Moment,
             timeZoneOffset: ZoneOffset?,
-        ) = "01.11.2021 13:00"
+        ) = "%02d.11.2021 13:00".format(moment.dayOfMonth())
 
         override fun getFormattedDateTimeLong(
             useDeviceTimeZone: Boolean,

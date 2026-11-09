@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
@@ -53,6 +54,9 @@ internal sealed interface ScrollPosition {
  *
  * When [ScrollPosition.isScrollInProgress] is `false`, [ScrollPosition.snapshot] still advances the
  * internal baseline so programmatic jumps (e.g. [LazyListState.scrollToItem]) do not flip visibility.
+ *
+ * While touch exploration (e.g. TalkBack) is enabled the returned state stays `true`: screen
+ * reader navigation scrolls the content, and a hidden control would be unreachable.
  */
 @Composable
 internal fun rememberAutoHideOnScrollDown(
@@ -61,8 +65,10 @@ internal fun rememberAutoHideOnScrollDown(
     minDelta: Int = 4,
 ): State<Boolean> {
     val visible = remember { mutableStateOf(true) }
-    LaunchedEffect(source, enabled, minDelta) {
-        if (!enabled) {
+    val isTouchExplorationEnabled by rememberTouchExplorationEnabled()
+    val autoHideEnabled = enabled && !isTouchExplorationEnabled
+    LaunchedEffect(source, autoHideEnabled, minDelta) {
+        if (!autoHideEnabled) {
             visible.value = true
             return@LaunchedEffect
         }

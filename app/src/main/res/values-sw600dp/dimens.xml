@@ -23,7 +23,7 @@
     <dimen name="session_details_text">16sp</dimen>
     <dimen name="session_details_title">30sp</dimen>
     <dimen name="session_details_subtitle">18sp</dimen>
-    <dimen name="session_details_speakers">14sp</dimen>
+    <dimen name="session_details_metadata_item">14sp</dimen>
 
     <!-- Schedule screen -->
     <dimen name="schedule_time_column_layout_width">40dp</dimen>

@@ -39,6 +39,30 @@ class SessionDetailsParameterFactory(
             moment = session.startsAt,
             timeZoneOffset = session.timeZoneOffset,
         )
+        val formattedStartsAtDate = formattingDelegate.getFormattedDateShort(
+            useDeviceTimeZone = useDeviceTimeZone,
+            moment = session.startsAt,
+            timeZoneOffset = session.timeZoneOffset,
+        )
+        val formattedEndsAtDate = formattingDelegate.getFormattedDateShort(
+            useDeviceTimeZone = useDeviceTimeZone,
+            moment = session.endsAt,
+            timeZoneOffset = session.timeZoneOffset,
+        )
+        // Only show the end date if the session ends on another day than it starts.
+        val formattedEndsAt = if (formattedStartsAtDate == formattedEndsAtDate) {
+            formattingDelegate.getFormattedTimeShort(
+                useDeviceTimeZone = useDeviceTimeZone,
+                moment = session.endsAt,
+                timeZoneOffset = session.timeZoneOffset,
+            )
+        } else {
+            formattingDelegate.getFormattedDateTimeShort(
+                useDeviceTimeZone = useDeviceTimeZone,
+                moment = session.endsAt,
+                timeZoneOffset = session.timeZoneOffset,
+            )
+        }
         val formattedSessionId = sessionPropertiesFormatting.getFormattedSessionId(session.sessionId)
         val formattedSpeakerNames = sessionPropertiesFormatting.getFormattedSpeakers(session)
         val formattedLanguages = sessionPropertiesFormatting.getLanguageText(session)
@@ -74,34 +98,28 @@ class SessionDetailsParameterFactory(
                 value = formattedSpeakerNames,
                 contentDescription = contentDescriptionFormatting.getSpeakersContentDescription(session.speakers.count(), formattedSpeakerNames),
             ),
+            speakerCount = session.speakers.count(),
             languages = SessionDetailsProperty(
                 value = formattedLanguages,
                 contentDescription = contentDescriptionFormatting.getLanguageContentDescription(session.language),
             ),
-            abstract = SessionDetailsProperty(
-                value = getMarkupProperty(session.abstractt),
-                contentDescription = session.abstractt,
-            ),
-            description = SessionDetailsProperty(
-                value = getMarkupProperty(session.description),
-                contentDescription = session.description,
-            ),
-            trackName = SessionDetailsProperty(
-                value = session.track,
-                contentDescription = session.track, // Content description (headline + track name) is merged in composable.
-            ),
-            links = SessionDetailsProperty(
-                value = formattedLinks,
-                contentDescription = formattedLinks,
-            ),
+            abstract = getMarkupProperty(session.abstractt),
+            description = getMarkupProperty(session.description),
+            trackName = session.track, // Content description (headline + track name) is composed in composable.
+            links = formattedLinks,
             startsAt = SessionDetailsProperty(
                 value = formattedZonedDateTimeShort,
                 contentDescription = contentDescriptionFormatting.getStartTimeContentDescription(formattedZonedDateTimeLong),
+            ),
+            endsAt = SessionDetailsProperty(
+                value = formattedEndsAt,
+                contentDescription = contentDescriptionFormatting.getEndTimeContentDescription(formattedEndsAt),
             ),
             roomName = SessionDetailsProperty(
                 value = formattedRoomName,
                 contentDescription = contentDescriptionFormatting.getRoomNameContentDescription(formattedRoomName),
             ),
+            isRecordingOptOut = session.recordingOptOut,
             sessionLink = sessionLink, // Content description (headline + URL) is merged in composable.
         )
     }
