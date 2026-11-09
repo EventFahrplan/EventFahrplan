@@ -415,7 +415,7 @@ private fun MetadataItem(
     val fontSize = dimensionResource(R.dimen.session_details_metadata_item).toTextUnit()
     Row(modifier = modifier) {
         if (icon != null) {
-            val iconPadding = dimensionResource(R.dimen.session_detailbar_icon_padding)
+            val iconPadding = dimensionResource(R.dimen.session_details_icon_padding)
             // The invisible single-line text gives the box the height of the first text line,
             // so the icon stays vertically centered on it regardless of the text size.
             Box(
@@ -701,7 +701,7 @@ private fun TextLeadingIcon(
         modifier = modifier,
         verticalAlignment = CenterVertically
     ) {
-        val iconPadding = dimensionResource(R.dimen.session_detailbar_icon_padding)
+        val iconPadding = dimensionResource(R.dimen.session_details_icon_padding)
         IconDecorative(
             modifier = Modifier
                 .padding(start = iconPadding, end = iconPadding, bottom = iconPadding),

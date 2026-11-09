@@ -79,7 +79,7 @@
     <dimen name="session_details_headline1">22sp</dimen>
     <dimen name="session_details_headline2">20sp</dimen>
     <dimen name="session_details_headline3">18sp</dimen>
-    <dimen name="session_detailbar_icon_padding">3dp</dimen>
+    <dimen name="session_details_icon_padding">3dp</dimen>
 
     <!-- Empty screen  -->
     <dimen name="empty_screen_text">16sp</dimen>
