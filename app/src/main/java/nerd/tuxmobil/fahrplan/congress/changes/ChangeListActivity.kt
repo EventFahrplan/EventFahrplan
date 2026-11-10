@@ -5,13 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
+import nerd.tuxmobil.fahrplan.congress.base.OnSessionItemClickListener
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity
 import nerd.tuxmobil.fahrplan.congress.extensions.applyEdgeToEdgeInsets
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 
-class ChangeListActivity : BaseActivity(R.layout.activity_generic), OnSessionListClick {
+class ChangeListActivity : BaseActivity(R.layout.activity_generic), OnSessionItemClickListener {
 
     companion object {
 
@@ -32,7 +32,7 @@ class ChangeListActivity : BaseActivity(R.layout.activity_generic), OnSessionLis
         }
     }
 
-    override fun onSessionListClick(sessionId: String) {
+    override fun onSessionItemClick(sessionId: String) {
         if (AppRepository.updateSelectedSessionId(sessionId)) {
             SessionDetailsActivity.start(this)
         }

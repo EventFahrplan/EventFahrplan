@@ -64,6 +64,8 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
+import nerd.tuxmobil.fahrplan.congress.base.forwardSessionItemClick
+import nerd.tuxmobil.fahrplan.congress.base.requireOnSessionItemClickListener
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing
 import nerd.tuxmobil.fahrplan.congress.commons.AlarmTimePickerDialog
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
@@ -104,16 +106,6 @@ import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
 
 class FahrplanFragment : Fragment(), MenuProvider {
 
-    /**
-     * Interface definition for a callback to be invoked when a session view is clicked.
-     */
-    internal fun interface OnSessionClickListener {
-        /**
-         * Called when the session view has been clicked.
-         */
-        fun onSessionClick(sessionId: String)
-    }
-
     companion object {
 
         private const val LOG_TAG = "FahrplanFragment"
@@ -135,7 +127,6 @@ class FahrplanFragment : Fragment(), MenuProvider {
 
     private val logging = Logging.get()
     private var onHorizontalScrollChangeListener: OnScrollChangedListener? = null
-    private var onSessionClickListener: OnSessionClickListener? = null
     private var displayDensityScale = 0f
     private val timeTextColumnEdgeToEdge = TimeTextColumnEdgeToEdge {
         resources.getDimensionPixelSize(R.dimen.schedule_time_column_layout_width)
@@ -171,16 +162,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
             customEngelsystemRoomName = customEngelsystemRoomName
         )
         viewModel = ViewModelProvider(this, viewModelFactory)[FahrplanViewModel::class.java]
-        onSessionClickListener = if (context is OnSessionClickListener) {
-            context
-        } else {
-            error("$context must implement OnSessionClickListener")
-        }
-    }
-
-    override fun onDetach() {
-        onSessionClickListener = null
-        super.onDetach()
+        requireOnSessionItemClickListener(context)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -558,7 +540,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
                         onSessionClick = { sessionId ->
                             val session = roomData.sessions.first { it.sessionId == sessionId }
                             logging.d(LOG_TAG, """Click on: "${session.title}"""")
-                            onSessionClickListener?.onSessionClick(session.sessionId)
+                            forwardSessionItemClick(session.sessionId)
                         },
                         onSessionInteraction = { sessionId, interactionType ->
                             val session = roomData.sessions.first { it.sessionId == sessionId }
@@ -743,8 +725,8 @@ class FahrplanFragment : Fragment(), MenuProvider {
         horizontalSnapScrollView?.post { horizontalSnapScrollView.scrollToColumn(roomIndex, fast = false) }
         val activity = requireActivity()
         val sidePaneView = activity.findViewById<FragmentContainerView?>(R.id.detail)
-        if (sidePaneView != null && onSessionClickListener != null) {
-            onSessionClickListener!!.onSessionClick(sessionId)
+        if (sidePaneView != null) {
+            forwardSessionItemClick(sessionId)
         }
     }
 

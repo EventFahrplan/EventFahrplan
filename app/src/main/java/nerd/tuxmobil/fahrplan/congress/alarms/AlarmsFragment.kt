@@ -10,13 +10,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.fragment.compose.content
-import nerd.tuxmobil.fahrplan.congress.base.OnSessionItemClickListener
+import nerd.tuxmobil.fahrplan.congress.base.closeSidePaneOrNavigateUp
+import nerd.tuxmobil.fahrplan.congress.base.forwardSessionItemClick
+import nerd.tuxmobil.fahrplan.congress.base.requireOnSessionItemClickListener
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
-import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
-import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper.navigateUp
 
 class AlarmsFragment : Fragment() {
 
@@ -43,7 +43,7 @@ class AlarmsFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        require(context is OnSessionItemClickListener) { "$context must implement OnSessionItemClickListener" }
+        requireOnSessionItemClickListener(context)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,21 +63,13 @@ class AlarmsFragment : Fragment() {
                 viewModel = viewModel,
                 showInSidePane = sidePane,
                 onBack = ::navigateBack,
-                onNavigateToSession = ::navigateToSession,
+                onNavigateToSession = ::forwardSessionItemClick,
             )
         }
     }.also { it.isClickable = true }
 
     private fun navigateBack() {
-        val activity = requireActivity()
-        when (val listener = activity as? OnSidePaneCloseListener) {
-            null -> activity.navigateUp()
-            else -> listener.onSidePaneClose(FRAGMENT_TAG)
-        }
-    }
-
-    private fun navigateToSession(sessionId: String) {
-        (requireContext() as OnSessionItemClickListener).onSessionItemClick(sessionId)
+        closeSidePaneOrNavigateUp(FRAGMENT_TAG)
     }
 
 }

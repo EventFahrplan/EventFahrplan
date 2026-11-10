@@ -15,18 +15,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
+import nerd.tuxmobil.fahrplan.congress.base.closeSidePaneOrNavigateUp
+import nerd.tuxmobil.fahrplan.congress.base.forwardSessionItemClick
+import nerd.tuxmobil.fahrplan.congress.base.requireOnSessionItemClickListener
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
-import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
-import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper.navigateUp
 
 /**
  * A fragment representing a list of Items.
- *
- * Activities containing this fragment MUST implement the [OnSessionListClick] interface.
  *
  * Mandatory empty constructor for the fragment manager to instantiate the fragment (e.g. upon
  * screen orientation changes).
@@ -53,8 +51,6 @@ class ChangeListFragment : Fragment() {
 
     }
 
-    private var onSessionListClickListener: OnSessionListClick? = null
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val arguments = requireArguments()
         val sidePane = arguments.getBoolean(BundleKeys.SIDEPANE)
@@ -69,7 +65,7 @@ class ChangeListFragment : Fragment() {
                     SessionChangesScreen(
                         showInSidePane = sidePane,
                         onBack = ::navigateBack,
-                        onNavigateToSession = ::navigateToSession,
+                        onNavigateToSession = ::forwardSessionItemClick,
                     )
                 }
             }
@@ -78,34 +74,15 @@ class ChangeListFragment : Fragment() {
         return fragmentView
     }
 
-    private fun navigateToSession(sessionId: String) {
-        onSessionListClickListener?.onSessionListClick(sessionId)
-    }
-
     private fun navigateBack() {
-        val activity = requireActivity()
-        when (val listener = activity as? OnSidePaneCloseListener) {
-            null -> activity.navigateUp()
-            else -> listener.onSidePaneClose(FRAGMENT_TAG)
-        }
+        closeSidePaneOrNavigateUp(FRAGMENT_TAG)
     }
 
     @MainThread
     @CallSuper
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnSessionListClick) {
-            onSessionListClickListener = context
-        } else {
-            error("$context must implement OnSessionListClick")
-        }
-    }
-
-    @MainThread
-    @CallSuper
-    override fun onDetach() {
-        super.onDetach()
-        onSessionListClickListener = null
+        requireOnSessionItemClickListener(context)
     }
 
 }

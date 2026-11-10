@@ -32,9 +32,9 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.about.AboutDialog
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsActivity
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsFragment
-import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
 import nerd.tuxmobil.fahrplan.congress.base.OnSessionItemClickListener
+import nerd.tuxmobil.fahrplan.congress.base.OnSidePaneCloseListener
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListActivity
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListFragment
 import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticsUiState
@@ -58,19 +58,15 @@ import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessageScreen
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment.OnSessionClickListener
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.LoadScheduleUiState
 import nerd.tuxmobil.fahrplan.congress.search.SearchActivity
 import nerd.tuxmobil.fahrplan.congress.search.SearchFragment
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity
-import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
 import nerd.tuxmobil.fahrplan.congress.utils.setShowWhenLockedCompat
 
 class MainActivity : BaseActivity(),
     MenuProvider,
     OnSidePaneCloseListener,
-    OnSessionListClick,
-    OnSessionClickListener,
     OnSessionItemClickListener,
     OnBackStackChangedListener {
 
@@ -387,14 +383,6 @@ class MainActivity : BaseActivity(),
                     }
                 }
         }
-    }
-
-    override fun onSessionListClick(sessionId: String) {
-        viewModel.openSessionDetails(sessionId)
-    }
-
-    override fun onSessionClick(sessionId: String) {
-        viewModel.openSessionDetails(sessionId)
     }
 
     override fun onBackStackChanged() {
