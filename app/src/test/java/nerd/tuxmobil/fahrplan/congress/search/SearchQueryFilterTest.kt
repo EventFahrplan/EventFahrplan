@@ -1,12 +1,15 @@
 package nerd.tuxmobil.fahrplan.congress.search
 
 import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.search.filters.HasAlarmSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.IsFavoriteSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.NotFavoriteSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.NotRecordedSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.RecordedSearchFilter
+import nerd.tuxmobil.fahrplan.congress.search.filters.UpcomingSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.WithinSpeakerNamesSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.WithinTitleSubtitleSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.WithinTrackNameSearchFilter
@@ -287,6 +290,37 @@ class SearchQueryFilterTest {
         val result = filter.filterAll(sessions, query = "", filters)
 
         assertThat(result).isEmpty()
+    }
+
+    @Test
+    fun `UpcomingSearchFilter only returns sessions which have not ended yet`() {
+        val now = Moment.ofEpochMilli(1766876400000) // 27.12.2025 11:00:00 PM
+        val duration = Duration.ofMinutes(30)
+        val past = Session("1", title = "Past", dateUTC = now.minusMinutes(31).toMilliseconds(), duration = duration)
+        val endsNow = Session("2", title = "Ends now", dateUTC = now.minusMinutes(30).toMilliseconds(), duration = duration)
+        val current = Session("3", title = "Current", dateUTC = now.minusMinutes(29).toMilliseconds(), duration = duration)
+        val future = Session("4", title = "Future", dateUTC = now.plusMinutes(1).toMilliseconds(), duration = duration)
+        val sessions = listOf(past, endsNow, current, future)
+        val filters = setOf(UpcomingSearchFilter { now })
+
+        val result = filter.filterAll(sessions, query = "", filters)
+
+        assertThat(result).containsExactly(endsNow, current, future)
+    }
+
+    @Test
+    fun `UpcomingSearchFilter combined with query only returns matching upcoming sessions`() {
+        val now = Moment.ofEpochMilli(1766876400000) // 27.12.2025 11:00:00 PM
+        val duration = Duration.ofMinutes(30)
+        val pastMatch = Session("1", title = "Kotlin", dateUTC = now.minusHours(1).toMilliseconds(), duration = duration)
+        val futureMatch = Session("2", title = "Kotlin", dateUTC = now.plusHours(1).toMilliseconds(), duration = duration)
+        val futureNoMatch = Session("3", title = "Java", dateUTC = now.plusHours(1).toMilliseconds(), duration = duration)
+        val sessions = listOf(pastMatch, futureMatch, futureNoMatch)
+        val filters = setOf(UpcomingSearchFilter { now })
+
+        val result = filter.filterAll(sessions, query = "kotlin", filters)
+
+        assertThat(result).containsExactly(futureMatch)
     }
 
     @Test

@@ -308,6 +308,7 @@
     <string name="room_state_not_retrievable">nicht abrufbar</string>
 
     <!-- Search filters -->
+    <string name="search_filter_upcoming">Anstehend</string>
     <string name="search_filter_is_favorite">Ist favorisiert</string>
     <string name="search_filter_not_favorite">Nicht favorisiert</string>
     <string name="search_filter_has_alarm">Hat Alarm</string>

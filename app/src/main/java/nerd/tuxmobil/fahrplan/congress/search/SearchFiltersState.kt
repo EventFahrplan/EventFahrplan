@@ -7,11 +7,13 @@ import nerd.tuxmobil.fahrplan.congress.search.filters.IsFavoriteSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.NotFavoriteSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.NotRecordedSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.RecordedSearchFilter
+import nerd.tuxmobil.fahrplan.congress.search.filters.UpcomingSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.WithinSpeakerNamesSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.WithinTitleSubtitleSearchFilter
 import nerd.tuxmobil.fahrplan.congress.search.filters.WithinTrackNameSearchFilter
 
 internal val SUPPORTED_SEARCH_FILTERS = listOf(
+    UpcomingSearchFilter(),
     IsFavoriteSearchFilter(),
     NotFavoriteSearchFilter(),
     HasAlarmSearchFilter(),
