@@ -35,6 +35,7 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsFragment
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
 import nerd.tuxmobil.fahrplan.congress.base.OnSessionItemClickListener
+import nerd.tuxmobil.fahrplan.congress.base.OnSidePaneCloseListener
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListActivity
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListFragment
 import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticsUiState
@@ -63,7 +64,6 @@ import nerd.tuxmobil.fahrplan.congress.schedule.observables.LoadScheduleUiState
 import nerd.tuxmobil.fahrplan.congress.search.SearchActivity
 import nerd.tuxmobil.fahrplan.congress.search.SearchFragment
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity
-import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
 import nerd.tuxmobil.fahrplan.congress.utils.setShowWhenLockedCompat
 
 class MainActivity : BaseActivity(),

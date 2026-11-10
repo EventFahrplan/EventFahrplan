@@ -16,12 +16,11 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
+import nerd.tuxmobil.fahrplan.congress.base.closeSidePaneOrNavigateUp
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
-import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
-import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper.navigateUp
 
 /**
  * A fragment representing a list of Items.
@@ -83,11 +82,7 @@ class ChangeListFragment : Fragment() {
     }
 
     private fun navigateBack() {
-        val activity = requireActivity()
-        when (val listener = activity as? OnSidePaneCloseListener) {
-            null -> activity.navigateUp()
-            else -> listener.onSidePaneClose(FRAGMENT_TAG)
-        }
+        closeSidePaneOrNavigateUp(FRAGMENT_TAG)
     }
 
     @MainThread

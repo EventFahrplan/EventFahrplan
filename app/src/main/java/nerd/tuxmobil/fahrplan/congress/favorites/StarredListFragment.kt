@@ -13,12 +13,11 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.fragment.compose.content
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment
+import nerd.tuxmobil.fahrplan.congress.base.closeSidePaneOrNavigateUp
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
-import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
-import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper.navigateUp
 
 class StarredListFragment : AbstractListFragment() {
 
@@ -69,11 +68,7 @@ class StarredListFragment : AbstractListFragment() {
     }
 
     private fun navigateBack() {
-        val activity = requireActivity()
-        when (val listener = activity as? OnSidePaneCloseListener) {
-            null -> activity.navigateUp()
-            else -> listener.onSidePaneClose(FRAGMENT_TAG)
-        }
+        closeSidePaneOrNavigateUp(FRAGMENT_TAG)
     }
 
     @MainThread
