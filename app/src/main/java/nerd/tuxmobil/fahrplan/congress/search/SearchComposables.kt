@@ -116,14 +116,14 @@ fun SearchScreen(
         factory = SearchViewModelFactory(context = LocalContext.current),
     ),
     onBack: () -> Unit,
-    onSessionListClick: (String) -> Unit,
+    onSessionItemClick: (String) -> Unit,
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(lifecycleOwner) {
         viewModel.effects.observe(lifecycleOwner) { effect ->
             when (effect) {
                 NavigateBack -> onBack()
-                is NavigateToSession -> onSessionListClick(effect.sessionId)
+                is NavigateToSession -> onSessionItemClick(effect.sessionId)
             }
         }
     }

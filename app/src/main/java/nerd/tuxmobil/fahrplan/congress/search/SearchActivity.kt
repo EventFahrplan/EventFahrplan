@@ -26,13 +26,13 @@ class SearchActivity : BaseActivity() {
             EventFahrplanTheme {
                 SearchScreen(
                     onBack = { finish() },
-                    onSessionListClick = ::onSessionListClick,
+                    onSessionItemClick = ::onSessionItemClick,
                 )
             }
         }
     }
 
-    private fun onSessionListClick(sessionId: String) {
+    private fun onSessionItemClick(sessionId: String) {
         if (AppRepository.updateSelectedSessionId(sessionId)) {
             SessionDetailsActivity.start(this)
         }
