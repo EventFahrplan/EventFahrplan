@@ -699,6 +699,7 @@ private fun SearchContentLoadingPreview() {
 
 private fun searchFilters(): ImmutableList<SearchFilterUiState> {
     return persistentListOf(
+        SearchFilterUiState(label = R.string.search_filter_upcoming, selected = false),
         SearchFilterUiState(label = R.string.search_filter_is_favorite, selected = false),
         SearchFilterUiState(label = R.string.search_filter_has_alarm, selected = false),
         SearchFilterUiState(label = R.string.search_filter_not_recorded, selected = false),
