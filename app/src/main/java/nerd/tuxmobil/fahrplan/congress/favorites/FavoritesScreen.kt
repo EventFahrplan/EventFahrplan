@@ -33,7 +33,7 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.SearchResult
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 
 @Composable
-fun StarredListScreen(
+fun FavoritesScreen(
     viewModel: StarredListViewModel,
     showInSidePane: Boolean,
     onBack: () -> Unit,

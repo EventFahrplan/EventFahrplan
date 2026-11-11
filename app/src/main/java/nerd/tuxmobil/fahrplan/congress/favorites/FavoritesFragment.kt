@@ -54,7 +54,7 @@ class StarredListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return content {
             EventFahrplanTheme {
-                StarredListScreen(
+                FavoritesScreen(
                     viewModel = viewModel,
                     showInSidePane = sidePane,
                     onBack = ::navigateBack,
