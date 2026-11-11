@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress.serialization
+package nerd.tuxmobil.fahrplan.congress.changes
 
 import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
 

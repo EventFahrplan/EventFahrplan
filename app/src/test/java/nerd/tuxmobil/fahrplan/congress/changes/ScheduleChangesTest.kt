@@ -1,9 +1,9 @@
-package nerd.tuxmobil.fahrplan.congress.serialization
+package nerd.tuxmobil.fahrplan.congress.changes
 
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.network.models.Session
-import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges.Companion.computeSessionsWithChangeFlags
+import nerd.tuxmobil.fahrplan.congress.changes.ScheduleChanges.Companion.computeSessionsWithChangeFlags
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
