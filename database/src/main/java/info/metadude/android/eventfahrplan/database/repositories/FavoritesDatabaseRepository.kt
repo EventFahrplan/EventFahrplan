@@ -3,13 +3,13 @@ package info.metadude.android.eventfahrplan.database.repositories
 import android.content.ContentValues
 import android.content.Context
 import info.metadude.android.eventfahrplan.database.models.Favorite
-import info.metadude.android.eventfahrplan.database.sqliteopenhelper.HighlightDBOpenHelper
+import info.metadude.android.eventfahrplan.database.sqliteopenhelper.FavoritesDBOpenHelper
 
 interface FavoritesDatabaseRepository {
 
     companion object {
         fun get(context: Context): FavoritesDatabaseRepository =
-            RealFavoritesDatabaseRepository(HighlightDBOpenHelper(context))
+            RealFavoritesDatabaseRepository(FavoritesDBOpenHelper(context))
     }
 
     fun update(values: ContentValues, sessionId: String): Long

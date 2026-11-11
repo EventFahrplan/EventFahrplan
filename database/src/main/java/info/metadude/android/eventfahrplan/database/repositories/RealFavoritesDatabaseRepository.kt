@@ -17,11 +17,11 @@ import info.metadude.android.eventfahrplan.database.extensions.read
 import info.metadude.android.eventfahrplan.database.extensions.updateRows
 import info.metadude.android.eventfahrplan.database.extensions.upsert
 import info.metadude.android.eventfahrplan.database.models.Favorite
-import info.metadude.android.eventfahrplan.database.sqliteopenhelper.HighlightDBOpenHelper
+import info.metadude.android.eventfahrplan.database.sqliteopenhelper.FavoritesDBOpenHelper
 
 internal class RealFavoritesDatabaseRepository(
 
-        private val sqLiteOpenHelper: HighlightDBOpenHelper
+        private val sqLiteOpenHelper: FavoritesDBOpenHelper
 
 ) : FavoritesDatabaseRepository {
 

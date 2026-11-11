@@ -9,7 +9,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Fa
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.FavoritesTable.NAME
 import info.metadude.android.eventfahrplan.database.extensions.dropTableIfExist
 
-internal class HighlightDBOpenHelper(context: Context) : SQLiteOpenHelper(
+internal class FavoritesDBOpenHelper(context: Context) : SQLiteOpenHelper(
     context.applicationContext,
     DATABASE_NAME,
     null,
@@ -21,7 +21,7 @@ internal class HighlightDBOpenHelper(context: Context) : SQLiteOpenHelper(
         const val DATABASE_NAME = "highlight"
 
         // language=sql
-        const val HIGHLIGHT_TABLE_CREATE = "CREATE TABLE $NAME (" +
+        const val FAVORITES_TABLE_CREATE = "CREATE TABLE $NAME (" +
                 "$ID INTEGER PRIMARY KEY, " +
                 "$SESSION_ID INTEGER, " +
                 "$IS_FAVORITE INTEGER" +
@@ -29,7 +29,7 @@ internal class HighlightDBOpenHelper(context: Context) : SQLiteOpenHelper(
     }
 
     override fun onCreate(db: SQLiteDatabase) = with(db) {
-        execSQL(HIGHLIGHT_TABLE_CREATE)
+        execSQL(FAVORITES_TABLE_CREATE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) = with(db) {
