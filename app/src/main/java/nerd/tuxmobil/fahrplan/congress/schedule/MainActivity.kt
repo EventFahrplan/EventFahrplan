@@ -50,8 +50,8 @@ import nerd.tuxmobil.fahrplan.congress.extensions.applyToolbar
 import nerd.tuxmobil.fahrplan.congress.extensions.isLandscape
 import nerd.tuxmobil.fahrplan.congress.extensions.showToast
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesFragment
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage.TitledMessage
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessageScreen
@@ -330,7 +330,7 @@ class MainActivity : BaseActivity(),
         if (fragmentTag == AlarmsFragment.FRAGMENT_TAG) {
             isAlarmsInSidePane = false
         }
-        if (fragmentTag == StarredListFragment.FRAGMENT_TAG) {
+        if (fragmentTag == FavoritesFragment.FRAGMENT_TAG) {
             isFavoritesInSidePane = false
         }
         if (fragmentTag == SearchFragment.FRAGMENT_TAG) {
@@ -411,7 +411,7 @@ class MainActivity : BaseActivity(),
         val hasFragment = fragment != null
         findViewById<View>(detailView)?.let { view ->
             isAlarmsInSidePane = hasFragment && fragment is AlarmsFragment
-            isFavoritesInSidePane = hasFragment && fragment is StarredListFragment
+            isFavoritesInSidePane = hasFragment && fragment is FavoritesFragment
             isSearchInSidePane = hasFragment && fragment is SearchFragment
             view.isVisible = (!isAlarmsInSidePane || !isFavoritesInSidePane || !isScreenLocked || !isSearchInSidePane) && hasFragment
         }
@@ -435,7 +435,7 @@ class MainActivity : BaseActivity(),
         } else if (!isScreenLocked) {
             sidePaneView.isVisible = true
             isFavoritesInSidePane = true
-            StarredListFragment.replaceAtBackStack(supportFragmentManager, R.id.detail, true)
+            FavoritesFragment.replaceAtBackStack(supportFragmentManager, R.id.detail, true)
         }
     }
 

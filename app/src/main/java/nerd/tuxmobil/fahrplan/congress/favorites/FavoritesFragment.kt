@@ -21,14 +21,14 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 
-class StarredListFragment : Fragment() {
+class FavoritesFragment : Fragment() {
 
     companion object {
 
-        const val FRAGMENT_TAG = "starred"
+        const val FRAGMENT_TAG = "favorites"
 
         fun replaceAtBackStack(fragmentManager: FragmentManager, @IdRes containerViewId: Int, sidePane: Boolean) {
-            val fragment = StarredListFragment().withArguments(
+            val fragment = FavoritesFragment().withArguments(
                 BundleKeys.SIDEPANE to sidePane
             )
             fragmentManager.commit {

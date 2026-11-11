@@ -26,7 +26,7 @@ class StarredListActivity : BaseActivity(R.layout.activity_generic), OnSessionIt
         requireViewByIdCompat<View>(R.id.root_layout).applyEdgeToEdgeInsets()
 
         if (savedInstanceState == null) {
-            addFragment(R.id.fragment_container_view, StarredListFragment(), StarredListFragment.FRAGMENT_TAG)
+            addFragment(R.id.fragment_container_view, FavoritesFragment(), FavoritesFragment.FRAGMENT_TAG)
         }
     }
 
