@@ -305,7 +305,7 @@ internal class FahrplanViewModel(
         )
     }
 
-    fun updateFavorStatus(session: Session) {
+    fun updateFavoriteStatus(session: Session) {
         launch {
             repository.updateFavorite(session)
         }

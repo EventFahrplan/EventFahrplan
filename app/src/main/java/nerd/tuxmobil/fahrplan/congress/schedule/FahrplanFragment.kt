@@ -619,7 +619,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
         when (sessionInteractionType) {
             TOGGLE_FAVORITE -> {
                 val updatedSession = session.copy(isHighlight = !session.isHighlight)
-                viewModel.updateFavorStatus(updatedSession)
+                viewModel.updateFavoriteStatus(updatedSession)
                 updateMenuItems()
             }
 

@@ -450,10 +450,10 @@ class FahrplanViewModelTest {
     inner class Favoring {
 
         @Test
-        fun `updateFavorStatus invokes repository function`() {
+        fun `updateFavoriteStatus invokes repository function`() {
             val repository = createRepository()
             val viewModel = createViewModel(repository)
-            viewModel.updateFavorStatus(Session("session-52"))
+            viewModel.updateFavoriteStatus(Session("session-52"))
             verifyInvokedOnce(repository).updateFavorite(Session("session-52"))
         }
 
