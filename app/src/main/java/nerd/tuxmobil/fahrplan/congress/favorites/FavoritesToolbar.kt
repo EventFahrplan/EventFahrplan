@@ -32,10 +32,10 @@ import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnShareClick
 import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnShareToChaosflixClick
 
 @Composable
-internal fun StarredListToolbar(
+internal fun FavoritesToolbar(
     visible: Boolean,
     multiselect: Boolean,
-    hasStarredSessions: Boolean,
+    hasFavoriteSessions: Boolean,
     useVerticalToolbar: Boolean,
     modifier: Modifier = Modifier,
     buildConfigProvision: BuildConfigProvision = BuildConfigProvider(),
@@ -76,7 +76,7 @@ internal fun StarredListToolbar(
                     label = deleteSelectedLabel,
                     onClick = { onViewEvent(OnDeleteSelectedClick) },
                 )
-            } else if (hasStarredSessions) {
+            } else if (hasFavoriteSessions) {
                 if (buildConfigProvision.enableChaosflixExport) {
                     customItem(
                         appbarContent = {
@@ -153,32 +153,32 @@ private fun ShareFavoritesChaosflixButton(
 
 @PreviewLightDark
 @Composable
-private fun StarredListToolbarHorizontalPreview() {
-    StarredListToolbar(useVerticalToolbar = false, multiselect = false)
+private fun FavoritesToolbarHorizontalPreview() {
+    FavoritesToolbar(useVerticalToolbar = false, multiselect = false)
 }
 
 @PreviewLightDark
 @Composable
-private fun StarredListToolbarVerticalPreview() {
-    StarredListToolbar(useVerticalToolbar = true, multiselect = false)
+private fun FavoritesToolbarVerticalPreview() {
+    FavoritesToolbar(useVerticalToolbar = true, multiselect = false)
 }
 
 @PreviewLightDark
 @Composable
-private fun StarredListToolbarMultiselectPreview() {
-    StarredListToolbar(useVerticalToolbar = false, multiselect = true)
+private fun FavoritesToolbarMultiselectPreview() {
+    FavoritesToolbar(useVerticalToolbar = false, multiselect = true)
 }
 
 @Composable
-private fun StarredListToolbar(
+private fun FavoritesToolbar(
     useVerticalToolbar: Boolean,
     multiselect: Boolean,
 ) {
     EventFahrplanTheme {
-        StarredListToolbar(
+        FavoritesToolbar(
             visible = true,
             multiselect = multiselect,
-            hasStarredSessions = true,
+            hasFavoriteSessions = true,
             useVerticalToolbar = useVerticalToolbar,
             onViewEvent = {},
         )

@@ -75,8 +75,8 @@ fun StarredListContent(
     val useVerticalToolbar = useVerticalFloatingToolbar(showInSidePane)
     val navigationTitle = headerTitle.ifEmpty { stringResource(R.string.favorites_screen_default_title) }
     val multiselect = selectedIds.isNotEmpty()
-    val hasStarredSessions = uiState is Success && uiState.parameters.isNotEmpty()
-    val showFloatingToolbar = multiselect || hasStarredSessions
+    val hasFavoriteSessions = uiState is Success && uiState.parameters.isNotEmpty()
+    val showFloatingToolbar = multiselect || hasFavoriteSessions
 
     Scaffold { _ ->
         Box(
@@ -118,12 +118,12 @@ fun StarredListContent(
                             }
                         }
                         if (showFloatingToolbar) {
-                            StarredListToolbar(
+                            FavoritesToolbar(
                                 modifier = Modifier
                                     .align(if (useVerticalToolbar) CenterEnd else BottomCenter),
                                 visible = true,
                                 multiselect = multiselect,
-                                hasStarredSessions = hasStarredSessions,
+                                hasFavoriteSessions = hasFavoriteSessions,
                                 useVerticalToolbar = useVerticalToolbar,
                                 onViewEvent = onViewEvent,
                             )
@@ -164,7 +164,7 @@ private fun StarredSessionsList(
         source = ScrollPosition.LazyList(listState),
         enabled = !useVerticalToolbar,
     )
-    val hasStarredSessions = sessions.isNotEmpty()
+    val hasFavoriteSessions = sessions.isNotEmpty()
     val density = LocalDensity.current
     val statusBarHeight = if (showInSidePane) 0 else WindowInsets.statusBars.getTop(density)
 
@@ -229,12 +229,12 @@ private fun StarredSessionsList(
             StatusBarProtection(Modifier.align(TopCenter))
         }
         NavigationBarProtection(Modifier.align(BottomCenter))
-        StarredListToolbar(
+        FavoritesToolbar(
             modifier = Modifier
                 .align(if (useVerticalToolbar) CenterEnd else BottomCenter),
             visible = showToolbar,
             multiselect = multiselect,
-            hasStarredSessions = hasStarredSessions,
+            hasFavoriteSessions = hasFavoriteSessions,
             useVerticalToolbar = useVerticalToolbar,
             onViewEvent = onViewEvent,
         )
