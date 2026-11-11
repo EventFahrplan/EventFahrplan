@@ -8,7 +8,7 @@ import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExt
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import info.metadude.android.eventfahrplan.database.repositories.AlarmsDatabaseRepository
-import info.metadude.android.eventfahrplan.database.repositories.HighlightsDatabaseRepository
+import info.metadude.android.eventfahrplan.database.repositories.FavoritesDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.MetaDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
 import info.metadude.android.eventfahrplan.network.fetching.HttpStatus.HTTP_NOT_MODIFIED
@@ -79,7 +79,7 @@ class AppRepositoryLoadAndParseScheduleTest {
     }
 
     private val alarmsDatabaseRepository = mock<AlarmsDatabaseRepository>()
-    private val highlightsDatabaseRepository = mock<HighlightsDatabaseRepository>()
+    private val favoritesDatabaseRepository = mock<FavoritesDatabaseRepository>()
     private val sessionsDatabaseRepository = mock<SessionsDatabaseRepository>()
     private val metaDatabaseRepository = mock<MetaDatabaseRepository>()
     private val scheduleNetworkRepository = TestScheduleNetworkRepository()
@@ -103,7 +103,7 @@ class AppRepositoryLoadAndParseScheduleTest {
                 networkScope = NetworkScope.of(TestExecutionContext) { _, _ -> },
                 okHttpClient = mock(),
                 alarmsDatabaseRepository = alarmsDatabaseRepository,
-                highlightsDatabaseRepository = highlightsDatabaseRepository,
+                favoritesDatabaseRepository = favoritesDatabaseRepository,
                 sessionsDatabaseRepository = sessionsDatabaseRepository,
                 metaDatabaseRepository = metaDatabaseRepository,
                 scheduleNetworkRepository = scheduleNetworkRepository,
@@ -251,7 +251,7 @@ class AppRepositoryLoadAndParseScheduleTest {
             val storedSessions = listOf(DatabaseSession(sessionId = "55", isHighlight = true, changedLanguage = true))
             whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn storedSessions
             whenever(sessionsDatabaseRepository.querySessionsWithoutRoom(any())) doReturn storedSessions
-            whenever(highlightsDatabaseRepository.query()) doReturn emptyList()
+            whenever(favoritesDatabaseRepository.query()) doReturn emptyList()
             whenever(alarmsDatabaseRepository.query()) doReturn emptyList()
 
             scheduleNetworkRepository.onUpdateSessions(emptyList())
@@ -299,7 +299,7 @@ class AppRepositoryLoadAndParseScheduleTest {
         whenever(sessionsDatabaseRepository.querySessionBySessionId(any())) doReturn DatabaseSession(
             "23"
         )
-        whenever(highlightsDatabaseRepository.queryBySessionId(any())) doReturn DatabaseFavorite(
+        whenever(favoritesDatabaseRepository.queryBySessionId(any())) doReturn DatabaseFavorite(
             sessionId = "23",
             isFavorite = false
         )

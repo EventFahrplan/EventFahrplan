@@ -45,7 +45,7 @@ class AppRepositoryMetaTest {
                 networkScope = mock(),
                 okHttpClient = mock(),
                 alarmsDatabaseRepository = mock(),
-                highlightsDatabaseRepository = mock(),
+                favoritesDatabaseRepository = mock(),
                 sessionsDatabaseRepository = mock(),
                 metaDatabaseRepository = metaDatabaseRepository,
                 scheduleNetworkRepository = mock(),

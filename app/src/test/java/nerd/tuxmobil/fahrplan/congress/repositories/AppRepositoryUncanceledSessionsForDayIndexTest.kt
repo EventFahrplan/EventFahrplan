@@ -8,7 +8,7 @@ import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.database.models.Favorite
 import info.metadude.android.eventfahrplan.database.repositories.AlarmsDatabaseRepository
-import info.metadude.android.eventfahrplan.database.repositories.HighlightsDatabaseRepository
+import info.metadude.android.eventfahrplan.database.repositories.FavoritesDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
@@ -36,7 +36,7 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
     private val dayIndex = 1
     private val roomName = "Room 1"
     private val alarmsDatabaseRepository = InMemoryAlarmRepository()
-    private val highlightsDatabaseRepository = InMemoryHighlightsDatabaseRepository()
+    private val favoritesDatabaseRepository = InMemoryFavoritesDatabaseRepository()
     private val roomProvider = object : RoomProvider {
         override val prioritizedRooms: List<String> = emptyList()
         override val deprioritizedRooms: List<String> = emptyList()
@@ -55,7 +55,7 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
                 okHttpClient = mock(),
                 alarmsDatabaseRepository = alarmsDatabaseRepository,
                 sessionsDatabaseRepository = createSessionsDatabaseRepository(),
-                highlightsDatabaseRepository = highlightsDatabaseRepository,
+                favoritesDatabaseRepository = favoritesDatabaseRepository,
                 scheduleNetworkRepository = mock(),
                 engelsystemRepository = mock(),
                 sharedPreferencesRepository = createSharedPreferencesRepository(),
@@ -358,36 +358,36 @@ private class InMemoryAlarmRepository : AlarmsDatabaseRepository {
 
 }
 
-private class InMemoryHighlightsDatabaseRepository : HighlightsDatabaseRepository {
+private class InMemoryFavoritesDatabaseRepository : FavoritesDatabaseRepository {
 
-    private var highlights = listOf<Favorite>()
+    private var favorites = listOf<Favorite>()
 
     override fun update(values: ContentValues, sessionId: String): Long {
-        val highlight = Favorite(
+        val favorite = Favorite(
             sessionId = sessionId,
             isFavorite = true,
         )
-        highlights = listOf(highlight)
+        favorites = listOf(favorite)
         return 0L
     }
 
     override fun query(): List<Favorite> {
-        return highlights
+        return favorites
     }
 
     override fun queryBySessionId(sessionId: String): Favorite? {
-        return highlights.singleOrNull { it.sessionId == sessionId }
+        return favorites.singleOrNull { it.sessionId == sessionId }
     }
 
     override fun delete(sessionIds: Set<String>): Int {
-        val affected = highlights.size
-        highlights = emptyList()
+        val affected = favorites.size
+        favorites = emptyList()
         return affected
     }
 
     override fun deleteAll(): Int {
-        val affected = highlights.size
-        highlights = emptyList()
+        val affected = favorites.size
+        favorites = emptyList()
         return affected
     }
 }

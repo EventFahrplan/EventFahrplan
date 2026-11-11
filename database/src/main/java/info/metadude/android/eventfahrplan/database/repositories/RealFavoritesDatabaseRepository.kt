@@ -19,11 +19,11 @@ import info.metadude.android.eventfahrplan.database.extensions.upsert
 import info.metadude.android.eventfahrplan.database.models.Favorite
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.HighlightDBOpenHelper
 
-internal class RealHighlightsDatabaseRepository(
+internal class RealFavoritesDatabaseRepository(
 
         private val sqLiteOpenHelper: HighlightDBOpenHelper
 
-) : HighlightsDatabaseRepository {
+) : FavoritesDatabaseRepository {
 
     override fun update(values: ContentValues, sessionId: String) = with(sqLiteOpenHelper) {
         writableDatabase.upsert({
@@ -34,22 +34,22 @@ internal class RealHighlightsDatabaseRepository(
     }
 
     override fun query(): List<Favorite> {
-        val highlights = mutableListOf<Favorite>()
+        val favorites = mutableListOf<Favorite>()
         val database = sqLiteOpenHelper.readableDatabase
 
         val cursor = try {
             database.read(FavoritesTable.NAME, orderBy = SESSION_ID)
         } catch (e: SQLiteException) {
             e.printStackTrace()
-            return highlights.toList()
+            return favorites.toList()
         }
 
         return cursor.map {
             val sessionId = cursor.getString(SESSION_ID)
-            val highlightState = cursor.getInt(IS_FAVORITE)
-            val isHighlighted = highlightState == MARKED_AS_FAVORITE
+            val favoriteState = cursor.getInt(IS_FAVORITE)
+            val isFavorite = favoriteState == MARKED_AS_FAVORITE
 
-            Favorite(sessionId, isHighlighted)
+            Favorite(sessionId, isFavorite)
         }
     }
 
@@ -67,9 +67,9 @@ internal class RealHighlightsDatabaseRepository(
 
         return cursor.use {
             if (cursor.moveToFirst()) {
-                val highlightState = cursor.getInt(IS_FAVORITE)
-                val isHighlighted = highlightState == MARKED_AS_FAVORITE
-                Favorite(sessionId, isHighlighted)
+                val favoriteState = cursor.getInt(IS_FAVORITE)
+                val isFavorite = favoriteState == MARKED_AS_FAVORITE
+                Favorite(sessionId, isFavorite)
             } else {
                 null
             }

@@ -31,7 +31,7 @@ class SearchRepositoryTest {
                 networkScope = mock(),
                 okHttpClient = mock(),
                 alarmsDatabaseRepository = mock(),
-                highlightsDatabaseRepository = mock(),
+                favoritesDatabaseRepository = mock(),
                 sessionsDatabaseRepository = mock(),
                 metaDatabaseRepository = mock(),
                 scheduleNetworkRepository = mock(),

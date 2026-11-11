@@ -28,7 +28,7 @@ class AppRepositorySessionsWithoutShiftsTest {
                 okHttpClient = mock(),
                 alarmsDatabaseRepository = mock(),
                 sessionsDatabaseRepository = createSessionsDatabaseRepository(),
-                highlightsDatabaseRepository = mock(),
+                favoritesDatabaseRepository = mock(),
                 metaDatabaseRepository = mock(),
                 scheduleNetworkRepository = mock(),
                 sharedPreferencesRepository = mock(),

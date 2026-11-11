@@ -5,11 +5,11 @@ import android.content.Context
 import info.metadude.android.eventfahrplan.database.models.Favorite
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.HighlightDBOpenHelper
 
-interface HighlightsDatabaseRepository {
+interface FavoritesDatabaseRepository {
 
     companion object {
-        fun get(context: Context): HighlightsDatabaseRepository =
-            RealHighlightsDatabaseRepository(HighlightDBOpenHelper(context))
+        fun get(context: Context): FavoritesDatabaseRepository =
+            RealFavoritesDatabaseRepository(HighlightDBOpenHelper(context))
     }
 
     fun update(values: ContentValues, sessionId: String): Long

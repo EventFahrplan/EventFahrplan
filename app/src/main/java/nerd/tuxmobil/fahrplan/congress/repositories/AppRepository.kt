@@ -11,7 +11,7 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.database.extensions.toContentValues
 import info.metadude.android.eventfahrplan.database.models.ColumnStatistic
 import info.metadude.android.eventfahrplan.database.repositories.AlarmsDatabaseRepository
-import info.metadude.android.eventfahrplan.database.repositories.HighlightsDatabaseRepository
+import info.metadude.android.eventfahrplan.database.repositories.FavoritesDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.MetaDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
 import info.metadude.android.eventfahrplan.network.repositories.RealScheduleNetworkRepository
@@ -121,7 +121,7 @@ object AppRepository : SearchRepository,
     private lateinit var networkScope: NetworkScope
 
     private lateinit var alarmsDatabaseRepository: AlarmsDatabaseRepository
-    private lateinit var highlightsDatabaseRepository: HighlightsDatabaseRepository
+    private lateinit var favoritesDatabaseRepository: FavoritesDatabaseRepository
     private lateinit var sessionsDatabaseRepository: SessionsDatabaseRepository
     private lateinit var metaDatabaseRepository: MetaDatabaseRepository
 
@@ -438,7 +438,7 @@ object AppRepository : SearchRepository,
             networkScope: NetworkScope = NetworkScope.of(executionContext, AppExceptionHandler(logging)),
             okHttpClient: OkHttpClient = CustomHttpClient.createHttpClient(context),
             alarmsDatabaseRepository: AlarmsDatabaseRepository = AlarmsDatabaseRepository.get(context, logging),
-            highlightsDatabaseRepository: HighlightsDatabaseRepository = HighlightsDatabaseRepository.get(context),
+            favoritesDatabaseRepository: FavoritesDatabaseRepository = FavoritesDatabaseRepository.get(context),
             sessionsDatabaseRepository: SessionsDatabaseRepository = SessionsDatabaseRepository.get(context, logging),
             metaDatabaseRepository: MetaDatabaseRepository = MetaDatabaseRepository.get(context),
             scheduleNetworkRepository: ScheduleNetworkRepository = RealScheduleNetworkRepository(logging),
@@ -469,7 +469,7 @@ object AppRepository : SearchRepository,
         this.databaseScope = databaseScope
         this.networkScope = networkScope
         this.alarmsDatabaseRepository = alarmsDatabaseRepository
-        this.highlightsDatabaseRepository = highlightsDatabaseRepository
+        this.favoritesDatabaseRepository = favoritesDatabaseRepository
         this.sessionsDatabaseRepository = sessionsDatabaseRepository
         this.metaDatabaseRepository = metaDatabaseRepository
         this.engelsystemRepository = engelsystemRepository
@@ -849,13 +849,13 @@ object AppRepository : SearchRepository,
     }
 
     private fun readFavorites() =
-            highlightsDatabaseRepository.query()
+            favoritesDatabaseRepository.query()
 
     @WorkerThread
     fun updateFavorite(session: SessionAppModel) {
         val favoriteDatabaseModel = session.toFavoriteDatabaseModel()
         val values = favoriteDatabaseModel.toContentValues()
-        if (highlightsDatabaseRepository.update(values, session.sessionId) != DATABASE_UPDATE_ERROR) {
+        if (favoritesDatabaseRepository.update(values, session.sessionId) != DATABASE_UPDATE_ERROR) {
             refreshFavoriteSessions()
             refreshSessions()
             refreshSelectedSession()
@@ -866,7 +866,7 @@ object AppRepository : SearchRepository,
 
     @WorkerThread
     fun deleteFavorites(vararg sessionIds: String) {
-        if (highlightsDatabaseRepository.delete(sessionIds.toSet()) > 0) {
+        if (favoritesDatabaseRepository.delete(sessionIds.toSet()) > 0) {
             refreshFavoriteSessions()
             refreshSessions()
             refreshSelectedSession()
@@ -877,7 +877,7 @@ object AppRepository : SearchRepository,
 
     @WorkerThread
     fun deleteAllFavorites() {
-        if (highlightsDatabaseRepository.deleteAll() > 0) {
+        if (favoritesDatabaseRepository.deleteAll() > 0) {
             refreshFavoriteSessions()
             refreshSelectedSession()
             refreshRoomStates()
@@ -899,7 +899,7 @@ object AppRepository : SearchRepository,
     }
 
     private fun enrichSession(session: SessionDatabaseModel): SessionDatabaseModel {
-        val isFavorite = highlightsDatabaseRepository
+        val isFavorite = favoritesDatabaseRepository
             .queryBySessionId(session.sessionId)
             ?.isFavorite ?: false
 
