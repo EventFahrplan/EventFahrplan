@@ -40,7 +40,7 @@ class StarredListFragment : Fragment() {
     }
 
     private var sidePane = false
-    private val viewModel: StarredListViewModel by viewModels { StarredListViewModelFactory(requireContext()) }
+    private val viewModel: FavoritesViewModel by viewModels { FavoritesViewModelFactory(requireContext()) }
 
     @MainThread
     @CallSuper

@@ -31,7 +31,7 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameterFactory
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
 
-class StarredListViewModel(
+class FavoritesViewModel(
     private val repository: AppRepository,
     private val executionContext: ExecutionContext,
     private val simpleSessionFormat: SimpleSessionFormat,

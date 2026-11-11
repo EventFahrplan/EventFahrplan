@@ -41,7 +41,7 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
 @ExtendWith(MainDispatcherTestExtension::class)
-class StarredListViewModelTest {
+class FavoritesViewModelTest {
 
     private val simpleSessionFormat = mock<SimpleSessionFormat>()
     private val jsonSessionFormat = mock<JsonSessionFormat>()
@@ -297,7 +297,7 @@ class StarredListViewModelTest {
         simpleSessionFormat: SimpleSessionFormat = this.simpleSessionFormat,
         jsonSessionFormat: JsonSessionFormat = this.jsonSessionFormat,
         searchResultParameterFactory: SearchResultParameterFactory = FakeSearchResultParameterFactory()
-    ) = StarredListViewModel(
+    ) = FavoritesViewModel(
         repository,
         TestExecutionContext,
         simpleSessionFormat,

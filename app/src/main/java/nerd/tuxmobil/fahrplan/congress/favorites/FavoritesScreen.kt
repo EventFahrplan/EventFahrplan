@@ -34,7 +34,7 @@ import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 
 @Composable
 fun FavoritesScreen(
-    viewModel: StarredListViewModel,
+    viewModel: FavoritesViewModel,
     showInSidePane: Boolean,
     onBack: () -> Unit,
     onNavigateToSession: (String) -> Unit,
