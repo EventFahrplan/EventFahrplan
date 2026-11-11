@@ -37,7 +37,7 @@ public interface FahrplanContract {
 
             String ID = "_id";
             String SESSION_TITLE = "title";
-            String TIME = "time";
+            String FIRES_AT = "time"; // Keep column name to avoid database migration.
             String SESSION_ID = "eventid"; // Keep column name to avoid database migration.
             String DAY_INDEX = "day";
         }

@@ -38,7 +38,7 @@ class AlarmServicesTest {
         dayIndex = 3,
         sessionId = "1001",
         sessionTitle = "Welcome",
-        startTime = Moment.ofEpochMilli(700),
+        firesAt = Moment.ofEpochMilli(700),
     )
 
     @Test
@@ -71,7 +71,7 @@ class AlarmServicesTest {
             dayIndex = 1,
             sessionId = "S1",
             sessionTitle = "Title",
-            startTime = Moment.ofEpochMilli(1536328800000),
+            firesAt = Moment.ofEpochMilli(1536328800000),
         )
         verifyInvokedOnce(repository).updateAlarm(expectedAlarm)
     }
@@ -83,7 +83,7 @@ class AlarmServicesTest {
             dayIndex = 2,
             sessionId = "S3",
             sessionTitle = "Title",
-            startTime = Moment.ofEpochMilli(1536332400000L),
+            firesAt = Moment.ofEpochMilli(1536332400000L),
         )
         whenever(repository.readAlarms(any())) doReturn listOf(alarm)
         val session = Session(sessionId = "S3", hasAlarm = true)
@@ -127,7 +127,7 @@ class AlarmServicesTest {
         val alarmServices = createAlarmServices(pendingIntentDelegate)
         alarmServices.scheduleSessionAlarm(alarm, true)
         verifyInvokedOnce(alarmManager).cancel(pendingIntent)
-        verifyInvokedOnce(alarmManager).setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarm.startTime.toMilliseconds(), pendingIntent)
+        verifyInvokedOnce(alarmManager).setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarm.firesAt.toMilliseconds(), pendingIntent)
     }
 
     @Test
@@ -141,7 +141,7 @@ class AlarmServicesTest {
         val alarmServices = createAlarmServices(pendingIntentDelegate)
         alarmServices.scheduleSessionAlarm(alarm, false)
         verifyInvokedNever(alarmManager).cancel(pendingIntent)
-        verifyInvokedOnce(alarmManager).setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarm.startTime.toMilliseconds(), pendingIntent)
+        verifyInvokedOnce(alarmManager).setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarm.firesAt.toMilliseconds(), pendingIntent)
     }
 
     @Test
@@ -177,7 +177,7 @@ class AlarmServicesTest {
     private fun assertIntentExtras(intent: Intent, action: String) {
         assertThat(intent.getIntExtra(BundleKeys.ALARM_DAY_INDEX, 9)).isEqualTo(alarm.dayIndex)
         assertThat(intent.getStringExtra(BundleKeys.ALARM_SESSION_ID)).isEqualTo(alarm.sessionId)
-        assertThat(intent.getMomentExtra(BundleKeys.ALARM_START_TIME, Moment.ofEpochMilli(0))).isEqualTo(alarm.startTime)
+        assertThat(intent.getMomentExtra(BundleKeys.ALARM_FIRES_AT, Moment.ofEpochMilli(0))).isEqualTo(alarm.firesAt)
         assertThat(intent.getStringExtra(BundleKeys.ALARM_TITLE)).isEqualTo(alarm.sessionTitle)
         assertThat(intent.component!!.className).isEqualTo(AlarmReceiver::class.java.name)
         assertThat(intent.action).isEqualTo(action)

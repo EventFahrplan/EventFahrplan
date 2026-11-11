@@ -14,7 +14,7 @@ class AlarmExtensionsTest {
         val alarm = AlarmDatabaseModel(
             dayIndex = 4,
             sessionId = "5237",
-            time = Moment.ofEpochMilli(1509617700001L),
+            firesAt = Moment.ofEpochMilli(1509617700001L),
             title = "My title",
         )
         assertThat(alarm.toAlarmAppModel().toAlarmDatabaseModel()).isEqualTo(alarm)
@@ -26,13 +26,13 @@ class AlarmExtensionsTest {
             dayIndex = 4,
             sessionId = "5237",
             sessionTitle = "My title",
-            startTime = Moment.ofEpochMilli(1509617700001L),
+            firesAt = Moment.ofEpochMilli(1509617700001L),
         )
         val schedulableAlarm = SchedulableAlarm(
             dayIndex = 4,
             sessionId = "5237",
             sessionTitle = "My title",
-            startTime = Moment.ofEpochMilli(1509617700001L),
+            firesAt = Moment.ofEpochMilli(1509617700001L),
         )
         assertThat(alarm.toSchedulableAlarm()).isEqualTo(schedulableAlarm)
     }

@@ -6,5 +6,5 @@ data class SchedulableAlarm(
     val dayIndex: Int,
     val sessionId: String,
     val sessionTitle: String,
-    val startTime: Moment,
+    val firesAt: Moment,
 )

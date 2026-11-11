@@ -161,7 +161,7 @@ class AlarmsStateFactoryTest {
         dayIndex = 2,
         sessionId = sessionId,
         sessionTitle = "Unused",
-        startTime = alarmStartsAt,
+        firesAt = alarmStartsAt,
     )
 
     private fun calculateAlarmStartsAt(alarmTimeInMin: Int) =
