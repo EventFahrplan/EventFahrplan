@@ -64,7 +64,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.compose.ScrollPosition
 import nerd.tuxmobil.fahrplan.congress.utils.compose.rememberAutoHideOnScrollDown
 
 @Composable
-fun StarredListContent(
+fun FavoritesContent(
     headerTitle: String,
     uiState: FavoritesUiState,
     selectedIds: Set<String> = emptySet(),
@@ -129,7 +129,7 @@ fun StarredListContent(
                             )
                         }
                     } else {
-                        StarredSessionsList(
+                        FavoriteSessionsList(
                             navigationTitle = navigationTitle,
                             sessions = sessions,
                             showInSidePane = showInSidePane,
@@ -148,7 +148,7 @@ fun StarredListContent(
 }
 
 @Composable
-private fun StarredSessionsList(
+private fun FavoriteSessionsList(
     navigationTitle: String,
     sessions: List<SearchResultParameter>,
     showInSidePane: Boolean,
@@ -332,12 +332,12 @@ private fun CheckableItem(
 
 @MultiDevicePreview
 @Composable
-private fun StarredListContentPreview() {
+private fun FavoritesContentPreview() {
     val uiState = Success(
         parameters = createSearchResultPreviewData(),
     )
     EventFahrplanTheme {
-        StarredListContent(
+        FavoritesContent(
             headerTitle = stringResource(R.string.favorites_screen_default_title),
             uiState = uiState,
             showInSidePane = false,
@@ -349,9 +349,9 @@ private fun StarredListContentPreview() {
 
 @Preview
 @Composable
-private fun StarredListContentEmptyPreview() {
+private fun FavoritesContentEmptyPreview() {
     EventFahrplanTheme {
-        StarredListContent(
+        FavoritesContent(
             headerTitle = "",
             uiState = Success(emptyList()),
             showInSidePane = false,
@@ -363,9 +363,9 @@ private fun StarredListContentEmptyPreview() {
 
 @Preview
 @Composable
-private fun StarredListContentLoadingPreview() {
+private fun FavoritesContentLoadingPreview() {
     EventFahrplanTheme {
-        StarredListContent(
+        FavoritesContent(
             headerTitle = "",
             uiState = Loading,
             showInSidePane = false,

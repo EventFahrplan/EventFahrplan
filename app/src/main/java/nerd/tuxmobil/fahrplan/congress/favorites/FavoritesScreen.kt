@@ -90,7 +90,7 @@ fun StarredListScreen(
         startDestination = Favorites.route,
     ) {
         composable(Favorites.route) {
-            StarredListContent(
+            FavoritesContent(
                 headerTitle = headerTitle.value,
                 uiState = state,
                 selectedIds = selectedIds,
