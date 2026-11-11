@@ -11,10 +11,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesDestination.ConfirmDeleteAll
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.NavigateTo
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.NavigateToSession
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.ShareJson
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.ShareSimple
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.NavigateTo
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.NavigateToSession
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.ShareJson
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.ShareSimple
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListUiState.Loading
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListUiState.Success
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnDeleteSelectedClick
@@ -45,7 +45,7 @@ class StarredListViewModel(
     private val _selectedIds = MutableStateFlow<Set<String>>(emptySet())
     val selectedIds = _selectedIds.asStateFlow()
 
-    private val mutableEffects = Channel<StarredListEffect>()
+    private val mutableEffects = Channel<FavoritesEffect>()
     val effects = mutableEffects.receiveAsFlow()
 
     init {
@@ -130,7 +130,7 @@ class StarredListViewModel(
         sendEffect(NavigateTo(destination))
     }
 
-    private fun sendEffect(effect: StarredListEffect) {
+    private fun sendEffect(effect: FavoritesEffect) {
         viewModelScope.launch {
             mutableEffects.send(effect)
         }

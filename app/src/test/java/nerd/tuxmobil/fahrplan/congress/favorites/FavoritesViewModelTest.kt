@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesDestination.ConfirmDeleteAll
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.NavigateTo
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.NavigateToSession
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.ShareJson
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.ShareSimple
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.NavigateTo
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.NavigateToSession
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.ShareJson
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.ShareSimple
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListUiState.Loading
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListUiState.Success
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnDeleteSelectedClick
