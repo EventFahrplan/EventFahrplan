@@ -249,9 +249,9 @@ class ScheduleChangesTest {
             ),
             scenario1Of(
                 scenarioDescription = "Favorite flags differ",
-                oldSessions = listOf(Session("1", isHighlight = true)),
-                newSessions = listOf(Session("1", isHighlight = false)),
-                expectedSessions = listOf(Session("1", isHighlight = false)),
+                oldSessions = listOf(Session("1", isFavorite = true)),
+                newSessions = listOf(Session("1", isFavorite = false)),
+                expectedSessions = listOf(Session("1", isFavorite = false)),
                 expectedOldCanceledSessions = emptyList(),
                 expectedFoundNoteworthyChanges = false,
             ),

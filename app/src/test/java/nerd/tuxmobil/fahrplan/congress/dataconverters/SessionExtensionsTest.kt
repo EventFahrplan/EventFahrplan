@@ -67,7 +67,7 @@ class SessionExtensionsTest {
                 duration = Duration.ofMinutes(45),
                 feedbackUrl = "https://talks.mrmcd.net/2018/talk/V3FUNG/feedback",
                 hasAlarm = true,
-                isHighlight = true,
+                isFavorite = true,
                 language = "en",
                 links = "[Website](https://www.example.com/path)",
                 recordingLicense = "CC 0",
@@ -109,7 +109,7 @@ class SessionExtensionsTest {
             duration = Duration.ofMinutes(45),
             feedbackUrl = "https://talks.mrmcd.net/2018/talk/V3FUNG/feedback",
             hasAlarm = true,
-            isHighlight = true,
+            isFavorite = true,
             language = "en",
             links = "[Website](https://www.example.com/path)",
             recordingLicense = "CC 0",
@@ -156,7 +156,7 @@ class SessionExtensionsTest {
                 duration = Duration.ofMinutes(45),
                 feedbackUrl = "https://talks.mrmcd.net/2018/talk/V3FUNG/feedback",
                 hasAlarm = true,
-                isHighlight = true,
+                isFavorite = true,
                 language = "en",
                 links = "[Website](https://www.example.com/path)",
                 recordingLicense = "CC 0",
@@ -249,7 +249,7 @@ class SessionExtensionsTest {
     fun `toFavoriteDatabaseModel returns a Favorite object derived from a session`() {
         val session = SessionAppModel(
             sessionId = "4723",
-            isHighlight = true,
+            isFavorite = true,
         )
         val favorite = Favorite(sessionId = "4723", isFavorite = true)
         assertThat(session.toFavoriteDatabaseModel()).isEqualTo(favorite)

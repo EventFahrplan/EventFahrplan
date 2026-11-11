@@ -618,7 +618,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
     private fun handleSessionInteraction(session: Session, sessionInteractionType: SessionInteractionType) =
         when (sessionInteractionType) {
             TOGGLE_FAVORITE -> {
-                val updatedSession = session.copy(isHighlight = !session.isHighlight)
+                val updatedSession = session.copy(isFavorite = !session.isFavorite)
                 viewModel.updateFavoriteStatus(updatedSession)
                 updateMenuItems()
             }
@@ -892,14 +892,14 @@ class FahrplanFragment : Fragment(), MenuProvider {
         sessions.forEachIndexed { index, session ->
             val layoutParams = layoutParamsBySession[session.sessionId]
 
-            val backgroundColorResId = if (session.isHighlight) {
+            val backgroundColorResId = if (session.isFavorite) {
                 favoriteBackgroundColorByTrackName[session.track]
                     ?: R.color.track_background_favorite
             } else {
                 defaultBackgroundColorByTrackName[session.track] ?: R.color.track_background_default
             }
 
-            val textColorResId = if (session.isHighlight)
+            val textColorResId = if (session.isFavorite)
                 R.color.session_item_text_on_favorite_background
             else
                 R.color.session_item_text_on_default_background
@@ -909,7 +909,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
 
             val heightPx = layoutParams?.height ?: calculateSessionHeight(session)
             val heightDp = (heightPx / context.resources.displayMetrics.density).dp
-            val showBorder = session.isHighlight && isAlternativeHighlightingEnabled
+            val showBorder = session.isFavorite && isAlternativeHighlightingEnabled
             val shortSession = session.duration.toWholeMinutes() <= Duration.ofMinutes(15).toWholeMinutes()
 
             val titleContentDescription = contentDescriptionFormatter
@@ -959,7 +959,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
                 innerHorizontalPadding = horizontalPadding / context.resources.displayMetrics.density,
                 innerVerticalPadding = verticalPadding / context.resources.displayMetrics.density,
                 cardHeight = heightDp,
-                isFavored = session.isHighlight,
+                isFavored = session.isFavorite,
                 hasAlarm = session.hasAlarm,
                 showBorder = showBorder,
                 shouldShowShareSubMenu = BuildConfig.ENABLE_CHAOSFLIX_EXPORT,

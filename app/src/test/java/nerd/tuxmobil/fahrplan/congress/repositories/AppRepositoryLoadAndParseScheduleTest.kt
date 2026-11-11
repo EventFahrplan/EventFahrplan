@@ -248,7 +248,7 @@ class AppRepositoryLoadAndParseScheduleTest {
             scheduleNetworkRepository.onFetchScheduleFinished(success)
 
             // onUpdateSessions
-            val storedSessions = listOf(DatabaseSession(sessionId = "55", isHighlight = true, changedLanguage = true))
+            val storedSessions = listOf(DatabaseSession(sessionId = "55", isFavorite = true, changedLanguage = true))
             whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn storedSessions
             whenever(sessionsDatabaseRepository.querySessionsWithoutRoom(any())) doReturn storedSessions
             whenever(favoritesDatabaseRepository.query()) doReturn emptyList()
@@ -279,7 +279,7 @@ class AppRepositoryLoadAndParseScheduleTest {
 
     private suspend fun assertFavoriteSessionsProperty(repository: AppRepository) {
         repository.favoriteSessions.test {
-            val session = AppSession(sessionId = "55", isHighlight = true)
+            val session = AppSession(sessionId = "55", isFavorite = true)
             assertThat(awaitItem()).isEqualTo(listOf(session))
         }
     }
@@ -288,7 +288,7 @@ class AppRepositoryLoadAndParseScheduleTest {
         repository.changedSessions.test {
             val session = AppSession(
                 sessionId = "55",
-                isHighlight = true,
+                isFavorite = true,
                 changedLanguage = true,
             )
             assertThat(awaitItem()).isEqualTo(listOf(session))

@@ -86,25 +86,25 @@ class AppRepositorySessionsTest {
 
         private val SESSION_2001 = SessionDatabaseModel(
             sessionId = "2001",
-            isHighlight = false,
+            isFavorite = false,
             changedIsCanceled = false,
         )
 
         private val SESSION_2002 = SessionDatabaseModel(
             sessionId = "2002",
-            isHighlight = true,
+            isFavorite = true,
             changedIsCanceled = false,
         )
 
         private val SESSION_2003 = SessionDatabaseModel(
             sessionId = "2003",
-            isHighlight = true,
+            isFavorite = true,
             changedIsCanceled = true,
         )
 
         private val SESSION_2004 = SessionDatabaseModel(
             sessionId = "2004",
-            isHighlight = false,
+            isFavorite = false,
             changedIsCanceled = true,
         )
 

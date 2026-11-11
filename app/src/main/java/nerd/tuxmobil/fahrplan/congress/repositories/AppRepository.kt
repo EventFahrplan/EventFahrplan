@@ -698,7 +698,7 @@ object AppRepository : SearchRepository,
      */
     @WorkerThread
     private fun loadFavoriteSessions() = loadSessionsForAllDays(true)
-            .filter { it.isHighlight && !it.changedIsCanceled }
+            .filter { it.isFavorite && !it.changedIsCanceled }
             .also { logging.d(LOG_TAG, "${it.size} favorite sessions.") }
 
     /**
@@ -761,7 +761,7 @@ object AppRepository : SearchRepository,
 
         val sessionsWithFavorites = sessions.map { session ->
             if (session.sessionId in favoriteSessionIds) {
-                session.copy(isHighlight = true)
+                session.copy(isFavorite = true)
             } else {
                 session
             }
@@ -909,7 +909,7 @@ object AppRepository : SearchRepository,
 
         return if (isFavorite || hasAlarm) {
             session.copy(
-                isHighlight = isFavorite,
+                isFavorite = isFavorite,
                 hasAlarm = hasAlarm,
             )
         } else {

@@ -26,7 +26,7 @@ fun SessionDatabaseModel.toDateInfo(): DateInfo = DateInfo(dayIndex, Moment.pars
 
 fun SessionAppModel.toFavoriteDatabaseModel() = FavoriteDatabaseModel(
         sessionId = sessionId,
-        isFavorite = isHighlight
+        isFavorite = isFavorite
 )
 
 fun SessionDatabaseModel.toSessionAppModel(): SessionAppModel {
@@ -42,7 +42,7 @@ fun SessionDatabaseModel.toSessionAppModel(): SessionAppModel {
         hasAlarm = hasAlarm,
         language = language,
         links = links,
-        isHighlight = isHighlight,
+        isFavorite = isFavorite,
         recordingLicense = recordingLicense,
         recordingOptOut = recordingOptOut,
         roomName = roomName,
@@ -87,7 +87,7 @@ fun SessionDatabaseModel.toSessionNetworkModel(): SessionNetworkModel {
         hasAlarm = hasAlarm,
         language = language,
         links = links,
-        isHighlight = isHighlight,
+        isFavorite = isFavorite,
         recordingLicense = recordingLicense,
         recordingOptOut = recordingOptOut,
         roomName = roomName,
@@ -132,7 +132,7 @@ fun SessionNetworkModel.toSessionDatabaseModel(): SessionDatabaseModel {
         hasAlarm = hasAlarm,
         language = language,
         links = links,
-        isHighlight = isHighlight,
+        isFavorite = isFavorite,
         recordingLicense = recordingLicense,
         recordingOptOut = recordingOptOut,
         roomName = roomName,

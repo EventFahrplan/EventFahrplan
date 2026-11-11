@@ -290,10 +290,10 @@ class FahrplanViewModelTest {
         }
 
         @Test
-        fun `fahrplanParameter property emits FahrplanParameter containing session with hasAlarm and isHighlight flags being set`() =
+        fun `fahrplanParameter property emits FahrplanParameter containing session with hasAlarm and isFavorite flags being set`() =
             runTest {
                 val repository = createRepository(
-                    uncanceledSessionsForDayIndexFlow = flowOf(createScheduleData("session-01", hasAlarm = true, isHighlight = true)),
+                    uncanceledSessionsForDayIndexFlow = flowOf(createScheduleData("session-01", hasAlarm = true, isFavorite = true)),
                     sessionsWithoutShiftsFlow = flowOf(listOf(Session("not relevant"))),
                     meta = Meta(numDays = 1),
                     displayDayIndex = 2
@@ -301,7 +301,7 @@ class FahrplanViewModelTest {
                 val menuEntriesGenerator = mock<NavigationMenuEntriesGenerator>()
                 val viewModel = createViewModel(repository, navigationMenuEntriesGenerator = menuEntriesGenerator)
                 val expected = FahrplanParameter(
-                    scheduleData = createScheduleData("session-01", hasAlarm = true, isHighlight = true),
+                    scheduleData = createScheduleData("session-01", hasAlarm = true, isFavorite = true),
                     useDeviceTimeZone = false,
                 )
                 viewModel.fahrplanParameter.test {
@@ -843,8 +843,8 @@ class FahrplanViewModelTest {
         on { readAlarmTime() } doReturn defaultAlarmTime
     }
 
-    private fun createScheduleData(sessionId: String? = null, hasAlarm: Boolean = false, isHighlight: Boolean = false): ScheduleData {
-        val session = if (sessionId == null) null else Session(sessionId = sessionId, hasAlarm = hasAlarm, isHighlight = isHighlight)
+    private fun createScheduleData(sessionId: String? = null, hasAlarm: Boolean = false, isFavorite: Boolean = false): ScheduleData {
+        val session = if (sessionId == null) null else Session(sessionId = sessionId, hasAlarm = hasAlarm, isFavorite = isFavorite)
         return createScheduleData(session)
     }
 

@@ -17,7 +17,7 @@ data class Session(
         val duration: Duration = Duration.ZERO, // minutes
         val feedbackUrl: String? = null,
         val hasAlarm: Boolean = false,
-        val isHighlight: Boolean = false,
+        val isFavorite: Boolean = false,
         val language: String = "",
         val links: String = "",
         val recordingLicense: String = "",

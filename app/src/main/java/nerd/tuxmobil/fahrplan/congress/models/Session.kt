@@ -39,7 +39,7 @@ data class Session(
     val slug: String = "",
     val recordingLicense: String = "",
     val recordingOptOut: Boolean = false,
-    val isHighlight: Boolean = false,
+    val isFavorite: Boolean = false,
     val hasAlarm: Boolean = false,
 
     val changedTitle: Boolean = false,
@@ -121,7 +121,7 @@ private data class EssentialSession(
     val language: String,
     val recordingLicense: String,
     val recordingOptOut: Boolean,
-    val isHighlight: Boolean,
+    val isFavorite: Boolean,
     val hasAlarm: Boolean,
 ) {
     constructor(session: Session) : this(
@@ -143,7 +143,7 @@ private data class EssentialSession(
         language = session.language,
         recordingLicense = session.recordingLicense,
         recordingOptOut = session.recordingOptOut,
-        isHighlight = session.isHighlight,
+        isFavorite = session.isFavorite,
         hasAlarm = session.hasAlarm,
     )
 }

@@ -21,7 +21,7 @@ class SelectedSessionParameterFactory(
 
         return SelectedSessionParameter(
             // Options menu
-            isFlaggedAsFavorite = session.isHighlight,
+            isFlaggedAsFavorite = session.isFavorite,
             hasAlarm = session.hasAlarm,
             supportsChaosflixExport = buildConfigProvision.enableChaosflixExport,
             supportsFeedback = supportsFeedback,
