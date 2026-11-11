@@ -50,8 +50,8 @@ import nerd.tuxmobil.fahrplan.congress.extensions.applyToolbar
 import nerd.tuxmobil.fahrplan.congress.extensions.isLandscape
 import nerd.tuxmobil.fahrplan.congress.extensions.showToast
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesActivity
 import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesFragment
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage.TitledMessage
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessageScreen
@@ -431,7 +431,7 @@ class MainActivity : BaseActivity(),
     private fun openFavorites() {
         val sidePaneView = findViewById<FragmentContainerView>(R.id.detail)
         if (sidePaneView == null) {
-            StarredListActivity.start(this)
+            FavoritesActivity.start(this)
         } else if (!isScreenLocked) {
             sidePaneView.isVisible = true
             isFavoritesInSidePane = true

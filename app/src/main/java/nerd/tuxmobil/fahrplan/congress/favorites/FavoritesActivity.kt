@@ -11,12 +11,12 @@ import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity
 import nerd.tuxmobil.fahrplan.congress.extensions.applyEdgeToEdgeInsets
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 
-class StarredListActivity : BaseActivity(R.layout.activity_generic), OnSessionItemClickListener {
+class FavoritesActivity : BaseActivity(R.layout.activity_generic), OnSessionItemClickListener {
 
     companion object {
 
         fun start(context: Context) {
-            val intent = Intent(context, StarredListActivity::class.java)
+            val intent = Intent(context, FavoritesActivity::class.java)
             context.startActivity(intent)
         }
     }
