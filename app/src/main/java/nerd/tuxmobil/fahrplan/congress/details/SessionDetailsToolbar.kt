@@ -216,7 +216,7 @@ private fun SessionDetailsToolbar(useVerticalToolbar: Boolean) {
     EventFahrplanTheme {
         SessionDetailsToolbar(
             actions = listOf(
-                Favorite(isFavored = false),
+                Favorite(isFavorite = false),
                 Alarm(hasAlarm = true),
                 Feedback,
                 AddToCalendar,

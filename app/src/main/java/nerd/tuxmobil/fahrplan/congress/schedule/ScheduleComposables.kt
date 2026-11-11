@@ -224,7 +224,7 @@ fun SessionCard(
 
             ContextMenu(
                 expanded = showContextMenu,
-                isFavored = data.isFavored,
+                isFavorite = data.isFavorite,
                 hasAlarm = data.hasAlarm,
                 shouldShowShareSubMenu = data.shouldShowShareSubMenu,
                 textColor = contextMenuTextColor,
@@ -551,7 +551,7 @@ private fun AlarmIcon(
 @Composable
 private fun ContextMenu(
     expanded: Boolean,
-    isFavored: Boolean,
+    isFavorite: Boolean,
     hasAlarm: Boolean,
     shouldShowShareSubMenu: Boolean,
     textColor: Color,
@@ -568,7 +568,7 @@ private fun ContextMenu(
             offset = menuOffset
         ) {
             DropdownMenuItem(
-                text = { Text(stringResource(if (isFavored) R.string.menu_item_title_unflag_as_favorite else R.string.menu_item_title_flag_as_favorite), color = textColor) },
+                text = { Text(stringResource(if (isFavorite) R.string.menu_item_title_unflag_as_favorite else R.string.menu_item_title_flag_as_favorite), color = textColor) },
                 onClick = {
                     onMenuItemClick(TOGGLE_FAVORITE)
                     onCollapseRequest()
@@ -676,11 +676,11 @@ private fun RoomColumnPreview() {
 @Composable
 private fun createRoomColumnData() = RoomColumnData(
     sessionData = listOf(
-        createSessionCardData(height = 50.dp, isFavored = false, hasAlarm = true, isRecorded = true),
-        createSessionCardData(height = 100.dp, isFavored = true, hasAlarm = true, isRecorded = false),
-        createSessionCardData(height = 70.dp, isFavored = false, hasAlarm = true, isRecorded = true),
-        createSessionCardData(height = 200.dp, isFavored = true, hasAlarm = false, isRecorded = true),
-        createSessionCardData(height = 35.dp, isFavored = false, hasAlarm = true, isRecorded = false),
+        createSessionCardData(height = 50.dp, isFavorite = false, hasAlarm = true, isRecorded = true),
+        createSessionCardData(height = 100.dp, isFavorite = true, hasAlarm = true, isRecorded = false),
+        createSessionCardData(height = 70.dp, isFavorite = false, hasAlarm = true, isRecorded = true),
+        createSessionCardData(height = 200.dp, isFavorite = true, hasAlarm = false, isRecorded = true),
+        createSessionCardData(height = 35.dp, isFavorite = false, hasAlarm = true, isRecorded = false),
     ),
     spacings = listOf(20.dp, 80.dp, 0.dp, 8.dp, 0.dp),
 )
@@ -688,7 +688,7 @@ private fun createRoomColumnData() = RoomColumnData(
 @Preview
 @Composable
 private fun SessionCardPreview() {
-    val data = createSessionCardData(height = 200.dp, isFavored = true, hasAlarm = true, isRecorded = false)
+    val data = createSessionCardData(height = 200.dp, isFavorite = true, hasAlarm = true, isRecorded = false)
     EventFahrplanTheme {
         SessionCard(
             data = data,
@@ -703,7 +703,7 @@ private fun SessionCardPreview() {
 @Composable
 private fun createSessionCardData(
     height: Dp = 100.dp,
-    isFavored: Boolean = false,
+    isFavorite: Boolean = false,
     hasAlarm: Boolean = false,
     isRecorded: Boolean = true,
 ) = SessionCardData(
@@ -718,9 +718,9 @@ private fun createSessionCardData(
     innerHorizontalPadding = 8f,
     innerVerticalPadding = 4f,
     cardHeight = height,
-    isFavored = isFavored,
+    isFavorite = isFavorite,
     hasAlarm = hasAlarm,
-    showBorder = isFavored, // omitting the app setting here for simplicity
+    showBorder = isFavorite, // omitting the app setting here for simplicity
     shouldShowShareSubMenu = false,
     backgroundColor = R.color.track_background_default,
     textColor = R.color.text_primary,
@@ -737,7 +737,7 @@ private fun SessionCardPreview01() {
         trackName = stringResource(R.string.placeholder_session_track),
         cardHeight = 120.dp,
         recordingOptOut = true,
-        isFavored = true,
+        isFavorite = true,
         hasAlarm = true,
         showBorder = true,
     )
@@ -754,7 +754,7 @@ private fun SessionCardPreview02() {
         trackName = stringResource(R.string.placeholder_session_track),
         cardHeight = 90.dp,
         recordingOptOut = true,
-        isFavored = true,
+        isFavorite = true,
         hasAlarm = true,
         showBorder = true,
     )
@@ -771,7 +771,7 @@ private fun SessionCardPreview03() {
         trackName = stringResource(R.string.placeholder_session_track),
         cardHeight = 90.dp,
         recordingOptOut = true,
-        isFavored = true,
+        isFavorite = true,
         hasAlarm = true,
         showBorder = true,
     )
@@ -788,7 +788,7 @@ private fun SessionCardPreview04() {
         trackName = stringResource(R.string.placeholder_session_track),
         cardHeight = 70.dp,
         recordingOptOut = true,
-        isFavored = true,
+        isFavorite = true,
         hasAlarm = true,
         showBorder = true,
     )
@@ -805,7 +805,7 @@ private fun SessionCardPreview05() {
         trackName = stringResource(R.string.placeholder_session_track),
         cardHeight = 55.dp,
         recordingOptOut = true,
-        isFavored = true,
+        isFavorite = true,
         hasAlarm = true,
         showBorder = true,
     )
@@ -822,7 +822,7 @@ private fun SessionCardPreview06() {
         trackName = stringResource(R.string.placeholder_session_track),
         cardHeight = 50.dp,
         recordingOptOut = true,
-        isFavored = true,
+        isFavorite = true,
         hasAlarm = true,
         showBorder = true,
     )
@@ -839,7 +839,7 @@ private fun SessionCardPreview07() {
         trackName = "",
         cardHeight = 60.dp,
         recordingOptOut = true,
-        isFavored = true,
+        isFavorite = true,
         hasAlarm = true,
         showBorder = true,
     )
@@ -856,7 +856,7 @@ private fun SessionCardPreview08() {
         trackName = "",
         cardHeight = 95.dp,
         recordingOptOut = true,
-        isFavored = true,
+        isFavorite = true,
         hasAlarm = true,
         showBorder = true,
     )
@@ -873,7 +873,7 @@ private fun SessionCardPreview09() {
         trackName = "",
         cardHeight = 110.dp,
         recordingOptOut = true,
-        isFavored = true,
+        isFavorite = true,
         hasAlarm = true,
         showBorder = true,
     )
@@ -890,7 +890,7 @@ private fun SessionCardPreview10() {
         trackName = "Very looooooooooooooooooooooooooooooooooooooooooooooong track name",
         cardHeight = 160.dp,
         recordingOptOut = true,
-        isFavored = true,
+        isFavorite = true,
         hasAlarm = true,
         showBorder = true,
     )
@@ -905,7 +905,7 @@ private fun SessionCard(
     trackName: String = "",
     cardHeight: Dp,
     recordingOptOut: Boolean = false,
-    isFavored: Boolean = false,
+    isFavorite: Boolean = false,
     hasAlarm: Boolean = false,
     showBorder: Boolean = false,
     shouldShowShareSubMenu: Boolean = false,
@@ -926,7 +926,7 @@ private fun SessionCard(
                 innerHorizontalPadding = 8f,
                 innerVerticalPadding = 4f,
                 cardHeight = cardHeight,
-                isFavored = isFavored,
+                isFavorite = isFavorite,
                 hasAlarm = hasAlarm,
                 showBorder = showBorder,
                 shouldShowShareSubMenu = shouldShowShareSubMenu,

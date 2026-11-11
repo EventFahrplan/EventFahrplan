@@ -959,7 +959,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
                 innerHorizontalPadding = horizontalPadding / context.resources.displayMetrics.density,
                 innerVerticalPadding = verticalPadding / context.resources.displayMetrics.density,
                 cardHeight = heightDp,
-                isFavored = session.isFavorite,
+                isFavorite = session.isFavorite,
                 hasAlarm = session.hasAlarm,
                 showBorder = showBorder,
                 shouldShowShareSubMenu = BuildConfig.ENABLE_CHAOSFLIX_EXPORT,
