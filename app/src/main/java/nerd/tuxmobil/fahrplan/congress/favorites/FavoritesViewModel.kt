@@ -15,8 +15,8 @@ import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.NavigateTo
 import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.NavigateToSession
 import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.ShareJson
 import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.ShareSimple
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListUiState.Loading
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListUiState.Success
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesUiState.Loading
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesUiState.Success
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnDeleteSelectedClick
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnItemLongClick
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnSelectionModeDismiss
@@ -39,7 +39,7 @@ class StarredListViewModel(
     private val searchResultParameterFactory: SearchResultParameterFactory,
 ) : ViewModel() {
 
-    private val mutableUiState = MutableStateFlow<StarredListUiState>(Loading)
+    private val mutableUiState = MutableStateFlow<FavoritesUiState>(Loading)
     val uiState = mutableUiState.asStateFlow()
 
     private val _selectedIds = MutableStateFlow<Set<String>>(emptySet())

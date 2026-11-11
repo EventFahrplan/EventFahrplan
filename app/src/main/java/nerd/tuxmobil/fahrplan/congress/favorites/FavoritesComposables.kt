@@ -50,8 +50,8 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.navigationBarsImeBottomPaddingValues
 import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListUiState.Loading
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListUiState.Success
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesUiState.Loading
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesUiState.Success
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnItemLongClick
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnSelectionModeDismiss
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnItemClick
@@ -66,7 +66,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.compose.rememberAutoHideOnScrollDow
 @Composable
 fun StarredListContent(
     headerTitle: String,
-    uiState: StarredListUiState,
+    uiState: FavoritesUiState,
     selectedIds: Set<String> = emptySet(),
     showInSidePane: Boolean,
     onBack: () -> Unit,
