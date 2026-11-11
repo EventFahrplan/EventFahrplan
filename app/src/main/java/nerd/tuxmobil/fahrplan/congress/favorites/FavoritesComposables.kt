@@ -52,9 +52,9 @@ import nerd.tuxmobil.fahrplan.congress.extensions.navigationBarsImeBottomPadding
 import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
 import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesUiState.Loading
 import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesUiState.Success
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnItemLongClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnSelectionModeDismiss
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnItemClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.Multiselect.OnItemLongClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.Multiselect.OnSelectionModeDismiss
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnItemClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultItem
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.SearchResult
@@ -70,7 +70,7 @@ fun StarredListContent(
     selectedIds: Set<String> = emptySet(),
     showInSidePane: Boolean,
     onBack: () -> Unit,
-    onViewEvent: (StarredListViewEvent) -> Unit,
+    onViewEvent: (FavoritesViewEvent) -> Unit,
 ) {
     val useVerticalToolbar = useVerticalFloatingToolbar(showInSidePane)
     val navigationTitle = headerTitle.ifEmpty { stringResource(R.string.favorites_screen_default_title) }
@@ -156,7 +156,7 @@ private fun StarredSessionsList(
     multiselect: Boolean,
     selectedIds: Set<String>,
     onBack: () -> Unit,
-    onViewEvent: (StarredListViewEvent) -> Unit,
+    onViewEvent: (FavoritesViewEvent) -> Unit,
 ) {
     val listState = rememberLazyListState()
     var hasAutoScrolled by rememberSaveable { mutableStateOf(false) }

@@ -17,14 +17,14 @@ import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.ShareJson
 import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.ShareSimple
 import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesUiState.Loading
 import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesUiState.Success
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnDeleteSelectedClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnItemLongClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnSelectionModeDismiss
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnDeleteAllClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnDeleteAllWithConfirmationClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnItemClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnShareClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnShareToChaosflixClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.Multiselect.OnDeleteSelectedClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.Multiselect.OnItemLongClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.Multiselect.OnSelectionModeDismiss
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnDeleteAllClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnDeleteAllWithConfirmationClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnItemClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnShareClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnShareToChaosflixClick
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.ExecutionContext
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameterFactory
@@ -64,7 +64,7 @@ class StarredListViewModel(
         }
     }
 
-    fun onViewEvent(viewEvent: StarredListViewEvent) = when (viewEvent) {
+    fun onViewEvent(viewEvent: FavoritesViewEvent) = when (viewEvent) {
         is OnItemClick -> sendEffect(NavigateToSession(viewEvent.sessionId))
         is OnItemLongClick -> toggleSelection(viewEvent.sessionId)
         OnDeleteAllClick -> deleteAllFavorites()

@@ -26,10 +26,10 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.menues.DropdownMenu
 import nerd.tuxmobil.fahrplan.congress.designsystem.menues.DropdownMenuItem
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnDeleteSelectedClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnDeleteAllWithConfirmationClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnShareClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnShareToChaosflixClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.Multiselect.OnDeleteSelectedClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnDeleteAllWithConfirmationClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnShareClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnShareToChaosflixClick
 
 @Composable
 internal fun StarredListToolbar(
@@ -39,7 +39,7 @@ internal fun StarredListToolbar(
     useVerticalToolbar: Boolean,
     modifier: Modifier = Modifier,
     buildConfigProvision: BuildConfigProvision = BuildConfigProvider(),
-    onViewEvent: (StarredListViewEvent) -> Unit,
+    onViewEvent: (FavoritesViewEvent) -> Unit,
 ) {
     @Composable
     fun colors() = when (multiselect) {
@@ -120,7 +120,7 @@ internal fun StarredListToolbar(
 
 @Composable
 private fun ShareFavoritesChaosflixButton(
-    onViewEvent: (StarredListViewEvent) -> Unit,
+    onViewEvent: (FavoritesViewEvent) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
     Box {

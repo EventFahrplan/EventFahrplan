@@ -27,8 +27,8 @@ import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.NavigateToSessi
 import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.ShareJson
 import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.ShareSimple
 import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesUiState.Success
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnSelectionModeDismiss
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnDeleteAllClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.Multiselect.OnSelectionModeDismiss
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnDeleteAllClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.SearchResult
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 

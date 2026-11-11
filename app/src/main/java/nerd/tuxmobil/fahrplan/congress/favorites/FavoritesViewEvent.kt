@@ -1,13 +1,13 @@
 package nerd.tuxmobil.fahrplan.congress.favorites
 
-sealed interface StarredListViewEvent {
-    data class OnItemClick(val sessionId: String) : StarredListViewEvent
-    data object OnDeleteAllWithConfirmationClick : StarredListViewEvent
-    data object OnDeleteAllClick : StarredListViewEvent
-    data object OnShareClick : StarredListViewEvent
-    data object OnShareToChaosflixClick : StarredListViewEvent
+sealed interface FavoritesViewEvent {
+    data class OnItemClick(val sessionId: String) : FavoritesViewEvent
+    data object OnDeleteAllWithConfirmationClick : FavoritesViewEvent
+    data object OnDeleteAllClick : FavoritesViewEvent
+    data object OnShareClick : FavoritesViewEvent
+    data object OnShareToChaosflixClick : FavoritesViewEvent
 
-    sealed interface Multiselect : StarredListViewEvent {
+    sealed interface Multiselect : FavoritesViewEvent {
         data class OnItemLongClick(val sessionId: String) : Multiselect
         data object OnSelectionModeDismiss : Multiselect
         data object OnDeleteSelectedClick : Multiselect
