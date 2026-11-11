@@ -463,7 +463,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
         val sessionPropertiesFormatter = SessionPropertiesFormatter(ResourceResolver(context))
         val isAlternativeHighlightingEnabled = AppRepository.readAlternativeHighlightingEnabled()
         val defaultBackgroundColorByTrackName = TrackBackgrounds.getTrackNameBackgroundColorDefaultPairs(context)
-        val highlightBackgroundColorByTrackName = TrackBackgrounds.getTrackNameBackgroundColorHighlightPairs(context)
+        val favoriteBackgroundColorByTrackName = TrackBackgrounds.getTrackNameBackgroundColorFavoritePairs(context)
 
         val willClear = currentDayIndex != scheduleData.dayIndex || columnsLayout.childCount != roomDataList.size
         logging.report(LOG_TAG, buildString {
@@ -512,7 +512,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
                 contentDescriptionFormatter = contentDescriptionFormatter,
                 sessionPropertiesFormatter = sessionPropertiesFormatter,
                 defaultBackgroundColorByTrackName = defaultBackgroundColorByTrackName,
-                highlightBackgroundColorByTrackName = highlightBackgroundColorByTrackName,
+                favoriteBackgroundColorByTrackName = favoriteBackgroundColorByTrackName,
             )
 
             val roomColumnView = ComposeView(context).apply {
@@ -873,7 +873,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
         contentDescriptionFormatter: ContentDescriptionFormatting,
         sessionPropertiesFormatter: SessionPropertiesFormatting,
         defaultBackgroundColorByTrackName: Map<String?, Int>,
-        highlightBackgroundColorByTrackName: Map<String?, Int>,
+        favoriteBackgroundColorByTrackName: Map<String?, Int>,
     ): RoomColumnData {
         // Prepare session data and spacings
         val sessionDataList = mutableListOf<SessionCardData>()
@@ -893,14 +893,14 @@ class FahrplanFragment : Fragment(), MenuProvider {
             val layoutParams = layoutParamsBySession[session.sessionId]
 
             val backgroundColorResId = if (session.isHighlight) {
-                highlightBackgroundColorByTrackName[session.track]
-                    ?: R.color.track_background_highlight
+                favoriteBackgroundColorByTrackName[session.track]
+                    ?: R.color.track_background_favorite
             } else {
                 defaultBackgroundColorByTrackName[session.track] ?: R.color.track_background_default
             }
 
             val textColorResId = if (session.isHighlight)
-                R.color.session_item_text_on_highlight_background
+                R.color.session_item_text_on_favorite_background
             else
                 R.color.session_item_text_on_default_background
 

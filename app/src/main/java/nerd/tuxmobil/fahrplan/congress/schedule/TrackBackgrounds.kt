@@ -75,9 +75,9 @@ object TrackBackgrounds {
         context
     )
 
-    fun getTrackNameBackgroundColorHighlightPairs(context: Context) = buildTrackBackgroundHashMap(
+    fun getTrackNameBackgroundColorFavoritePairs(context: Context) = buildTrackBackgroundHashMap(
         getHashMapResource(context, R.xml.track_resource_names),
-        "track_background_highlight",
+        "track_background_favorite",
         "color",
         context
     )

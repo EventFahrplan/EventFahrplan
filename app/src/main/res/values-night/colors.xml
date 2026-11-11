@@ -14,6 +14,6 @@
 
     <!-- Schedule screen -->
     <color name="track_background_default">#333333</color>
-    <color name="track_background_highlight">#4d4d4d</color>
+    <color name="track_background_favorite">#4d4d4d</color>
 
 </resources>
