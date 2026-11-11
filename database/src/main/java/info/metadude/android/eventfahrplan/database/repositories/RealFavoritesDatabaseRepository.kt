@@ -3,11 +3,11 @@ package info.metadude.android.eventfahrplan.database.repositories
 import android.content.ContentValues
 import android.database.sqlite.SQLiteException
 import androidx.core.database.sqlite.transaction
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.HIGHLIGHT
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.SESSION_ID
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Values.HIGHLIGHT_STATE_OFF
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Values.HIGHLIGHT_STATE_ON
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.FavoritesTable
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.FavoritesTable.Columns.IS_FAVORITE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.FavoritesTable.Columns.SESSION_ID
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.FavoritesTable.Values.MARKED_AS_FAVORITE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.FavoritesTable.Values.NOT_MARKED_AS_FAVORITE
 import info.metadude.android.eventfahrplan.database.extensions.delete
 import info.metadude.android.eventfahrplan.database.extensions.getInt
 import info.metadude.android.eventfahrplan.database.extensions.getString
@@ -27,9 +27,9 @@ internal class RealHighlightsDatabaseRepository(
 
     override fun update(values: ContentValues, sessionId: String) = with(sqLiteOpenHelper) {
         writableDatabase.upsert({
-            delete(HighlightsTable.NAME, SESSION_ID, sessionId)
+            delete(FavoritesTable.NAME, SESSION_ID, sessionId)
         }, {
-            insert(HighlightsTable.NAME, values)
+            insert(FavoritesTable.NAME, values)
         })
     }
 
@@ -38,7 +38,7 @@ internal class RealHighlightsDatabaseRepository(
         val database = sqLiteOpenHelper.readableDatabase
 
         val cursor = try {
-            database.read(HighlightsTable.NAME, orderBy = SESSION_ID)
+            database.read(FavoritesTable.NAME, orderBy = SESSION_ID)
         } catch (e: SQLiteException) {
             e.printStackTrace()
             return highlights.toList()
@@ -46,8 +46,8 @@ internal class RealHighlightsDatabaseRepository(
 
         return cursor.map {
             val sessionId = cursor.getString(SESSION_ID)
-            val highlightState = cursor.getInt(HIGHLIGHT)
-            val isHighlighted = highlightState == HIGHLIGHT_STATE_ON
+            val highlightState = cursor.getInt(IS_FAVORITE)
+            val isHighlighted = highlightState == MARKED_AS_FAVORITE
 
             Highlight(sessionId, isHighlighted)
         }
@@ -57,7 +57,7 @@ internal class RealHighlightsDatabaseRepository(
         val database = sqLiteOpenHelper.readableDatabase
         val cursor = try {
             database.read(
-                tableName = HighlightsTable.NAME,
+                tableName = FavoritesTable.NAME,
                 selection = "$SESSION_ID=?",
                 selectionArgs = arrayOf(sessionId)
             )
@@ -67,8 +67,8 @@ internal class RealHighlightsDatabaseRepository(
 
         return cursor.use {
             if (cursor.moveToFirst()) {
-                val highlightState = cursor.getInt(HIGHLIGHT)
-                val isHighlighted = highlightState == HIGHLIGHT_STATE_ON
+                val highlightState = cursor.getInt(IS_FAVORITE)
+                val isHighlighted = highlightState == MARKED_AS_FAVORITE
                 Highlight(sessionId, isHighlighted)
             } else {
                 null
@@ -77,15 +77,15 @@ internal class RealHighlightsDatabaseRepository(
     }
 
     /**
-     * Resets the value of the [HIGHLIGHT] column to [`false`][HIGHLIGHT_STATE_OFF] for the rows
+     * Resets the value of the [IS_FAVORITE] column to [`false`][NOT_MARKED_AS_FAVORITE] for the rows
      * with the given [sessionIds].
      */
     override fun delete(sessionIds: Set<String>): Int {
         with(sqLiteOpenHelper) {
             return writableDatabase.updateRows(
-                tableName = HighlightsTable.NAME,
+                tableName = FavoritesTable.NAME,
                 contentValues = ContentValues().apply {
-                    put(HIGHLIGHT, HIGHLIGHT_STATE_OFF)
+                    put(IS_FAVORITE, NOT_MARKED_AS_FAVORITE)
                 },
                 columnName = SESSION_ID,
                 columnValues = sessionIds,
@@ -94,15 +94,15 @@ internal class RealHighlightsDatabaseRepository(
     }
 
     /**
-     * Resets the value of the [HIGHLIGHT] column to [`false`][HIGHLIGHT_STATE_OFF] for each row.
+     * Resets the value of the [IS_FAVORITE] column to [`false`][NOT_MARKED_AS_FAVORITE] for each row.
      * Rows are not removed.
      */
     override fun deleteAll() = with(sqLiteOpenHelper) {
         writableDatabase.transaction {
             updateRows(
-                    tableName = HighlightsTable.NAME,
+                    tableName = FavoritesTable.NAME,
                     contentValues = ContentValues().apply {
-                        put(HIGHLIGHT, HIGHLIGHT_STATE_OFF)
+                        put(IS_FAVORITE, NOT_MARKED_AS_FAVORITE)
                     })
         }
     }
