@@ -5,9 +5,9 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Fa
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.FavoritesTable.Columns.SESSION_ID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.FavoritesTable.Values.MARKED_AS_FAVORITE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.FavoritesTable.Values.NOT_MARKED_AS_FAVORITE
-import info.metadude.android.eventfahrplan.database.models.Highlight
+import info.metadude.android.eventfahrplan.database.models.Favorite
 
-fun Highlight.toContentValues() = contentValuesOf(
+fun Favorite.toContentValues() = contentValuesOf(
         SESSION_ID to sessionId,
-        IS_FAVORITE to if (isHighlight) MARKED_AS_FAVORITE else NOT_MARKED_AS_FAVORITE
+        IS_FAVORITE to if (isFavorite) MARKED_AS_FAVORITE else NOT_MARKED_AS_FAVORITE
 )

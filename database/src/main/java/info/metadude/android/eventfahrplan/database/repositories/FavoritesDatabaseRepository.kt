@@ -2,7 +2,7 @@ package info.metadude.android.eventfahrplan.database.repositories
 
 import android.content.ContentValues
 import android.content.Context
-import info.metadude.android.eventfahrplan.database.models.Highlight
+import info.metadude.android.eventfahrplan.database.models.Favorite
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.HighlightDBOpenHelper
 
 interface HighlightsDatabaseRepository {
@@ -13,8 +13,8 @@ interface HighlightsDatabaseRepository {
     }
 
     fun update(values: ContentValues, sessionId: String): Long
-    fun query(): List<Highlight>
-    fun queryBySessionId(sessionId: String): Highlight?
+    fun query(): List<Favorite>
+    fun queryBySessionId(sessionId: String): Favorite?
     fun delete(sessionIds: Set<String>): Int
     fun deleteAll(): Int
 

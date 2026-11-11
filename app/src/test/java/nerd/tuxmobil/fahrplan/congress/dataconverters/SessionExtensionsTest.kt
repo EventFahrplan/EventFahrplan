@@ -3,7 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.dataconverters
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import info.metadude.android.eventfahrplan.database.models.Highlight
+import info.metadude.android.eventfahrplan.database.models.Favorite
 import info.metadude.android.eventfahrplan.database.models.Session.Companion.RECORDING_OPT_OUT_ON
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.Room
@@ -246,13 +246,13 @@ class SessionExtensionsTest {
     }
 
     @Test
-    fun `toHighlightDatabaseModel returns a Highlight object derived from a session`() {
+    fun `toFavoriteDatabaseModel returns a Favorite object derived from a session`() {
         val session = SessionAppModel(
             sessionId = "4723",
             isHighlight = true,
         )
-        val highlight = Highlight(sessionId = "4723", isHighlight = true)
-        assertThat(session.toHighlightDatabaseModel()).isEqualTo(highlight)
+        val favorite = Favorite(sessionId = "4723", isFavorite = true)
+        assertThat(session.toFavoriteDatabaseModel()).isEqualTo(favorite)
     }
 
     @Test

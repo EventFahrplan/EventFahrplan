@@ -1,6 +1,6 @@
 package info.metadude.android.eventfahrplan.database.models
 
-data class Highlight(
+data class Favorite(
     val sessionId: String,
-    val isHighlight: Boolean,
+    val isFavorite: Boolean,
 )

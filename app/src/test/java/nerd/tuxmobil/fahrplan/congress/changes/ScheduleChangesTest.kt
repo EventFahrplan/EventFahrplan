@@ -248,7 +248,7 @@ class ScheduleChangesTest {
                 expectedFoundNoteworthyChanges = false,
             ),
             scenario1Of(
-                scenarioDescription = "Highlight flags differ",
+                scenarioDescription = "Favorite flags differ",
                 oldSessions = listOf(Session("1", isHighlight = true)),
                 newSessions = listOf(Session("1", isHighlight = false)),
                 expectedSessions = listOf(Session("1", isHighlight = false)),

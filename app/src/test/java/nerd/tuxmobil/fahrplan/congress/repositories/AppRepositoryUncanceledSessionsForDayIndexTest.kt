@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import info.metadude.android.eventfahrplan.database.models.Highlight
+import info.metadude.android.eventfahrplan.database.models.Favorite
 import info.metadude.android.eventfahrplan.database.repositories.AlarmsDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.HighlightsDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
@@ -360,22 +360,22 @@ private class InMemoryAlarmRepository : AlarmsDatabaseRepository {
 
 private class InMemoryHighlightsDatabaseRepository : HighlightsDatabaseRepository {
 
-    private var highlights = listOf<Highlight>()
+    private var highlights = listOf<Favorite>()
 
     override fun update(values: ContentValues, sessionId: String): Long {
-        val highlight = Highlight(
+        val highlight = Favorite(
             sessionId = sessionId,
-            isHighlight = true,
+            isFavorite = true,
         )
         highlights = listOf(highlight)
         return 0L
     }
 
-    override fun query(): List<Highlight> {
+    override fun query(): List<Favorite> {
         return highlights
     }
 
-    override fun queryBySessionId(sessionId: String): Highlight? {
+    override fun queryBySessionId(sessionId: String): Favorite? {
         return highlights.singleOrNull { it.sessionId == sessionId }
     }
 

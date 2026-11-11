@@ -8,7 +8,7 @@ import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.Room
 import nerd.tuxmobil.fahrplan.congress.schedule.TrackBackgrounds
 import org.threeten.bp.ZoneOffset
-import info.metadude.android.eventfahrplan.database.models.Highlight as HighlightDatabaseModel
+import info.metadude.android.eventfahrplan.database.models.Favorite as FavoriteDatabaseModel
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
 import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
@@ -24,9 +24,9 @@ fun SessionAppModel.toRoom() = Room(identifier = roomIdentifier, name = roomName
 
 fun SessionDatabaseModel.toDateInfo(): DateInfo = DateInfo(dayIndex, Moment.parseDate(dateText))
 
-fun SessionAppModel.toHighlightDatabaseModel() = HighlightDatabaseModel(
+fun SessionAppModel.toFavoriteDatabaseModel() = FavoriteDatabaseModel(
         sessionId = sessionId,
-        isHighlight = isHighlight
+        isFavorite = isHighlight
 )
 
 fun SessionDatabaseModel.toSessionAppModel(): SessionAppModel {

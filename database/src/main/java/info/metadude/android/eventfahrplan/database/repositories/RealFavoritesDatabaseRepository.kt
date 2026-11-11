@@ -16,7 +16,7 @@ import info.metadude.android.eventfahrplan.database.extensions.map
 import info.metadude.android.eventfahrplan.database.extensions.read
 import info.metadude.android.eventfahrplan.database.extensions.updateRows
 import info.metadude.android.eventfahrplan.database.extensions.upsert
-import info.metadude.android.eventfahrplan.database.models.Highlight
+import info.metadude.android.eventfahrplan.database.models.Favorite
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.HighlightDBOpenHelper
 
 internal class RealHighlightsDatabaseRepository(
@@ -33,8 +33,8 @@ internal class RealHighlightsDatabaseRepository(
         })
     }
 
-    override fun query(): List<Highlight> {
-        val highlights = mutableListOf<Highlight>()
+    override fun query(): List<Favorite> {
+        val highlights = mutableListOf<Favorite>()
         val database = sqLiteOpenHelper.readableDatabase
 
         val cursor = try {
@@ -49,11 +49,11 @@ internal class RealHighlightsDatabaseRepository(
             val highlightState = cursor.getInt(IS_FAVORITE)
             val isHighlighted = highlightState == MARKED_AS_FAVORITE
 
-            Highlight(sessionId, isHighlighted)
+            Favorite(sessionId, isHighlighted)
         }
     }
 
-    override fun queryBySessionId(sessionId: String): Highlight? {
+    override fun queryBySessionId(sessionId: String): Favorite? {
         val database = sqLiteOpenHelper.readableDatabase
         val cursor = try {
             database.read(
@@ -69,7 +69,7 @@ internal class RealHighlightsDatabaseRepository(
             if (cursor.moveToFirst()) {
                 val highlightState = cursor.getInt(IS_FAVORITE)
                 val isHighlighted = highlightState == MARKED_AS_FAVORITE
-                Highlight(sessionId, isHighlighted)
+                Favorite(sessionId, isHighlighted)
             } else {
                 null
             }

@@ -50,7 +50,7 @@ import nerd.tuxmobil.fahrplan.congress.dataconverters.toAlarmsAppModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toDateInfos
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toDayIndices
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toDayRanges
-import nerd.tuxmobil.fahrplan.congress.dataconverters.toHighlightDatabaseModel
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toFavoriteDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toMetaAppModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionAppModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel
@@ -755,7 +755,7 @@ object AppRepository : SearchRepository,
 
         val favoriteSessionIds = readFavorites()
             .asSequence()
-            .filter { it.isHighlight }
+            .filter { it.isFavorite }
             .map { it.sessionId }
             .toSet()
 
@@ -853,7 +853,7 @@ object AppRepository : SearchRepository,
 
     @WorkerThread
     fun updateFavorite(session: SessionAppModel) {
-        val favoriteDatabaseModel = session.toHighlightDatabaseModel()
+        val favoriteDatabaseModel = session.toFavoriteDatabaseModel()
         val values = favoriteDatabaseModel.toContentValues()
         if (highlightsDatabaseRepository.update(values, session.sessionId) != DATABASE_UPDATE_ERROR) {
             refreshFavoriteSessions()
@@ -901,7 +901,7 @@ object AppRepository : SearchRepository,
     private fun enrichSession(session: SessionDatabaseModel): SessionDatabaseModel {
         val isFavorite = highlightsDatabaseRepository
             .queryBySessionId(session.sessionId)
-            ?.isHighlight ?: false
+            ?.isFavorite ?: false
 
         val hasAlarm = alarmsDatabaseRepository
             .query(session.sessionId)

@@ -47,7 +47,7 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import info.metadude.android.eventfahrplan.database.models.Highlight as DatabaseHighlight
+import info.metadude.android.eventfahrplan.database.models.Favorite as DatabaseFavorite
 import info.metadude.android.eventfahrplan.database.models.Meta as DatabaseMeta
 import info.metadude.android.eventfahrplan.database.models.Session as DatabaseSession
 import info.metadude.android.eventfahrplan.network.fetching.FetchScheduleResult as NetworkFetchScheduleResult
@@ -299,9 +299,9 @@ class AppRepositoryLoadAndParseScheduleTest {
         whenever(sessionsDatabaseRepository.querySessionBySessionId(any())) doReturn DatabaseSession(
             "23"
         )
-        whenever(highlightsDatabaseRepository.queryBySessionId(any())) doReturn DatabaseHighlight(
+        whenever(highlightsDatabaseRepository.queryBySessionId(any())) doReturn DatabaseFavorite(
             sessionId = "23",
-            isHighlight = false
+            isFavorite = false
         )
         whenever(alarmsDatabaseRepository.query(anyString())) doReturn emptyList()
         whenever(sharedPreferencesRepository.getSelectedSessionId()) doReturn "23"
