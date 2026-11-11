@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListDestination.ConfirmDeleteAll
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesDestination.ConfirmDeleteAll
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.NavigateTo
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.NavigateToSession
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.ShareJson

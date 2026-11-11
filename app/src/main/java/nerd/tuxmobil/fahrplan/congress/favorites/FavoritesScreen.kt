@@ -20,8 +20,8 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.designsystem.dialogs.ConfirmationDialog
 import nerd.tuxmobil.fahrplan.congress.extensions.showToast
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListDestination.ConfirmDeleteAll
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListDestination.StarredList
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesDestination.ConfirmDeleteAll
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesDestination.Favorites
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.NavigateTo
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.NavigateToSession
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.ShareJson
@@ -87,9 +87,9 @@ fun StarredListScreen(
 
     NavHost(
         navController = navController,
-        startDestination = StarredList.route,
+        startDestination = Favorites.route,
     ) {
-        composable(StarredList.route) {
+        composable(Favorites.route) {
             StarredListContent(
                 headerTitle = headerTitle.value,
                 uiState = state,

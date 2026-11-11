@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListDestination.ConfirmDeleteAll
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesDestination.ConfirmDeleteAll
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.NavigateTo
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.NavigateToSession
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.ShareJson
@@ -126,7 +126,7 @@ class StarredListViewModel(
         viewModelScope.launch(executionContext.database, block = block)
     }
 
-    private fun navigateTo(destination: StarredListDestination) {
+    private fun navigateTo(destination: FavoritesDestination) {
         sendEffect(NavigateTo(destination))
     }
 
