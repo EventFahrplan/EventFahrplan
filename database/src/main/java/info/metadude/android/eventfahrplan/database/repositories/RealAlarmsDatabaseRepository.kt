@@ -8,10 +8,10 @@ import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DAY_INDEX
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.FIRES_AT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.ID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.SESSION_ID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.SESSION_TITLE
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.TIME
 import info.metadude.android.eventfahrplan.database.extensions.delete
 import info.metadude.android.eventfahrplan.database.extensions.getInt
 import info.metadude.android.eventfahrplan.database.extensions.getLong
@@ -43,7 +43,7 @@ internal class RealAlarmsDatabaseRepository(
     }
 
     override fun query(): List<Alarm> = query {
-        read(AlarmsTable.NAME, orderBy = TIME)
+        read(AlarmsTable.NAME, orderBy = FIRES_AT)
     }
 
     override fun query(sessionId: String): List<Alarm> = query {
@@ -66,7 +66,7 @@ internal class RealAlarmsDatabaseRepository(
                 id = cursor.getInt(ID),
                 dayIndex = cursor.getInt(DAY_INDEX),
                 sessionId = cursor.getString(SESSION_ID),
-                time = cursor.getMoment(TIME),
+                firesAt = cursor.getMoment(FIRES_AT),
                 title = cursor.getString(SESSION_TITLE),
             )
         }

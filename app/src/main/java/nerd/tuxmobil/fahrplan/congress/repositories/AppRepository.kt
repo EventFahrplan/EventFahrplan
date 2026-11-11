@@ -38,6 +38,8 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onStart
 import nerd.tuxmobil.fahrplan.congress.applinks.Slug
+import nerd.tuxmobil.fahrplan.congress.changes.ScheduleChanges
+import nerd.tuxmobil.fahrplan.congress.changes.ScheduleChanges.Companion.computeSessionsWithChangeFlags
 import nerd.tuxmobil.fahrplan.congress.commons.BuildConfigProvider
 import nerd.tuxmobil.fahrplan.congress.commons.BuildConfigProvision
 import nerd.tuxmobil.fahrplan.congress.dataconverters.cropToDayRangesExtent
@@ -80,8 +82,6 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSucce
 import nerd.tuxmobil.fahrplan.congress.schedule.Conference
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewModel
 import nerd.tuxmobil.fahrplan.congress.search.SearchRepository
-import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges
-import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges.Companion.computeSessionsWithChangeFlags
 import okhttp3.OkHttpClient
 import info.metadude.android.eventfahrplan.database.models.Meta as MetaDatabaseModel
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel

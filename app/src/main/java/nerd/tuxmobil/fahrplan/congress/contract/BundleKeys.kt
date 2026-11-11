@@ -6,7 +6,7 @@ object BundleKeys {
     const val ALARM_SESSION_ID = "nerd.tuxmobil.fahrplan.congress.ALARM_SESSION_ID"
     const val ALARM_DAY_INDEX = "nerd.tuxmobil.fahrplan.congress.ALARM_DAY"
     const val ALARM_TITLE = "nerd.tuxmobil.fahrplan.congress.ALARM_TITLE"
-    const val ALARM_START_TIME = "nerd.tuxmobil.fahrplan.congress.ALARM_START_TIME"
+    const val ALARM_FIRES_AT = "nerd.tuxmobil.fahrplan.congress.ALARM_FIRES_AT"
 
     // Session alarm notification
     const val SESSION_ALARM_SESSION_ID =

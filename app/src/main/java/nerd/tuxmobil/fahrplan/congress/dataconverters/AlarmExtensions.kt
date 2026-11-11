@@ -11,14 +11,14 @@ fun Alarm.toAlarmDatabaseModel() = DatabaseAlarm(
     dayIndex = dayIndex,
     sessionId = sessionId,
     title = sessionTitle,
-    time = startTime,
+    firesAt = firesAt,
 )
 
 fun Alarm.toSchedulableAlarm() = SchedulableAlarm(
     dayIndex = dayIndex,
     sessionId = sessionId,
     sessionTitle = sessionTitle,
-    startTime = startTime,
+    firesAt = firesAt,
 )
 
 fun DatabaseAlarm.toAlarmAppModel() = Alarm(
@@ -26,5 +26,5 @@ fun DatabaseAlarm.toAlarmAppModel() = Alarm(
     dayIndex = dayIndex,
     sessionId = sessionId,
     sessionTitle = title,
-    startTime = time,
+    firesAt = firesAt,
 )

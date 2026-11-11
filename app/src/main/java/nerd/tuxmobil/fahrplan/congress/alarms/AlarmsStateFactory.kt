@@ -28,7 +28,7 @@ class AlarmsStateFactory(
                     R.string.session_list_item_subtitle_content_description,
                     found.subtitle
                 )
-                val alarmOffset = alarm.startTime.durationUntil(found.startsAt)
+                val alarmOffset = alarm.firesAt.durationUntil(found.startsAt)
                 val alarmOffsetContentDescription = when (alarmOffset == ZERO) {
                     true -> resourceResolving.getString(R.string.alarms_item_alarm_time_zero_minutes_content_description)
                     false -> resourceResolving.getString(
@@ -38,7 +38,7 @@ class AlarmsStateFactory(
                 }
                 val firesAtText = getFormattedDateTimeLong(
                     useDeviceTimeZone,
-                    alarm.startTime,
+                    alarm.firesAt,
                     found.timeZoneOffset,
                 )
                 val firesAtContentDescription = resourceResolving.getString(
@@ -54,7 +54,7 @@ class AlarmsStateFactory(
                     subtitleContentDescription = subtitleContentDescription,
                     alarmOffsetInMin = alarmOffset.toWholeMinutes().toInt(),
                     alarmOffsetContentDescription = alarmOffsetContentDescription,
-                    firesAt = alarm.startTime,
+                    firesAt = alarm.firesAt,
                     firesAtText = firesAtText,
                     firesAtContentDescription = firesAtContentDescription,
                     dayIndex = found.dayIndex,

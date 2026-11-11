@@ -8,20 +8,20 @@ data class Alarm(
     val dayIndex: Int,
     val sessionId: String,
     val sessionTitle: String,
-    val startTime: Moment,
+    val firesAt: Moment,
 ) {
 
     constructor(
         dayIndex: Int,
         sessionId: String,
         sessionTitle: String,
-        startTime: Moment,
+        firesAt: Moment,
     ) : this(
         id = DEFAULT_VALUE_ID,
         dayIndex = dayIndex,
         sessionId = sessionId,
         sessionTitle = sessionTitle,
-        startTime = startTime,
+        firesAt = firesAt,
     )
 
     companion object {

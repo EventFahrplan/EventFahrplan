@@ -4,10 +4,10 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DAY_INDEX
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.FIRES_AT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.ID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.SESSION_ID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.SESSION_TITLE
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.TIME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.NAME
 import info.metadude.android.eventfahrplan.database.extensions.dropTableIfExist
 
@@ -26,7 +26,7 @@ internal class AlarmsDBOpenHelper(context: Context) : SQLiteOpenHelper(
         const val ALARMS_TABLE_CREATE = "CREATE TABLE $NAME (" +
                 "$ID INTEGER PRIMARY KEY, " +
                 "$SESSION_TITLE TEXT, " +
-                "$TIME INTEGER, " +
+                "$FIRES_AT INTEGER, " +
                 "$SESSION_ID INTEGER, " +
                 "$DAY_INDEX INTEGER" +
                 ");"

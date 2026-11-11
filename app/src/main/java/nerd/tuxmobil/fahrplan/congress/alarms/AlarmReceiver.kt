@@ -54,7 +54,7 @@ class AlarmReceiver : BroadcastReceiver() {
             ALARM_SESSION -> {
                 val sessionId = intent.getStringExtra(BundleKeys.ALARM_SESSION_ID)!!
                 val dayIndex = intent.getIntExtra(BundleKeys.ALARM_DAY_INDEX, 1)
-                val start = intent.getMomentExtra(BundleKeys.ALARM_START_TIME, Moment.ofEpochMilli(System.currentTimeMillis()))
+                val occurredAt = intent.getMomentExtra(BundleKeys.ALARM_FIRES_AT, Moment.ofEpochMilli(System.currentTimeMillis()))
                 val title = intent.getStringExtra(BundleKeys.ALARM_TITLE)!!
                 logging.report(LOG_TAG, "sessionId = $sessionId, intent = $intent")
                 //context.showToast("Alarm worked.", showShort = false)
@@ -72,7 +72,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 )
 
                 val builder = notificationHelper.getSessionAlarmNotificationBuilder(
-                    contentIntent, title, start, soundUri, deleteBroadcastIntent
+                    contentIntent, title, occurredAt, soundUri, deleteBroadcastIntent
                 )
                 val isInsistentAlarmsEnabled = AppRepository.readInsistentAlarmsEnabled()
                 notificationHelper.notify(uniqueNotificationId, builder, isInsistentAlarmsEnabled)
@@ -104,7 +104,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val sessionId: String,
         val title: String,
         val dayIndex: Int,
-        val startTime: Moment,
+        val firesAt: Moment,
     ) {
 
         fun getIntent(isAddAlarmIntent: Boolean) = Intent(context, AlarmReceiver::class.java)
@@ -112,7 +112,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 BundleKeys.ALARM_SESSION_ID to sessionId,
                 BundleKeys.ALARM_DAY_INDEX to dayIndex,
                 BundleKeys.ALARM_TITLE to title,
-                BundleKeys.ALARM_START_TIME to startTime.toMilliseconds()
+                BundleKeys.ALARM_FIRES_AT to firesAt.toMilliseconds()
             ).apply {
                 action = if (isAddAlarmIntent) ALARM_SESSION else ALARM_DELETE
                 data = "alarm://$sessionId".toUri()

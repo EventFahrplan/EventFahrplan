@@ -208,7 +208,7 @@ class AlarmsViewModelTest {
         dayIndex = 2,
         sessionId = sessionId,
         sessionTitle = "Unused",
-        startTime = alarmStartsAt,
+        firesAt = alarmStartsAt,
     )
 
 }

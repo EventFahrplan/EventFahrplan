@@ -287,7 +287,7 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
         dayIndex = dayIndex,
         sessionId = sessionId,
         sessionTitle = "",
-        startTime = Moment.ofEpochMilli(0),
+        firesAt = Moment.ofEpochMilli(0),
     )
 
     private fun createScheduleData(session: SessionAppModel): ScheduleData {

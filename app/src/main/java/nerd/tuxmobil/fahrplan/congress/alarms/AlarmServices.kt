@@ -60,8 +60,8 @@ class AlarmServices @VisibleForTesting constructor(
         val sessionStartTime = session.startsAt.toMilliseconds()
         val alarmTimeOffsetMs = alarmTimeOffset * Moment.MILLISECONDS_OF_ONE_MINUTE.toLong()
         val alarmTime = sessionStartTime - alarmTimeOffsetMs
-        val moment = Moment.ofEpochMilli(alarmTime)
-        logging.d(LOG_TAG, "Add alarm: Time = ${moment.toUtcDateTime()}, in seconds = $alarmTime.")
+        val firesAt = Moment.ofEpochMilli(alarmTime)
+        logging.d(LOG_TAG, "Add alarm: Time = ${firesAt.toUtcDateTime()}, in seconds = $alarmTime.")
         val sessionId = session.sessionId
         val sessionTitle = session.title
         val dayIndex = session.dayIndex
@@ -69,7 +69,7 @@ class AlarmServices @VisibleForTesting constructor(
             dayIndex = dayIndex,
             sessionId = sessionId,
             sessionTitle = sessionTitle,
-            startTime = moment,
+            firesAt = firesAt,
         )
         val schedulableAlarm = alarm.toSchedulableAlarm()
         scheduleSessionAlarm(schedulableAlarm, true)
@@ -111,7 +111,7 @@ class AlarmServices @VisibleForTesting constructor(
             sessionId = alarm.sessionId,
             title = alarm.sessionTitle,
             dayIndex = alarm.dayIndex,
-            startTime = alarm.startTime
+            firesAt = alarm.firesAt
         ).getIntent(isAddAlarmIntent = true)
 
         val pendingIntent = pendingIntentDelegate.getPendingIntentBroadcast(context, intent)
@@ -121,7 +121,7 @@ class AlarmServices @VisibleForTesting constructor(
         AlarmManagerCompat.setExactAndAllowWhileIdle(
             alarmManager,
             AlarmManager.RTC_WAKEUP,
-            alarm.startTime.toMilliseconds(),
+            alarm.firesAt.toMilliseconds(),
             pendingIntent
         )
     }
@@ -135,7 +135,7 @@ class AlarmServices @VisibleForTesting constructor(
             sessionId = alarm.sessionId,
             title = alarm.sessionTitle,
             dayIndex = alarm.dayIndex,
-            startTime = alarm.startTime
+            firesAt = alarm.firesAt
         ).getIntent(isAddAlarmIntent = false)
         discardAlarm(context, intent)
     }
