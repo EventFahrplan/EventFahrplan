@@ -42,7 +42,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
@@ -52,10 +51,6 @@ import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import info.metadude.android.eventfahrplan.commons.flow.observe
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -86,8 +81,6 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextSupportingContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.navigationBarsImeBottomPaddingValues
 import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
-import nerd.tuxmobil.fahrplan.congress.search.SearchEffect.NavigateBack
-import nerd.tuxmobil.fahrplan.congress.search.SearchEffect.NavigateToSession
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.SearchResult
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.Separator
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Loading
@@ -111,33 +104,7 @@ import nerd.tuxmobil.fahrplan.congress.search.languages.SYNTHETIC_LANGUAGE_KEY_O
 import nerd.tuxmobil.fahrplan.congress.search.languages.SearchLanguageFilterUiState
 
 @Composable
-fun SearchScreen(
-    viewModel: SearchViewModel = viewModel(
-        factory = SearchViewModelFactory(context = LocalContext.current),
-    ),
-    onBack: () -> Unit,
-    onSessionItemClick: (String) -> Unit,
-) {
-    val lifecycleOwner = LocalLifecycleOwner.current
-    LaunchedEffect(lifecycleOwner) {
-        viewModel.effects.observe(lifecycleOwner) { effect ->
-            when (effect) {
-                NavigateBack -> onBack()
-                is NavigateToSession -> onSessionItemClick(effect.sessionId)
-            }
-        }
-    }
-
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
-
-    SearchContent(
-        state = state,
-        onViewEvent = viewModel::onViewEvent,
-    )
-}
-
-@Composable
-private fun SearchContent(
+internal fun SearchContent(
     state: SearchUiState,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
