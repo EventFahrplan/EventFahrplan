@@ -137,19 +137,19 @@ class AppRepositorySessionsTest {
     }
 
     @Test
-    fun `loadStarredSessions passes through an empty list`() = runTest {
+    fun `loadFavoriteSessions passes through an empty list`() = runTest {
         whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn emptyList()
-        testableAppRepository.starredSessions.test {
+        testableAppRepository.favoriteSessions.test {
             assertThat(awaitItem()).isEqualTo(emptyList<SessionAppModel>())
         }
         verifyInvokedOnce(sessionsDatabaseRepository).querySessionsOrderedByDateUtc()
     }
 
     @Test
-    fun `loadStarredSessions filters out sessions which are not starred`() = runTest {
+    fun `loadFavoriteSessions filters out sessions which are not favored`() = runTest {
         val sessions = listOf(SESSION_2001, SESSION_2002, SESSION_2003, SESSION_2004)
         whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn sessions
-        testableAppRepository.starredSessions.test {
+        testableAppRepository.favoriteSessions.test {
             assertThat(awaitItem()).containsExactly(SESSION_2002.toSessionAppModel())
         }
         verifyInvokedOnce(sessionsDatabaseRepository).querySessionsOrderedByDateUtc()

@@ -201,18 +201,18 @@ internal class SessionDetailsViewModel(
     private fun favorSession() {
         loadSelectedSession { session ->
             val favoredSession = session.copy(
-                isHighlight = true // Required: Update property because updateHighlight refers to its value!
+                isHighlight = true // Required: Update property because updateFavorite refers to its value!
             )
-            repository.updateHighlight(favoredSession)
+            repository.updateFavorite(favoredSession)
         }
     }
 
     private fun unfavorSession() {
         loadSelectedSession { session ->
             val unfavoredSession = session.copy(
-                isHighlight = false // Required: Update property because updateHighlight refers to its value!
+                isHighlight = false // Required: Update property because updateFavorite refers to its value!
             )
-            repository.updateHighlight(unfavoredSession)
+            repository.updateFavorite(unfavoredSession)
         }
     }
 

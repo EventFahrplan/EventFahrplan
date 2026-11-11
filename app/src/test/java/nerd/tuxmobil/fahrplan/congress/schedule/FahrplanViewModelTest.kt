@@ -454,7 +454,7 @@ class FahrplanViewModelTest {
             val repository = createRepository()
             val viewModel = createViewModel(repository)
             viewModel.updateFavorStatus(Session("session-52"))
-            verifyInvokedOnce(repository).updateHighlight(Session("session-52"))
+            verifyInvokedOnce(repository).updateFavorite(Session("session-52"))
         }
 
     }

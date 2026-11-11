@@ -223,7 +223,7 @@ class SessionDetailsViewModelTest {
             val viewModel = createViewModel(repository)
             viewModel.onViewEvent(OnAddFavoriteClick)
             verifyInvokedOnce(repository).loadSelectedSession()
-            verifyInvokedOnce(repository).updateHighlight(expectedSession)
+            verifyInvokedOnce(repository).updateFavorite(expectedSession)
         }
 
         @Test
@@ -234,7 +234,7 @@ class SessionDetailsViewModelTest {
             val viewModel = createViewModel(repository)
             viewModel.onViewEvent(OnDeleteFavoriteClick)
             verifyInvokedOnce(repository).loadSelectedSession()
-            verifyInvokedOnce(repository).updateHighlight(expectedSession)
+            verifyInvokedOnce(repository).updateFavorite(expectedSession)
         }
 
     }

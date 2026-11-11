@@ -65,7 +65,7 @@ private typealias OnFetchScheduleFinished = (fetchScheduleResult: NetworkFetchSc
  *
  * The following public properties are checked:
  * - [AppRepository.loadScheduleState]
- * - [AppRepository.starredSessions]
+ * - [AppRepository.favoriteSessions]
  * - [AppRepository.changedSessions]
  * - [AppRepository.selectedSession]
  * - [AppRepository.uncanceledSessionsForDayIndex]
@@ -259,7 +259,7 @@ class AppRepositoryLoadAndParseScheduleTest {
             verifyInvokedOnce(sharedPreferencesRepository).setChangesSeen(any())
             verifyInvokedOnce(sessionsDatabaseRepository).updateSessions(any(), any())
 
-            assertStarredSessionsProperty(repository)
+            assertFavoriteSessionsProperty(repository)
             assertChangedSessionsProperty(repository)
             assertSelectedSessionProperty(repository)
             assertUncanceledSessionsForDayIndexProperty(repository)
@@ -277,8 +277,8 @@ class AppRepositoryLoadAndParseScheduleTest {
             }
         }
 
-    private suspend fun assertStarredSessionsProperty(repository: AppRepository) {
-        repository.starredSessions.test {
+    private suspend fun assertFavoriteSessionsProperty(repository: AppRepository) {
+        repository.favoriteSessions.test {
             val session = AppSession(sessionId = "55", isHighlight = true)
             assertThat(awaitItem()).isEqualTo(listOf(session))
         }

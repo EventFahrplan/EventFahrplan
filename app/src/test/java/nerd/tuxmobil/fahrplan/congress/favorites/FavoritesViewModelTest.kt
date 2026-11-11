@@ -156,11 +156,11 @@ class StarredListViewModelTest {
         }
 
         @Test
-        fun `OnDeleteAllClick invokes deleteAllHighlights`() = runTest {
+        fun `OnDeleteAllClick invokes deleteAllFavorites`() = runTest {
             val repository = createRepository()
             val viewModel = createViewModel(repository)
             viewModel.onViewEvent(OnDeleteAllClick)
-            verifyInvokedOnce(repository).deleteAllHighlights()
+            verifyInvokedOnce(repository).deleteAllFavorites()
         }
 
         @Test
@@ -200,7 +200,7 @@ class StarredListViewModelTest {
             viewModel.selectedIds.test {
                 assertThat(awaitItem()).isEmpty()
             }
-            verifyInvokedOnce(repository).deleteHighlights("1", "2")
+            verifyInvokedOnce(repository).deleteFavorites("1", "2")
         }
 
         @Test
@@ -287,7 +287,7 @@ class StarredListViewModelTest {
         meta: Meta = Meta(numDays = 0),
         useDeviceTimeZoneEnabled: Boolean = false
     ) = mock<AppRepository> {
-        on { starredSessions } doReturn sessions
+        on { favoriteSessions } doReturn sessions
         on { readMeta() } doReturn meta
         on { readUseDeviceTimeZoneEnabled() } doReturn useDeviceTimeZoneEnabled
     }

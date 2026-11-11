@@ -174,25 +174,25 @@ object AppRepository : SearchRepository,
             .flowOn(executionContext.database)
     }
 
-    private val refreshStarredSessionsSignal = MutableSharedFlow<Unit>()
+    private val refreshFavoriteSessionsSignal = MutableSharedFlow<Unit>()
 
-    private fun refreshStarredSessions() {
-        logging.d(LOG_TAG, "Refreshing starred sessions ...")
-        val requestIdentifier = "refreshStarredSessions"
+    private fun refreshFavoriteSessions() {
+        logging.d(LOG_TAG, "Refreshing favorite sessions ...")
+        val requestIdentifier = "refreshFavoriteSessions"
         parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
-            refreshStarredSessionsSignal.emit(Unit)
+            refreshFavoriteSessionsSignal.emit(Unit)
         }
     }
 
     /**
-     * Emits all sessions from the database which have been favored aka. starred but no canceled.
+     * Emits all sessions from the database which have been favored but not canceled.
      * The returned list might be empty.
      */
     @OptIn(ExperimentalCoroutinesApi::class)
-    val starredSessions: Flow<List<SessionAppModel>> by lazy {
-        refreshStarredSessionsSignal
+    val favoriteSessions: Flow<List<SessionAppModel>> by lazy {
+        refreshFavoriteSessionsSignal
             .onStart { emit(Unit) }
-            .mapLatest { loadStarredSessions().toSessionsAppModel() }
+            .mapLatest { loadFavoriteSessions().toSessionsAppModel() }
             .flowOn(executionContext.database)
     }
 
@@ -693,13 +693,13 @@ object AppRepository : SearchRepository,
             .also { logging.d(LOG_TAG, "${it.size} uncanceled sessions.") }
 
     /**
-     * Loads all sessions from the database which have been favored aka. starred but no canceled.
+     * Loads all sessions from the database which have been favored but not canceled.
      * The returned list might be empty.
      */
     @WorkerThread
-    private fun loadStarredSessions() = loadSessionsForAllDays(true)
+    private fun loadFavoriteSessions() = loadSessionsForAllDays(true)
             .filter { it.isHighlight && !it.changedIsCanceled }
-            .also { logging.d(LOG_TAG, "${it.size} sessions starred.") }
+            .also { logging.d(LOG_TAG, "${it.size} favorite sessions.") }
 
     /**
      * Loads all sessions from the database which have been marked as changed, canceled or new.
@@ -753,14 +753,14 @@ object AppRepository : SearchRepository,
         }
         logging.d(LOG_TAG, "Got ${sessions.size} rows.")
 
-        val highlightedSessionIds = readHighlights()
+        val favoriteSessionIds = readFavorites()
             .asSequence()
             .filter { it.isHighlight }
             .map { it.sessionId }
             .toSet()
 
-        val highlightedSessions = sessions.map { session ->
-            if (session.sessionId in highlightedSessionIds) {
+        val sessionsWithFavorites = sessions.map { session ->
+            if (session.sessionId in favoriteSessionIds) {
                 session.copy(isHighlight = true)
             } else {
                 session
@@ -768,7 +768,7 @@ object AppRepository : SearchRepository,
         }
 
         val alarmSessionIds = readAlarmSessionIds()
-        val sessionsWithAlarms = highlightedSessions.map { session ->
+        val sessionsWithAlarms = sessionsWithFavorites.map { session ->
             if (session.sessionId in alarmSessionIds) {
                 session.copy(hasAlarm = true)
             } else {
@@ -848,15 +848,15 @@ object AppRepository : SearchRepository,
         }
     }
 
-    private fun readHighlights() =
+    private fun readFavorites() =
             highlightsDatabaseRepository.query()
 
     @WorkerThread
-    fun updateHighlight(session: SessionAppModel) {
-        val highlightDatabaseModel = session.toHighlightDatabaseModel()
-        val values = highlightDatabaseModel.toContentValues()
+    fun updateFavorite(session: SessionAppModel) {
+        val favoriteDatabaseModel = session.toHighlightDatabaseModel()
+        val values = favoriteDatabaseModel.toContentValues()
         if (highlightsDatabaseRepository.update(values, session.sessionId) != DATABASE_UPDATE_ERROR) {
-            refreshStarredSessions()
+            refreshFavoriteSessions()
             refreshSessions()
             refreshSelectedSession()
             refreshRoomStates()
@@ -865,9 +865,9 @@ object AppRepository : SearchRepository,
     }
 
     @WorkerThread
-    fun deleteHighlights(vararg sessionIds: String) {
+    fun deleteFavorites(vararg sessionIds: String) {
         if (highlightsDatabaseRepository.delete(sessionIds.toSet()) > 0) {
-            refreshStarredSessions()
+            refreshFavoriteSessions()
             refreshSessions()
             refreshSelectedSession()
             refreshRoomStates()
@@ -876,9 +876,9 @@ object AppRepository : SearchRepository,
     }
 
     @WorkerThread
-    fun deleteAllHighlights() {
+    fun deleteAllFavorites() {
         if (highlightsDatabaseRepository.deleteAll() > 0) {
-            refreshStarredSessions()
+            refreshFavoriteSessions()
             refreshSelectedSession()
             refreshRoomStates()
             refreshUncanceledSessions()
@@ -899,7 +899,7 @@ object AppRepository : SearchRepository,
     }
 
     private fun enrichSession(session: SessionDatabaseModel): SessionDatabaseModel {
-        val isHighlighted = highlightsDatabaseRepository
+        val isFavorite = highlightsDatabaseRepository
             .queryBySessionId(session.sessionId)
             ?.isHighlight ?: false
 
@@ -907,9 +907,9 @@ object AppRepository : SearchRepository,
             .query(session.sessionId)
             .isNotEmpty()
 
-        return if (isHighlighted || hasAlarm) {
+        return if (isFavorite || hasAlarm) {
             session.copy(
-                isHighlight = isHighlighted,
+                isHighlight = isFavorite,
                 hasAlarm = hasAlarm,
             )
         } else {
@@ -1011,7 +1011,7 @@ object AppRepository : SearchRepository,
         val toBeUpdated = toBeUpdatedSessions.map { it.sessionId to it.toContentValues() }
         val toBeDeleted = toBeDeletedSessions.map { it.sessionId }
         sessionsDatabaseRepository.updateSessions(toBeUpdated, toBeDeleted)
-        refreshStarredSessions()
+        refreshFavoriteSessions()
         refreshSessions()
         refreshSessionsWithoutShifts()
         refreshChangedSessions()
