@@ -128,9 +128,8 @@ class FahrplanFragment : Fragment(), MenuProvider {
     private val logging = Logging.get()
     private var onHorizontalScrollChangeListener: OnScrollChangedListener? = null
     private var displayDensityScale = 0f
-    private val timeTextColumnEdgeToEdge = TimeTextColumnEdgeToEdge {
-        resources.getDimensionPixelSize(R.dimen.schedule_time_column_layout_width)
-    }
+    private var timeTextColumnLayoutWidth = 0
+    private val timeTextColumnEdgeToEdge = TimeTextColumnEdgeToEdge { timeTextColumnLayoutWidth }
 
     /**
      * Cache of the already rendered RoomData
@@ -237,6 +236,11 @@ class FahrplanFragment : Fragment(), MenuProvider {
         }
 
         inflater = view.context.getLayoutInflater()
+
+        timeTextColumnLayoutWidth = calculateTimeTextColumnLayoutWidth()
+        view.requireViewByIdCompat<View>(R.id.schedule_time_column_header_space).updateLayoutParams {
+            width = timeTextColumnLayoutWidth
+        }
 
         val timeTextColumn = view.requireViewByIdCompat<LinearLayout>(R.id.times_layout)
         timeTextColumnEdgeToEdge.applyInsets(view, timeTextColumn)
@@ -754,7 +758,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
                 text = titleText
                 setTextColor(textColor)
                 updateLayoutParams {
-                    width = resources.getDimensionPixelSize(R.dimen.schedule_time_column_layout_width) + timeTextColumnEdgeToEdge.leftWindowInset
+                    width = timeTextColumnLayoutWidth + timeTextColumnEdgeToEdge.leftWindowInset
                 }
                 val color = if (isNow) {
                     R.color.schedule_time_column_item_background_emphasized
@@ -772,6 +776,21 @@ class FahrplanFragment : Fragment(), MenuProvider {
             // Re-add the bottom extension view if it existed
             timeTextColumn.addView(bottomViewExtension)
         }
+    }
+
+    /**
+     * Returns the width of the time column. The width defined in the resources is a minimum.
+     * It does not scale with the font size of the system, so the column is widened when needed
+     * to keep the time text in a single line.
+     */
+    private fun calculateTimeTextColumnLayoutWidth(): Int {
+        val minimumWidth = resources.getDimensionPixelSize(R.dimen.schedule_time_column_layout_width)
+        val timeTextView = inflater.inflate(R.layout.schedule_time_column_time_text, null)
+            .requireViewByIdCompat<TextView>(R.id.schedule_time_column_time_text_view)
+        return TimeTextColumnWidthCalculator(timeTextView.paint::measureText).calculateWidth(
+            minimumWidth = minimumWidth,
+            horizontalPadding = timeTextView.paddingLeft + timeTextView.paddingRight,
+        )
     }
 
     private val sessionPadding: Int

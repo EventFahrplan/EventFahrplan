@@ -12,6 +12,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="top|end"
+        android:maxLines="1"
         android:padding="@dimen/schedule_time_column_padding"
         android:textSize="@dimen/schedule_time_column_text_size"
         tools:text="@string/placeholder_schedule_time"
