@@ -464,7 +464,10 @@ fun SearchResultItem(
                 },
             )
             if (searchResult.recordingOptOut?.value == true) {
-                IconVideoRecording(Modifier.padding(start = 8.dp, bottom = 10.dp, end = ScreenMetrics.END_PADDING))
+                IconVideoRecording(
+                    modifier = Modifier.padding(start = 8.dp, bottom = 10.dp, end = ScreenMetrics.END_PADDING),
+                    tint = searchResult.recordingOptOut.tenseType.color(),
+                )
             }
         }
         if (showDivider) {

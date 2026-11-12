@@ -112,6 +112,7 @@ class DefaultSearchResultParameterFactory(
             recordingOptOut = SearchResultProperty(
                 value = session.recordingOptOut,
                 contentDescription = resourceResolving.getString(R.string.session_item_no_video_content_description),
+                tenseType = tenseType,
             ),
         )
     }

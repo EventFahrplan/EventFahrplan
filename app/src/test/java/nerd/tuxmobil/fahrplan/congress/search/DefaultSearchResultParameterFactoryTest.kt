@@ -8,6 +8,7 @@ import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.search.TenseType.FUTURE
+import nerd.tuxmobil.fahrplan.congress.search.TenseType.PAST
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
 import org.junit.jupiter.api.Test
@@ -134,14 +135,54 @@ class DefaultSearchResultParameterFactoryTest {
         )
     }
 
-    private fun createFactory(): SearchResultParameterFactory {
+    @Test
+    fun `createSearchResults returns sessions with all properties marked as PAST for past sessions`() {
+        val factory = createFactory(tenseTypeProvision = PastTenseProvider)
+        val sessions = listOf(
+            Session(
+                sessionId = "123",
+                title = "Session 123",
+                speakers = listOf("Jane Doe", "John Doe"),
+                dateUTC = 1683981000000,
+                dayIndex = 1,
+                language = "en",
+                roomName = "Hall 1",
+                recordingOptOut = true,
+            )
+        )
+        val results = factory.createSearchResults(sessions, useDeviceTimeZone = false)
+        assertThat(results).isEqualTo(
+            listOf(
+                SearchResultParameter.Separator(
+                    DaySeparatorProperty(
+                        value = SOME_DAY_SEPARATOR_TEXT,
+                        contentDescription = "",
+                    )
+                ),
+                SearchResultParameter.SearchResult(
+                    id = "123",
+                    title = SearchResultProperty(value = "Session 123", contentDescription = "Title: Session 123", tenseType = PAST),
+                    speakerNames = SearchResultProperty(value = "Jane Doe; John Doe", contentDescription = "Speakers: Jane Doe; John Doe", tenseType = PAST),
+                    languages = SearchResultProperty(value = "EN", contentDescription = "Language: English", tenseType = PAST),
+                    roomName = SearchResultProperty(value = "Hall 1", contentDescription = "Room: Hall 1", tenseType = PAST),
+                    startsAt = SearchResultProperty(value = SOME_TIME, contentDescription = "Start time: $SOME_TIME", tenseType = PAST),
+                    endsAt = SearchResultProperty(value = SOME_TIME, contentDescription = "End time: $SOME_TIME", tenseType = PAST),
+                    recordingOptOut = SearchResultProperty(value = true, contentDescription = "No video", tenseType = PAST),
+                )
+            )
+        )
+    }
+
+    private fun createFactory(
+        tenseTypeProvision: TenseTypeProvision = FutureTenseProvider,
+    ): SearchResultParameterFactory {
         return DefaultSearchResultParameterFactory(
             resourceResolving = CompleteResourceResolver,
             sessionPropertiesFormatting = sessionPropertiesFormatting,
             contentDescriptionFormatting = ContentDescriptionFormatter(CompleteResourceResolver),
             daySeparatorFactory = daySeparatorFactory,
             formattingDelegate = formattingDelegate,
-            tenseTypeProvision = FutureTenseProvider,
+            tenseTypeProvision = tenseTypeProvision,
         )
     }
 
@@ -201,3 +242,6 @@ private object FutureTenseProvider : TenseTypeProvision {
     override fun getTenseType(session: Session) = FUTURE
 }
 
+private object PastTenseProvider : TenseTypeProvision {
+    override fun getTenseType(session: Session) = PAST
+}

@@ -10,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.takeOrElse
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -25,20 +27,33 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 fun IconVideoRecording(
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
+    tint: Color = Color.Unspecified,
 ) {
-    IconDecorative(
+    Box(
         modifier = modifier.size(dimensionResource(R.dimen.session_drawable_icon_size)),
-        icon = R.drawable.ic_video_recording_unavailable,
-        contentDescription = contentDescription,
-        tint = Color.Unspecified,
-    )
+    ) {
+        IconDecorative(
+            modifier = Modifier.matchParentSize(),
+            icon = R.drawable.ic_video_recording_available,
+            contentDescription = contentDescription,
+            tint = tint.takeOrElse { colorResource(R.color.session_item_camera_icon) },
+        )
+        IconDecorative(
+            modifier = Modifier.matchParentSize(),
+            icon = R.drawable.ic_video_recording_unavailable_overlay,
+            tint = Color.Unspecified,
+        )
+    }
 }
 
 @PreviewLightDark
 @Composable
 private fun IconVideoRecordingDecorativePreview() {
     EventFahrplanTheme {
-        IconVideoRecording()
+        Row(Modifier.background(EventFahrplanTheme.colorScheme.background)) {
+            IconVideoRecording()
+            IconVideoRecording(tint = EventFahrplanTheme.colorScheme.textPastContent)
+        }
     }
 }
 
