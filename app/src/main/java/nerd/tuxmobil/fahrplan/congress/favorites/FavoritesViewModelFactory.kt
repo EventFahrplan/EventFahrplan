@@ -16,7 +16,7 @@ import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 
-class StarredListViewModelFactory(
+class FavoritesViewModelFactory(
     val context: Context,
 ) : ViewModelProvider.Factory {
 
@@ -39,7 +39,7 @@ class StarredListViewModelFactory(
             tenseTypeProvision = TenseTypeProvider(Moment.now()),
         )
         @Suppress("UNCHECKED_CAST")
-        return StarredListViewModel(
+        return FavoritesViewModel(
             repository = AppRepository,
             executionContext = AppExecutionContext,
             simpleSessionFormat = SimpleSessionFormat(),

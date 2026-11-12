@@ -15,7 +15,7 @@ data class SessionCardData(
     val innerHorizontalPadding: Float,
     val innerVerticalPadding: Float,
     val cardHeight: Dp,
-    val isFavored: Boolean,
+    val isFavorite: Boolean,
     val hasAlarm: Boolean,
     val showBorder: Boolean,
     val shouldShowShareSubMenu: Boolean,

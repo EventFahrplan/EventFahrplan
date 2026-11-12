@@ -217,24 +217,24 @@ class SessionDetailsViewModelTest {
 
         @Test
         fun `OnAddFavoriteClick flags the session as a favorite and persists it`() {
-            val actualSession = Session(sessionId = "S3", isHighlight = false)
-            val expectedSession = Session(sessionId = "S3", isHighlight = true)
+            val actualSession = Session(sessionId = "S3", isFavorite = false)
+            val expectedSession = Session(sessionId = "S3", isFavorite = true)
             val repository = createRepository(selectedSession = actualSession)
             val viewModel = createViewModel(repository)
             viewModel.onViewEvent(OnAddFavoriteClick)
             verifyInvokedOnce(repository).loadSelectedSession()
-            verifyInvokedOnce(repository).updateHighlight(expectedSession)
+            verifyInvokedOnce(repository).updateFavorite(expectedSession)
         }
 
         @Test
         fun `OnDeleteFavoriteClick unflags the session as a favorite and persists it`() {
-            val actualSession = Session(sessionId = "S4", isHighlight = true)
-            val expectedSession = Session(sessionId = "S4", isHighlight = false)
+            val actualSession = Session(sessionId = "S4", isFavorite = true)
+            val expectedSession = Session(sessionId = "S4", isFavorite = false)
             val repository = createRepository(selectedSession = actualSession)
             val viewModel = createViewModel(repository)
             viewModel.onViewEvent(OnDeleteFavoriteClick)
             verifyInvokedOnce(repository).loadSelectedSession()
-            verifyInvokedOnce(repository).updateHighlight(expectedSession)
+            verifyInvokedOnce(repository).updateFavorite(expectedSession)
         }
 
     }

@@ -29,7 +29,7 @@ class AppRepositoryAlarmsTest {
                 networkScope = mock(),
                 okHttpClient = mock(),
                 alarmsDatabaseRepository = alarmsDatabaseRepository,
-                highlightsDatabaseRepository = mock(),
+                favoritesDatabaseRepository = mock(),
                 sessionsDatabaseRepository = mock(),
                 metaDatabaseRepository = mock(),
                 scheduleNetworkRepository = mock(),

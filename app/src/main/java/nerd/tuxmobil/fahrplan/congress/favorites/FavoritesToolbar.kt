@@ -26,20 +26,20 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.menues.DropdownMenu
 import nerd.tuxmobil.fahrplan.congress.designsystem.menues.DropdownMenuItem
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnDeleteSelectedClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnDeleteAllWithConfirmationClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnShareClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnShareToChaosflixClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.Multiselect.OnDeleteSelectedClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnDeleteAllWithConfirmationClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnShareClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnShareToChaosflixClick
 
 @Composable
-internal fun StarredListToolbar(
+internal fun FavoritesToolbar(
     visible: Boolean,
     multiselect: Boolean,
-    hasStarredSessions: Boolean,
+    hasFavoriteSessions: Boolean,
     useVerticalToolbar: Boolean,
     modifier: Modifier = Modifier,
     buildConfigProvision: BuildConfigProvision = BuildConfigProvider(),
-    onViewEvent: (StarredListViewEvent) -> Unit,
+    onViewEvent: (FavoritesViewEvent) -> Unit,
 ) {
     @Composable
     fun colors() = when (multiselect) {
@@ -76,7 +76,7 @@ internal fun StarredListToolbar(
                     label = deleteSelectedLabel,
                     onClick = { onViewEvent(OnDeleteSelectedClick) },
                 )
-            } else if (hasStarredSessions) {
+            } else if (hasFavoriteSessions) {
                 if (buildConfigProvision.enableChaosflixExport) {
                     customItem(
                         appbarContent = {
@@ -120,7 +120,7 @@ internal fun StarredListToolbar(
 
 @Composable
 private fun ShareFavoritesChaosflixButton(
-    onViewEvent: (StarredListViewEvent) -> Unit,
+    onViewEvent: (FavoritesViewEvent) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
     Box {
@@ -153,32 +153,32 @@ private fun ShareFavoritesChaosflixButton(
 
 @PreviewLightDark
 @Composable
-private fun StarredListToolbarHorizontalPreview() {
-    StarredListToolbar(useVerticalToolbar = false, multiselect = false)
+private fun FavoritesToolbarHorizontalPreview() {
+    FavoritesToolbar(useVerticalToolbar = false, multiselect = false)
 }
 
 @PreviewLightDark
 @Composable
-private fun StarredListToolbarVerticalPreview() {
-    StarredListToolbar(useVerticalToolbar = true, multiselect = false)
+private fun FavoritesToolbarVerticalPreview() {
+    FavoritesToolbar(useVerticalToolbar = true, multiselect = false)
 }
 
 @PreviewLightDark
 @Composable
-private fun StarredListToolbarMultiselectPreview() {
-    StarredListToolbar(useVerticalToolbar = false, multiselect = true)
+private fun FavoritesToolbarMultiselectPreview() {
+    FavoritesToolbar(useVerticalToolbar = false, multiselect = true)
 }
 
 @Composable
-private fun StarredListToolbar(
+private fun FavoritesToolbar(
     useVerticalToolbar: Boolean,
     multiselect: Boolean,
 ) {
     EventFahrplanTheme {
-        StarredListToolbar(
+        FavoritesToolbar(
             visible = true,
             multiselect = multiselect,
-            hasStarredSessions = true,
+            hasFavoriteSessions = true,
             useVerticalToolbar = useVerticalToolbar,
             onViewEvent = {},
         )

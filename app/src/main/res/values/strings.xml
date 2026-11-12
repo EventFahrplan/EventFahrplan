@@ -113,7 +113,7 @@
     <string name="schedule_changes_no_changes_title">No schedule changes</string>
     <string name="schedule_changes_no_changes_subtitle">The app regularly checks for updates</string>
     <string name="favorites_no_favorites_title">No favorite sessions</string>
-    <string name="favorites_no_favorites_subtitle">Tap on the star in the menu bar to set a favorite</string>
+    <string name="favorites_no_favorites_subtitle">Tap the star in the toolbar to add a favorite</string>
     <string name="schedule_changes">Schedule changes</string>
     <!-- Schedule changes statistic -->
     <string name="schedule_changes_statistic_title">Schedule update</string>
@@ -271,7 +271,7 @@
         No alarms set
     </string>
     <string name="alarms_no_alarms_subtitle">
-        Tap on the bell icon in the menu bar to set an alarm
+        Tap the bell in the toolbar to add an alarm
     </string>
     <string name="alarms_item_on_click_label">
         Open details screen

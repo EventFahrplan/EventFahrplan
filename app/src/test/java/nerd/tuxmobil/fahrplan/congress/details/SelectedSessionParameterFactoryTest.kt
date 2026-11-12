@@ -22,7 +22,7 @@ class SelectedSessionParameterFactoryTest {
         val session = Session(
             sessionId = "S1",
             roomName = "Main hall",
-            isHighlight = false,
+            isFavorite = false,
             hasAlarm = false,
         )
         val result = SelectedSessionParameterFactory(
@@ -46,7 +46,7 @@ class SelectedSessionParameterFactoryTest {
         val session = Session(
             sessionId = "S1",
             roomName = "Main hall",
-            isHighlight = true,
+            isFavorite = true,
             hasAlarm = true,
         )
         val result = SelectedSessionParameterFactory(

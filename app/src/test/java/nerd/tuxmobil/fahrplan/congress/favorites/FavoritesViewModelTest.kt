@@ -9,21 +9,21 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListDestination.ConfirmDeleteAll
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.NavigateTo
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.NavigateToSession
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.ShareJson
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.ShareSimple
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListUiState.Loading
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListUiState.Success
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnDeleteSelectedClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnItemLongClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnSelectionModeDismiss
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnDeleteAllClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnDeleteAllWithConfirmationClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnItemClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnShareClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnShareToChaosflixClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesDestination.ConfirmDeleteAll
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.NavigateTo
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.NavigateToSession
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.ShareJson
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.ShareSimple
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesUiState.Loading
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesUiState.Success
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.Multiselect.OnDeleteSelectedClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.Multiselect.OnItemLongClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.Multiselect.OnSelectionModeDismiss
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnDeleteAllClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnDeleteAllWithConfirmationClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnItemClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnShareClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnShareToChaosflixClick
 import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
@@ -41,7 +41,7 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
 @ExtendWith(MainDispatcherTestExtension::class)
-class StarredListViewModelTest {
+class FavoritesViewModelTest {
 
     private val simpleSessionFormat = mock<SimpleSessionFormat>()
     private val jsonSessionFormat = mock<JsonSessionFormat>()
@@ -156,11 +156,11 @@ class StarredListViewModelTest {
         }
 
         @Test
-        fun `OnDeleteAllClick invokes deleteAllHighlights`() = runTest {
+        fun `OnDeleteAllClick invokes deleteAllFavorites`() = runTest {
             val repository = createRepository()
             val viewModel = createViewModel(repository)
             viewModel.onViewEvent(OnDeleteAllClick)
-            verifyInvokedOnce(repository).deleteAllHighlights()
+            verifyInvokedOnce(repository).deleteAllFavorites()
         }
 
         @Test
@@ -200,7 +200,7 @@ class StarredListViewModelTest {
             viewModel.selectedIds.test {
                 assertThat(awaitItem()).isEmpty()
             }
-            verifyInvokedOnce(repository).deleteHighlights("1", "2")
+            verifyInvokedOnce(repository).deleteFavorites("1", "2")
         }
 
         @Test
@@ -287,7 +287,7 @@ class StarredListViewModelTest {
         meta: Meta = Meta(numDays = 0),
         useDeviceTimeZoneEnabled: Boolean = false
     ) = mock<AppRepository> {
-        on { starredSessions } doReturn sessions
+        on { favoriteSessions } doReturn sessions
         on { readMeta() } doReturn meta
         on { readUseDeviceTimeZoneEnabled() } doReturn useDeviceTimeZoneEnabled
     }
@@ -297,7 +297,7 @@ class StarredListViewModelTest {
         simpleSessionFormat: SimpleSessionFormat = this.simpleSessionFormat,
         jsonSessionFormat: JsonSessionFormat = this.jsonSessionFormat,
         searchResultParameterFactory: SearchResultParameterFactory = FakeSearchResultParameterFactory()
-    ) = StarredListViewModel(
+    ) = FavoritesViewModel(
         repository,
         TestExecutionContext,
         simpleSessionFormat,

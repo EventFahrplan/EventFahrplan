@@ -10,28 +10,28 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListDestination.ConfirmDeleteAll
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.NavigateTo
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.NavigateToSession
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.ShareJson
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListEffect.ShareSimple
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListUiState.Loading
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListUiState.Success
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnDeleteSelectedClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnItemLongClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnSelectionModeDismiss
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnDeleteAllClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnDeleteAllWithConfirmationClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnItemClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnShareClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnShareToChaosflixClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesDestination.ConfirmDeleteAll
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.NavigateTo
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.NavigateToSession
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.ShareJson
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesEffect.ShareSimple
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesUiState.Loading
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesUiState.Success
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.Multiselect.OnDeleteSelectedClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.Multiselect.OnItemLongClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.Multiselect.OnSelectionModeDismiss
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnDeleteAllClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnDeleteAllWithConfirmationClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnItemClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnShareClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnShareToChaosflixClick
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.ExecutionContext
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameterFactory
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
 
-class StarredListViewModel(
+class FavoritesViewModel(
     private val repository: AppRepository,
     private val executionContext: ExecutionContext,
     private val simpleSessionFormat: SimpleSessionFormat,
@@ -39,32 +39,32 @@ class StarredListViewModel(
     private val searchResultParameterFactory: SearchResultParameterFactory,
 ) : ViewModel() {
 
-    private val mutableUiState = MutableStateFlow<StarredListUiState>(Loading)
+    private val mutableUiState = MutableStateFlow<FavoritesUiState>(Loading)
     val uiState = mutableUiState.asStateFlow()
 
     private val _selectedIds = MutableStateFlow<Set<String>>(emptySet())
     val selectedIds = _selectedIds.asStateFlow()
 
-    private val mutableEffects = Channel<StarredListEffect>()
+    private val mutableEffects = Channel<FavoritesEffect>()
     val effects = mutableEffects.receiveAsFlow()
 
     init {
         launch {
             val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
-            repository.starredSessions
+            repository.favoriteSessions
                 .map { searchResultParameterFactory.createSearchResults(it, useDeviceTimeZone) }
                 .map { Success(it) }
                 .collectLatest { mutableUiState.value = it }
         }
         launch {
-            repository.starredSessions.collectLatest { sessions ->
+            repository.favoriteSessions.collectLatest { sessions ->
                 val validIds = sessions.map { it.sessionId }.toSet()
                 _selectedIds.value = _selectedIds.value.intersect(validIds)
             }
         }
     }
 
-    fun onViewEvent(viewEvent: StarredListViewEvent) = when (viewEvent) {
+    fun onViewEvent(viewEvent: FavoritesViewEvent) = when (viewEvent) {
         is OnItemClick -> sendEffect(NavigateToSession(viewEvent.sessionId))
         is OnItemLongClick -> toggleSelection(viewEvent.sessionId)
         OnDeleteAllClick -> deleteAllFavorites()
@@ -86,13 +86,13 @@ class StarredListViewModel(
 
     private fun deleteAllFavorites() {
         launch {
-            repository.deleteAllHighlights()
+            repository.deleteAllFavorites()
         }
     }
 
     private fun deleteSelectedFavorites() {
         launch {
-            repository.deleteHighlights(*_selectedIds.value.toTypedArray())
+            repository.deleteFavorites(*_selectedIds.value.toTypedArray())
             clearSelection()
         }
     }
@@ -104,7 +104,7 @@ class StarredListViewModel(
     private fun share() {
         launch {
             val timeZoneId = repository.readMeta().timeZoneId
-            repository.starredSessions.collectLatest { sessions ->
+            repository.favoriteSessions.collectLatest { sessions ->
                 simpleSessionFormat.format(sessions, timeZoneId)?.let { formattedSessions ->
                     sendEffect(ShareSimple(formattedSessions))
                 }
@@ -114,7 +114,7 @@ class StarredListViewModel(
 
     private fun shareToChaosflix() {
         launch {
-            repository.starredSessions.collectLatest { sessions ->
+            repository.favoriteSessions.collectLatest { sessions ->
                 jsonSessionFormat.format(sessions)?.let { formattedSessions ->
                     sendEffect(ShareJson(formattedSessions))
                 }
@@ -126,11 +126,11 @@ class StarredListViewModel(
         viewModelScope.launch(executionContext.database, block = block)
     }
 
-    private fun navigateTo(destination: StarredListDestination) {
+    private fun navigateTo(destination: FavoritesDestination) {
         sendEffect(NavigateTo(destination))
     }
 
-    private fun sendEffect(effect: StarredListEffect) {
+    private fun sendEffect(effect: FavoritesEffect) {
         viewModelScope.launch {
             mutableEffects.send(effect)
         }

@@ -11,7 +11,7 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.database.extensions.toContentValues
 import info.metadude.android.eventfahrplan.database.models.ColumnStatistic
 import info.metadude.android.eventfahrplan.database.repositories.AlarmsDatabaseRepository
-import info.metadude.android.eventfahrplan.database.repositories.HighlightsDatabaseRepository
+import info.metadude.android.eventfahrplan.database.repositories.FavoritesDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.MetaDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
 import info.metadude.android.eventfahrplan.network.repositories.RealScheduleNetworkRepository
@@ -50,7 +50,7 @@ import nerd.tuxmobil.fahrplan.congress.dataconverters.toAlarmsAppModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toDateInfos
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toDayIndices
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toDayRanges
-import nerd.tuxmobil.fahrplan.congress.dataconverters.toHighlightDatabaseModel
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toFavoriteDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toMetaAppModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionAppModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel
@@ -121,7 +121,7 @@ object AppRepository : SearchRepository,
     private lateinit var networkScope: NetworkScope
 
     private lateinit var alarmsDatabaseRepository: AlarmsDatabaseRepository
-    private lateinit var highlightsDatabaseRepository: HighlightsDatabaseRepository
+    private lateinit var favoritesDatabaseRepository: FavoritesDatabaseRepository
     private lateinit var sessionsDatabaseRepository: SessionsDatabaseRepository
     private lateinit var metaDatabaseRepository: MetaDatabaseRepository
 
@@ -174,25 +174,25 @@ object AppRepository : SearchRepository,
             .flowOn(executionContext.database)
     }
 
-    private val refreshStarredSessionsSignal = MutableSharedFlow<Unit>()
+    private val refreshFavoriteSessionsSignal = MutableSharedFlow<Unit>()
 
-    private fun refreshStarredSessions() {
-        logging.d(LOG_TAG, "Refreshing starred sessions ...")
-        val requestIdentifier = "refreshStarredSessions"
+    private fun refreshFavoriteSessions() {
+        logging.d(LOG_TAG, "Refreshing favorite sessions ...")
+        val requestIdentifier = "refreshFavoriteSessions"
         parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
-            refreshStarredSessionsSignal.emit(Unit)
+            refreshFavoriteSessionsSignal.emit(Unit)
         }
     }
 
     /**
-     * Emits all sessions from the database which have been favored aka. starred but no canceled.
+     * Emits all sessions from the database which have been favored but not canceled.
      * The returned list might be empty.
      */
     @OptIn(ExperimentalCoroutinesApi::class)
-    val starredSessions: Flow<List<SessionAppModel>> by lazy {
-        refreshStarredSessionsSignal
+    val favoriteSessions: Flow<List<SessionAppModel>> by lazy {
+        refreshFavoriteSessionsSignal
             .onStart { emit(Unit) }
-            .mapLatest { loadStarredSessions().toSessionsAppModel() }
+            .mapLatest { loadFavoriteSessions().toSessionsAppModel() }
             .flowOn(executionContext.database)
     }
 
@@ -438,7 +438,7 @@ object AppRepository : SearchRepository,
             networkScope: NetworkScope = NetworkScope.of(executionContext, AppExceptionHandler(logging)),
             okHttpClient: OkHttpClient = CustomHttpClient.createHttpClient(context),
             alarmsDatabaseRepository: AlarmsDatabaseRepository = AlarmsDatabaseRepository.get(context, logging),
-            highlightsDatabaseRepository: HighlightsDatabaseRepository = HighlightsDatabaseRepository.get(context),
+            favoritesDatabaseRepository: FavoritesDatabaseRepository = FavoritesDatabaseRepository.get(context),
             sessionsDatabaseRepository: SessionsDatabaseRepository = SessionsDatabaseRepository.get(context, logging),
             metaDatabaseRepository: MetaDatabaseRepository = MetaDatabaseRepository.get(context),
             scheduleNetworkRepository: ScheduleNetworkRepository = RealScheduleNetworkRepository(logging),
@@ -469,7 +469,7 @@ object AppRepository : SearchRepository,
         this.databaseScope = databaseScope
         this.networkScope = networkScope
         this.alarmsDatabaseRepository = alarmsDatabaseRepository
-        this.highlightsDatabaseRepository = highlightsDatabaseRepository
+        this.favoritesDatabaseRepository = favoritesDatabaseRepository
         this.sessionsDatabaseRepository = sessionsDatabaseRepository
         this.metaDatabaseRepository = metaDatabaseRepository
         this.engelsystemRepository = engelsystemRepository
@@ -693,13 +693,13 @@ object AppRepository : SearchRepository,
             .also { logging.d(LOG_TAG, "${it.size} uncanceled sessions.") }
 
     /**
-     * Loads all sessions from the database which have been favored aka. starred but no canceled.
+     * Loads all sessions from the database which have been favored but not canceled.
      * The returned list might be empty.
      */
     @WorkerThread
-    private fun loadStarredSessions() = loadSessionsForAllDays(true)
-            .filter { it.isHighlight && !it.changedIsCanceled }
-            .also { logging.d(LOG_TAG, "${it.size} sessions starred.") }
+    private fun loadFavoriteSessions() = loadSessionsForAllDays(true)
+            .filter { it.isFavorite && !it.changedIsCanceled }
+            .also { logging.d(LOG_TAG, "${it.size} favorite sessions.") }
 
     /**
      * Loads all sessions from the database which have been marked as changed, canceled or new.
@@ -753,22 +753,22 @@ object AppRepository : SearchRepository,
         }
         logging.d(LOG_TAG, "Got ${sessions.size} rows.")
 
-        val highlightedSessionIds = readHighlights()
+        val favoriteSessionIds = readFavorites()
             .asSequence()
-            .filter { it.isHighlight }
+            .filter { it.isFavorite }
             .map { it.sessionId }
             .toSet()
 
-        val highlightedSessions = sessions.map { session ->
-            if (session.sessionId in highlightedSessionIds) {
-                session.copy(isHighlight = true)
+        val sessionsWithFavorites = sessions.map { session ->
+            if (session.sessionId in favoriteSessionIds) {
+                session.copy(isFavorite = true)
             } else {
                 session
             }
         }
 
         val alarmSessionIds = readAlarmSessionIds()
-        val sessionsWithAlarms = highlightedSessions.map { session ->
+        val sessionsWithAlarms = sessionsWithFavorites.map { session ->
             if (session.sessionId in alarmSessionIds) {
                 session.copy(hasAlarm = true)
             } else {
@@ -848,15 +848,15 @@ object AppRepository : SearchRepository,
         }
     }
 
-    private fun readHighlights() =
-            highlightsDatabaseRepository.query()
+    private fun readFavorites() =
+            favoritesDatabaseRepository.query()
 
     @WorkerThread
-    fun updateHighlight(session: SessionAppModel) {
-        val highlightDatabaseModel = session.toHighlightDatabaseModel()
-        val values = highlightDatabaseModel.toContentValues()
-        if (highlightsDatabaseRepository.update(values, session.sessionId) != DATABASE_UPDATE_ERROR) {
-            refreshStarredSessions()
+    fun updateFavorite(session: SessionAppModel) {
+        val favoriteDatabaseModel = session.toFavoriteDatabaseModel()
+        val values = favoriteDatabaseModel.toContentValues()
+        if (favoritesDatabaseRepository.update(values, session.sessionId) != DATABASE_UPDATE_ERROR) {
+            refreshFavoriteSessions()
             refreshSessions()
             refreshSelectedSession()
             refreshRoomStates()
@@ -865,9 +865,9 @@ object AppRepository : SearchRepository,
     }
 
     @WorkerThread
-    fun deleteHighlights(vararg sessionIds: String) {
-        if (highlightsDatabaseRepository.delete(sessionIds.toSet()) > 0) {
-            refreshStarredSessions()
+    fun deleteFavorites(vararg sessionIds: String) {
+        if (favoritesDatabaseRepository.delete(sessionIds.toSet()) > 0) {
+            refreshFavoriteSessions()
             refreshSessions()
             refreshSelectedSession()
             refreshRoomStates()
@@ -876,9 +876,9 @@ object AppRepository : SearchRepository,
     }
 
     @WorkerThread
-    fun deleteAllHighlights() {
-        if (highlightsDatabaseRepository.deleteAll() > 0) {
-            refreshStarredSessions()
+    fun deleteAllFavorites() {
+        if (favoritesDatabaseRepository.deleteAll() > 0) {
+            refreshFavoriteSessions()
             refreshSelectedSession()
             refreshRoomStates()
             refreshUncanceledSessions()
@@ -899,17 +899,17 @@ object AppRepository : SearchRepository,
     }
 
     private fun enrichSession(session: SessionDatabaseModel): SessionDatabaseModel {
-        val isHighlighted = highlightsDatabaseRepository
+        val isFavorite = favoritesDatabaseRepository
             .queryBySessionId(session.sessionId)
-            ?.isHighlight ?: false
+            ?.isFavorite ?: false
 
         val hasAlarm = alarmsDatabaseRepository
             .query(session.sessionId)
             .isNotEmpty()
 
-        return if (isHighlighted || hasAlarm) {
+        return if (isFavorite || hasAlarm) {
             session.copy(
-                isHighlight = isHighlighted,
+                isFavorite = isFavorite,
                 hasAlarm = hasAlarm,
             )
         } else {
@@ -1011,7 +1011,7 @@ object AppRepository : SearchRepository,
         val toBeUpdated = toBeUpdatedSessions.map { it.sessionId to it.toContentValues() }
         val toBeDeleted = toBeDeletedSessions.map { it.sessionId }
         sessionsDatabaseRepository.updateSessions(toBeUpdated, toBeDeleted)
-        refreshStarredSessions()
+        refreshFavoriteSessions()
         refreshSessions()
         refreshSessionsWithoutShifts()
         refreshChangedSessions()

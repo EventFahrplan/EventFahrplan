@@ -31,7 +31,7 @@ class AppRepositoryScheduleStatisticTest {
                 networkScope = mock(),
                 okHttpClient = mock(),
                 alarmsDatabaseRepository = mock(),
-                highlightsDatabaseRepository = mock(),
+                favoritesDatabaseRepository = mock(),
                 sessionsDatabaseRepository = sessionsDatabaseRepository,
                 metaDatabaseRepository = mock(),
                 scheduleNetworkRepository = mock(),

@@ -8,6 +8,6 @@ class IsFavoriteSearchFilter : SearchFilter {
     override val label = R.string.search_filter_is_favorite
 
     override fun isMatch(session: Session, query: String): Boolean {
-        return session.isHighlight
+        return session.isFavorite
     }
 }

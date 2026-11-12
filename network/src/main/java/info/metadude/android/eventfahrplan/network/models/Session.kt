@@ -19,7 +19,7 @@ data class Session(
         var duration: Duration = Duration.ZERO, // minutes
         var feedbackUrl: String? = null,
         var hasAlarm: Boolean = false,
-        var isHighlight: Boolean = false,
+        var isFavorite: Boolean = false,
         var language: String = "",
         var links: String = "",
         var recordingLicense: String = "",

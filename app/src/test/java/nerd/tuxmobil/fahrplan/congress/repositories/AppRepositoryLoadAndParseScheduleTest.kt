@@ -8,7 +8,7 @@ import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExt
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import info.metadude.android.eventfahrplan.database.repositories.AlarmsDatabaseRepository
-import info.metadude.android.eventfahrplan.database.repositories.HighlightsDatabaseRepository
+import info.metadude.android.eventfahrplan.database.repositories.FavoritesDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.MetaDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
 import info.metadude.android.eventfahrplan.network.fetching.HttpStatus.HTTP_NOT_MODIFIED
@@ -47,7 +47,7 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import info.metadude.android.eventfahrplan.database.models.Highlight as DatabaseHighlight
+import info.metadude.android.eventfahrplan.database.models.Favorite as DatabaseFavorite
 import info.metadude.android.eventfahrplan.database.models.Meta as DatabaseMeta
 import info.metadude.android.eventfahrplan.database.models.Session as DatabaseSession
 import info.metadude.android.eventfahrplan.network.fetching.FetchScheduleResult as NetworkFetchScheduleResult
@@ -65,7 +65,7 @@ private typealias OnFetchScheduleFinished = (fetchScheduleResult: NetworkFetchSc
  *
  * The following public properties are checked:
  * - [AppRepository.loadScheduleState]
- * - [AppRepository.starredSessions]
+ * - [AppRepository.favoriteSessions]
  * - [AppRepository.changedSessions]
  * - [AppRepository.selectedSession]
  * - [AppRepository.uncanceledSessionsForDayIndex]
@@ -79,7 +79,7 @@ class AppRepositoryLoadAndParseScheduleTest {
     }
 
     private val alarmsDatabaseRepository = mock<AlarmsDatabaseRepository>()
-    private val highlightsDatabaseRepository = mock<HighlightsDatabaseRepository>()
+    private val favoritesDatabaseRepository = mock<FavoritesDatabaseRepository>()
     private val sessionsDatabaseRepository = mock<SessionsDatabaseRepository>()
     private val metaDatabaseRepository = mock<MetaDatabaseRepository>()
     private val scheduleNetworkRepository = TestScheduleNetworkRepository()
@@ -103,7 +103,7 @@ class AppRepositoryLoadAndParseScheduleTest {
                 networkScope = NetworkScope.of(TestExecutionContext) { _, _ -> },
                 okHttpClient = mock(),
                 alarmsDatabaseRepository = alarmsDatabaseRepository,
-                highlightsDatabaseRepository = highlightsDatabaseRepository,
+                favoritesDatabaseRepository = favoritesDatabaseRepository,
                 sessionsDatabaseRepository = sessionsDatabaseRepository,
                 metaDatabaseRepository = metaDatabaseRepository,
                 scheduleNetworkRepository = scheduleNetworkRepository,
@@ -248,10 +248,10 @@ class AppRepositoryLoadAndParseScheduleTest {
             scheduleNetworkRepository.onFetchScheduleFinished(success)
 
             // onUpdateSessions
-            val storedSessions = listOf(DatabaseSession(sessionId = "55", isHighlight = true, changedLanguage = true))
+            val storedSessions = listOf(DatabaseSession(sessionId = "55", isFavorite = true, changedLanguage = true))
             whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn storedSessions
             whenever(sessionsDatabaseRepository.querySessionsWithoutRoom(any())) doReturn storedSessions
-            whenever(highlightsDatabaseRepository.query()) doReturn emptyList()
+            whenever(favoritesDatabaseRepository.query()) doReturn emptyList()
             whenever(alarmsDatabaseRepository.query()) doReturn emptyList()
 
             scheduleNetworkRepository.onUpdateSessions(emptyList())
@@ -259,7 +259,7 @@ class AppRepositoryLoadAndParseScheduleTest {
             verifyInvokedOnce(sharedPreferencesRepository).setChangesSeen(any())
             verifyInvokedOnce(sessionsDatabaseRepository).updateSessions(any(), any())
 
-            assertStarredSessionsProperty(repository)
+            assertFavoriteSessionsProperty(repository)
             assertChangedSessionsProperty(repository)
             assertSelectedSessionProperty(repository)
             assertUncanceledSessionsForDayIndexProperty(repository)
@@ -277,9 +277,9 @@ class AppRepositoryLoadAndParseScheduleTest {
             }
         }
 
-    private suspend fun assertStarredSessionsProperty(repository: AppRepository) {
-        repository.starredSessions.test {
-            val session = AppSession(sessionId = "55", isHighlight = true)
+    private suspend fun assertFavoriteSessionsProperty(repository: AppRepository) {
+        repository.favoriteSessions.test {
+            val session = AppSession(sessionId = "55", isFavorite = true)
             assertThat(awaitItem()).isEqualTo(listOf(session))
         }
     }
@@ -288,7 +288,7 @@ class AppRepositoryLoadAndParseScheduleTest {
         repository.changedSessions.test {
             val session = AppSession(
                 sessionId = "55",
-                isHighlight = true,
+                isFavorite = true,
                 changedLanguage = true,
             )
             assertThat(awaitItem()).isEqualTo(listOf(session))
@@ -299,9 +299,9 @@ class AppRepositoryLoadAndParseScheduleTest {
         whenever(sessionsDatabaseRepository.querySessionBySessionId(any())) doReturn DatabaseSession(
             "23"
         )
-        whenever(highlightsDatabaseRepository.queryBySessionId(any())) doReturn DatabaseHighlight(
+        whenever(favoritesDatabaseRepository.queryBySessionId(any())) doReturn DatabaseFavorite(
             sessionId = "23",
-            isHighlight = false
+            isFavorite = false
         )
         whenever(alarmsDatabaseRepository.query(anyString())) doReturn emptyList()
         whenever(sharedPreferencesRepository.getSelectedSessionId()) doReturn "23"

@@ -50,11 +50,11 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.navigationBarsImeBottomPaddingValues
 import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListUiState.Loading
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListUiState.Success
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnItemLongClick
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.Multiselect.OnSelectionModeDismiss
-import nerd.tuxmobil.fahrplan.congress.favorites.StarredListViewEvent.OnItemClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesUiState.Loading
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesUiState.Success
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.Multiselect.OnItemLongClick
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.Multiselect.OnSelectionModeDismiss
+import nerd.tuxmobil.fahrplan.congress.favorites.FavoritesViewEvent.OnItemClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultItem
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.SearchResult
@@ -64,19 +64,19 @@ import nerd.tuxmobil.fahrplan.congress.utils.compose.ScrollPosition
 import nerd.tuxmobil.fahrplan.congress.utils.compose.rememberAutoHideOnScrollDown
 
 @Composable
-fun StarredListContent(
+fun FavoritesContent(
     headerTitle: String,
-    uiState: StarredListUiState,
+    uiState: FavoritesUiState,
     selectedIds: Set<String> = emptySet(),
     showInSidePane: Boolean,
     onBack: () -> Unit,
-    onViewEvent: (StarredListViewEvent) -> Unit,
+    onViewEvent: (FavoritesViewEvent) -> Unit,
 ) {
     val useVerticalToolbar = useVerticalFloatingToolbar(showInSidePane)
     val navigationTitle = headerTitle.ifEmpty { stringResource(R.string.favorites_screen_default_title) }
     val multiselect = selectedIds.isNotEmpty()
-    val hasStarredSessions = uiState is Success && uiState.parameters.isNotEmpty()
-    val showFloatingToolbar = multiselect || hasStarredSessions
+    val hasFavoriteSessions = uiState is Success && uiState.parameters.isNotEmpty()
+    val showFloatingToolbar = multiselect || hasFavoriteSessions
 
     Scaffold { _ ->
         Box(
@@ -118,18 +118,18 @@ fun StarredListContent(
                             }
                         }
                         if (showFloatingToolbar) {
-                            StarredListToolbar(
+                            FavoritesToolbar(
                                 modifier = Modifier
                                     .align(if (useVerticalToolbar) CenterEnd else BottomCenter),
                                 visible = true,
                                 multiselect = multiselect,
-                                hasStarredSessions = hasStarredSessions,
+                                hasFavoriteSessions = hasFavoriteSessions,
                                 useVerticalToolbar = useVerticalToolbar,
                                 onViewEvent = onViewEvent,
                             )
                         }
                     } else {
-                        StarredSessionsList(
+                        FavoriteSessionsList(
                             navigationTitle = navigationTitle,
                             sessions = sessions,
                             showInSidePane = showInSidePane,
@@ -148,7 +148,7 @@ fun StarredListContent(
 }
 
 @Composable
-private fun StarredSessionsList(
+private fun FavoriteSessionsList(
     navigationTitle: String,
     sessions: List<SearchResultParameter>,
     showInSidePane: Boolean,
@@ -156,7 +156,7 @@ private fun StarredSessionsList(
     multiselect: Boolean,
     selectedIds: Set<String>,
     onBack: () -> Unit,
-    onViewEvent: (StarredListViewEvent) -> Unit,
+    onViewEvent: (FavoritesViewEvent) -> Unit,
 ) {
     val listState = rememberLazyListState()
     var hasAutoScrolled by rememberSaveable { mutableStateOf(false) }
@@ -164,7 +164,7 @@ private fun StarredSessionsList(
         source = ScrollPosition.LazyList(listState),
         enabled = !useVerticalToolbar,
     )
-    val hasStarredSessions = sessions.isNotEmpty()
+    val hasFavoriteSessions = sessions.isNotEmpty()
     val density = LocalDensity.current
     val statusBarHeight = if (showInSidePane) 0 else WindowInsets.statusBars.getTop(density)
 
@@ -229,12 +229,12 @@ private fun StarredSessionsList(
             StatusBarProtection(Modifier.align(TopCenter))
         }
         NavigationBarProtection(Modifier.align(BottomCenter))
-        StarredListToolbar(
+        FavoritesToolbar(
             modifier = Modifier
                 .align(if (useVerticalToolbar) CenterEnd else BottomCenter),
             visible = showToolbar,
             multiselect = multiselect,
-            hasStarredSessions = hasStarredSessions,
+            hasFavoriteSessions = hasFavoriteSessions,
             useVerticalToolbar = useVerticalToolbar,
             onViewEvent = onViewEvent,
         )
@@ -332,12 +332,12 @@ private fun CheckableItem(
 
 @MultiDevicePreview
 @Composable
-private fun StarredListContentPreview() {
+private fun FavoritesContentPreview() {
     val uiState = Success(
         parameters = createSearchResultPreviewData(),
     )
     EventFahrplanTheme {
-        StarredListContent(
+        FavoritesContent(
             headerTitle = stringResource(R.string.favorites_screen_default_title),
             uiState = uiState,
             showInSidePane = false,
@@ -349,9 +349,9 @@ private fun StarredListContentPreview() {
 
 @Preview
 @Composable
-private fun StarredListContentEmptyPreview() {
+private fun FavoritesContentEmptyPreview() {
     EventFahrplanTheme {
-        StarredListContent(
+        FavoritesContent(
             headerTitle = "",
             uiState = Success(emptyList()),
             showInSidePane = false,
@@ -363,9 +363,9 @@ private fun StarredListContentEmptyPreview() {
 
 @Preview
 @Composable
-private fun StarredListContentLoadingPreview() {
+private fun FavoritesContentLoadingPreview() {
     EventFahrplanTheme {
-        StarredListContent(
+        FavoritesContent(
             headerTitle = "",
             uiState = Loading,
             showInSidePane = false,

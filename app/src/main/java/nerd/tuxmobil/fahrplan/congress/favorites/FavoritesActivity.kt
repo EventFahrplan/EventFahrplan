@@ -11,12 +11,12 @@ import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity
 import nerd.tuxmobil.fahrplan.congress.extensions.applyEdgeToEdgeInsets
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 
-class StarredListActivity : BaseActivity(R.layout.activity_generic), OnSessionItemClickListener {
+class FavoritesActivity : BaseActivity(R.layout.activity_generic), OnSessionItemClickListener {
 
     companion object {
 
         fun start(context: Context) {
-            val intent = Intent(context, StarredListActivity::class.java)
+            val intent = Intent(context, FavoritesActivity::class.java)
             context.startActivity(intent)
         }
     }
@@ -26,7 +26,7 @@ class StarredListActivity : BaseActivity(R.layout.activity_generic), OnSessionIt
         requireViewByIdCompat<View>(R.id.root_layout).applyEdgeToEdgeInsets()
 
         if (savedInstanceState == null) {
-            addFragment(R.id.fragment_container_view, StarredListFragment(), StarredListFragment.FRAGMENT_TAG)
+            addFragment(R.id.fragment_container_view, FavoritesFragment(), FavoritesFragment.FRAGMENT_TAG)
         }
     }
 

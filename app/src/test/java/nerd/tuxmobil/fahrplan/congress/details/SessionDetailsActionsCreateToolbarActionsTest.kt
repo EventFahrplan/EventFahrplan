@@ -17,7 +17,7 @@ class SessionDetailsActionsCreateToolbarActionsTest {
     fun `createToolbarActions matches default action set and order`() {
         val actions = createToolbarActions(default)
         assertThat(actions).containsExactly(
-            Favorite(isFavored = false),
+            Favorite(isFavorite = false),
             Alarm(hasAlarm = false),
             AddToCalendar,
             Share.Direct,
@@ -47,7 +47,7 @@ class SessionDetailsActionsCreateToolbarActionsTest {
             ),
         )
         assertThat(actions).containsExactly(
-            Favorite(isFavored = false),
+            Favorite(isFavorite = false),
             Alarm(hasAlarm = false),
             Feedback,
             AddToCalendar,

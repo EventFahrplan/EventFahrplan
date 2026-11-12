@@ -311,8 +311,8 @@ class SearchViewModelTest {
         @Test
         fun `uiState filters sessions which satisfy both language filter and other filters (AND combination)`() =
             runTest {
-                val favoriteEnglish = Session(sessionId = "1", title = "Favorite English", language = "en", isHighlight = true)
-                val favoriteGerman = Session(sessionId = "2", title = "Favorite German", language = "de", isHighlight = true)
+                val favoriteEnglish = Session(sessionId = "1", title = "Favorite English", language = "en", isFavorite = true)
+                val favoriteGerman = Session(sessionId = "2", title = "Favorite German", language = "de", isFavorite = true)
                 val notFavoriteEnglish = Session(sessionId = "3", title = "Other English", language = "en")
                 val viewModel = createViewModel(
                     sessionsFlow = flowOf(listOf(favoriteEnglish, favoriteGerman, notFavoriteEnglish)),

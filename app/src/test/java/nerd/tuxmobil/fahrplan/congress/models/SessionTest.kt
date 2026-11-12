@@ -30,7 +30,7 @@ class SessionTest {
             language = "cz",
             recordingLicense = "CC-0",
             recordingOptOut = true,
-            isHighlight = true,
+            isFavorite = true,
             hasAlarm = true,
 
             // Not considered in equal nor hashCode.
@@ -97,7 +97,7 @@ class SessionTest {
             of("language", createSession().copy(language = "Odd language")),
             of("recordingLicense", createSession().copy(recordingLicense = "Odd recording license")),
             of("recordingOptOut", createSession().copy(recordingOptOut = false)),
-            of("isHighlight", createSession().copy(isHighlight = false)),
+            of("isFavorite", createSession().copy(isFavorite = false)),
             of("hasAlarm", createSession().copy(hasAlarm = false)),
         )
 

@@ -49,21 +49,21 @@ public interface FahrplanContract {
 
     }
 
-    interface HighlightsTable {
+    interface FavoritesTable {
 
-        String NAME = "highlight";
+        String NAME = "highlight"; // Keep table name to avoid database migration.
 
         interface Columns {
 
             String ID = "_id";
             String SESSION_ID = "eventid"; // Keep column name to avoid database migration.
-            String HIGHLIGHT = "highlight";
+            String IS_FAVORITE = "highlight"; // Keep column name to avoid database migration.
         }
 
         interface Values {
 
-            int HIGHLIGHT_STATE_OFF = 0;
-            int HIGHLIGHT_STATE_ON = 1;
+            int NOT_MARKED_AS_FAVORITE = 0;
+            int MARKED_AS_FAVORITE = 1;
         }
 
     }

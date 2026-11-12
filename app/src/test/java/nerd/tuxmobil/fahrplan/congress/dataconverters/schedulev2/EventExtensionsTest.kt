@@ -136,7 +136,7 @@ class EventExtensionsTest {
             duration = Duration.ofHours(1),
             feedbackUrl = "https://pretalx.org/event/feedback",
             hasAlarm = false,
-            isHighlight = false,
+            isFavorite = false,
             language = "en",
             links = "[Attachment](https://example.com/attachment.pdf),[GitLab](https://gitlab.com)",
             recordingLicense = "",

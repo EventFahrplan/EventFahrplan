@@ -6,9 +6,9 @@ import android.database.sqlite.SQLiteDatabase
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import info.metadude.android.eventfahrplan.database.models.Highlight
+import info.metadude.android.eventfahrplan.database.models.Favorite
 import info.metadude.android.eventfahrplan.database.repositories.AlarmsDatabaseRepository
-import info.metadude.android.eventfahrplan.database.repositories.HighlightsDatabaseRepository
+import info.metadude.android.eventfahrplan.database.repositories.FavoritesDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
@@ -36,7 +36,7 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
     private val dayIndex = 1
     private val roomName = "Room 1"
     private val alarmsDatabaseRepository = InMemoryAlarmRepository()
-    private val highlightsDatabaseRepository = InMemoryHighlightsDatabaseRepository()
+    private val favoritesDatabaseRepository = InMemoryFavoritesDatabaseRepository()
     private val roomProvider = object : RoomProvider {
         override val prioritizedRooms: List<String> = emptyList()
         override val deprioritizedRooms: List<String> = emptyList()
@@ -55,7 +55,7 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
                 okHttpClient = mock(),
                 alarmsDatabaseRepository = alarmsDatabaseRepository,
                 sessionsDatabaseRepository = createSessionsDatabaseRepository(),
-                highlightsDatabaseRepository = highlightsDatabaseRepository,
+                favoritesDatabaseRepository = favoritesDatabaseRepository,
                 scheduleNetworkRepository = mock(),
                 engelsystemRepository = mock(),
                 sharedPreferencesRepository = createSharedPreferencesRepository(),
@@ -73,7 +73,7 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
             runTest {
                 testableAppRepository.uncanceledSessionsForDayIndex.test {
                     val expectedScheduleData1 = createScheduleData(createSession(
-                        isHighlight = false,
+                        isFavorite = false,
                         hasAlarm = false, // initially no alarm
                     ))
 
@@ -83,7 +83,7 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
                     // Simulate scheduling an alarm
                     testableAppRepository.updateAlarm(createAlarm())
                     val expectedScheduleData2 = createScheduleData(createSession(
-                        isHighlight = false,
+                        isFavorite = false,
                         hasAlarm = true, // alarm is now set
                     ))
                     val actualScheduleData2 = awaitItem()
@@ -98,7 +98,7 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
 
                 testableAppRepository.uncanceledSessionsForDayIndex.test {
                     val expectedScheduleData1 = createScheduleData(createSession(
-                        isHighlight = false,
+                        isFavorite = false,
                         hasAlarm = true, // initially alarm is set
                     ))
 
@@ -108,7 +108,7 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
                     // Simulate canceling specific alarm
                     testableAppRepository.deleteAlarmForAlarmId(0)
                     val expectedScheduleData2 = createScheduleData(createSession(
-                        isHighlight = false,
+                        isFavorite = false,
                         hasAlarm = false, // alarm is now canceled
                     ))
                     val actualScheduleData2 = awaitItem()
@@ -123,7 +123,7 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
 
                 testableAppRepository.uncanceledSessionsForDayIndex.test {
                     val expectedScheduleData1 = createScheduleData(createSession(
-                        isHighlight = false,
+                        isFavorite = false,
                         hasAlarm = true, // initially alarm is set
                     ))
 
@@ -133,7 +133,7 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
                     // Simulate canceling specific alarm
                     testableAppRepository.deleteAlarmForSessionId(sessionId)
                     val expectedScheduleData2 = createScheduleData(createSession(
-                        isHighlight = false,
+                        isFavorite = false,
                         hasAlarm = false, // alarm is now canceled
                     ))
                     val actualScheduleData2 = awaitItem()
@@ -148,7 +148,7 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
 
                 testableAppRepository.uncanceledSessionsForDayIndex.test {
                     val expectedScheduleData1 = createScheduleData(createSession(
-                        isHighlight = false,
+                        isFavorite = false,
                         hasAlarm = true, // initially alarm is set
                     ))
 
@@ -158,7 +158,7 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
                     // Simulate canceling all alarms
                     testableAppRepository.deleteAllAlarms()
                     val expectedScheduleData2 = createScheduleData(createSession(
-                        isHighlight = false,
+                        isFavorite = false,
                         hasAlarm = false, // alarm is now canceled
                     ))
                     val actualScheduleData2 = awaitItem()
@@ -173,7 +173,7 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
 
                 testableAppRepository.uncanceledSessionsForDayIndex.test {
                     val expectedScheduleData1 = createScheduleData(createSession(
-                        isHighlight = false,
+                        isFavorite = false,
                         hasAlarm = true, // initially alarm is set
                     ))
 
@@ -183,7 +183,7 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
                     // Simulate the alarm firing
                     testableAppRepository.onAlarmFired(sessionId)
                     val expectedScheduleData2 = createScheduleData(createSession(
-                        isHighlight = false,
+                        isFavorite = false,
                         hasAlarm = false, // fired alarm is now deleted
                     ))
                     val actualScheduleData2 = awaitItem()
@@ -194,23 +194,23 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
     }
 
     @Nested
-    inner class Highlight {
+    inner class Favorites {
 
         @Test
-        fun `uncanceledSessionsForDayIndex emits ScheduleData containing session with highlight when updateHighlight is invoked`() =
+        fun `uncanceledSessionsForDayIndex emits ScheduleData containing session with favorite when updateFavorite is invoked`() =
             runTest {
                 testableAppRepository.uncanceledSessionsForDayIndex.test {
                     val expectedScheduleData1 = createScheduleData(createSession(
-                        isHighlight = false, // initially no highlight
+                        isFavorite = false, // initially no favorite
                         hasAlarm = false,
                     ))
                     val actualScheduleData1 = awaitItem()
                     assertThat(actualScheduleData1).isEqualTo(expectedScheduleData1)
 
-                    // Simulate highlighting a session
-                    testableAppRepository.updateHighlight(SessionAppModel(sessionId))
+                    // Simulate favoring a session
+                    testableAppRepository.updateFavorite(SessionAppModel(sessionId))
                     val expectedScheduleData2 = createScheduleData(createSession(
-                        isHighlight = true, // highlight is now set
+                        isFavorite = true, // favorite is now set
                         hasAlarm = false,
                     ))
                     val actualScheduleData2 = awaitItem()
@@ -219,22 +219,22 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
             }
 
         @Test
-        fun `uncanceledSessionsForDayIndex emits ScheduleData containing session without highlight when deleteHighlight is invoked`() =
+        fun `uncanceledSessionsForDayIndex emits ScheduleData containing session without favorite when deleteFavorite is invoked`() =
             runTest {
-                testableAppRepository.updateHighlight(createSession(isHighlight = true, hasAlarm = false))
+                testableAppRepository.updateFavorite(createSession(isFavorite = true, hasAlarm = false))
 
                 testableAppRepository.uncanceledSessionsForDayIndex.test {
                     val expectedScheduleData1 = createScheduleData(createSession(
-                        isHighlight = true, // initially with highlight
+                        isFavorite = true, // initially with favorite
                         hasAlarm = false,
                     ))
                     val actualScheduleData1 = awaitItem()
                     assertThat(actualScheduleData1).isEqualTo(expectedScheduleData1)
 
-                    // Simulate removing highlight from session
-                    testableAppRepository.deleteHighlights(sessionId)
+                    // Simulate removing favorite from session
+                    testableAppRepository.deleteFavorites(sessionId)
                     val expectedScheduleData2 = createScheduleData(createSession(
-                        isHighlight = false, // highlight is now removed
+                        isFavorite = false, // favorite is now removed
                         hasAlarm = false,
                     ))
                     val actualScheduleData2 = awaitItem()
@@ -243,22 +243,22 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
             }
 
         @Test
-        fun `uncanceledSessionsForDayIndex emits ScheduleData containing session without highlight when deleteAllHighlights is invoked`() =
+        fun `uncanceledSessionsForDayIndex emits ScheduleData containing session without favorite when deleteAllFavorites is invoked`() =
             runTest {
-                testableAppRepository.updateHighlight(createSession(isHighlight = true, hasAlarm = false))
+                testableAppRepository.updateFavorite(createSession(isFavorite = true, hasAlarm = false))
 
                 testableAppRepository.uncanceledSessionsForDayIndex.test {
                     val expectedScheduleData1 = createScheduleData(createSession(
-                        isHighlight = true, // initially with highlight
+                        isFavorite = true, // initially with favorite
                         hasAlarm = false,
                     ))
                     val actualScheduleData1 = awaitItem()
                     assertThat(actualScheduleData1).isEqualTo(expectedScheduleData1)
 
-                    // Simulate removing highlights from all sessions
-                    testableAppRepository.deleteAllHighlights()
+                    // Simulate removing favorites from all sessions
+                    testableAppRepository.deleteAllFavorites()
                     val expectedScheduleData2 = createScheduleData(createSession(
-                        isHighlight = false, // highlight is now removed
+                        isFavorite = false, // favorite is now removed
                         hasAlarm = false,
                     ))
                     val actualScheduleData2 = awaitItem()
@@ -302,11 +302,11 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
         )
     }
 
-    private fun createSession(isHighlight: Boolean, hasAlarm: Boolean) = SessionAppModel(
+    private fun createSession(isFavorite: Boolean, hasAlarm: Boolean) = SessionAppModel(
         sessionId = sessionId,
         dayIndex = dayIndex,
         roomName = roomName,
-        isHighlight = isHighlight,
+        isFavorite = isFavorite,
         hasAlarm = hasAlarm,
     )
 
@@ -358,36 +358,36 @@ private class InMemoryAlarmRepository : AlarmsDatabaseRepository {
 
 }
 
-private class InMemoryHighlightsDatabaseRepository : HighlightsDatabaseRepository {
+private class InMemoryFavoritesDatabaseRepository : FavoritesDatabaseRepository {
 
-    private var highlights = listOf<Highlight>()
+    private var favorites = listOf<Favorite>()
 
     override fun update(values: ContentValues, sessionId: String): Long {
-        val highlight = Highlight(
+        val favorite = Favorite(
             sessionId = sessionId,
-            isHighlight = true,
+            isFavorite = true,
         )
-        highlights = listOf(highlight)
+        favorites = listOf(favorite)
         return 0L
     }
 
-    override fun query(): List<Highlight> {
-        return highlights
+    override fun query(): List<Favorite> {
+        return favorites
     }
 
-    override fun queryBySessionId(sessionId: String): Highlight? {
-        return highlights.singleOrNull { it.sessionId == sessionId }
+    override fun queryBySessionId(sessionId: String): Favorite? {
+        return favorites.singleOrNull { it.sessionId == sessionId }
     }
 
     override fun delete(sessionIds: Set<String>): Int {
-        val affected = highlights.size
-        highlights = emptyList()
+        val affected = favorites.size
+        favorites = emptyList()
         return affected
     }
 
     override fun deleteAll(): Int {
-        val affected = highlights.size
-        highlights = emptyList()
+        val affected = favorites.size
+        favorites = emptyList()
         return affected
     }
 }

@@ -86,10 +86,10 @@ class SearchQueryFilterTest {
     }
 
     @Test
-    fun `IsFavoriteSearchFilter only returns starred sessions`() {
-        val session1 = Session("1", title = "Session 1", isHighlight = false)
-        val session2 = Session("2", title = "Session 2", isHighlight = true)
-        val session3 = Session("3", title = "no match", isHighlight = true)
+    fun `IsFavoriteSearchFilter only returns favorite sessions`() {
+        val session1 = Session("1", title = "Session 1", isFavorite = false)
+        val session2 = Session("2", title = "Session 2", isFavorite = true)
+        val session3 = Session("3", title = "no match", isFavorite = true)
         val sessions = listOf(session1, session2, session3)
         val filters = setOf(IsFavoriteSearchFilter())
 
@@ -99,10 +99,10 @@ class SearchQueryFilterTest {
     }
 
     @Test
-    fun `IsFavoriteSearchFilter with empty query returns all starred sessions`() {
-        val session1 = Session("1", title = "Session 1", isHighlight = false)
-        val session2 = Session("2", title = "Session 2", isHighlight = true)
-        val session3 = Session("3", title = "Session 3", isHighlight = true)
+    fun `IsFavoriteSearchFilter with empty query returns all favorite sessions`() {
+        val session1 = Session("1", title = "Session 1", isFavorite = false)
+        val session2 = Session("2", title = "Session 2", isFavorite = true)
+        val session3 = Session("3", title = "Session 3", isFavorite = true)
         val sessions = listOf(session1, session2, session3)
         val filters = setOf(IsFavoriteSearchFilter())
 
@@ -112,10 +112,10 @@ class SearchQueryFilterTest {
     }
 
     @Test
-    fun `NotFavoriteSearchFilter only returns not starred sessions`() {
-        val session1 = Session("1", title = "Session 1", isHighlight = true)
-        val session2 = Session("2", title = "Session 2", isHighlight = false)
-        val session3 = Session("3", title = "no match", isHighlight = false)
+    fun `NotFavoriteSearchFilter only returns not favorite sessions`() {
+        val session1 = Session("1", title = "Session 1", isFavorite = true)
+        val session2 = Session("2", title = "Session 2", isFavorite = false)
+        val session3 = Session("3", title = "no match", isFavorite = false)
         val sessions = listOf(session1, session2, session3)
         val filters = setOf(NotFavoriteSearchFilter())
 
@@ -125,10 +125,10 @@ class SearchQueryFilterTest {
     }
 
     @Test
-    fun `NotFavoriteSearchFilter with empty query returns not all starred sessions`() {
-        val session1 = Session("1", title = "Session 1", isHighlight = true)
-        val session2 = Session("2", title = "Session 2", isHighlight = false)
-        val session3 = Session("3", title = "Session 3", isHighlight = false)
+    fun `NotFavoriteSearchFilter with empty query returns not all favorite sessions`() {
+        val session1 = Session("1", title = "Session 1", isFavorite = true)
+        val session2 = Session("2", title = "Session 2", isFavorite = false)
+        val session3 = Session("3", title = "Session 3", isFavorite = false)
         val sessions = listOf(session1, session2, session3)
         val filters = setOf(NotFavoriteSearchFilter())
 
@@ -325,10 +325,10 @@ class SearchQueryFilterTest {
 
     @Test
     fun `all provided SearchFilters must match`() {
-        val session1 = Session("1", title = "Session 1", isHighlight = true, hasAlarm = false)
-        val session2 = Session("2", title = "Session 2", isHighlight = true, hasAlarm = true)
-        val session3 = Session("3", title = "Session 3", isHighlight = false, hasAlarm = true)
-        val session4 = Session("4", title = "Session 4", isHighlight = false, hasAlarm = false)
+        val session1 = Session("1", title = "Session 1", isFavorite = true, hasAlarm = false)
+        val session2 = Session("2", title = "Session 2", isFavorite = true, hasAlarm = true)
+        val session3 = Session("3", title = "Session 3", isFavorite = false, hasAlarm = true)
+        val session4 = Session("4", title = "Session 4", isFavorite = false, hasAlarm = false)
         val sessions = listOf(session1, session2, session3, session4)
         val filters = setOf(IsFavoriteSearchFilter(), HasAlarmSearchFilter())
 

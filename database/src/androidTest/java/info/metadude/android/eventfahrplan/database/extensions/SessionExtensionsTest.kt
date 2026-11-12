@@ -56,7 +56,7 @@ class SessionExtensionsTest {
                 duration = Duration.ofMinutes(45),
                 feedbackUrl = "https://talks.mrmcd.net/2018/talk/V3FUNG/feedback",
                 hasAlarm = true,
-                isHighlight = true,
+                isFavorite = true,
                 language = "en",
                 links = "[Website](https://www.example.com/path)",
                 recordingLicense = "CC 0",
@@ -97,7 +97,7 @@ class SessionExtensionsTest {
         assertThat(values.getAsInteger(DURATION)).isEqualTo(45)
         assertThat(values.getAsString(FEEDBACK_URL)).isEqualTo("https://talks.mrmcd.net/2018/talk/V3FUNG/feedback")
         // The value of "hasAlarms" is not persisted.
-        // The value of "isHighlight" is not persisted.
+        // The value of "isFavorite" is not persisted.
         assertThat(values.getAsString(LANG)).isEqualTo("en")
         assertThat(values.getAsString(LINKS)).isEqualTo("[Website](https://www.example.com/path)")
         assertThat(values.getAsString(REC_LICENSE)).isEqualTo("CC 0")

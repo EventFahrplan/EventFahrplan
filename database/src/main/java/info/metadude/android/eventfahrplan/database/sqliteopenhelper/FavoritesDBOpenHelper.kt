@@ -3,13 +3,13 @@ package info.metadude.android.eventfahrplan.database.sqliteopenhelper
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.HIGHLIGHT
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.ID
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.SESSION_ID
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.NAME
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.FavoritesTable.Columns.ID
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.FavoritesTable.Columns.IS_FAVORITE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.FavoritesTable.Columns.SESSION_ID
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.FavoritesTable.NAME
 import info.metadude.android.eventfahrplan.database.extensions.dropTableIfExist
 
-internal class HighlightDBOpenHelper(context: Context) : SQLiteOpenHelper(
+internal class FavoritesDBOpenHelper(context: Context) : SQLiteOpenHelper(
     context.applicationContext,
     DATABASE_NAME,
     null,
@@ -21,15 +21,15 @@ internal class HighlightDBOpenHelper(context: Context) : SQLiteOpenHelper(
         const val DATABASE_NAME = "highlight"
 
         // language=sql
-        const val HIGHLIGHT_TABLE_CREATE = "CREATE TABLE $NAME (" +
+        const val FAVORITES_TABLE_CREATE = "CREATE TABLE $NAME (" +
                 "$ID INTEGER PRIMARY KEY, " +
                 "$SESSION_ID INTEGER, " +
-                "$HIGHLIGHT INTEGER" +
+                "$IS_FAVORITE INTEGER" +
                 ");"
     }
 
     override fun onCreate(db: SQLiteDatabase) = with(db) {
-        execSQL(HIGHLIGHT_TABLE_CREATE)
+        execSQL(FAVORITES_TABLE_CREATE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) = with(db) {
