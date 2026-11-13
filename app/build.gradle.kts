@@ -325,23 +325,26 @@ private fun getFormattedDate(date: Date) = SimpleDateFormat("yyyy-MM-dd'T'HH:mm'
     .format(date)
 
 private fun hasSigningConfig(flavor: String): Boolean {
-    return project.hasProperty("signing.$flavor-release.keystoreFilePath") &&
-            project.hasProperty("signing.$flavor-release.keystorePassword") &&
-            project.hasProperty("signing.$flavor-release.keyAlias") &&
-            project.hasProperty("signing.$flavor-release.keyPassword")
+    return listOf("keystoreFilePath", "keystorePassword", "keyAlias", "keyPassword")
+        .all { getSigningProperty(flavor, propertyName = it) != null }
 }
 
 private fun ApplicationProductFlavor.configureSigningConfig() {
-    val flavorName = this.name
-    val props = project.properties
+    val flavorName = name
     val signingConfig = android.signingConfigs.getByName(flavorName).apply {
-        storeFile = file(props["signing.$flavorName-release.keystoreFilePath"].toString())
-        storePassword = props["signing.$flavorName-release.keystorePassword"].toString()
-        keyAlias = props["signing.$flavorName-release.keyAlias"].toString()
-        keyPassword = props["signing.$flavorName-release.keyPassword"].toString()
+        storeFile = file(getSigningProperty(flavorName, propertyName = "keystoreFilePath")!!)
+        storePassword = getSigningProperty(flavorName, propertyName = "keystorePassword")
+        keyAlias = getSigningProperty(flavorName, propertyName = "keyAlias")
+        keyPassword = getSigningProperty(flavorName, propertyName = "keyPassword")
     }
     this.signingConfig = signingConfig
 }
+
+// Uses findProperty() rather than providers.gradleProperty(): the latter only sees build-level
+// Gradle properties and misses the signing keys kept in app/gradle.properties.
+private fun getSigningProperty(flavorName: String, propertyName: String) =
+    project.findProperty("signing.$flavorName-release.$propertyName")?.toString()
+
 
 private fun Project.execAndGetStdout(vararg command: String) = providers
     .exec {
