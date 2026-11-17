@@ -454,8 +454,8 @@ class FahrplanFragment : Fragment(), MenuProvider {
     }
 
     /**
-     * Removes the room titles and room columns of the previously displayed day
-     * and resets the related render caches.
+     * Removes the room titles and room columns of the previously displayed day,
+     * resets the related render caches and the horizontal scroll position.
      */
     private fun clearDay() {
         val layoutRoot = requireView()
@@ -467,6 +467,8 @@ class FahrplanFragment : Fragment(), MenuProvider {
         deferredRoomColumnRenderers.clear()
         renderedAlarmState.clear()
         currentDayIndex = -1
+        // Reset the active column so returning sessions are rendered starting with the first room.
+        horizontalScroller.scrollToColumn(0, fast = true)
     }
 
     private fun updateNavigationMenuSelection(numDays: Int, dayIndex: Int) {
