@@ -394,6 +394,7 @@ class SessionDetailsViewModelTest {
                 var invokedLink = ""
                 val externalNavigation = object : ExternalNavigation {
                     override fun openMap(locationText: String) = throw NotImplementedError()
+                    override fun getBrowsableApps() = emptyList<String>()
                     override fun getBrowserApps() = emptyList<String>()
                     override fun getDefaultBrowsableApp() = null
                     override fun openLink(link: String) {
@@ -421,6 +422,7 @@ class SessionDetailsViewModelTest {
                 val externalNavigation = object : ExternalNavigation {
                     override fun openMap(locationText: String) = throw NotImplementedError()
                     override fun getDefaultBrowsableApp() = null
+                    override fun getBrowsableApps() = emptyList<String>()
                     override fun getBrowserApps() = listOf("com.example.app")
 
                     override fun openLink(link: String) {
@@ -450,6 +452,7 @@ class SessionDetailsViewModelTest {
                 val externalNavigation = object : ExternalNavigation {
                     override fun openMap(locationText: String) = throw NotImplementedError()
                     override fun getDefaultBrowsableApp() = null
+                    override fun getBrowsableApps() = emptyList<String>()
                     override fun getBrowserApps() = listOf("com.example.browser")
                     override fun openLink(link: String) = throw NotImplementedError()
                     override fun openLinkWithApp(link: String, packageName: String) {
@@ -478,6 +481,8 @@ class SessionDetailsViewModelTest {
                 val externalNavigation = object : ExternalNavigation {
                     override fun openMap(locationText: String) = throw NotImplementedError()
                     override fun getDefaultBrowsableApp() = "com.example.browser2"
+                    override fun getBrowsableApps() =
+                        listOf("com.example.browser1", "com.example.browser2")
                     override fun getBrowserApps() =
                         listOf("com.example.browser1", "com.example.browser2")
 
@@ -495,6 +500,67 @@ class SessionDetailsViewModelTest {
                 assertThat(invokedLink).isEqualTo(link)
                 assertThat(invokedPackage).isEqualTo("com.example.browser2")
             }
+
+        @Test
+        fun `OnSessionLinkClick invokes openLinkWithApp with the default browsable app even if it is no browser app`() =
+            runTest {
+                val invokedPackage = openSessionLinkWithApp(
+                    defaultBrowsableApp = "org.mozilla.klar",
+                    browsableApps = listOf("com.android.chrome", "org.mozilla.klar"),
+                    browserApps = listOf("com.android.chrome"),
+                )
+                assertThat(invokedPackage).isEqualTo("org.mozilla.klar")
+            }
+
+        @Test
+        fun `OnSessionLinkClick invokes openLinkWithApp with the first browser app if the default is the system resolver`() =
+            runTest {
+                val invokedPackage = openSessionLinkWithApp(
+                    defaultBrowsableApp = "android",
+                    browsableApps = listOf("com.android.chrome", "org.mozilla.klar"),
+                    browserApps = listOf("com.android.chrome"),
+                )
+                assertThat(invokedPackage).isEqualTo("com.android.chrome")
+            }
+
+        @Test
+        fun `OnSessionLinkClick invokes openLinkWithApp with the first browser app if the default is the app itself`() =
+            runTest {
+                val invokedPackage = openSessionLinkWithApp(
+                    defaultBrowsableApp = "com.example.app",
+                    browsableApps = listOf("com.example.app", "com.android.chrome"),
+                    browserApps = listOf("com.example.app", "com.android.chrome"),
+                )
+                assertThat(invokedPackage).isEqualTo("com.android.chrome")
+            }
+
+        private fun openSessionLinkWithApp(
+            defaultBrowsableApp: String?,
+            browsableApps: List<String>,
+            browserApps: List<String>,
+        ): String {
+            val link = "https://events.ccc.de/congress/2025/hub/event/detail/opening-ceremony"
+            var invokedPackage = ""
+            val buildConfigProvision = mock<BuildConfigProvision> {
+                on { packageName } doReturn "com.example.app"
+            }
+            val externalNavigation = object : ExternalNavigation {
+                override fun openMap(locationText: String) = throw NotImplementedError()
+                override fun getDefaultBrowsableApp() = defaultBrowsableApp
+                override fun getBrowsableApps() = browsableApps
+                override fun getBrowserApps() = browserApps
+                override fun openLink(link: String) = throw NotImplementedError()
+                override fun openLinkWithApp(link: String, packageName: String) {
+                    invokedPackage = packageName
+                }
+            }
+            val viewModel = createViewModel(
+                buildConfigProvision = buildConfigProvision,
+                externalNavigation = externalNavigation,
+            )
+            viewModel.onViewEvent(OnSessionLinkClick(link))
+            return invokedPackage
+        }
 
     }
 

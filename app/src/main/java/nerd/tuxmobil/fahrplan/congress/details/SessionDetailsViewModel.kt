@@ -154,12 +154,13 @@ internal class SessionDetailsViewModel(
     }
 
     private fun openLink(link: String) {
+        val ownPackageName = buildConfigProvision.packageName
+        // The default app is the user's choice, it is not required to declare CATEGORY_APP_BROWSER.
+        // Being one of the browsable apps rules out the system resolver if no default is set.
         val defaultBrowser = externalNavigation.getDefaultBrowsableApp()
-        val browsers = externalNavigation.getBrowserApps().filter { it != buildConfigProvision.packageName }
-        val desiredBrowser = when (defaultBrowser in browsers) {
-            true -> defaultBrowser
-            false -> browsers.firstOrNull()
-        }
+            ?.takeIf { it != ownPackageName && it in externalNavigation.getBrowsableApps() }
+        val desiredBrowser = defaultBrowser
+            ?: externalNavigation.getBrowserApps().firstOrNull { it != ownPackageName }
         if (desiredBrowser == null) {
             externalNavigation.openLink(link)
         } else {

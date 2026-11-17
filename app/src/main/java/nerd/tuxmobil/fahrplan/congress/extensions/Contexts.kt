@@ -35,19 +35,36 @@ fun Context.startActivity(intent: Intent, onActivityNotFound: () -> Unit) {
 }
 
 /**
- * Returns the package name for the default browsable app.
- * Here, intentionally a website which is unrelated to the domain of the event is passed to avoid
- * returning our own package name which can be registered as an app links handler.
+ * Returns an intent to view a website which is intentionally unrelated to the domain of the event.
+ * This avoids matching our own package name which can be registered as an app links handler.
  */
-fun Context.getDefaultBrowsableApp(): String? {
-    val uri = "https://eventfahrplan.eu".toUri()
-    val intent = Intent(Intent.ACTION_VIEW, uri).apply {
+private fun createUnrelatedWebsiteIntent() =
+    Intent(Intent.ACTION_VIEW, "https://eventfahrplan.eu".toUri()).apply {
         addCategory(Intent.CATEGORY_BROWSABLE)
     }
+
+/**
+ * Returns the package name for the default browsable app.
+ * If no default is set then the package name of the system resolver activity ("android")
+ * is returned. Use [getBrowsableApps] to tell apart an actual app from the resolver.
+ */
+fun Context.getDefaultBrowsableApp(): String? {
     return packageManager
-        .resolveActivity(intent, MATCH_DEFAULT_ONLY)
+        .resolveActivity(createUnrelatedWebsiteIntent(), MATCH_DEFAULT_ONLY)
         ?.activityInfo
         ?.packageName
+}
+
+/**
+ * Returns a list of package names for all apps which can view a website.
+ * In contrast to [getBrowserApps] this includes browsers which do not declare
+ * [Intent.CATEGORY_APP_BROWSER] such as Firefox Klar but also apps which are no browsers.
+ * [MATCH_ALL] is required to not only receive the default browser on newer Android versions.
+ */
+fun Context.getBrowsableApps(): List<String> {
+    return packageManager
+        .queryIntentActivities(createUnrelatedWebsiteIntent(), MATCH_ALL)
+        .map { it.activityInfo.packageName }
 }
 
 /**
