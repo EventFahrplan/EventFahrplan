@@ -141,6 +141,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
     private val pendingCardShakes = PendingCardShakes()
 
     private var currentDayIndex = -1
+    private var isHorizontalScrollingProgressLineRequested = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -299,6 +300,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
                 } else {
                     clearDay()
                 }
+                applyHorizontalScrollingProgressLineVisibility()
             }
         // Already composed room columns observe the requests, so a late firing event shakes
         // the card without re-rendering its column.
@@ -402,8 +404,20 @@ class FahrplanFragment : Fragment(), MenuProvider {
     }
 
     private fun updateHorizontalScrollingProgressLine(visible: Boolean) {
-        val lineView = requireView().requireViewByIdCompat<View>(R.id.horizontalScrollingProgressLine)
-        lineView.isInvisible = !visible
+        isHorizontalScrollingProgressLineRequested = visible
+        applyHorizontalScrollingProgressLineVisibility()
+    }
+
+    /**
+     * Shows the horizontal scrolling progress line only if it has been requested and if room
+     * columns are displayed. Without room columns there is nothing to scroll horizontally.
+     */
+    private fun applyHorizontalScrollingProgressLineVisibility() {
+        val layoutRoot = requireView()
+        val horizontalScroller = layoutRoot.requireViewByIdCompat<HorizontalSnapScrollView>(R.id.horizScroller)
+        val hasRoomColumns = (horizontalScroller.getChildAt(0) as LinearLayout).childCount > 0
+        val lineView = layoutRoot.requireViewByIdCompat<View>(R.id.horizontalScrollingProgressLine)
+        lineView.isInvisible = !isHorizontalScrollingProgressLineRequested || !hasRoomColumns
     }
 
     /**
