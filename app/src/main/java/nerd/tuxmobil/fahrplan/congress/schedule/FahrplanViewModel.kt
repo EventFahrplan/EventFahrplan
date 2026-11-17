@@ -185,14 +185,14 @@ internal class FahrplanViewModel(
                     if (scheduleVersion.isNotEmpty()) {
                         val errorMessage = errorMessageFactory.getMessageForEmptySchedule(scheduleVersion)
                         mutableErrorMessage.value = errorMessage
-                    } // else: Nothing to do because schedule has not been loaded yet
-                } else {
-                    val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
-                    val customizedScheduleData = scheduleData.customizeEngelsystemRoomName()
-                    val parameter = FahrplanParameter(customizedScheduleData, useDeviceTimeZone)
-                    logging.d(LOG_TAG, "Loaded ${parameter.scheduleData.allSessions.size} uncanceled sessions.")
-                    mutableFahrplanParameter.value = parameter
+                    } // else: No error message because schedule has not been loaded yet
                 }
+                // Emit empty schedule data too so that previously displayed sessions are removed.
+                val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
+                val customizedScheduleData = scheduleData.customizeEngelsystemRoomName()
+                val parameter = FahrplanParameter(customizedScheduleData, useDeviceTimeZone)
+                logging.d(LOG_TAG, "Loaded ${parameter.scheduleData.allSessions.size} uncanceled sessions.")
+                mutableFahrplanParameter.value = parameter
             }
         }
     }
@@ -286,9 +286,10 @@ internal class FahrplanViewModel(
         launch {
             repository.uncanceledSessionsForDayIndex.collectLatest { scheduleData ->
                 val sessions = scheduleData.allSessions
-                if (sessions.isNotEmpty()) {
-                    val parameters = sessions.toTimeTextViewParameters(nowMoment, normalizedBoxHeight)
-                    mutableTimeTextViewParameters.value = parameters
+                mutableTimeTextViewParameters.value = if (sessions.isEmpty()) {
+                    emptyList()
+                } else {
+                    sessions.toTimeTextViewParameters(nowMoment, normalizedBoxHeight)
                 }
             }
         }

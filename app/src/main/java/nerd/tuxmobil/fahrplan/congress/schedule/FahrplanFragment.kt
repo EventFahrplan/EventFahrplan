@@ -289,11 +289,16 @@ class FahrplanFragment : Fragment(), MenuProvider {
     private fun observeViewModel() {
         viewModel.fahrplanParameter
             .observe(this) { (scheduleData, useDeviceTimeZone) ->
-                hideNoScheduleView()
+                val hasSessions = scheduleData.allSessions.isNotEmpty()
+                setNoScheduleViewVisible(!hasSessions)
                 viewModel.fillTimes(Moment.now(), getNormalizedBoxHeight())
                 pendingCardShakes.update(scheduleData)
-                viewDay(scheduleData, useDeviceTimeZone)
-                updateHorizontalScrollingProgressLine(0)
+                if (hasSessions) {
+                    viewDay(scheduleData, useDeviceTimeZone)
+                    updateHorizontalScrollingProgressLine(0)
+                } else {
+                    clearDay()
+                }
             }
         // Already composed room columns observe the requests, so a late firing event shakes
         // the card without re-rendering its column.
@@ -432,6 +437,22 @@ class FahrplanFragment : Fragment(), MenuProvider {
                 viewModel.preserveVerticalScrollPosition = false
             }
         }
+    }
+
+    /**
+     * Removes the room titles and room columns of the previously displayed day
+     * and resets the related render caches.
+     */
+    private fun clearDay() {
+        val layoutRoot = requireView()
+        val roomScroller = layoutRoot.requireViewByIdCompat<HorizontalScrollView>(R.id.roomScroller)
+        (roomScroller.getChildAt(0) as LinearLayout).removeAllViews()
+        val horizontalScroller = layoutRoot.requireViewByIdCompat<HorizontalSnapScrollView>(R.id.horizScroller)
+        (horizontalScroller.getChildAt(0) as LinearLayout).removeAllViews()
+        renderedRoomHashByRoomName.clear()
+        deferredRoomColumnRenderers.clear()
+        renderedAlarmState.clear()
+        currentDayIndex = -1
     }
 
     private fun updateNavigationMenuSelection(numDays: Int, dayIndex: Int) {
@@ -858,10 +879,10 @@ class FahrplanFragment : Fragment(), MenuProvider {
         requireContext().showToast(R.string.alarms_disabled_schedule_exact_alarm_permission_missing, showShort = false)
     }
 
-    private fun hideNoScheduleView() {
+    private fun setNoScheduleViewVisible(visible: Boolean) {
         requireView()
             .requireViewByIdCompat<View>(R.id.schedule_no_content_view)
-            .isVisible = false
+            .isVisible = visible
     }
 
     private inner class OnDaySelectedListener(private val numDays: Int) : OnNavigationListener {

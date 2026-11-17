@@ -7,6 +7,7 @@ import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewModel
 /**
  * Payload of the observable [fahrplanParameter][FahrplanViewModel.fahrplanParameter] property
  * in the [FahrplanViewModel] which is observed by the [FahrplanFragment].
+ * The [scheduleData] might not contain any sessions, e.g. if all sessions have been canceled.
  */
 data class FahrplanParameter(
     val scheduleData: ScheduleData,
