@@ -74,6 +74,17 @@ class ScheduleChangesTest {
                 expectedFoundNoteworthyChanges = true,
             ),
             scenario1Of(
+                scenarioDescription = "Canceled sessions reappear",
+                oldSessions = listOf(
+                    Session("reappearing", changedIsCanceled = true),
+                    Session("canceled", changedIsCanceled = true),
+                ),
+                newSessions = listOf(Session("reappearing")),
+                expectedSessions = listOf(Session("reappearing", changedIsNew = true)),
+                expectedOldCanceledSessions = listOf(Session("canceled", changedIsCanceled = true)),
+                expectedFoundNoteworthyChanges = true,
+            ),
+            scenario1Of(
                 scenarioDescription = "Old and new sessions are the same",
                 oldSessions = listOf(
                     Session(

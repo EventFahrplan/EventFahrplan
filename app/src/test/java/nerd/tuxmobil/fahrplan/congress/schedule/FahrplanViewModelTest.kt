@@ -194,7 +194,7 @@ class FahrplanViewModelTest {
             }
 
         @Test
-        fun `updateUncanceledSessions posts TitledMessage to errorMessage property`() =
+        fun `updateUncanceledSessions posts TitledMessage to errorMessage and empty FahrplanParameter to fahrplanParameter properties`() =
             runTest {
                 val scheduleData = ScheduleData(0, emptyList())
                 val repository = createRepository(
@@ -212,7 +212,9 @@ class FahrplanViewModelTest {
                     assertThat(awaitItem()).isEqualTo(expectedErrorMessage)
                     expectNoEvents()
                 }
+                val expectedParameter = FahrplanParameter(ScheduleData(0, emptyList()), useDeviceTimeZone = false)
                 viewModel.fahrplanParameter.test {
+                    assertThat(awaitItem()).isEqualTo(expectedParameter)
                     expectNoEvents()
                 }
                 verifyInvokedOnce(repository).readMeta()
@@ -257,7 +259,9 @@ class FahrplanViewModelTest {
                 viewModel.errorMessage.test {
                     assertThat(awaitItem()).isNull()
                 }
+                val expectedParameter = FahrplanParameter(ScheduleData(0, emptyList()), useDeviceTimeZone = false)
                 viewModel.fahrplanParameter.test {
+                    assertThat(awaitItem()).isEqualTo(expectedParameter)
                     expectNoEvents()
                 }
                 verifyInvokedOnce(repository).readMeta()
@@ -288,6 +292,30 @@ class FahrplanViewModelTest {
             verifyInvokedNever(menuEntriesGenerator).getDayMenuEntries(any(), anyOrNull(), any())
             verifyInvokedOnce(repository).readDisplayDayIndex()
         }
+
+        @Test
+        fun `fahrplanParameter property emits empty FahrplanParameter when all sessions get canceled`() =
+            runTest {
+                val uncanceledSessionsForDayIndex = MutableStateFlow(createScheduleData("session-01"))
+                val repository = createRepository(
+                    uncanceledSessionsForDayIndexFlow = uncanceledSessionsForDayIndex,
+                    meta = Meta(version = "test-version"),
+                )
+                val errorMessageFactory = mock<ErrorMessage.Factory> {
+                    on { getMessageForEmptySchedule(any()) } doReturn TitledMessage(title = "test-title", message = "test-message")
+                }
+                val viewModel = createViewModel(repository, errorMessageFactory = errorMessageFactory)
+                viewModel.fahrplanParameter.test {
+                    assertThat(awaitItem().scheduleData).isEqualTo(createScheduleData("session-01"))
+
+                    uncanceledSessionsForDayIndex.value = ScheduleData(0, emptyList())
+                    assertThat(awaitItem().scheduleData).isEqualTo(ScheduleData(0, emptyList()))
+
+                    uncanceledSessionsForDayIndex.value = createScheduleData("session-01")
+                    assertThat(awaitItem().scheduleData).isEqualTo(createScheduleData("session-01"))
+                    expectNoEvents()
+                }
+            }
 
         @Test
         fun `fahrplanParameter property emits FahrplanParameter containing session with hasAlarm and isFavorite flags being set`() =
@@ -442,6 +470,28 @@ class FahrplanViewModelTest {
                 assertThat(awaitItem()).isEqualTo(expected)
             }
             verify(repository, times(2)).readUseDeviceTimeZoneEnabled()
+        }
+
+        @Test
+        fun `fillTimes posts empty list to timeTextViewParameters property when all sessions get canceled`() = runTest {
+            val session = Session(
+                sessionId = "session-01",
+                dateUTC = 1582963200000L, // February 29, 2020 08:00:00 AM GMT
+                duration = Duration.ofMinutes(30),
+                timeZoneOffset = ZoneOffset.UTC,
+            )
+            val uncanceledSessionsForDayIndex = MutableStateFlow(createScheduleData(session))
+            val repository = createRepository(
+                uncanceledSessionsForDayIndexFlow = uncanceledSessionsForDayIndex,
+            )
+            val viewModel = createViewModel(repository)
+            viewModel.fillTimes(nowMoment = mock(), normalizedBoxHeight = 42)
+            viewModel.timeTextViewParameters.test {
+                assertThat(awaitItem()).isNotEmpty()
+
+                uncanceledSessionsForDayIndex.value = ScheduleData(0, emptyList())
+                assertThat(awaitItem()).isEmpty()
+            }
         }
 
     }

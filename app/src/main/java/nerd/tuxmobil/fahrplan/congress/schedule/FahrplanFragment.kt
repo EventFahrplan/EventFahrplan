@@ -141,6 +141,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
     private val pendingCardShakes = PendingCardShakes()
 
     private var currentDayIndex = -1
+    private var isHorizontalScrollingProgressLineRequested = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -289,11 +290,17 @@ class FahrplanFragment : Fragment(), MenuProvider {
     private fun observeViewModel() {
         viewModel.fahrplanParameter
             .observe(this) { (scheduleData, useDeviceTimeZone) ->
-                hideNoScheduleView()
+                val hasSessions = scheduleData.allSessions.isNotEmpty()
+                setNoScheduleViewVisible(!hasSessions)
                 viewModel.fillTimes(Moment.now(), getNormalizedBoxHeight())
                 pendingCardShakes.update(scheduleData)
-                viewDay(scheduleData, useDeviceTimeZone)
-                updateHorizontalScrollingProgressLine(0)
+                if (hasSessions) {
+                    viewDay(scheduleData, useDeviceTimeZone)
+                    updateHorizontalScrollingProgressLine(0)
+                } else {
+                    clearDay()
+                }
+                applyHorizontalScrollingProgressLineVisibility()
             }
         // Already composed room columns observe the requests, so a late firing event shakes
         // the card without re-rendering its column.
@@ -397,8 +404,20 @@ class FahrplanFragment : Fragment(), MenuProvider {
     }
 
     private fun updateHorizontalScrollingProgressLine(visible: Boolean) {
-        val lineView = requireView().requireViewByIdCompat<View>(R.id.horizontalScrollingProgressLine)
-        lineView.isInvisible = !visible
+        isHorizontalScrollingProgressLineRequested = visible
+        applyHorizontalScrollingProgressLineVisibility()
+    }
+
+    /**
+     * Shows the horizontal scrolling progress line only if it has been requested and if room
+     * columns are displayed. Without room columns there is nothing to scroll horizontally.
+     */
+    private fun applyHorizontalScrollingProgressLineVisibility() {
+        val layoutRoot = requireView()
+        val horizontalScroller = layoutRoot.requireViewByIdCompat<HorizontalSnapScrollView>(R.id.horizScroller)
+        val hasRoomColumns = (horizontalScroller.getChildAt(0) as LinearLayout).childCount > 0
+        val lineView = layoutRoot.requireViewByIdCompat<View>(R.id.horizontalScrollingProgressLine)
+        lineView.isInvisible = !isHorizontalScrollingProgressLineRequested || !hasRoomColumns
     }
 
     /**
@@ -432,6 +451,24 @@ class FahrplanFragment : Fragment(), MenuProvider {
                 viewModel.preserveVerticalScrollPosition = false
             }
         }
+    }
+
+    /**
+     * Removes the room titles and room columns of the previously displayed day,
+     * resets the related render caches and the horizontal scroll position.
+     */
+    private fun clearDay() {
+        val layoutRoot = requireView()
+        val roomScroller = layoutRoot.requireViewByIdCompat<HorizontalScrollView>(R.id.roomScroller)
+        (roomScroller.getChildAt(0) as LinearLayout).removeAllViews()
+        val horizontalScroller = layoutRoot.requireViewByIdCompat<HorizontalSnapScrollView>(R.id.horizScroller)
+        (horizontalScroller.getChildAt(0) as LinearLayout).removeAllViews()
+        renderedRoomHashByRoomName.clear()
+        deferredRoomColumnRenderers.clear()
+        renderedAlarmState.clear()
+        currentDayIndex = -1
+        // Reset the active column so returning sessions are rendered starting with the first room.
+        horizontalScroller.scrollToColumn(0, fast = true)
     }
 
     private fun updateNavigationMenuSelection(numDays: Int, dayIndex: Int) {
@@ -858,10 +895,10 @@ class FahrplanFragment : Fragment(), MenuProvider {
         requireContext().showToast(R.string.alarms_disabled_schedule_exact_alarm_permission_missing, showShort = false)
     }
 
-    private fun hideNoScheduleView() {
+    private fun setNoScheduleViewVisible(visible: Boolean) {
         requireView()
             .requireViewByIdCompat<View>(R.id.schedule_no_content_view)
-            .isVisible = false
+            .isVisible = visible
     }
 
     private inner class OnDaySelectedListener(private val numDays: Int) : OnNavigationListener {
