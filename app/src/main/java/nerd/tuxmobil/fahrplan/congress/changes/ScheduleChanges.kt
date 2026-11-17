@@ -43,7 +43,10 @@ data class ScheduleChanges private constructor(
                     .filterNot { it.changedIsCanceled }
                     .groupByTo(linkedMapOf()) { it.sessionId }
                     .mapValuesTo(linkedMapOf()) { (_, sessions) -> sessions.toMutableList() }
-            val oldCanceledSessions = oldSessions.filter { it.changedIsCanceled }
+            // Canceled sessions which reappear in the new schedule must not be deleted. Otherwise,
+            // they would be removed right after being persisted again since both share the session id.
+            val newSessionIds = newSessions.mapTo(hashSetOf()) { it.sessionId }
+            val oldCanceledSessions = oldSessions.filter { it.changedIsCanceled && it.sessionId !in newSessionIds }
             val sessionsWithChangeFlags = mutableListOf<SessionNetworkModel>()
 
             var sessionIndex = 0
