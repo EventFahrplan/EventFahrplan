@@ -23,9 +23,13 @@ import info.metadude.android.eventfahrplan.commons.flow.observe
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.AlarmTimePickerDialog
 import nerd.tuxmobil.fahrplan.congress.commons.BuildConfigProvider
+import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
+import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
+import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper.Companion.SESSION_ALARM_CHANNEL_ID
 import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticActivity
 import nerd.tuxmobil.fahrplan.congress.settings.AlarmToneResult.AlarmToneUri
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.LaunchNotificationSettingsScreen
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.LaunchSessionAlarmChannelSettingsScreen
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateBack
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateTo
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.PickAlarmTone
@@ -70,6 +74,7 @@ internal fun SettingsScreen(
                 is NavigateTo -> navController.navigate(effect.destination.route)
                 NavigateBack -> navController.popBackStack()
                 LaunchNotificationSettingsScreen -> context.launchSystemNotificationScreen()
+                LaunchSessionAlarmChannelSettingsScreen -> context.launchSessionAlarmChannelSettingsScreen()
                 is PickAlarmTone -> pickAlarmToneLauncher.launch(effect.currentAlarmTone)
                 is SetActivityResult -> onSetActivityResult(effect.keys)
             }
@@ -134,7 +139,22 @@ private fun Context.launchSystemNotificationScreen() {
             putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
+        startActivity(intent)
+    }
+}
 
+private fun Context.launchSessionAlarmChannelSettingsScreen() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        // Ensures the channel exists. Otherwise, the system screen cannot be opened.
+        NotificationHelper(this)
+        val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+            .withExtras(
+                Settings.EXTRA_APP_PACKAGE to packageName,
+                Settings.EXTRA_CHANNEL_ID to SESSION_ALARM_CHANNEL_ID,
+            )
+            .apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
         startActivity(intent)
     }
 }

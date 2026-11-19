@@ -19,6 +19,7 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.USE_DEVICE_TIME_ZONE_
 import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.LaunchNotificationSettingsScreen
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.LaunchSessionAlarmChannelSettingsScreen
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateBack
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateTo
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.PickAlarmTone
@@ -56,6 +57,11 @@ internal class SettingsViewModel(
     appRepository: AppRepository,
     private val settingsRepository: SettingsRepository,
     private val scheduleNextFetchUpdater: ScheduleNextFetchUpdater,
+    /**
+     * As of Android 8.0 (API level 26) the sound of a notification is defined by its notification
+     * channel. The app cannot change the sound of an existing channel; only the user can.
+     */
+    private val isNotificationChannelSupported: Boolean,
 ) : ViewModel() {
     val uiState: StateFlow<SettingsUiState> = settingsRepository.settingsStream
         .combine(appRepository.scheduleNextFetch) { settings, nextFetch ->
@@ -152,6 +158,10 @@ internal class SettingsViewModel(
     }
 
     private fun pickAlarmTone() {
+        if (isNotificationChannelSupported) {
+            sendEffect(LaunchSessionAlarmChannelSettingsScreen)
+            return
+        }
         val currentAlarmTone = uiState.value.settings.alarmTone
         sendEffect(PickAlarmTone(currentAlarmTone))
     }
