@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.commons
 
 import android.content.Context
+import nerd.tuxmobil.fahrplan.congress.extensions.getBrowsableApps
 import nerd.tuxmobil.fahrplan.congress.extensions.getBrowserApps
 import nerd.tuxmobil.fahrplan.congress.extensions.getDefaultBrowsableApp
 import nerd.tuxmobil.fahrplan.congress.extensions.openLink
@@ -17,6 +18,9 @@ class ExternalNavigator(val context: Context) : ExternalNavigation {
 
     override fun getBrowserApps() =
         context.getBrowserApps()
+
+    override fun getBrowsableApps() =
+        context.getBrowsableApps()
 
     override fun openLink(link: String) =
         context.openLink(link)
