@@ -69,6 +69,10 @@
     <string name="preference_title_show_schedule_update_dialog_enabled">Show schedule update dialog</string>
     <string name="preference_summary_show_schedule_update_dialog_enabled">Displays the update dialog when the schedule is updated.</string>
 
+    <!-- Schedule changes favorites filter -->
+    <string name="preference_title_schedule_changes_favorites_filter_enabled">Only show changes of favorites</string>
+    <string name="preference_summary_schedule_changes_favorites_filter_enabled">Applies to the schedule changes screen.</string>
+
     <!-- Show schedule on lockscreen -->
     <string name="preference_title_show_on_lockscreen_enabled">Show app on lockscreen</string>
     <string name="preference_summary_show_on_lockscreen_enabled">Allows interacting with the app even when the device is locked.</string>

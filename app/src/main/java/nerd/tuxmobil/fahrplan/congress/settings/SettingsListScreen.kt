@@ -30,6 +30,7 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClic
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.EngelsystemUrlClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.FastSwipingClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.InsistentAlarmClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleChangesFavoritesFilterClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleRefreshIntervalClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ShowScheduleUpdateDialogClicked
@@ -125,6 +126,14 @@ private fun CategoryGeneral(
             checked = state.settings.isShowScheduleUpdateDialogEnabled,
             showDivider = showDivider,
             onCheckedChange = { onViewEvent(ShowScheduleUpdateDialogClicked) },
+        )
+
+        SwitchPreference(
+            title = stringResource(R.string.preference_title_schedule_changes_favorites_filter_enabled),
+            subtitle = stringResource(R.string.preference_summary_schedule_changes_favorites_filter_enabled),
+            checked = state.settings.isScheduleChangesFavoritesFilterEnabled,
+            showDivider = showDivider,
+            onCheckedChange = { onViewEvent(ScheduleChangesFavoritesFilterClicked) },
         )
 
         SwitchPreference(
