@@ -139,18 +139,16 @@ class HorizontalSnapScrollView(context: Context, attrs: AttributeSet) : Horizont
     }
 
     /**
-     * Sets the rooms count so it can be used to calculate
-     * the room column dimensions in the next layout phase.
+     * Sets the rooms count which is used to calculate the room column dimensions.
+     * If the view has already been measured the dimensions are recalculated right away
+     * because [onSizeChanged] is not invoked again unless the size of the view changes.
      */
     fun setRoomsCount(@IntRange(from = 1) roomsCount: Int) {
-        horizontalSnapScrollState = horizontalSnapScrollState.copy(
-            logging = horizontalSnapScrollState.logging,
-            xStart = horizontalSnapScrollState.xStart,
-            displayColumnCount = horizontalSnapScrollState.displayColumnCount,
-            roomsCount = roomsCount,
-            columnWidth = horizontalSnapScrollState.columnWidth,
-            activeColumnIndex = horizontalSnapScrollState.activeColumnIndex
-        )
+        val roomsCountChanged = horizontalSnapScrollState.roomsCount != roomsCount
+        horizontalSnapScrollState = horizontalSnapScrollState.copy(roomsCount = roomsCount)
+        if (roomsCountChanged && measuredWidth > 0) {
+            updateColumnDimensions()
+        }
     }
 
     fun scrollToColumn(col: Int, fast: Boolean) {
@@ -195,6 +193,14 @@ class HorizontalSnapScrollView(context: Context, attrs: AttributeSet) : Horizont
     override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
         logging.d(LOG_TAG, "onSizeChanged -> $oldWidth, $oldHeight, $width, $height, measuredWidth: $measuredWidth")
         super.onSizeChanged(width, height, oldWidth, oldHeight)
+        updateColumnDimensions()
+    }
+
+    /**
+     * Calculates the number of columns to display and the column width
+     * based on the current [getMeasuredWidth] and rooms count.
+     */
+    private fun updateColumnDimensions() {
         val displayColumnCount = if (horizontalSnapScrollState.isRoomsCountInitialized()) {
             calculateDisplayColumnCount(
                 availablePixels = measuredWidth,
@@ -206,14 +212,7 @@ class HorizontalSnapScrollView(context: Context, attrs: AttributeSet) : Horizont
         } else {
             1
         }
-        horizontalSnapScrollState = horizontalSnapScrollState.copy(
-            logging = horizontalSnapScrollState.logging,
-            xStart = horizontalSnapScrollState.xStart,
-            displayColumnCount = displayColumnCount,
-            roomsCount = horizontalSnapScrollState.roomsCount,
-            columnWidth = horizontalSnapScrollState.columnWidth,
-            activeColumnIndex = horizontalSnapScrollState.activeColumnIndex
-        )
+        horizontalSnapScrollState = horizontalSnapScrollState.copy(displayColumnCount = displayColumnCount)
         val newItemWidth = horizontalSnapScrollState.calculateColumnWidth(measuredWidth)
         logging.d(LOG_TAG, """item width: $newItemWidth ${newItemWidth.toFloat() / resources.displayMetrics.density}dp""")
         columnWidth = newItemWidth
