@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider.Factory
 import nerd.tuxmobil.fahrplan.congress.commons.DateFormatterDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorFactory
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
+import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.AppExecutionContext
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
@@ -35,6 +36,7 @@ class ChangeListViewModelFactory(
         @Suppress("UNCHECKED_CAST")
         return ChangeListViewModel(
             repository = AppRepository,
+            settingsRepository = SettingsRepository.getInstance(context),
             executionContext = AppExecutionContext,
             sessionChangeParametersFactory = sessionChangeParametersFactory,
         ) as T

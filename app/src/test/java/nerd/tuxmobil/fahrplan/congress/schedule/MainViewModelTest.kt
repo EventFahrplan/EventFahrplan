@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExtension
+import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import info.metadude.android.eventfahrplan.commons.testing.withMethod
 import kotlinx.coroutines.flow.Flow
@@ -22,6 +23,7 @@ import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult.E
 import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParsingResult.Error.Type.HOST_MISSING
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Meta
+import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult
@@ -43,8 +45,11 @@ import nerd.tuxmobil.fahrplan.congress.schedule.observables.LoadScheduleUiState
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.any
+import org.mockito.kotlin.argThat
+import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
 
 @ExtendWith(MainDispatcherTestExtension::class)
@@ -362,6 +367,59 @@ class MainViewModelTest {
         }
 
     @Test
+    fun `ParseSuccess creates changeStatisticsUiState from filtered changed sessions only`() =
+        runTest {
+            val repository = createRepository(
+                loadScheduleStateFlow = flowOf(ParseSuccess),
+                scheduleChangesSeen = false,
+                changedSessions = listOf(
+                    SessionDatabaseModel(sessionId = "changed-01", changedIsNew = true),
+                    SessionDatabaseModel(sessionId = "changed-02", changedIsCanceled = true, isFavorite = true),
+                ),
+                filteredChangedSessions = listOf(
+                    SessionDatabaseModel(sessionId = "changed-02", changedIsCanceled = true, isFavorite = true),
+                ),
+            )
+            val changeStatisticsUiStateFactory = createChangeStatisticsUiStateFactory(createChangeStatisticsUiState())
+            val viewModel = createViewModel(
+                repository,
+                changeStatisticsUiStateFactory = changeStatisticsUiStateFactory,
+            )
+            viewModel.changeStatisticsUiState.test {
+                assertThat(awaitItem()).isEqualTo(createChangeStatisticsUiState())
+            }
+            verifyInvokedOnce(changeStatisticsUiStateFactory).createChangeStatisticsUiState(
+                argThat { map { it.sessionId } == listOf("changed-02") },
+                any(),
+                any(),
+                any(),
+            )
+        }
+
+    @Test
+    fun `ParseSuccess does not post to changeStatisticsUiState property if all changed sessions are filtered out`() =
+        runTest {
+            val repository = createRepository(
+                loadScheduleStateFlow = flowOf(ParseSuccess),
+                scheduleChangesSeen = false,
+                changedSessions = listOf(SessionDatabaseModel(sessionId = "changed-01", changedIsNew = true)),
+                filteredChangedSessions = emptyList(),
+            )
+            val changeStatisticsUiStateFactory = createChangeStatisticsUiStateFactory(createChangeStatisticsUiState())
+            val viewModel = createViewModel(
+                repository,
+                changeStatisticsUiStateFactory = changeStatisticsUiStateFactory,
+            )
+            viewModel.loadScheduleUiState.test {
+                assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Success.ParseSuccess)
+            }
+            viewModel.changeStatisticsUiState.test {
+                assertThat(awaitItem()).isNull()
+            }
+            verifyInvokedNever(changeStatisticsUiStateFactory).createChangeStatisticsUiState(any(), any(), any(), any())
+        }
+
+    @Test
     fun `ParseFailure posts to loadScheduleUiState and simpleErrorMessageUiState properties`() = runTest {
         val parseResult = TestParseResult()
         val repository = createRepository(loadScheduleStateFlow = flowOf(ParseFailure(parseResult)))
@@ -484,6 +542,50 @@ class MainViewModelTest {
     }
 
     @Test
+    fun `onChangeStatisticsFavoritesFilterToggle persists the setting and recomputes changeStatisticsUiState property`() =
+        runTest {
+            val allChangedSessions = listOf(
+                SessionDatabaseModel(sessionId = "changed-01", changedIsNew = true),
+                SessionDatabaseModel(sessionId = "changed-02", changedIsCanceled = true, isFavorite = true),
+            )
+            val favoriteChangedSessions = allChangedSessions.filter { it.isFavorite }
+            val repository = createRepository(
+                loadScheduleStateFlow = flowOf(ParseSuccess),
+                scheduleChangesSeen = false,
+                changedSessions = allChangedSessions,
+            )
+            // Mimics the setting being persisted and taken into account when loading.
+            var favoritesFilterEnabled = false
+            whenever(repository.readScheduleChangesFavoritesFilterEnabled()).thenAnswer { favoritesFilterEnabled }
+            whenever(repository.loadFilteredChangedSessions()).thenAnswer {
+                if (favoritesFilterEnabled) favoriteChangedSessions else allChangedSessions
+            }
+            whenever(repository.updateScheduleChangesFavoritesFilterEnabled(any())).thenAnswer {
+                favoritesFilterEnabled = it.getArgument(0)
+                Unit
+            }
+            val changeStatisticsUiStateFactory = mock<ChangeStatisticsUiStateFactory> {
+                on { createChangeStatisticsUiState(any(), any(), any(), any()) } doAnswer { invocation ->
+                    val changedSessions = invocation.getArgument<List<Session>>(0)
+                    val properties = listOf(ChangeStatisticProperty(changedSessions.size, CHANGED))
+                    ChangeStatisticsUiState("", properties, 10, favoritesFilterEnabled = invocation.getArgument(3))
+                }
+            }
+            val viewModel = createViewModel(repository, changeStatisticsUiStateFactory = changeStatisticsUiStateFactory)
+            viewModel.changeStatisticsUiState.test {
+                val unfiltered = awaitItem()!!
+                assertThat(unfiltered.statistics.single().value).isEqualTo(2)
+                assertThat(unfiltered.favoritesFilterEnabled).isFalse()
+
+                viewModel.onChangeStatisticsFavoritesFilterToggle(enabled = true)
+                val filtered = awaitItem()!!
+                assertThat(filtered.statistics.single().value).isEqualTo(1)
+                assertThat(filtered.favoritesFilterEnabled).isTrue()
+            }
+            verifyInvokedOnce(repository).updateScheduleChangesFavoritesFilterEnabled(true)
+        }
+
+    @Test
     fun `onCloseChangeStatisticsScreen post to openSessionChanges property`() = runTest {
         val repository = createRepository()
         val viewModel = createViewModel(repository)
@@ -558,13 +660,14 @@ class MainViewModelTest {
         scheduleChangesSeen: Boolean = true,
         changedSessions: List<SessionDatabaseModel> = emptyList(),
         updatedSelectedSessionId: Boolean = false,
-        alarms: List<Alarm> = emptyList()
+        alarms: List<Alarm> = emptyList(),
+        filteredChangedSessions: List<SessionDatabaseModel> = changedSessions,
     ) = mock<AppRepository> {
         on { loadScheduleState } doReturn loadScheduleStateFlow
         on { engelsystemUriParsingErrorState } doReturn engelsystemUriParsingErrorStateFlow
         on { readScheduleChangesSeen() } doReturn scheduleChangesSeen
         on { readMeta() } doReturn Meta(version = "")
-        on { loadChangedSessions() } doReturn changedSessions
+        on { loadFilteredChangedSessions() } doReturn filteredChangedSessions
         on { updateSelectedSessionId(any()) } doReturn updatedSelectedSessionId
         on { updateSelectedSessionIdFromSlug(any()) } doReturn updatedSelectedSessionId
         on { readAlarms(any()) } doReturn alarms
@@ -593,7 +696,7 @@ class MainViewModelTest {
 
     private fun createChangeStatisticsUiStateFactory(uiState: ChangeStatisticsUiState) =
         mock<ChangeStatisticsUiStateFactory> {
-            on { createChangeStatisticsUiState(any(), any(), any()) } doReturn uiState
+            on { createChangeStatisticsUiState(any(), any(), any(), any()) } doReturn uiState
         }
 
     private fun createChangeStatisticsUiState(): ChangeStatisticsUiState {
@@ -602,7 +705,7 @@ class MainViewModelTest {
             ChangeStatisticProperty(2, NEW),
             ChangeStatisticProperty(3, CANCELED),
         )
-        return ChangeStatisticsUiState("", properties, 10)
+        return ChangeStatisticsUiState("", properties, 10, favoritesFilterEnabled = false)
     }
 
 

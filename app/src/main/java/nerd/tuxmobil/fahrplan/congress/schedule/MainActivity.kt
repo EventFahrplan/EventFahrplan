@@ -183,6 +183,7 @@ class MainActivity : BaseActivity(),
                 uiState = state,
                 onConfirm = { viewModel.onCloseChangeStatisticsScreen(shouldOpenSessionChanges = true) },
                 onDismiss = { viewModel.onCloseChangeStatisticsScreen(shouldOpenSessionChanges = false) },
+                onFavoritesFilterToggle = viewModel::onChangeStatisticsFavoritesFilterToggle,
             )
         }
     }

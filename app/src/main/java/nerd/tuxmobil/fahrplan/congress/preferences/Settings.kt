@@ -12,6 +12,7 @@ data class Settings(
     val isInsistentAlarmsEnabled: Boolean = false,
     val alarmTime: Int = 10,
     val isShowScheduleUpdateDialogEnabled: Boolean = true,
+    val isScheduleChangesFavoritesFilterEnabled: Boolean = false,
     val isShowOnLockscreenEnabled: Boolean = true,
     val socialMediaHashtagsHandles: String = "",
 

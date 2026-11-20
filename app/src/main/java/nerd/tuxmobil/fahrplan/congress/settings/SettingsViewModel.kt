@@ -35,16 +35,17 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.EngelsystemUrlClic
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.FastSwipingClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.InsistentAlarmClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ResetSocialMediaHashtagsHandles
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ShowOnLockscreenClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleChangesFavoritesFilterClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleRefreshIntervalClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ShowScheduleUpdateDialogClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTime
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTone
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlternativeScheduleUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetEngelsystemShiftsUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetScheduleRefreshInterval
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetSocialMediaHashtagsHandles
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ShowOnLockscreenClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ShowScheduleUpdateDialogClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SocialMediaHashtagsHandlesClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.AlarmTime
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.AlternativeScheduleUrl
@@ -93,6 +94,7 @@ internal class SettingsViewModel(
         AlternativeHighlightingClicked -> toggleAlternativeHighlightingEnabled()
         FastSwipingClicked -> toggleFastSwipingEnabled()
         ShowScheduleUpdateDialogClicked -> toggleShowScheduleUpdateDialogEnabled()
+        ScheduleChangesFavoritesFilterClicked -> toggleScheduleChangesFavoritesFilterEnabled()
         ShowOnLockscreenClicked -> toggleShowOnLockscreenEnabled()
         AlarmToneClicked -> pickAlarmTone()
         is SetAlarmTone -> updateAlarmTone(event.alarmTone)
@@ -149,6 +151,11 @@ internal class SettingsViewModel(
     private fun toggleShowScheduleUpdateDialogEnabled() {
         val enabled = uiState.value.settings.isShowScheduleUpdateDialogEnabled
         settingsRepository.setShowScheduleUpdateDialog(!enabled)
+    }
+
+    private fun toggleScheduleChangesFavoritesFilterEnabled() {
+        val enabled = uiState.value.settings.isScheduleChangesFavoritesFilterEnabled
+        settingsRepository.setScheduleChangesFavoritesFilter(!enabled)
     }
 
     private fun toggleShowOnLockscreenEnabled() {

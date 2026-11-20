@@ -95,8 +95,12 @@
     <string name="schedule_changes_no_changes_title">Keine Fahrplanänderungen</string>
     <string name="schedule_changes_no_changes_subtitle">Die App prüft regelmäßig, ob Aktualisierungen verfügbar sind</string>
     <string name="schedule_changes">Fahrplanänderungen</string>
+    <string name="schedule_changes_favorites_filter">Nur Favoriten anzeigen</string>
+    <string name="schedule_changes_no_favorite_changes_title">Keine Änderungen bei deinen Favoriten</string>
+    <string name="schedule_changes_no_favorite_changes_subtitle">Schalte den Filter aus, um alle Fahrplanänderungen zu sehen</string>
     <!-- Schedule changes statistic -->
     <string name="schedule_changes_statistic_title">Fahrplanaktualisierung</string>
+    <string name="schedule_changes_statistic_favorites_filter">Nur bei Änderungen von Favoriten anzeigen</string>
     <string name="schedule_changes_statistic_update_to">Aktualisiert auf Fahrplan-Version: <xliff:g example="1.42.0" id="scheduleVersion">%s</xliff:g></string>
     <string name="schedule_changes_statistic_new">Neu</string>
     <string name="schedule_changes_statistic_new_content_description">Neue Sessions: <xliff:g example="60" id="count">%d</xliff:g></string>

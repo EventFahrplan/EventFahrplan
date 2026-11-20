@@ -43,7 +43,7 @@ class UpdateService : SafeJobIntentService() {
         val numDays = appRepository.readMeta().numDays
         logging.d(LOG_TAG, "onParseDone -> isSuccess=${result.isSuccess}, numDays=$numDays")
         MyApp.taskRunning = MyApp.TASKS.NONE
-        val changesList = appRepository.loadChangedSessions()
+        val changesList = appRepository.loadFilteredChangedSessions()
         if (changesList.isNotEmpty() && result is ParseScheduleResult) {
             showScheduleUpdateNotification(result.version, changesList.size)
         }

@@ -16,6 +16,7 @@ import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.LaunchSessionAlarmChannelSettingsScreen
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.PickAlarmTone
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmToneClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleChangesFavoritesFilterClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTone
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -61,6 +62,21 @@ class SettingsViewModelTest {
         val viewModel = createViewModel(settingsRepository = settingsRepository)
         viewModel.onViewEvent(SetAlarmTone(alarmTone))
         verifyInvokedOnce(settingsRepository).setAlarmTone(alarmTone)
+    }
+
+    @Test
+    fun `onViewEvent(ScheduleChangesFavoritesFilterClicked) persists the inverted value`() = runTest {
+        val settingsRepository = createSettingsRepository(
+            settingsStream = flowOf(Settings(isScheduleChangesFavoritesFilterEnabled = true)),
+        )
+        val viewModel = createViewModel(settingsRepository = settingsRepository)
+        viewModel.uiState.test {
+            // Wait until the settings have been collected.
+            assertThat(expectMostRecentItem().settings.isScheduleChangesFavoritesFilterEnabled).isTrue()
+            viewModel.onViewEvent(ScheduleChangesFavoritesFilterClicked)
+            verifyInvokedOnce(settingsRepository).setScheduleChangesFavoritesFilter(false)
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 
     private fun createViewModel(

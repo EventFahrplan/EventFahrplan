@@ -27,6 +27,7 @@ internal class DefaultSettingsRepository(
         private const val ALTERNATIVE_SCHEDULE_URL_KEY = "schedule_url"
         private const val INSISTENT_ALARMS_ENABLED_KEY = "insistent"
         private const val SHOW_SCHEDULE_UPDATE_DIALOG_ENABLED_KEY = "show_schedule_update_dialog"
+        private const val SCHEDULE_CHANGES_FAVORITES_FILTER_ENABLED_KEY = "schedule_changes_favorites_filter"
         private const val SHOW_ON_LOCKSCREEN_ENABLED_KEY = "show_on_lockscreen"
         private const val SOCIAL_MEDIA_HASHTAGS_HANDLES_KEY = "social_media_hashtags_handles"
         private const val ENGELSYSTEM_URL_KEY = "preference_key_engelsystem_json_export_url"
@@ -79,6 +80,12 @@ internal class DefaultSettingsRepository(
     override fun setShowScheduleUpdateDialog(enable: Boolean) {
         preferences.edit {
             putBoolean(SHOW_SCHEDULE_UPDATE_DIALOG_ENABLED_KEY, enable)
+        }
+    }
+
+    override fun setScheduleChangesFavoritesFilter(enable: Boolean) {
+        preferences.edit {
+            putBoolean(SCHEDULE_CHANGES_FAVORITES_FILTER_ENABLED_KEY, enable)
         }
     }
 
@@ -149,6 +156,7 @@ internal class DefaultSettingsRepository(
             isAlternativeHighlightingEnabled = isAlternativeHighlightingEnabled(),
             isFastSwipingEnabled = isFastSwipingEnabled(),
             isShowScheduleUpdateDialogEnabled = isShowScheduleUpdateDialogEnabled(),
+            isScheduleChangesFavoritesFilterEnabled = isScheduleChangesFavoritesFilterEnabled(),
             isShowOnLockscreenEnabled = isShowOnLockscreenEnabled(),
             alarmTone = getAlarmTone(),
             isInsistentAlarmsEnabled = isInsistentAlarmsEnabled(),
@@ -201,6 +209,11 @@ internal class DefaultSettingsRepository(
     override fun isShowScheduleUpdateDialogEnabled(): Boolean {
         val defaultValue = settingsDefaults.isShowScheduleUpdateDialogEnabled
         return preferences.getBoolean(SHOW_SCHEDULE_UPDATE_DIALOG_ENABLED_KEY, defaultValue)
+    }
+
+    override fun isScheduleChangesFavoritesFilterEnabled(): Boolean {
+        val defaultValue = settingsDefaults.isScheduleChangesFavoritesFilterEnabled
+        return preferences.getBoolean(SCHEDULE_CHANGES_FAVORITES_FILTER_ENABLED_KEY, defaultValue)
     }
 
     override fun isShowOnLockscreenEnabled(): Boolean {

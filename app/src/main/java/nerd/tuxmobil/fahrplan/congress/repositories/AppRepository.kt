@@ -707,9 +707,27 @@ object AppRepository : SearchRepository,
      */
     // TODO Stop exposing database layer model to the app layer.
     @WorkerThread
+    @VisibleForTesting
     fun loadChangedSessions(): List<SessionDatabaseModel> = loadSessionsForAllDays(true)
             .filter { it.isChanged || it.changedIsCanceled || it.changedIsNew }
             .also { logging.d(LOG_TAG, "${it.size} sessions changed.") }
+
+    /**
+     * Loads all sessions from the database which have been marked as changed, canceled or new
+     * and which are relevant according to the schedule changes favorites filter setting:
+     * only favorite sessions if the filter is enabled, otherwise all of them.
+     * The returned list might be empty.
+     */
+    // TODO Stop exposing database layer model to the app layer.
+    @WorkerThread
+    fun loadFilteredChangedSessions(): List<SessionDatabaseModel> {
+        val changedSessions = loadChangedSessions()
+        return if (settingsRepository.isScheduleChangesFavoritesFilterEnabled()) {
+            changedSessions.filter { it.isFavorite }
+        } else {
+            changedSessions
+        }
+    }
 
     /**
      * Loads all Engelsystem shifts for all days from the database.
@@ -857,6 +875,7 @@ object AppRepository : SearchRepository,
         val values = favoriteDatabaseModel.toContentValues()
         if (favoritesDatabaseRepository.update(values, session.sessionId) != DATABASE_UPDATE_ERROR) {
             refreshFavoriteSessions()
+            refreshChangedSessions()
             refreshSessions()
             refreshSelectedSession()
             refreshRoomStates()
@@ -868,6 +887,7 @@ object AppRepository : SearchRepository,
     fun deleteFavorites(vararg sessionIds: String) {
         if (favoritesDatabaseRepository.delete(sessionIds.toSet()) > 0) {
             refreshFavoriteSessions()
+            refreshChangedSessions()
             refreshSessions()
             refreshSelectedSession()
             refreshRoomStates()
@@ -879,6 +899,7 @@ object AppRepository : SearchRepository,
     fun deleteAllFavorites() {
         if (favoritesDatabaseRepository.deleteAll() > 0) {
             refreshFavoriteSessions()
+            refreshChangedSessions()
             refreshSelectedSession()
             refreshRoomStates()
             refreshUncanceledSessions()
@@ -1080,6 +1101,11 @@ object AppRepository : SearchRepository,
     fun readFastSwipingEnabled() = settingsRepository.isFastSwipingEnabled()
 
     fun readShowScheduleUpdateDialogEnabled() = settingsRepository.isShowScheduleUpdateDialogEnabled()
+
+    fun readScheduleChangesFavoritesFilterEnabled() = settingsRepository.isScheduleChangesFavoritesFilterEnabled()
+
+    fun updateScheduleChangesFavoritesFilterEnabled(enabled: Boolean) =
+        settingsRepository.setScheduleChangesFavoritesFilter(enabled)
 
     fun readShowOnLockscreenEnabled() = settingsRepository.isShowOnLockscreenEnabled()
 

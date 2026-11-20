@@ -4,4 +4,5 @@ data class ChangeStatisticsUiState(
     val scheduleVersion: String,
     val statistics: List<ChangeStatisticProperty>,
     val allSessionsCount: Int,
+    val favoritesFilterEnabled: Boolean,
 )

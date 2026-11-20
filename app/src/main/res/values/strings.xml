@@ -115,8 +115,12 @@
     <string name="favorites_no_favorites_title">No favorite sessions</string>
     <string name="favorites_no_favorites_subtitle">Tap the star in the toolbar to add a favorite</string>
     <string name="schedule_changes">Schedule changes</string>
+    <string name="schedule_changes_favorites_filter">Show favorites only</string>
+    <string name="schedule_changes_no_favorite_changes_title">No changes for your favorites</string>
+    <string name="schedule_changes_no_favorite_changes_subtitle">Turn off the filter to see all schedule changes</string>
     <!-- Schedule changes statistic -->
     <string name="schedule_changes_statistic_title">Schedule update</string>
+    <string name="schedule_changes_statistic_favorites_filter">Show for favorites changes only</string>
     <string name="schedule_changes_statistic_update_to">Updated to schedule version: <xliff:g example="1.42.0" id="scheduleVersion">%s</xliff:g></string>
     <string name="schedule_changes_statistic_new">New</string>
     <string name="schedule_changes_statistic_new_content_description">New sessions: <xliff:g example="60" id="count">%d</xliff:g></string>
