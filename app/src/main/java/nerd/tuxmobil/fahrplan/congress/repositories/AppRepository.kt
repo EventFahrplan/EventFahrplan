@@ -1102,6 +1102,11 @@ object AppRepository : SearchRepository,
 
     fun readShowScheduleUpdateDialogEnabled() = settingsRepository.isShowScheduleUpdateDialogEnabled()
 
+    fun readScheduleChangesFavoritesFilterEnabled() = settingsRepository.isScheduleChangesFavoritesFilterEnabled()
+
+    fun updateScheduleChangesFavoritesFilterEnabled(enabled: Boolean) =
+        settingsRepository.setScheduleChangesFavoritesFilter(enabled)
+
     fun readShowOnLockscreenEnabled() = settingsRepository.isShowOnLockscreenEnabled()
 
     @WorkerThread

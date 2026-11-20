@@ -2,14 +2,19 @@ package nerd.tuxmobil.fahrplan.congress.changes.statistic
 
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
@@ -19,9 +24,11 @@ import nerd.tuxmobil.fahrplan.congress.changes.ChangeType.CANCELED
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeType.CHANGED
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeType.NEW
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonText
+import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.Checkbox
 import nerd.tuxmobil.fahrplan.congress.designsystem.dialogs.AlertDialog
 import nerd.tuxmobil.fahrplan.congress.designsystem.graphs.StackedHorizontalBar
 import nerd.tuxmobil.fahrplan.congress.designsystem.graphs.StackedHorizontalBar.Colors
+import nerd.tuxmobil.fahrplan.congress.designsystem.modifiers.minimumInteractiveComponentSize
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 
@@ -30,6 +37,7 @@ internal fun ChangeStatisticScreen(
     uiState: ChangeStatisticsUiState,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
+    onFavoritesFilterToggle: (Boolean) -> Unit,
 ) {
     AlertDialog(
         title = { Text(stringResource(R.string.schedule_changes_statistic_title)) },
@@ -40,6 +48,11 @@ internal fun ChangeStatisticScreen(
                 HorizontalBars(uiState.statistics, uiState.allSessionsCount)
                 Spacer(Modifier.padding(8.dp))
                 Text(stringResource(R.string.schedule_changes_statistic_total_sessions, uiState.allSessionsCount))
+                Spacer(Modifier.padding(8.dp))
+                FavoritesFilterCheckbox(
+                    checked = uiState.favoritesFilterEnabled,
+                    onCheckedChange = onFavoritesFilterToggle,
+                )
             }
         },
         confirmButton = {
@@ -56,6 +69,33 @@ internal fun ChangeStatisticScreen(
         properties = DialogProperties(usePlatformDefaultWidth = false),
         modifier = Modifier.safeContentPadding(),
     )
+}
+
+@Composable
+private fun FavoritesFilterCheckbox(
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+) {
+    Row(
+        verticalAlignment = CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .toggleable(
+                value = checked,
+                onValueChange = onCheckedChange,
+                role = Role.Checkbox,
+            )
+            .minimumInteractiveComponentSize(),
+    ) {
+        Checkbox(
+            checked = checked,
+            onCheckedChange = null,
+        )
+        Text(
+            text = stringResource(R.string.schedule_changes_statistic_favorites_filter),
+            modifier = Modifier.padding(start = 16.dp),
+        )
+    }
 }
 
 @Composable
@@ -114,6 +154,7 @@ private fun ChangeStatisticScreenPreview() {
             uiState = createUiState(),
             onConfirm = {},
             onDismiss = {},
+            onFavoritesFilterToggle = {},
         )
     }
 }
@@ -128,5 +169,6 @@ private fun createUiState(): ChangeStatisticsUiState {
         scheduleVersion = "1.42.0",
         statistics = list,
         allSessionsCount = 100,
+        favoritesFilterEnabled = true,
     )
 }

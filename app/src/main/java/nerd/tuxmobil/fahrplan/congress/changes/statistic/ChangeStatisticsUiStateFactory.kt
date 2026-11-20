@@ -14,6 +14,7 @@ class ChangeStatisticsUiStateFactory(
         changedSessions: List<Session>,
         allSessionsCount: Int,
         scheduleVersion: String,
+        favoritesFilterEnabled: Boolean,
     ): ChangeStatisticsUiState {
         val statistic = ChangeStatistic.of(changedSessions, logging)
         val properties = buildList {
@@ -21,7 +22,7 @@ class ChangeStatisticsUiStateFactory(
             add(ChangeStatisticProperty(statistic.getNewSessionsCount(), NEW))
             add(ChangeStatisticProperty(statistic.getCanceledSessionsCount(), CANCELED))
         }
-        return ChangeStatisticsUiState(scheduleVersion, properties, allSessionsCount)
+        return ChangeStatisticsUiState(scheduleVersion, properties, allSessionsCount, favoritesFilterEnabled)
     }
 
 }

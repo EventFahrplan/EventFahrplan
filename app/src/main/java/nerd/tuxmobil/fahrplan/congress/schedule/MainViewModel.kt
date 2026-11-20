@@ -15,6 +15,7 @@ import nerd.tuxmobil.fahrplan.congress.applinks.SlugFactory
 import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticsUiState
 import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticsUiStateFactory
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel
+import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage.SimpleMessage
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage.TitledMessage
@@ -160,14 +161,19 @@ internal class MainViewModel(
             if (repository.readShowScheduleUpdateDialogEnabled() && !repository.readScheduleChangesSeen()) {
                 val changedSessions = repository.loadFilteredChangedSessions().toSessionsAppModel()
                 if (changedSessions.isNotEmpty()) {
-                    val scheduleVersion = repository.readMeta().version
-                    val allSessions = repository.loadSessionsForAllDays().toSessionsAppModel()
-                    val state = changeStatisticsUiStateFactory.createChangeStatisticsUiState(changedSessions, allSessions.size, scheduleVersion)
-                    mutableChangeStatisticsUiState.value = state
+                    mutableChangeStatisticsUiState.value = createChangeStatisticsUiState(changedSessions)
                 }
             }
         }
     }
+
+    private fun createChangeStatisticsUiState(changedSessions: List<Session>) =
+        changeStatisticsUiStateFactory.createChangeStatisticsUiState(
+            changedSessions = changedSessions,
+            allSessionsCount = repository.loadSessionsForAllDays().size,
+            scheduleVersion = repository.readMeta().version,
+            favoritesFilterEnabled = repository.readScheduleChangesFavoritesFilterEnabled(),
+        )
 
     /**
      * Requests loading the schedule from the [AppRepository] to update the UI. UI components must
@@ -222,6 +228,19 @@ internal class MainViewModel(
                 if (isUpdated) {
                     mutableOpenSessionDetails.sendOneTimeEvent(Unit)
                 }
+            }
+        }
+    }
+
+    /**
+     * Persists the favorites filter setting and recomputes the shown statistics accordingly.
+     */
+    fun onChangeStatisticsFavoritesFilterToggle(enabled: Boolean) {
+        repository.updateScheduleChangesFavoritesFilterEnabled(enabled)
+        launch {
+            if (mutableChangeStatisticsUiState.value != null) {
+                val changedSessions = repository.loadFilteredChangedSessions().toSessionsAppModel()
+                mutableChangeStatisticsUiState.value = createChangeStatisticsUiState(changedSessions)
             }
         }
     }
