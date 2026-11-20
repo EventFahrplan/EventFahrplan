@@ -857,6 +857,7 @@ object AppRepository : SearchRepository,
         val values = favoriteDatabaseModel.toContentValues()
         if (favoritesDatabaseRepository.update(values, session.sessionId) != DATABASE_UPDATE_ERROR) {
             refreshFavoriteSessions()
+            refreshChangedSessions()
             refreshSessions()
             refreshSelectedSession()
             refreshRoomStates()
@@ -868,6 +869,7 @@ object AppRepository : SearchRepository,
     fun deleteFavorites(vararg sessionIds: String) {
         if (favoritesDatabaseRepository.delete(sessionIds.toSet()) > 0) {
             refreshFavoriteSessions()
+            refreshChangedSessions()
             refreshSessions()
             refreshSelectedSession()
             refreshRoomStates()
@@ -879,6 +881,7 @@ object AppRepository : SearchRepository,
     fun deleteAllFavorites() {
         if (favoritesDatabaseRepository.deleteAll() > 0) {
             refreshFavoriteSessions()
+            refreshChangedSessions()
             refreshSelectedSession()
             refreshRoomStates()
             refreshUncanceledSessions()
