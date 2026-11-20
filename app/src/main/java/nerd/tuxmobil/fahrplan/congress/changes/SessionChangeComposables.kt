@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement.SpaceBetween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,10 +12,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment.Companion.BottomCenter
+import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
@@ -41,8 +45,10 @@ import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeViewEvent.OnSessionC
 import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorProperty
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
 import nerd.tuxmobil.fahrplan.congress.commons.ScreenMetrics
+import nerd.tuxmobil.fahrplan.congress.commons.ToolbarMetrics
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Available
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Unavailable
+import nerd.tuxmobil.fahrplan.congress.commons.useVerticalFloatingToolbar
 import nerd.tuxmobil.fahrplan.congress.designsystem.bars.NavigationBarProtection
 import nerd.tuxmobil.fahrplan.congress.designsystem.bars.StatusBarProtection
 import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
@@ -59,6 +65,8 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextSupportingContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.navigationBarsImeBottomPaddingValues
 import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
+import nerd.tuxmobil.fahrplan.congress.utils.compose.ScrollPosition
+import nerd.tuxmobil.fahrplan.congress.utils.compose.rememberAutoHideOnScrollDown
 
 @Composable
 internal fun SessionChangesContent(
@@ -92,30 +100,13 @@ internal fun SessionChangesContent(
                 }
 
                 is Success -> {
-                    val parameters = state.sessionChangeParameters
-                    if (parameters.isEmpty()) {
-                        Column(Modifier.fillMaxSize()) {
-                            NavigationSection(
-                                showInSidePane = showInSidePane,
-                                onNavClick = onBack,
-                            )
-                            Box(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .fillMaxWidth(),
-                            ) {
-                                NoScheduleChanges()
-                            }
-                        }
-                    } else {
-                        SessionChangesList(
-                            parameters = parameters,
-                            showInSidePane = showInSidePane,
-                            navigationTitle = navigationTitle,
-                            onBack = onBack,
-                            onViewEvent = onViewEvent,
-                        )
-                    }
+                    SessionChangesSuccess(
+                        state = state,
+                        showInSidePane = showInSidePane,
+                        navigationTitle = navigationTitle,
+                        onBack = onBack,
+                        onViewEvent = onViewEvent,
+                    )
                 }
             }
         }
@@ -123,17 +114,82 @@ internal fun SessionChangesContent(
 }
 
 @Composable
-private fun NoScheduleChanges() {
-    NoData(
-        emptyContent = R.drawable.no_schedule_changes,
-        title = stringResource(R.string.schedule_changes_no_changes_title),
-        subtitle = stringResource(R.string.schedule_changes_no_changes_subtitle),
+private fun SessionChangesSuccess(
+    state: Success,
+    showInSidePane: Boolean,
+    navigationTitle: String,
+    onBack: () -> Unit,
+    onViewEvent: (SessionChangeViewEvent) -> Unit,
+) {
+    val parameters = state.sessionChangeParameters
+    val useVerticalToolbar = useVerticalFloatingToolbar(showInSidePane)
+    val listState = rememberLazyListState()
+    val showToolbar by rememberAutoHideOnScrollDown(
+        source = ScrollPosition.LazyList(listState),
+        enabled = !useVerticalToolbar && parameters.isNotEmpty(),
     )
+
+    Box(Modifier.fillMaxSize()) {
+        if (parameters.isEmpty()) {
+            Column(Modifier.fillMaxSize()) {
+                NavigationSection(
+                    showInSidePane = showInSidePane,
+                    onNavClick = onBack,
+                )
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth(),
+                ) {
+                    NoScheduleChanges(favoritesFilterEnabled = state.favoritesFilterEnabled && state.hasUnfilteredChanges)
+                }
+            }
+        } else {
+            SessionChangesList(
+                parameters = parameters,
+                listState = listState,
+                useVerticalToolbar = useVerticalToolbar,
+                showInSidePane = showInSidePane,
+                navigationTitle = navigationTitle,
+                onBack = onBack,
+                onViewEvent = onViewEvent,
+            )
+        }
+        if (state.hasUnfilteredChanges) {
+            SessionChangesToolbar(
+                modifier = Modifier
+                    .align(if (useVerticalToolbar) CenterEnd else BottomCenter),
+                visible = showToolbar,
+                favoritesFilterEnabled = state.favoritesFilterEnabled,
+                useVerticalToolbar = useVerticalToolbar,
+                onViewEvent = onViewEvent,
+            )
+        }
+    }
+}
+
+@Composable
+private fun NoScheduleChanges(favoritesFilterEnabled: Boolean) {
+    if (favoritesFilterEnabled) {
+        NoData(
+            emptyContent = R.drawable.no_schedule_changes,
+            title = stringResource(R.string.schedule_changes_no_favorite_changes_title),
+            subtitle = stringResource(R.string.schedule_changes_no_favorite_changes_subtitle),
+        )
+    } else {
+        NoData(
+            emptyContent = R.drawable.no_schedule_changes,
+            title = stringResource(R.string.schedule_changes_no_changes_title),
+            subtitle = stringResource(R.string.schedule_changes_no_changes_subtitle),
+        )
+    }
 }
 
 @Composable
 private fun SessionChangesList(
     parameters: List<SessionChangeParameter>,
+    listState: LazyListState,
+    useVerticalToolbar: Boolean,
     showInSidePane: Boolean,
     navigationTitle: String,
     onBack: () -> Unit,
@@ -142,8 +198,11 @@ private fun SessionChangesList(
     Box(Modifier.fillMaxSize()) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            state = rememberLazyListState(),
-            contentPadding = WindowInsets.navigationBarsImeBottomPaddingValues(),
+            state = listState,
+            contentPadding = PaddingValues(
+                bottom = WindowInsets.navigationBarsImeBottomPaddingValues().calculateBottomPadding() +
+                        ToolbarMetrics.screenContentPaddingValues(useVerticalToolbar).calculateBottomPadding(),
+            ),
         ) {
             item {
                 NavigationSection(
@@ -177,6 +236,7 @@ private fun SessionChangesList(
                                         onViewEvent(OnSessionChangeItemClick(parameter.id))
                                     }
                                 }
+                                .padding(ToolbarMetrics.searchResultItemPaddingValues(useVerticalToolbar))
                         )
                     }
                 }
@@ -425,7 +485,9 @@ private fun SessionChangesContentPreview() {
                         roomName = SessionChangeProperty(stringResource(R.string.placeholder_session_room), "", CANCELED),
                         languages = SessionChangeProperty(stringResource(R.string.placeholder_session_language), "", CANCELED),
                     ),
-                )
+                ),
+                favoritesFilterEnabled = true,
+                hasUnfilteredChanges = true,
             ),
             showInSidePane = true,
             onBack = {},
@@ -439,7 +501,20 @@ private fun SessionChangesContentPreview() {
 private fun SessionChangesContentEmptyPreview() {
     EventFahrplanTheme {
         SessionChangesContent(
-            Success(emptyList()),
+            Success(emptyList(), favoritesFilterEnabled = true, hasUnfilteredChanges = false),
+            showInSidePane = false,
+            onBack = {},
+            onViewEvent = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun SessionChangesContentFilteredEmptyPreview() {
+    EventFahrplanTheme {
+        SessionChangesContent(
+            Success(emptyList(), favoritesFilterEnabled = true, hasUnfilteredChanges = true),
             showInSidePane = false,
             onBack = {},
             onViewEvent = {},

@@ -16,6 +16,7 @@ import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeState.Loading
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeState.Success
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeEffect.CancelScheduleUpdateNotification
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeEffect.NavigateToSession
+import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeViewEvent.OnFavoritesFilterToggle
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeViewEvent.OnScheduleChangesSeen
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeViewEvent.OnSessionChangeItemClick
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.None
@@ -26,6 +27,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
@@ -50,8 +52,8 @@ class ChangeListViewModelTest {
         @Test
         fun `sessionChangesState emits Success state with empty list`() = runTest {
             val repository = createRepository(changedSessions = flowOf(emptyList()))
-            val viewModel = createViewModel(repository, factory = createFactory(emptyList()))
-            val expected = Success(emptyList())
+            val viewModel = createViewModel(repository, factory = createFactory())
+            val expected = Success(emptyList(), favoritesFilterEnabled = false, hasUnfilteredChanges = false)
             viewModel.sessionChangesState.test {
                 assertThat(awaitItem()).isEqualTo(expected)
                 expectNoEvents()
@@ -71,6 +73,7 @@ class ChangeListViewModelTest {
                 roomName = "Main room",
                 language = "de, en",
                 dayIndex = 0,
+                isFavorite = true,
             )
             val sessions = listOf(session)
             val repository = createRepository(
@@ -78,7 +81,7 @@ class ChangeListViewModelTest {
                 meta = Meta(numDays = 1),
                 useDeviceTimeZoneEnabled = true
             )
-            val viewModel = createViewModel(repository, factory = createFactory(sessions))
+            val viewModel = createViewModel(repository, factory = createFactory())
             val expectedSessionChangeParameter = SessionChangeParameter.SessionChange(
                 id = "18",
                 title = SessionChangeProperty(
@@ -129,12 +132,65 @@ class ChangeListViewModelTest {
                 isCanceled = false,
             )
 
-            val expectedState = Success(listOf(expectedSessionChangeParameter))
+            val expectedState = Success(
+                sessionChangeParameters = listOf(expectedSessionChangeParameter),
+                favoritesFilterEnabled = false,
+                hasUnfilteredChanges = true,
+            )
             viewModel.sessionChangesState.test {
                 assertThat(awaitItem()).isEqualTo(expectedState)
                 expectNoEvents()
             }
             verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
+        }
+
+        @Test
+        fun `sessionChangesState emits all sessions by default`() = runTest {
+            val sessions = listOf(createSession("1", isFavorite = true), createSession("2", isFavorite = false))
+            val repository = createRepository(changedSessions = flowOf(sessions))
+            val viewModel = createViewModel(repository, factory = createFactory())
+            viewModel.sessionChangesState.test {
+                val state = awaitItem() as Success
+                assertThat(state.sessionChangeParameters.ids()).containsExactly("1", "2").inOrder()
+                assertThat(state.favoritesFilterEnabled).isFalse()
+                assertThat(state.hasUnfilteredChanges).isTrue()
+                expectNoEvents()
+            }
+        }
+
+        @Test
+        fun `sessionChangesState emits empty list but hasUnfilteredChanges if favorites filter is enabled and no favorite changed`() = runTest {
+            val sessions = listOf(createSession("2", isFavorite = false))
+            val repository = createRepository(changedSessions = flowOf(sessions))
+            val viewModel = createViewModel(repository, factory = createFactory())
+            val expected = Success(emptyList(), favoritesFilterEnabled = true, hasUnfilteredChanges = true)
+            viewModel.sessionChangesState.test {
+                skipItems(1)
+                viewModel.onViewEvent(OnFavoritesFilterToggle(enabled = true))
+                assertThat(awaitItem()).isEqualTo(expected)
+                expectNoEvents()
+            }
+        }
+
+        @Test
+        fun `sessionChangesState emits favorite sessions when favorites filter gets enabled and all ones when disabled again`() = runTest {
+            val sessions = listOf(createSession("1", isFavorite = true), createSession("2", isFavorite = false))
+            val repository = createRepository(changedSessions = flowOf(sessions))
+            val viewModel = createViewModel(repository, factory = createFactory())
+            viewModel.sessionChangesState.test {
+                assertThat((awaitItem() as Success).sessionChangeParameters.ids()).containsExactly("1", "2").inOrder()
+
+                viewModel.onViewEvent(OnFavoritesFilterToggle(enabled = true))
+                val filtered = awaitItem() as Success
+                assertThat(filtered.sessionChangeParameters.ids()).containsExactly("1")
+                assertThat(filtered.favoritesFilterEnabled).isTrue()
+
+                viewModel.onViewEvent(OnFavoritesFilterToggle(enabled = false))
+                val unfiltered = awaitItem() as Success
+                assertThat(unfiltered.sessionChangeParameters.ids()).containsExactly("1", "2").inOrder()
+                assertThat(unfiltered.favoritesFilterEnabled).isFalse()
+                expectNoEvents()
+            }
         }
 
     }
@@ -164,62 +220,69 @@ class ChangeListViewModelTest {
 
     }
 
-    private fun createFactory(sessions: List<Session>): SessionChangeParametersFactory {
-        val parameters = sessions.map {
-            SessionChangeParameter.SessionChange(
-                id = it.sessionId,
-                title = SessionChangeProperty(
-                    value = it.title,
-                    contentDescription = "",
-                    changeType = UNCHANGED
-                ),
-                subtitle = SessionChangeProperty(
-                    value = it.subtitle,
-                    contentDescription = "",
-                    changeType = UNCHANGED
-                ),
-                speakerNames = SessionChangeProperty(
-                    value = it.speakers.joinToString(),
-                    contentDescription = "",
-                    changeType = UNCHANGED,
-                ),
-                roomName = SessionChangeProperty(
-                    value = it.roomName,
-                    contentDescription = "",
-                    changeType = UNCHANGED,
-                ),
-                dayText = SessionChangeProperty(
-                    value = "",
-                    contentDescription = "",
-                    changeType = UNCHANGED,
-                ),
-                startsAt = SessionChangeProperty(
-                    value = "",
-                    contentDescription = "",
-                    changeType = UNCHANGED,
-                ),
-                duration = SessionChangeProperty(
-                    value = "${it.duration.toWholeMinutes()} min",
-                    contentDescription = "",
-                    changeType = UNCHANGED,
-                ),
-                languages = SessionChangeProperty(
-                    value = it.language,
-                    contentDescription = "",
-                    changeType = UNCHANGED,
-                ),
-                videoRecordingState = SessionChangeProperty(
-                    value = None,
-                    contentDescription = "",
-                    changeType = UNCHANGED,
-                ),
-                isCanceled = false,
-            )
-        }
-        return mock<SessionChangeParametersFactory> {
-            on { createSessionChangeParameters(anyOrNull(), anyOrNull()) } doReturn parameters
+    private fun List<SessionChangeParameter>.ids() =
+        filterIsInstance<SessionChangeParameter.SessionChange>().map { it.id }
+
+    private fun createSession(sessionId: String, isFavorite: Boolean) = Session(
+        sessionId = sessionId,
+        isFavorite = isFavorite,
+    )
+
+    private fun createFactory(): SessionChangeParametersFactory = mock<SessionChangeParametersFactory> {
+        on { createSessionChangeParameters(anyOrNull(), anyOrNull()) } doAnswer { invocation ->
+            invocation.getArgument<List<Session>>(0).map(::toSessionChangeParameter)
         }
     }
+
+    private fun toSessionChangeParameter(session: Session) = SessionChangeParameter.SessionChange(
+        id = session.sessionId,
+        title = SessionChangeProperty(
+            value = session.title,
+            contentDescription = "",
+            changeType = UNCHANGED
+        ),
+        subtitle = SessionChangeProperty(
+            value = session.subtitle,
+            contentDescription = "",
+            changeType = UNCHANGED
+        ),
+        speakerNames = SessionChangeProperty(
+            value = session.speakers.joinToString(),
+            contentDescription = "",
+            changeType = UNCHANGED,
+        ),
+        roomName = SessionChangeProperty(
+            value = session.roomName,
+            contentDescription = "",
+            changeType = UNCHANGED,
+        ),
+        dayText = SessionChangeProperty(
+            value = "",
+            contentDescription = "",
+            changeType = UNCHANGED,
+        ),
+        startsAt = SessionChangeProperty(
+            value = "",
+            contentDescription = "",
+            changeType = UNCHANGED,
+        ),
+        duration = SessionChangeProperty(
+            value = "${session.duration.toWholeMinutes()} min",
+            contentDescription = "",
+            changeType = UNCHANGED,
+        ),
+        languages = SessionChangeProperty(
+            value = session.language,
+            contentDescription = "",
+            changeType = UNCHANGED,
+        ),
+        videoRecordingState = SessionChangeProperty(
+            value = None,
+            contentDescription = "",
+            changeType = UNCHANGED,
+        ),
+        isCanceled = false,
+    )
 
     private fun createRepository(
         changedSessions: Flow<List<Session>> = flowOf(emptyList()),
