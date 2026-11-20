@@ -71,7 +71,7 @@
 
     <!-- Schedule changes favorites filter -->
     <string name="preference_title_schedule_changes_favorites_filter_enabled">Only show changes of favorites</string>
-    <string name="preference_summary_schedule_changes_favorites_filter_enabled">Applies to the schedule changes screen.</string>
+    <string name="preference_summary_schedule_changes_favorites_filter_enabled">Applies to the schedule changes screen, the schedule update dialog and the update notification.</string>
 
     <!-- Show schedule on lockscreen -->
     <string name="preference_title_show_on_lockscreen_enabled">Show app on lockscreen</string>

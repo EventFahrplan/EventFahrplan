@@ -58,7 +58,7 @@
 
     <!-- Schedule changes favorites filter -->
     <string name="preference_title_schedule_changes_favorites_filter_enabled">Nur Änderungen von Favoriten anzeigen</string>
-    <string name="preference_summary_schedule_changes_favorites_filter_enabled">Gilt für die Fahrplanänderungen.</string>
+    <string name="preference_summary_schedule_changes_favorites_filter_enabled">Gilt für die Fahrplanänderungen, den Aktualisierungsdialog und die Aktualisierungsbenachrichtigung.</string>
 
     <!-- Show schedule on lockscreen -->
     <string name="preference_title_show_on_lockscreen_enabled">Auf dem Sperrbildschirm anzeigen</string>

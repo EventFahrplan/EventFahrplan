@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExtension
+import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import info.metadude.android.eventfahrplan.commons.testing.withMethod
 import kotlinx.coroutines.flow.Flow
@@ -43,6 +44,7 @@ import nerd.tuxmobil.fahrplan.congress.schedule.observables.LoadScheduleUiState
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.any
+import org.mockito.kotlin.argThat
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
@@ -362,6 +364,58 @@ class MainViewModelTest {
         }
 
     @Test
+    fun `ParseSuccess creates changeStatisticsUiState from filtered changed sessions only`() =
+        runTest {
+            val repository = createRepository(
+                loadScheduleStateFlow = flowOf(ParseSuccess),
+                scheduleChangesSeen = false,
+                changedSessions = listOf(
+                    SessionDatabaseModel(sessionId = "changed-01", changedIsNew = true),
+                    SessionDatabaseModel(sessionId = "changed-02", changedIsCanceled = true, isFavorite = true),
+                ),
+                filteredChangedSessions = listOf(
+                    SessionDatabaseModel(sessionId = "changed-02", changedIsCanceled = true, isFavorite = true),
+                ),
+            )
+            val changeStatisticsUiStateFactory = createChangeStatisticsUiStateFactory(createChangeStatisticsUiState())
+            val viewModel = createViewModel(
+                repository,
+                changeStatisticsUiStateFactory = changeStatisticsUiStateFactory,
+            )
+            viewModel.changeStatisticsUiState.test {
+                assertThat(awaitItem()).isEqualTo(createChangeStatisticsUiState())
+            }
+            verifyInvokedOnce(changeStatisticsUiStateFactory).createChangeStatisticsUiState(
+                argThat { map { it.sessionId } == listOf("changed-02") },
+                any(),
+                any(),
+            )
+        }
+
+    @Test
+    fun `ParseSuccess does not post to changeStatisticsUiState property if all changed sessions are filtered out`() =
+        runTest {
+            val repository = createRepository(
+                loadScheduleStateFlow = flowOf(ParseSuccess),
+                scheduleChangesSeen = false,
+                changedSessions = listOf(SessionDatabaseModel(sessionId = "changed-01", changedIsNew = true)),
+                filteredChangedSessions = emptyList(),
+            )
+            val changeStatisticsUiStateFactory = createChangeStatisticsUiStateFactory(createChangeStatisticsUiState())
+            val viewModel = createViewModel(
+                repository,
+                changeStatisticsUiStateFactory = changeStatisticsUiStateFactory,
+            )
+            viewModel.loadScheduleUiState.test {
+                assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Success.ParseSuccess)
+            }
+            viewModel.changeStatisticsUiState.test {
+                assertThat(awaitItem()).isNull()
+            }
+            verifyInvokedNever(changeStatisticsUiStateFactory).createChangeStatisticsUiState(any(), any(), any())
+        }
+
+    @Test
     fun `ParseFailure posts to loadScheduleUiState and simpleErrorMessageUiState properties`() = runTest {
         val parseResult = TestParseResult()
         val repository = createRepository(loadScheduleStateFlow = flowOf(ParseFailure(parseResult)))
@@ -558,13 +612,14 @@ class MainViewModelTest {
         scheduleChangesSeen: Boolean = true,
         changedSessions: List<SessionDatabaseModel> = emptyList(),
         updatedSelectedSessionId: Boolean = false,
-        alarms: List<Alarm> = emptyList()
+        alarms: List<Alarm> = emptyList(),
+        filteredChangedSessions: List<SessionDatabaseModel> = changedSessions,
     ) = mock<AppRepository> {
         on { loadScheduleState } doReturn loadScheduleStateFlow
         on { engelsystemUriParsingErrorState } doReturn engelsystemUriParsingErrorStateFlow
         on { readScheduleChangesSeen() } doReturn scheduleChangesSeen
         on { readMeta() } doReturn Meta(version = "")
-        on { loadChangedSessions() } doReturn changedSessions
+        on { loadFilteredChangedSessions() } doReturn filteredChangedSessions
         on { updateSelectedSessionId(any()) } doReturn updatedSelectedSessionId
         on { updateSelectedSessionIdFromSlug(any()) } doReturn updatedSelectedSessionId
         on { readAlarms(any()) } doReturn alarms
