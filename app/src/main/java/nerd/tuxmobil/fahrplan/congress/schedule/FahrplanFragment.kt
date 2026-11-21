@@ -88,6 +88,22 @@ import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessageScreen
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnAddAlarmClick
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnAddAlarmWithChecks
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnAlarmTimePicked
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnCloseErrorMessageScreen
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnConnectionAvailable
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDaySelect
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDeleteAlarmClick
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnFavoriteStatusChange
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnFillTimes
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnNoAlarmTimePicked
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnSaveSelectedDayIndex
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnScheduleUpdateRequest
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnScrollToCurrentSession
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnScrollToSession
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnShareClick
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnShareToChaosflixClick
 import nerd.tuxmobil.fahrplan.congress.schedule.SessionInteractionType.ADD_TO_CALENDAR
 import nerd.tuxmobil.fahrplan.congress.schedule.SessionInteractionType.SHARE
 import nerd.tuxmobil.fahrplan.congress.schedule.SessionInteractionType.SHARE_JSON
@@ -170,7 +186,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
 
         postNotificationsPermissionRequestLauncher = registerForActivityResult(RequestPermission()) { isGranted ->
             if (isGranted) {
-                viewModel.addAlarmWithChecks()
+                viewModel.onViewEvent(OnAddAlarmWithChecks)
             } else {
                 showMissingPostNotificationsPermissionError()
             }
@@ -180,14 +196,14 @@ class FahrplanFragment : Fragment(), MenuProvider {
             registerForActivityResult(StartActivityForResult()) { result ->
                 // User granted the permission earlier.
                 if (result.resultCode == RESULT_OK) {
-                    viewModel.addAlarmWithChecks()
+                    viewModel.onViewEvent(OnAddAlarmWithChecks)
                 } else {
                     // User granted the permission for the first time.
                     // Screen is resumed with RESULT_CANCELED, no indication
                     // of whether the permission was granted or not.
                     // Hence the following ugly view model bypass.
                     if (viewModel.canAddAlarms()) {
-                        viewModel.addAlarmWithChecks()
+                        viewModel.onViewEvent(OnAddAlarmWithChecks)
                     } else {
                         showMissingScheduleExactAlarmsPermissionError()
                     }
@@ -199,7 +215,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
         roomTitleTypeFace = TypefaceFactory.getNewInstance(context).getTypeface(Font.Roboto.Light)
         connectivityObserver = ConnectivityObserver(context, onConnectionAvailable = {
             logging.d(LOG_TAG, "Network is available.")
-            viewModel.requestScheduleAutoUpdate()
+            viewModel.onViewEvent(OnConnectionAvailable)
         })
         connectivityObserver.start()
     }
@@ -257,10 +273,10 @@ class FahrplanFragment : Fragment(), MenuProvider {
                             title = stringResource(R.string.choose_alarm_time),
                             currentValue = alarmTime,
                             onOptionSelected = { pickedAlarmTime ->
-                                viewModel.onAlarmTimePicked(pickedAlarmTime)
+                                viewModel.onViewEvent(OnAlarmTimePicked(pickedAlarmTime))
                                 updateMenuItems()
                             },
-                            onDismiss = { viewModel.onNoAlarmTimePicked() },
+                            onDismiss = { viewModel.onViewEvent(OnNoAlarmTimePicked) },
                         )
                     }
                 }
@@ -280,8 +296,8 @@ class FahrplanFragment : Fragment(), MenuProvider {
         EventFahrplanTheme {
             ErrorMessageScreen(
                 errorMessage = errorMessage,
-                onConfirm = { viewModel.onCloseErrorMessageScreen() },
-                onDismiss = { viewModel.onCloseErrorMessageScreen() },
+                onConfirm = { viewModel.onViewEvent(OnCloseErrorMessageScreen) },
+                onDismiss = { viewModel.onViewEvent(OnCloseErrorMessageScreen) },
             )
         }
     }
@@ -292,7 +308,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
             .observe(this) { (scheduleData, useDeviceTimeZone) ->
                 val hasSessions = scheduleData.allSessions.isNotEmpty()
                 setNoScheduleViewVisible(!hasSessions)
-                viewModel.fillTimes(Moment.now(), getNormalizedBoxHeight())
+                viewModel.onViewEvent(OnFillTimes(Moment.now(), getNormalizedBoxHeight()))
                 pendingCardShakes.update(scheduleData)
                 if (hasSessions) {
                     viewDay(scheduleData, useDeviceTimeZone)
@@ -370,8 +386,8 @@ class FahrplanFragment : Fragment(), MenuProvider {
         val sessionId = intent.getStringExtra(BundleKeys.SESSION_ALARM_SESSION_ID)
         if (sessionId != null) {
             val sessionAlarmDayIndex = intent.getIntExtra(BundleKeys.SESSION_ALARM_DAY_INDEX, -1)
-            viewModel.saveSelectedDayIndex(sessionAlarmDayIndex)
-            viewModel.scrollToSession(sessionId, getNormalizedBoxHeight())
+            viewModel.onViewEvent(OnSaveSelectedDayIndex(sessionAlarmDayIndex))
+            viewModel.onViewEvent(OnScrollToSession(sessionId, getNormalizedBoxHeight()))
             intent.removeExtra(BundleKeys.SESSION_ALARM_SESSION_ID) // jump to given sessionId only once
         }
     }
@@ -447,7 +463,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
 
         MainActivity.instance.shouldScheduleScrollToCurrentTimeSlot {
             if (!viewModel.preserveVerticalScrollPosition) {
-                viewModel.scrollToCurrentSession()
+                viewModel.onViewEvent(OnScrollToCurrentSession)
                 viewModel.preserveVerticalScrollPosition = false
             }
         }
@@ -660,14 +676,14 @@ class FahrplanFragment : Fragment(), MenuProvider {
         when (sessionInteractionType) {
             TOGGLE_FAVORITE -> {
                 val updatedSession = session.copy(isFavorite = !session.isFavorite)
-                viewModel.updateFavoriteStatus(updatedSession)
+                viewModel.onViewEvent(OnFavoriteStatusChange(updatedSession))
                 updateMenuItems()
             }
 
             TOGGLE_ALARM -> {
                 when (session.hasAlarm) {
-                    true -> viewModel.deleteAlarm(session)
-                    false -> viewModel.addAlarmWithChecks(session)
+                    true -> viewModel.onViewEvent(OnDeleteAlarmClick(session))
+                    false -> viewModel.onViewEvent(OnAddAlarmClick(session))
                 }
                 updateMenuItems()
             }
@@ -679,18 +695,18 @@ class FahrplanFragment : Fragment(), MenuProvider {
             SHARE -> {
                 @Suppress("KotlinConstantConditions")
                 if (!BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
-                    viewModel.share(session)
+                    viewModel.onViewEvent(OnShareClick(session))
                 } else {
                     // Handled by submenu
                 }
             }
 
             SHARE_TEXT -> {
-                viewModel.share(session)
+                viewModel.onViewEvent(OnShareClick(session))
             }
 
             SHARE_JSON -> {
-                viewModel.shareToChaosflix(session)
+                viewModel.onViewEvent(OnShareToChaosflixClick(session))
             }
         }
 
@@ -871,7 +887,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
-            R.id.menu_item_refresh -> viewModel.requestScheduleUpdate(isUserRequest = true)
+            R.id.menu_item_refresh -> viewModel.onViewEvent(OnScheduleUpdateRequest(isUserRequest = true))
             else -> return false
         }
         return true
@@ -911,7 +927,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
                 return true
             }
             if (itemPosition < numDays) {
-                viewModel.selectDay(itemPosition)
+                viewModel.onViewEvent(OnDaySelect(itemPosition))
                 return true
             }
             return false
