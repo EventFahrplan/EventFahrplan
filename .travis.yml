@@ -74,6 +74,10 @@ before_script:
   - echo TARGET_SDK_VERSION=$TARGET_SDK_VERSION
   - echo BUILD_TOOLS_VERSION=$BUILD_TOOLS_VERSION
 
+  # Validate the Gradle wrapper against the official checksum
+  - GRADLE_VERSION=`grep -Po 'gradle-\K[^-]+(?=-(all|bin)\.zip)' gradle/wrapper/gradle-wrapper.properties`
+  - echo "$(curl -fsSL https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-wrapper.jar.sha256)  gradle/wrapper/gradle-wrapper.jar" | sha256sum --check
+
   # Ensure Gradle wrapper is executable
   - chmod +x gradlew
 
