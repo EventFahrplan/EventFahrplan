@@ -36,13 +36,14 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSucce
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
 import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnAboutClick
 import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnAppLinkReceived
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnChangeStatisticsConfirm
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnChangeStatisticsDismiss
 import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnChangeStatisticsFavoritesFilterToggle
-import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnCheckPostNotificationsPermission
-import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnCloseChangeStatisticsScreen
-import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnCloseErrorMessageScreen
-import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnScheduleUpdateRequest
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnErrorMessageDismiss
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnScreenCreated
 import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnSessionAlarmNotificationTapped
 import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnSessionItemClick
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnSettingsUrlChange
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.ErrorMessageUiState
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.LoadScheduleUiState
 
@@ -106,15 +107,16 @@ internal class MainViewModel(
     }
 
     fun onViewEvent(viewEvent: MainViewEvent) = when (viewEvent) {
-        is OnScheduleUpdateRequest -> requestScheduleUpdate(viewEvent.isUserRequest)
+        OnSettingsUrlChange -> requestScheduleUpdate(isUserRequest = true)
         is OnSessionAlarmNotificationTapped -> deleteSessionAlarmNotificationId(viewEvent.notificationId)
         OnAboutClick -> showAboutDialog()
-        OnCheckPostNotificationsPermission -> checkPostNotificationsPermission()
+        OnScreenCreated -> checkPostNotificationsPermission()
         is OnSessionItemClick -> openSessionDetails(viewEvent.sessionId)
         is OnAppLinkReceived -> openSessionDetailsFromAppLink(viewEvent.uri)
         is OnChangeStatisticsFavoritesFilterToggle -> onChangeStatisticsFavoritesFilterToggle(viewEvent.enabled)
-        is OnCloseChangeStatisticsScreen -> onCloseChangeStatisticsScreen(viewEvent.shouldOpenSessionChanges)
-        OnCloseErrorMessageScreen -> onCloseErrorMessageScreen()
+        OnChangeStatisticsConfirm -> closeChangeStatisticsScreen(shouldOpenSessionChanges = true)
+        OnChangeStatisticsDismiss -> closeChangeStatisticsScreen(shouldOpenSessionChanges = false)
+        OnErrorMessageDismiss -> closeErrorMessageScreen()
     }
 
     private fun LoadScheduleState.toUiState() = when (this) {
@@ -266,7 +268,7 @@ internal class MainViewModel(
         }
     }
 
-    private fun onCloseChangeStatisticsScreen(shouldOpenSessionChanges: Boolean) {
+    private fun closeChangeStatisticsScreen(shouldOpenSessionChanges: Boolean) {
         launch {
             mutableChangeStatisticsUiState.value = null
             repository.updateScheduleChangesSeen(true)
@@ -276,7 +278,7 @@ internal class MainViewModel(
         }
     }
 
-    private fun onCloseErrorMessageScreen() {
+    private fun closeErrorMessageScreen() {
         mutableErrorMessage.value = null
     }
 

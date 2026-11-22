@@ -60,13 +60,14 @@ import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnAboutClick
 import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnAppLinkReceived
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnChangeStatisticsConfirm
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnChangeStatisticsDismiss
 import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnChangeStatisticsFavoritesFilterToggle
-import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnCheckPostNotificationsPermission
-import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnCloseChangeStatisticsScreen
-import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnCloseErrorMessageScreen
-import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnScheduleUpdateRequest
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnErrorMessageDismiss
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnScreenCreated
 import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnSessionAlarmNotificationTapped
 import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnSessionItemClick
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnSettingsUrlChange
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.LoadScheduleUiState
 import nerd.tuxmobil.fahrplan.congress.search.SearchActivity
 import nerd.tuxmobil.fahrplan.congress.search.SearchFragment
@@ -173,7 +174,7 @@ class MainActivity : BaseActivity(),
         observeViewModel()
         onSessionAlarmNotificationTapped(intent)
         onScheduleUpdateNotificationTapped(intent)
-        viewModel.onViewEvent(OnCheckPostNotificationsPermission)
+        viewModel.onViewEvent(OnScreenCreated)
         window.decorView.post { handleAppLink(intent) }
     }
 
@@ -190,8 +191,8 @@ class MainActivity : BaseActivity(),
         EventFahrplanTheme {
             ChangeStatisticScreen(
                 uiState = state,
-                onConfirm = { viewModel.onViewEvent(OnCloseChangeStatisticsScreen(shouldOpenSessionChanges = true)) },
-                onDismiss = { viewModel.onViewEvent(OnCloseChangeStatisticsScreen(shouldOpenSessionChanges = false)) },
+                onConfirm = { viewModel.onViewEvent(OnChangeStatisticsConfirm) },
+                onDismiss = { viewModel.onViewEvent(OnChangeStatisticsDismiss) },
                 onFavoritesFilterToggle = { viewModel.onViewEvent(OnChangeStatisticsFavoritesFilterToggle(it)) },
             )
         }
@@ -202,8 +203,8 @@ class MainActivity : BaseActivity(),
         EventFahrplanTheme {
             ErrorMessageScreen(
                 errorMessage = errorMessage,
-                onConfirm = { viewModel.onViewEvent(OnCloseErrorMessageScreen) },
-                onDismiss = { viewModel.onViewEvent(OnCloseErrorMessageScreen) },
+                onConfirm = { viewModel.onViewEvent(OnErrorMessageDismiss) },
+                onDismiss = { viewModel.onViewEvent(OnErrorMessageDismiss) },
             )
         }
     }
@@ -384,7 +385,7 @@ class MainActivity : BaseActivity(),
                     }
                     if (shouldFetchFahrplan) {
                         // TODO Handle schedule update in AppRepository; above code becomes needless
-                        viewModel.onViewEvent(OnScheduleUpdateRequest(isUserRequest = true))
+                        viewModel.onViewEvent(OnSettingsUrlChange)
                     }
                     val isShowOnLockscreenUpdated = resources.getBoolean(
                         R.bool.bundle_key_show_on_lockscreen_updated_default_value)

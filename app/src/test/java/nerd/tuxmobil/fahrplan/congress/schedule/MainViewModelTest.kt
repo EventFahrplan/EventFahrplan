@@ -43,13 +43,14 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSucce
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
 import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnAboutClick
 import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnAppLinkReceived
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnChangeStatisticsConfirm
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnChangeStatisticsDismiss
 import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnChangeStatisticsFavoritesFilterToggle
-import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnCheckPostNotificationsPermission
-import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnCloseChangeStatisticsScreen
-import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnCloseErrorMessageScreen
-import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnScheduleUpdateRequest
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnErrorMessageDismiss
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnScreenCreated
 import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnSessionAlarmNotificationTapped
 import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnSessionItemClick
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnSettingsUrlChange
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.LoadScheduleUiState
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -459,10 +460,10 @@ class MainViewModelTest {
     inner class OnViewEvent {
 
         @Test
-        fun `OnCloseErrorMessageScreen posts null to errorMessage property`() = runTest {
+        fun `OnErrorMessageDismiss posts null to errorMessage property`() = runTest {
             val repository = createRepository()
             val viewModel = createViewModel(repository)
-            viewModel.onViewEvent(OnCloseErrorMessageScreen)
+            viewModel.onViewEvent(OnErrorMessageDismiss)
             viewModel.errorMessage.test {
                 assertThat(awaitItem()).isNull()
                 expectNoEvents()
@@ -470,10 +471,10 @@ class MainViewModelTest {
         }
 
         @Test
-        fun `OnScheduleUpdateRequest invokes repository function`() {
+        fun `OnSettingsUrlChange invokes repository function`() {
             val repository = createRepository()
             val viewModel = createViewModel(repository)
-            viewModel.onViewEvent(OnScheduleUpdateRequest(isUserRequest = true))
+            viewModel.onViewEvent(OnSettingsUrlChange)
             verifyInvokedOnce(repository).loadSchedule(isUserRequest = true)
         }
 
@@ -599,10 +600,10 @@ class MainViewModelTest {
             }
 
         @Test
-        fun `OnCloseChangeStatisticsScreen post to openSessionChanges property`() = runTest {
+        fun `OnChangeStatisticsConfirm posts to openSessionChanges property`() = runTest {
             val repository = createRepository()
             val viewModel = createViewModel(repository)
-            viewModel.onViewEvent(OnCloseChangeStatisticsScreen(shouldOpenSessionChanges = true))
+            viewModel.onViewEvent(OnChangeStatisticsConfirm)
             viewModel.openSessionChanges.test {
                 assertThat(awaitItem()).isEqualTo(Unit)
                 expectNoEvents()
@@ -611,10 +612,10 @@ class MainViewModelTest {
         }
 
         @Test
-        fun `OnCloseChangeStatisticsScreen does not post to openSessionChanges property`() = runTest {
+        fun `OnChangeStatisticsDismiss does not post to openSessionChanges property`() = runTest {
             val repository = createRepository()
             val viewModel = createViewModel(repository)
-            viewModel.onViewEvent(OnCloseChangeStatisticsScreen(shouldOpenSessionChanges = false))
+            viewModel.onViewEvent(OnChangeStatisticsDismiss)
             viewModel.openSessionChanges.test {
                 expectNoEvents()
             }
@@ -622,42 +623,42 @@ class MainViewModelTest {
         }
 
         @Test
-        fun `OnCheckPostNotificationsPermission does not post to missingPostNotificationsPermission property (no alarms)`() =
+        fun `OnScreenCreated does not post to missingPostNotificationsPermission property (no alarms)`() =
             runTest {
                 val notificationHelper = mock<NotificationHelper> {
                     on { notificationsEnabled } doReturn true
                 }
                 val repository = createRepository(alarms = emptyList())
                 val viewModel = createViewModel(repository, notificationHelper)
-                viewModel.onViewEvent(OnCheckPostNotificationsPermission)
+                viewModel.onViewEvent(OnScreenCreated)
                 viewModel.missingPostNotificationsPermission.test {
                     expectNoEvents()
                 }
             }
 
         @Test
-        fun `OnCheckPostNotificationsPermission does not post to missingPostNotificationsPermission property (notifications enabled)`() =
+        fun `OnScreenCreated does not post to missingPostNotificationsPermission property (notifications enabled)`() =
             runTest {
                 val notificationHelper = mock<NotificationHelper> {
                     on { notificationsEnabled } doReturn true
                 }
                 val repository = createRepository(alarms = listOf(mock()))
                 val viewModel = createViewModel(repository, notificationHelper)
-                viewModel.onViewEvent(OnCheckPostNotificationsPermission)
+                viewModel.onViewEvent(OnScreenCreated)
                 viewModel.missingPostNotificationsPermission.test {
                     expectNoEvents()
                 }
             }
 
         @Test
-        fun `OnCheckPostNotificationsPermission posts to missingPostNotificationsPermission property`() =
+        fun `OnScreenCreated posts to missingPostNotificationsPermission property`() =
             runTest {
                 val notificationHelper = mock<NotificationHelper> {
                     on { notificationsEnabled } doReturn false
                 }
                 val repository = createRepository(alarms = listOf(mock()))
                 val viewModel = createViewModel(repository, notificationHelper)
-                viewModel.onViewEvent(OnCheckPostNotificationsPermission)
+                viewModel.onViewEvent(OnScreenCreated)
                 viewModel.missingPostNotificationsPermission.test {
                     assertThat(awaitItem()).isEqualTo(Unit)
                 }
