@@ -287,10 +287,7 @@ internal class FahrplanViewModel(
         is OnShareClick -> share(viewEvent.session)
         is OnShareToChaosflixClick -> shareToChaosflix(viewEvent.session)
         is OnDaySelect -> selectDay(viewEvent.dayItemPosition)
-        is OnSessionAlarmNotificationTapped -> {
-            saveSelectedDayIndex(viewEvent.dayIndex)
-            scrollToSession(viewEvent.sessionId, viewEvent.normalizedBoxHeight)
-        }
+        is OnSessionAlarmNotificationTapped -> scrollToSession(viewEvent.dayIndex, viewEvent.sessionId, viewEvent.normalizedBoxHeight)
         OnDayRendered -> scrollToCurrentSession()
         OnErrorMessageDismiss -> closeErrorMessageScreen()
     }
@@ -440,8 +437,9 @@ internal class FahrplanViewModel(
         }
     }
 
-    private fun scrollToSession(sessionId: String, boxHeight: Int) {
+    private fun scrollToSession(dayIndex: Int, sessionId: String, boxHeight: Int) {
         launch {
+            repository.updateDisplayDayIndex(dayIndex)
             val scheduleData = repository.loadUncanceledSessionsForDayIndex()
             val sessions = scheduleData.allSessions
             if (sessions.isNotEmpty()) {
