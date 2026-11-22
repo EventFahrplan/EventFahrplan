@@ -48,13 +48,13 @@ import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDayRendered
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDaySelect
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDeleteAlarmClick
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnErrorMessageDismiss
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnFavoriteStatusChange
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnNoAlarmTimePicked
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnRefreshClick
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnScheduleDataReceived
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnSessionAlarmNotificationTapped
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnShareClick
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnShareToChaosflixClick
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnToggleFavoriteClick
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.DayMenuParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FahrplanParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FiredAlarmParameter
@@ -278,7 +278,7 @@ internal class FahrplanViewModel(
         OnRefreshClick -> requestScheduleUpdate(isUserRequest = true)
         OnConnectionAvailable -> requestScheduleAutoUpdate()
         is OnScheduleDataReceived -> fillTimes(viewEvent.nowMoment, viewEvent.normalizedBoxHeight)
-        is OnFavoriteStatusChange -> updateFavoriteStatus(viewEvent.session)
+        is OnToggleFavoriteClick -> toggleFavorite(viewEvent.session)
         OnAddAlarmsPermissionGranted -> addAlarmWithChecks()
         is OnAddAlarmClick -> addAlarmWithChecks(viewEvent.session)
         is OnDeleteAlarmClick -> deleteAlarm(viewEvent.session)
@@ -343,9 +343,10 @@ internal class FahrplanViewModel(
         )
     }
 
-    private fun updateFavoriteStatus(session: Session) {
+    private fun toggleFavorite(session: Session) {
+        val updatedSession = session.copy(isFavorite = !session.isFavorite)
         launch {
-            repository.updateFavorite(session)
+            repository.updateFavorite(updatedSession)
         }
     }
 

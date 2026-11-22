@@ -7,7 +7,7 @@ sealed interface FahrplanViewEvent {
     data object OnRefreshClick : FahrplanViewEvent
     data object OnConnectionAvailable : FahrplanViewEvent
     data class OnScheduleDataReceived(val nowMoment: Moment, val normalizedBoxHeight: Int) : FahrplanViewEvent
-    data class OnFavoriteStatusChange(val session: Session) : FahrplanViewEvent
+    data class OnToggleFavoriteClick(val session: Session) : FahrplanViewEvent
     data object OnAddAlarmsPermissionGranted : FahrplanViewEvent
     data class OnAddAlarmClick(val session: Session) : FahrplanViewEvent
     data class OnDeleteAlarmClick(val session: Session) : FahrplanViewEvent

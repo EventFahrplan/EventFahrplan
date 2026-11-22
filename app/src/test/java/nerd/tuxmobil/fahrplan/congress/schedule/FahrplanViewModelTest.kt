@@ -49,13 +49,13 @@ import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDayRendered
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDaySelect
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDeleteAlarmClick
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnErrorMessageDismiss
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnFavoriteStatusChange
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnNoAlarmTimePicked
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnRefreshClick
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnScheduleDataReceived
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnSessionAlarmNotificationTapped
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnShareClick
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnShareToChaosflixClick
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnToggleFavoriteClick
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.DayMenuParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FahrplanParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FiredAlarmParameter
@@ -515,11 +515,19 @@ class FahrplanViewModelTest {
     inner class Favoring {
 
         @Test
-        fun `OnFavoriteStatusChange invokes repository function`() {
+        fun `OnToggleFavoriteClick flags the session as a favorite and persists it`() {
             val repository = createRepository()
             val viewModel = createViewModel(repository)
-            viewModel.onViewEvent(OnFavoriteStatusChange(Session("session-52")))
-            verifyInvokedOnce(repository).updateFavorite(Session("session-52"))
+            viewModel.onViewEvent(OnToggleFavoriteClick(Session("session-52", isFavorite = false)))
+            verifyInvokedOnce(repository).updateFavorite(Session("session-52", isFavorite = true))
+        }
+
+        @Test
+        fun `OnToggleFavoriteClick unflags the session as a favorite and persists it`() {
+            val repository = createRepository()
+            val viewModel = createViewModel(repository)
+            viewModel.onViewEvent(OnToggleFavoriteClick(Session("session-52", isFavorite = true)))
+            verifyInvokedOnce(repository).updateFavorite(Session("session-52", isFavorite = false))
         }
 
     }

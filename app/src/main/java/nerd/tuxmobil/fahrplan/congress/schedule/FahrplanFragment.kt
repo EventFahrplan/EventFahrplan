@@ -96,13 +96,13 @@ import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDayRendered
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDaySelect
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDeleteAlarmClick
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnErrorMessageDismiss
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnFavoriteStatusChange
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnNoAlarmTimePicked
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnRefreshClick
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnScheduleDataReceived
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnSessionAlarmNotificationTapped
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnShareClick
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnShareToChaosflixClick
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnToggleFavoriteClick
 import nerd.tuxmobil.fahrplan.congress.schedule.SessionInteractionType.ADD_TO_CALENDAR
 import nerd.tuxmobil.fahrplan.congress.schedule.SessionInteractionType.SHARE
 import nerd.tuxmobil.fahrplan.congress.schedule.SessionInteractionType.SHARE_JSON
@@ -677,8 +677,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
     private fun handleSessionInteraction(session: Session, sessionInteractionType: SessionInteractionType) =
         when (sessionInteractionType) {
             TOGGLE_FAVORITE -> {
-                val updatedSession = session.copy(isFavorite = !session.isFavorite)
-                viewModel.onViewEvent(OnFavoriteStatusChange(updatedSession))
+                viewModel.onViewEvent(OnToggleFavoriteClick(session))
                 updateMenuItems()
             }
 
