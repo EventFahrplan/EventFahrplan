@@ -7,15 +7,15 @@ import androidx.compose.ui.res.stringResource
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.models.NextFetch
 import nerd.tuxmobil.fahrplan.congress.settings.NextFetchFormatter
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AutoUpdateClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.AutoUpdateClicked
 
 @Composable
 internal fun EnableAutomaticUpdatesPreference(
     isAutoUpdateEnabled: Boolean,
     nextFetch: NextFetch,
     showDivider: Boolean = false,
-    onViewEvent: (SettingsEvent) -> Unit,
+    onViewEvent: (SettingsViewEvent) -> Unit,
 ) {
     val context = LocalContext.current
     val nextFetchFormatter = remember(context) { NextFetchFormatter.newInstance(context) }

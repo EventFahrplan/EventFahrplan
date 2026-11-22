@@ -22,19 +22,19 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.bars.NavigationBarProtection
 import nerd.tuxmobil.fahrplan.congress.designsystem.bars.TopBar
 import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmTimeClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmToneClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlternativeHighlightingClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.CustomizeNotificationsClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.EngelsystemUrlClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.FastSwipingClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.InsistentAlarmClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleChangesFavoritesFilterClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleRefreshIntervalClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ShowScheduleUpdateDialogClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ShowOnLockscreenClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.AlarmTimeClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.AlarmToneClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.AlternativeHighlightingClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.CustomizeNotificationsClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.DeviceTimezoneClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.EngelsystemUrlClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.FastSwipingClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.InsistentAlarmClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.ScheduleChangesFavoritesFilterClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.ScheduleRefreshIntervalClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.ScheduleStatisticClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.ShowOnLockscreenClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.ShowScheduleUpdateDialogClicked
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.AlternativeScheduleUrlPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.ClickPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.EnableAutomaticUpdatesPreference
@@ -47,7 +47,7 @@ import nerd.tuxmobil.fahrplan.congress.settings.widgets.SwitchPreference
 @Composable
 internal fun SettingsListScreen(
     state: SettingsUiState,
-    onViewEvent: (SettingsEvent) -> Unit,
+    onViewEvent: (SettingsViewEvent) -> Unit,
     onBack: () -> Unit,
 ) {
     Scaffold(
@@ -88,7 +88,7 @@ internal fun SettingsListScreen(
 private fun CategoryDevelopment(
     state: SettingsUiState,
     showDivider: Boolean,
-    onViewEvent: (SettingsEvent) -> Unit,
+    onViewEvent: (SettingsViewEvent) -> Unit,
 ) {
     PreferenceCategory(stringResource(R.string.development_settings)) {
         ClickPreference(
@@ -110,7 +110,7 @@ private fun CategoryDevelopment(
 private fun CategoryGeneral(
     state: SettingsUiState,
     showDivider: Boolean,
-    onViewEvent: (SettingsEvent) -> Unit,
+    onViewEvent: (SettingsViewEvent) -> Unit,
 ) {
     PreferenceCategory(stringResource(R.string.general_settings)) {
         EnableAutomaticUpdatesPreference(
@@ -190,7 +190,7 @@ private fun CategoryGeneral(
 private fun CategoryAlarms(
     state: SettingsUiState,
     showDivider: Boolean,
-    onViewEvent: (SettingsEvent) -> Unit,
+    onViewEvent: (SettingsViewEvent) -> Unit,
 ) {
     PreferenceCategory(stringResource(R.string.reminders)) {
         ExternalClickPreference(
@@ -219,7 +219,7 @@ private fun CategoryAlarms(
 @Composable
 private fun CategorySharing(
     state: SettingsUiState,
-    onViewEvent: (SettingsEvent) -> Unit,
+    onViewEvent: (SettingsViewEvent) -> Unit,
 ) {
     PreferenceCategory(stringResource(R.string.preference_sharing_category_title)) {
         SocialMediaHashtagsHandlesPreference(
@@ -232,7 +232,7 @@ private fun CategorySharing(
 @Composable
 private fun CategoryEngelsystem(
     state: SettingsUiState,
-    onViewEvent: (SettingsEvent) -> Unit,
+    onViewEvent: (SettingsViewEvent) -> Unit,
 ) {
     PreferenceCategory(stringResource(R.string.preference_engelsystem_category_title)) {
         EngelsystemShiftsUrlPreference(

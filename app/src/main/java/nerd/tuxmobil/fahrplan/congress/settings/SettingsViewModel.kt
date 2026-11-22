@@ -24,35 +24,35 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateBack
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateTo
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.PickAlarmTone
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.SetActivityResult
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmTimeClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmToneClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlternativeHighlightingClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlternativeScheduleUrlClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AutoUpdateClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.CustomizeNotificationsClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.EngelsystemUrlClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.FastSwipingClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.InsistentAlarmClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ResetSocialMediaHashtagsHandles
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleChangesFavoritesFilterClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleRefreshIntervalClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTime
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTone
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlternativeScheduleUrl
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetEngelsystemShiftsUrl
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetScheduleRefreshInterval
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetSocialMediaHashtagsHandles
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ShowOnLockscreenClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ShowScheduleUpdateDialogClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SocialMediaHashtagsHandlesClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.AlarmTime
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.AlternativeScheduleUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.EngelSystemUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.ScheduleRefreshInterval
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.ScheduleStatistic
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.SocialMediaHashtagsHandles
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.AlarmTimeClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.AlarmToneClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.AlternativeHighlightingClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.AlternativeScheduleUrlClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.AutoUpdateClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.CustomizeNotificationsClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.DeviceTimezoneClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.EngelsystemUrlClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.FastSwipingClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.InsistentAlarmClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.ResetSocialMediaHashtagsHandles
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.ScheduleChangesFavoritesFilterClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.ScheduleRefreshIntervalClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.ScheduleStatisticClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.SetAlarmTime
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.SetAlarmTone
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.SetAlternativeScheduleUrl
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.SetEngelsystemShiftsUrl
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.SetScheduleRefreshInterval
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.SetSocialMediaHashtagsHandles
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.ShowOnLockscreenClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.ShowScheduleUpdateDialogClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.SocialMediaHashtagsHandlesClicked
 
 internal class SettingsViewModel(
     appRepository: AppRepository,
@@ -82,30 +82,30 @@ internal class SettingsViewModel(
 
     private val activityResultKeys = mutableSetOf<String>()
 
-    fun onViewEvent(event: SettingsEvent) = when (event) {
+    fun onViewEvent(viewEvent: SettingsViewEvent) = when (viewEvent) {
         ScheduleRefreshIntervalClicked -> navigateTo(ScheduleRefreshInterval)
-        is SetScheduleRefreshInterval -> updateScheduleRefreshInterval(event.refreshInterval)
+        is SetScheduleRefreshInterval -> updateScheduleRefreshInterval(viewEvent.refreshInterval)
         ScheduleStatisticClicked -> navigateTo(ScheduleStatistic)
         AutoUpdateClicked -> toggleAutoUpdateEnabled()
         DeviceTimezoneClicked -> toggleUseDeviceTimeZoneEnabled()
         CustomizeNotificationsClicked -> launchNotificationSettingsScreen()
         AlternativeScheduleUrlClicked -> navigateTo(AlternativeScheduleUrl)
-        is SetAlternativeScheduleUrl -> updateAlternativeScheduleUrl(event.url)
+        is SetAlternativeScheduleUrl -> updateAlternativeScheduleUrl(viewEvent.url)
         AlternativeHighlightingClicked -> toggleAlternativeHighlightingEnabled()
         FastSwipingClicked -> toggleFastSwipingEnabled()
         ShowScheduleUpdateDialogClicked -> toggleShowScheduleUpdateDialogEnabled()
         ScheduleChangesFavoritesFilterClicked -> toggleScheduleChangesFavoritesFilterEnabled()
         ShowOnLockscreenClicked -> toggleShowOnLockscreenEnabled()
         AlarmToneClicked -> pickAlarmTone()
-        is SetAlarmTone -> updateAlarmTone(event.alarmTone)
+        is SetAlarmTone -> updateAlarmTone(viewEvent.alarmTone)
         InsistentAlarmClicked -> toggleInsistentAlarmsEnabled()
         AlarmTimeClicked -> navigateTo(AlarmTime)
-        is SetAlarmTime -> updateAlarmTime(event.alarmTime)
+        is SetAlarmTime -> updateAlarmTime(viewEvent.alarmTime)
         SocialMediaHashtagsHandlesClicked -> navigateTo(SocialMediaHashtagsHandles)
-        is SetSocialMediaHashtagsHandles -> updateSocialMediaHashtagsHandles(event.handles)
+        is SetSocialMediaHashtagsHandles -> updateSocialMediaHashtagsHandles(viewEvent.handles)
         ResetSocialMediaHashtagsHandles -> resetSocialMediaHashtagsHandles()
         EngelsystemUrlClicked -> navigateTo(EngelSystemUrl)
-        is SetEngelsystemShiftsUrl -> updateEngelsystemShiftsUrl(event.url)
+        is SetEngelsystemShiftsUrl -> updateEngelsystemShiftsUrl(viewEvent.url)
     }
 
     private fun updateScheduleRefreshInterval(refreshInterval: Int) {

@@ -34,13 +34,6 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateBack
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateTo
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.PickAlarmTone
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.SetActivityResult
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ResetSocialMediaHashtagsHandles
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTime
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTone
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlternativeScheduleUrl
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetEngelsystemShiftsUrl
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetScheduleRefreshInterval
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetSocialMediaHashtagsHandles
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.AlarmTime
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.AlternativeScheduleUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.EngelSystemUrl
@@ -48,6 +41,13 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.Sc
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.ScheduleStatistic
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.SettingsList
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.SocialMediaHashtagsHandles
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.ResetSocialMediaHashtagsHandles
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.SetAlarmTime
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.SetAlarmTone
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.SetAlternativeScheduleUrl
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.SetEngelsystemShiftsUrl
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.SetScheduleRefreshInterval
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.SetSocialMediaHashtagsHandles
 
 @Composable
 internal fun SettingsScreen(
