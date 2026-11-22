@@ -89,19 +89,18 @@ import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnAddAlarmClick
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnAddAlarmWithChecks
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnAddAlarmsPermissionGranted
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnAlarmTimePicked
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnCloseErrorMessageScreen
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnConnectionAvailable
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDayRendered
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDaySelect
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDeleteAlarmClick
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnErrorMessageDismiss
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnFavoriteStatusChange
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnFillTimes
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnNoAlarmTimePicked
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnSaveSelectedDayIndex
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnScheduleUpdateRequest
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnScrollToCurrentSession
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnScrollToSession
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnRefreshClick
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnScheduleDataReceived
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnSessionAlarmNotificationTapped
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnShareClick
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnShareToChaosflixClick
 import nerd.tuxmobil.fahrplan.congress.schedule.SessionInteractionType.ADD_TO_CALENDAR
@@ -186,7 +185,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
 
         postNotificationsPermissionRequestLauncher = registerForActivityResult(RequestPermission()) { isGranted ->
             if (isGranted) {
-                viewModel.onViewEvent(OnAddAlarmWithChecks)
+                viewModel.onViewEvent(OnAddAlarmsPermissionGranted)
             } else {
                 showMissingPostNotificationsPermissionError()
             }
@@ -196,14 +195,14 @@ class FahrplanFragment : Fragment(), MenuProvider {
             registerForActivityResult(StartActivityForResult()) { result ->
                 // User granted the permission earlier.
                 if (result.resultCode == RESULT_OK) {
-                    viewModel.onViewEvent(OnAddAlarmWithChecks)
+                    viewModel.onViewEvent(OnAddAlarmsPermissionGranted)
                 } else {
                     // User granted the permission for the first time.
                     // Screen is resumed with RESULT_CANCELED, no indication
                     // of whether the permission was granted or not.
-                    // Hence the following ugly view model bypass.
+                    // Hence, the following ugly view model bypass.
                     if (viewModel.canAddAlarms()) {
-                        viewModel.onViewEvent(OnAddAlarmWithChecks)
+                        viewModel.onViewEvent(OnAddAlarmsPermissionGranted)
                     } else {
                         showMissingScheduleExactAlarmsPermissionError()
                     }
@@ -296,8 +295,8 @@ class FahrplanFragment : Fragment(), MenuProvider {
         EventFahrplanTheme {
             ErrorMessageScreen(
                 errorMessage = errorMessage,
-                onConfirm = { viewModel.onViewEvent(OnCloseErrorMessageScreen) },
-                onDismiss = { viewModel.onViewEvent(OnCloseErrorMessageScreen) },
+                onConfirm = { viewModel.onViewEvent(OnErrorMessageDismiss) },
+                onDismiss = { viewModel.onViewEvent(OnErrorMessageDismiss) },
             )
         }
     }
@@ -308,7 +307,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
             .observe(this) { (scheduleData, useDeviceTimeZone) ->
                 val hasSessions = scheduleData.allSessions.isNotEmpty()
                 setNoScheduleViewVisible(!hasSessions)
-                viewModel.onViewEvent(OnFillTimes(Moment.now(), getNormalizedBoxHeight()))
+                viewModel.onViewEvent(OnScheduleDataReceived(Moment.now(), getNormalizedBoxHeight()))
                 pendingCardShakes.update(scheduleData)
                 if (hasSessions) {
                     viewDay(scheduleData, useDeviceTimeZone)
@@ -386,8 +385,11 @@ class FahrplanFragment : Fragment(), MenuProvider {
         val sessionId = intent.getStringExtra(BundleKeys.SESSION_ALARM_SESSION_ID)
         if (sessionId != null) {
             val sessionAlarmDayIndex = intent.getIntExtra(BundleKeys.SESSION_ALARM_DAY_INDEX, -1)
-            viewModel.onViewEvent(OnSaveSelectedDayIndex(sessionAlarmDayIndex))
-            viewModel.onViewEvent(OnScrollToSession(sessionId, getNormalizedBoxHeight()))
+            viewModel.onViewEvent(OnSessionAlarmNotificationTapped(
+                dayIndex = sessionAlarmDayIndex,
+                sessionId = sessionId,
+                normalizedBoxHeight = getNormalizedBoxHeight(),
+            ))
             intent.removeExtra(BundleKeys.SESSION_ALARM_SESSION_ID) // jump to given sessionId only once
         }
     }
@@ -463,7 +465,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
 
         MainActivity.instance.shouldScheduleScrollToCurrentTimeSlot {
             if (!viewModel.preserveVerticalScrollPosition) {
-                viewModel.onViewEvent(OnScrollToCurrentSession)
+                viewModel.onViewEvent(OnDayRendered)
                 viewModel.preserveVerticalScrollPosition = false
             }
         }
@@ -887,7 +889,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
-            R.id.menu_item_refresh -> viewModel.onViewEvent(OnScheduleUpdateRequest(isUserRequest = true))
+            R.id.menu_item_refresh -> viewModel.onViewEvent(OnRefreshClick)
             else -> return false
         }
         return true

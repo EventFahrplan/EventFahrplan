@@ -42,19 +42,18 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseFailu
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSuccess
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnAddAlarmClick
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnAddAlarmWithChecks
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnAddAlarmsPermissionGranted
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnAlarmTimePicked
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnCloseErrorMessageScreen
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnConnectionAvailable
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDayRendered
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDaySelect
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDeleteAlarmClick
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnErrorMessageDismiss
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnFavoriteStatusChange
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnFillTimes
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnNoAlarmTimePicked
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnSaveSelectedDayIndex
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnScheduleUpdateRequest
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnScrollToCurrentSession
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnScrollToSession
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnRefreshClick
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnScheduleDataReceived
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnSessionAlarmNotificationTapped
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnShareClick
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnShareToChaosflixClick
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.DayMenuParameter
@@ -254,7 +253,7 @@ class FahrplanViewModelTest {
                 viewModel.errorMessage.test {
                     assertThat(awaitItem()).isEqualTo(errorMessage)
 
-                    viewModel.onViewEvent(OnCloseErrorMessageScreen)
+                    viewModel.onViewEvent(OnErrorMessageDismiss)
                     assertThat(awaitItem()).isNull()
 
                     alarmFiringEvents.emit("session-01")
@@ -393,10 +392,10 @@ class FahrplanViewModelTest {
         }
 
         @Test
-        fun `OnCloseErrorMessageScreen posts null to errorMessage property`() = runTest {
+        fun `OnErrorMessageDismiss posts null to errorMessage property`() = runTest {
             val repository = createRepository()
             val viewModel = createViewModel(repository)
-            viewModel.onViewEvent(OnCloseErrorMessageScreen)
+            viewModel.onViewEvent(OnErrorMessageDismiss)
             viewModel.errorMessage.test {
                 assertThat(awaitItem()).isNull()
                 expectNoEvents()
@@ -436,10 +435,10 @@ class FahrplanViewModelTest {
     inner class RequestScheduleUpdate {
 
         @Test
-        fun `OnScheduleUpdateRequest invokes repository function`() {
+        fun `OnRefreshClick invokes repository function`() {
             val repository = createRepository()
             val viewModel = createViewModel(repository)
-            viewModel.onViewEvent(OnScheduleUpdateRequest(isUserRequest = true))
+            viewModel.onViewEvent(OnRefreshClick)
             verifyInvokedOnce(repository).loadSchedule(isUserRequest = true)
         }
 
@@ -465,7 +464,7 @@ class FahrplanViewModelTest {
     inner class TimeText {
 
         @Test
-        fun `OnFillTimes posts TimeTextViewParameter to timeTextViewParameters property`() = runTest {
+        fun `OnScheduleDataReceived posts TimeTextViewParameter to timeTextViewParameters property`() = runTest {
             val startsAt = 1582963200000L // February 29, 2020 08:00:00 AM GMT
             val session = Session(
                 sessionId = "session-01",
@@ -477,7 +476,7 @@ class FahrplanViewModelTest {
                 uncanceledSessionsForDayIndexFlow = flowOf(createScheduleData(session)),
             )
             val viewModel = createViewModel(repository)
-            viewModel.onViewEvent(OnFillTimes(nowMoment = mock(), normalizedBoxHeight = 42))
+            viewModel.onViewEvent(OnScheduleDataReceived(nowMoment = mock(), normalizedBoxHeight = 42))
             val expected = listOf(
                 TimeTextViewParameter(height = 126, titleText = "08:00", isNow = false),
                 TimeTextViewParameter(height = 126, titleText = "08:15", isNow = false),
@@ -489,7 +488,7 @@ class FahrplanViewModelTest {
         }
 
         @Test
-        fun `OnFillTimes posts empty list to timeTextViewParameters property when all sessions get canceled`() = runTest {
+        fun `OnScheduleDataReceived posts empty list to timeTextViewParameters property when all sessions get canceled`() = runTest {
             val session = Session(
                 sessionId = "session-01",
                 dateUTC = 1582963200000L, // February 29, 2020 08:00:00 AM GMT
@@ -501,7 +500,7 @@ class FahrplanViewModelTest {
                 uncanceledSessionsForDayIndexFlow = uncanceledSessionsForDayIndex,
             )
             val viewModel = createViewModel(repository)
-            viewModel.onViewEvent(OnFillTimes(nowMoment = mock(), normalizedBoxHeight = 42))
+            viewModel.onViewEvent(OnScheduleDataReceived(nowMoment = mock(), normalizedBoxHeight = 42))
             viewModel.timeTextViewParameters.test {
                 assertThat(awaitItem()).isNotEmpty()
 
@@ -547,7 +546,7 @@ class FahrplanViewModelTest {
         }
 
         @Test
-        fun `OnAddAlarmWithChecks sets defaultAlarmTime to alarm time`() = runTest {
+        fun `OnAddAlarmsPermissionGranted sets defaultAlarmTime to alarm time`() = runTest {
             val notificationHelper = mock<NotificationHelper> {
                 on { notificationsEnabled } doReturn true
             }
@@ -561,7 +560,7 @@ class FahrplanViewModelTest {
                 alarmServices = alarmServices,
                 runsAtLeastOnAndroidTiramisu = true, // not relevant
             )
-            viewModel.onViewEvent(OnAddAlarmWithChecks)
+            viewModel.onViewEvent(OnAddAlarmsPermissionGranted)
             viewModel.defaultAlarmTime.test {
                 assertThat(awaitItem()).isEqualTo(10)
             }
@@ -593,7 +592,7 @@ class FahrplanViewModelTest {
         }
 
         @Test
-        fun `OnAddAlarmWithChecks posts to requestScheduleExactAlarmsPermission`() = runTest {
+        fun `OnAddAlarmsPermissionGranted posts to requestScheduleExactAlarmsPermission`() = runTest {
             val notificationHelper = mock<NotificationHelper> {
                 on { notificationsEnabled } doReturn true
             }
@@ -607,7 +606,7 @@ class FahrplanViewModelTest {
                 alarmServices = alarmServices,
                 runsAtLeastOnAndroidTiramisu = true, // not relevant
             )
-            viewModel.onViewEvent(OnAddAlarmWithChecks)
+            viewModel.onViewEvent(OnAddAlarmsPermissionGranted)
             viewModel.requestScheduleExactAlarmsPermission.test {
                 assertThat(awaitItem()).isEqualTo(Unit)
             }
@@ -616,7 +615,7 @@ class FahrplanViewModelTest {
         }
 
         @Test
-        fun `OnAddAlarmWithChecks posts to requestPostNotificationsPermission as of Android 13`() =
+        fun `OnAddAlarmsPermissionGranted posts to requestPostNotificationsPermission as of Android 13`() =
             runTest {
                 val notificationHelper = mock<NotificationHelper> {
                     on { notificationsEnabled } doReturn false
@@ -627,7 +626,7 @@ class FahrplanViewModelTest {
                     notificationHelper = notificationHelper,
                     runsAtLeastOnAndroidTiramisu = true,
                 )
-                viewModel.onViewEvent(OnAddAlarmWithChecks)
+                viewModel.onViewEvent(OnAddAlarmsPermissionGranted)
                 viewModel.requestPostNotificationsPermission.test {
                     assertThat(awaitItem()).isEqualTo(Unit)
                 }
@@ -635,7 +634,7 @@ class FahrplanViewModelTest {
             }
 
         @Test
-        fun `OnAddAlarmWithChecks posts to notificationsDisabled before Android 13`() = runTest {
+        fun `OnAddAlarmsPermissionGranted posts to notificationsDisabled before Android 13`() = runTest {
             val notificationHelper = mock<NotificationHelper> {
                 on { notificationsEnabled } doReturn false
             }
@@ -645,7 +644,7 @@ class FahrplanViewModelTest {
                 notificationHelper = notificationHelper,
                 runsAtLeastOnAndroidTiramisu = false,
             )
-            viewModel.onViewEvent(OnAddAlarmWithChecks)
+            viewModel.onViewEvent(OnAddAlarmsPermissionGranted)
             viewModel.notificationsDisabled.test {
                 assertThat(awaitItem()).isEqualTo(Unit)
             }
@@ -784,10 +783,10 @@ class FahrplanViewModelTest {
         }
 
         @Test
-        fun `OnSaveSelectedDayIndex invokes repository function`() {
+        fun `OnSessionAlarmNotificationTapped invokes repository function`() {
             val repository = createRepository()
             val viewModel = createViewModel(repository)
-            viewModel.onViewEvent(OnSaveSelectedDayIndex(dayIndex = 2))
+            viewModel.onViewEvent(OnSessionAlarmNotificationTapped(dayIndex = 2, sessionId = "session-1", normalizedBoxHeight = 0))
             verifyInvokedOnce(repository).updateDisplayDayIndex(displayDayIndex = 2)
         }
 
@@ -797,12 +796,12 @@ class FahrplanViewModelTest {
     inner class Scrolling {
 
         @Test
-        fun `OnScrollToCurrentSession never posts to scrollToCurrentSessionParameter property when sessions is empty`() =
+        fun `OnDayRendered never posts to scrollToCurrentSessionParameter property when sessions is empty`() =
             runTest {
                 val scheduleData = ScheduleData(0, emptyList())
                 val repository = createRepository(uncanceledSessionsForDayIndexFlow = flowOf(scheduleData))
                 val viewModel = createViewModel(repository)
-                viewModel.onViewEvent(OnScrollToCurrentSession)
+                viewModel.onViewEvent(OnDayRendered)
                 verifyInvokedNever(repository).readDisplayDayIndex()
                 viewModel.scrollToCurrentSessionParameter.test {
                     expectNoEvents()
@@ -811,7 +810,7 @@ class FahrplanViewModelTest {
 
         @Disabled("Flaky, see https://github.com/EventFahrplan/EventFahrplan/issues/526")
         @Test
-        fun `OnScrollToCurrentSession posts to scrollToCurrentSessionParameter property when session is present and day indices match`() =
+        fun `OnDayRendered posts to scrollToCurrentSessionParameter property when session is present and day indices match`() =
             runTest {
                 val scheduleData = createScheduleData(Session("session-31"), dayIndex = 3)
                 val nowMoment = Moment.now().startOfDay() // depends DateInfos.getIndexOfToday
@@ -820,7 +819,7 @@ class FahrplanViewModelTest {
                     dateInfos = DateInfos().apply { add(DateInfo(3, nowMoment)) }
                 )
                 val viewModel = createViewModel(repository)
-                viewModel.onViewEvent(OnScrollToCurrentSession)
+                viewModel.onViewEvent(OnDayRendered)
                 val expected = ScrollToCurrentSessionParameter(
                     scheduleData = createScheduleData(Session("session-31"), dayIndex = 3),
                     dateInfos = DateInfos().apply { add(DateInfo(3, nowMoment)) }
@@ -831,50 +830,50 @@ class FahrplanViewModelTest {
             }
 
         @Test
-        fun `OnScrollToCurrentSession never posts to scrollToCurrentSessionParameter property when day indices mismatch`() =
+        fun `OnDayRendered never posts to scrollToCurrentSessionParameter property when day indices mismatch`() =
             runTest {
                 val scheduleData = createScheduleData(Session("session-21"), dayIndex = 2)
                 val repository = createRepository(
                     loadUncanceledSessionsForDayIndex = scheduleData,
                 )
                 val viewModel = createViewModel(repository)
-                viewModel.onViewEvent(OnScrollToCurrentSession)
+                viewModel.onViewEvent(OnDayRendered)
                 viewModel.scrollToCurrentSessionParameter.test {
                     expectNoEvents()
                 }
             }
 
         @Test
-        fun `OnScrollToSession never posts to scrollToSessionParameter property when sessions is empty`() =
+        fun `OnSessionAlarmNotificationTapped never posts to scrollToSessionParameter property when sessions is empty`() =
             runTest {
                 val scheduleData = ScheduleData(0, emptyList())
                 val repository = createRepository(uncanceledSessionsForDayIndexFlow = flowOf(scheduleData))
                 val viewModel = createViewModel(repository)
-                viewModel.onViewEvent(OnScrollToSession("session-27", boxHeight = 42))
+                viewModel.onViewEvent(OnSessionAlarmNotificationTapped(dayIndex = 1, sessionId = "session-27", normalizedBoxHeight = 42))
                 viewModel.scrollToSessionParameter.test {
                     expectNoEvents()
                 }
             }
 
         @Test
-        fun `OnScrollToSession never posts to scrollToSessionParameter property when session can not be found`() =
+        fun `OnSessionAlarmNotificationTapped never posts to scrollToSessionParameter property when session can not be found`() =
             runTest {
                 val scheduleData = createScheduleData("session-01")
                 val repository = createRepository(uncanceledSessionsForDayIndexFlow = flowOf(scheduleData))
                 val viewModel = createViewModel(repository)
-                viewModel.onViewEvent(OnScrollToSession("session-27", boxHeight = 42))
+                viewModel.onViewEvent(OnSessionAlarmNotificationTapped(dayIndex = 1, sessionId = "session-27", normalizedBoxHeight = 42))
                 viewModel.scrollToSessionParameter.test {
                     expectNoEvents()
                 }
             }
 
         @Test
-        fun `OnScrollToSession posts to scrollToSessionParameter property when session is present and matched`() =
+        fun `OnSessionAlarmNotificationTapped posts to scrollToSessionParameter property when session is present and matched`() =
             runTest {
                 val scheduleData = createScheduleData("session-02")
                 val repository = createRepository(loadUncanceledSessionsForDayIndex = scheduleData)
                 val viewModel = createViewModel(repository)
-                viewModel.onViewEvent(OnScrollToSession("session-02", boxHeight = 42))
+                viewModel.onViewEvent(OnSessionAlarmNotificationTapped(dayIndex = 1, sessionId = "session-02", normalizedBoxHeight = 42))
                 val expected = ScrollToSessionParameter(sessionId = "session-02", verticalPosition = 0, roomIndex = 0)
                 viewModel.scrollToSessionParameter.test {
                     assertThat(awaitItem()).isEqualTo(expected)

@@ -41,19 +41,18 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialFet
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialParsing
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnAddAlarmClick
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnAddAlarmWithChecks
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnAddAlarmsPermissionGranted
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnAlarmTimePicked
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnCloseErrorMessageScreen
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnConnectionAvailable
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDayRendered
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDaySelect
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDeleteAlarmClick
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnErrorMessageDismiss
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnFavoriteStatusChange
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnFillTimes
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnNoAlarmTimePicked
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnSaveSelectedDayIndex
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnScheduleUpdateRequest
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnScrollToCurrentSession
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnScrollToSession
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnRefreshClick
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnScheduleDataReceived
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnSessionAlarmNotificationTapped
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnShareClick
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnShareToChaosflixClick
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.DayMenuParameter
@@ -276,11 +275,11 @@ internal class FahrplanViewModel(
     )
 
     fun onViewEvent(viewEvent: FahrplanViewEvent) = when (viewEvent) {
-        is OnScheduleUpdateRequest -> requestScheduleUpdate(viewEvent.isUserRequest)
+        OnRefreshClick -> requestScheduleUpdate(isUserRequest = true)
         OnConnectionAvailable -> requestScheduleAutoUpdate()
-        is OnFillTimes -> fillTimes(viewEvent.nowMoment, viewEvent.normalizedBoxHeight)
+        is OnScheduleDataReceived -> fillTimes(viewEvent.nowMoment, viewEvent.normalizedBoxHeight)
         is OnFavoriteStatusChange -> updateFavoriteStatus(viewEvent.session)
-        OnAddAlarmWithChecks -> addAlarmWithChecks()
+        OnAddAlarmsPermissionGranted -> addAlarmWithChecks()
         is OnAddAlarmClick -> addAlarmWithChecks(viewEvent.session)
         is OnDeleteAlarmClick -> deleteAlarm(viewEvent.session)
         is OnAlarmTimePicked -> onAlarmTimePicked(viewEvent.alarmTime)
@@ -288,10 +287,12 @@ internal class FahrplanViewModel(
         is OnShareClick -> share(viewEvent.session)
         is OnShareToChaosflixClick -> shareToChaosflix(viewEvent.session)
         is OnDaySelect -> selectDay(viewEvent.dayItemPosition)
-        is OnSaveSelectedDayIndex -> saveSelectedDayIndex(viewEvent.dayIndex)
-        OnScrollToCurrentSession -> scrollToCurrentSession()
-        is OnScrollToSession -> scrollToSession(viewEvent.sessionId, viewEvent.boxHeight)
-        OnCloseErrorMessageScreen -> onCloseErrorMessageScreen()
+        is OnSessionAlarmNotificationTapped -> {
+            saveSelectedDayIndex(viewEvent.dayIndex)
+            scrollToSession(viewEvent.sessionId, viewEvent.normalizedBoxHeight)
+        }
+        OnDayRendered -> scrollToCurrentSession()
+        OnErrorMessageDismiss -> closeErrorMessageScreen()
     }
 
     /**
@@ -459,7 +460,7 @@ internal class FahrplanViewModel(
         }
     }
 
-    private fun onCloseErrorMessageScreen() {
+    private fun closeErrorMessageScreen() {
         mutableErrorMessage.value = null
     }
 
