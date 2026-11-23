@@ -147,6 +147,7 @@
     <string name="dlg_delete_all_favorites_delete_all">Delete all</string>
 
     <string name="share_error_activity_not_found">No fitting app installed.</string>
+    <string name="app_chooser_title">Open with</string>
 
     <!-- Build information -->
     <string name="build_info_time">
