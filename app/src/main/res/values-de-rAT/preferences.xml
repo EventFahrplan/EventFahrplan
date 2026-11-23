@@ -45,7 +45,7 @@
     <string name="preference_summary_use_device_time_zone_enabled">Zeigt Datums- und Zeitangaben entsprechend an.</string>
     <!-- Alternative highlighting -->
     <string name="preference_title_alternative_highlighting_enabled">Alternative Hervorhebung anschalten</string>
-    <string name="preference_summary_alternative_highlighting_enabled">Fügt favorisierten Vorträgen eine Umrandung hinzu.</string>
+    <string name="preference_summary_alternative_highlighting_enabled">Fügt favorisierten Beiträgen eine Umrandung hinzu.</string>
     <!-- Fast swiping -->
     <string name="preference_title_fast_swiping_enabled">Schnelles Wischen aktivieren</string>
     <string name="preference_summary_fast_swiping_enabled">Ermöglicht das Wischen über mehrere Räume.</string>

@@ -30,7 +30,6 @@ import nerd.tuxmobil.fahrplan.congress.net.ParseResult
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage.SimpleMessage
 import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage.TitledMessage
-import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.FetchFailure
@@ -625,12 +624,9 @@ class MainViewModelTest {
         @Test
         fun `OnScreenCreated does not post to missingPostNotificationsPermission property (no alarms)`() =
             runTest {
-                val notificationHelper = mock<NotificationHelper> {
-                    on { notificationsEnabled } doReturn true
-                }
                 val repository = createRepository(alarms = emptyList())
-                val viewModel = createViewModel(repository, notificationHelper)
-                viewModel.onViewEvent(OnScreenCreated)
+                val viewModel = createViewModel(repository)
+                viewModel.onViewEvent(OnScreenCreated(notificationsEnabled = true))
                 viewModel.missingPostNotificationsPermission.test {
                     expectNoEvents()
                 }
@@ -639,12 +635,9 @@ class MainViewModelTest {
         @Test
         fun `OnScreenCreated does not post to missingPostNotificationsPermission property (notifications enabled)`() =
             runTest {
-                val notificationHelper = mock<NotificationHelper> {
-                    on { notificationsEnabled } doReturn true
-                }
                 val repository = createRepository(alarms = listOf(mock()))
-                val viewModel = createViewModel(repository, notificationHelper)
-                viewModel.onViewEvent(OnScreenCreated)
+                val viewModel = createViewModel(repository)
+                viewModel.onViewEvent(OnScreenCreated(notificationsEnabled = true))
                 viewModel.missingPostNotificationsPermission.test {
                     expectNoEvents()
                 }
@@ -653,12 +646,9 @@ class MainViewModelTest {
         @Test
         fun `OnScreenCreated posts to missingPostNotificationsPermission property`() =
             runTest {
-                val notificationHelper = mock<NotificationHelper> {
-                    on { notificationsEnabled } doReturn false
-                }
                 val repository = createRepository(alarms = listOf(mock()))
-                val viewModel = createViewModel(repository, notificationHelper)
-                viewModel.onViewEvent(OnScreenCreated)
+                val viewModel = createViewModel(repository)
+                viewModel.onViewEvent(OnScreenCreated(notificationsEnabled = false))
                 viewModel.missingPostNotificationsPermission.test {
                     assertThat(awaitItem()).isEqualTo(Unit)
                 }
@@ -691,13 +681,11 @@ class MainViewModelTest {
 
     private fun createViewModel(
         repository: AppRepository,
-        notificationHelper: NotificationHelper = mock(),
         changeStatisticsUiStateFactory: ChangeStatisticsUiStateFactory = mock(),
         errorMessageFactory: ErrorMessage.Factory = createFakeErrorMessageFactory(),
         slugFactory: SlugFactory = mock(),
     ) = MainViewModel(
         repository = repository,
-        notificationHelper = notificationHelper,
         changeStatisticsUiStateFactory = changeStatisticsUiStateFactory,
         errorMessageFactory = errorMessageFactory,
         slugFactory = slugFactory,

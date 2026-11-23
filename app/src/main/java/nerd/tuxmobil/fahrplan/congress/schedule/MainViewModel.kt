@@ -22,7 +22,6 @@ import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessage.TitledMessage
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult
-import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.ExecutionContext
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState
@@ -49,7 +48,6 @@ import nerd.tuxmobil.fahrplan.congress.schedule.observables.LoadScheduleUiState
 
 internal class MainViewModel(
     private val repository: AppRepository,
-    private val notificationHelper: NotificationHelper,
     private val changeStatisticsUiStateFactory: ChangeStatisticsUiStateFactory,
     private val errorMessageFactory: ErrorMessage.Factory,
     private val slugFactory: SlugFactory,
@@ -110,7 +108,7 @@ internal class MainViewModel(
         OnSettingsUrlChange -> requestScheduleUpdate(isUserRequest = true)
         is OnSessionAlarmNotificationTapped -> deleteSessionAlarmNotificationId(viewEvent.notificationId)
         OnAboutClick -> showAboutDialog()
-        OnScreenCreated -> checkPostNotificationsPermission()
+        is OnScreenCreated -> checkPostNotificationsPermission(viewEvent.notificationsEnabled)
         is OnSessionItemClick -> openSessionDetails(viewEvent.sessionId)
         is OnAppLinkReceived -> openSessionDetailsFromAppLink(viewEvent.uri)
         is OnChangeStatisticsFavoritesFilterToggle -> onChangeStatisticsFavoritesFilterToggle(viewEvent.enabled)
@@ -227,9 +225,9 @@ internal class MainViewModel(
         }
     }
 
-    private fun checkPostNotificationsPermission() {
+    private fun checkPostNotificationsPermission(notificationsEnabled: Boolean) {
         launch {
-            if (repository.readAlarms().isNotEmpty() && !notificationHelper.notificationsEnabled) {
+            if (repository.readAlarms().isNotEmpty() && !notificationsEnabled) {
                 mutableMissingPostNotificationsPermission.sendOneTimeEvent(Unit)
             }
         }

@@ -96,7 +96,7 @@ fun Context.openLink(link: String) {
     val intent = Intent(Intent.ACTION_VIEW, link.toUri())
     intent.addCategory(Intent.CATEGORY_BROWSABLE)   // required
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    val chooser = Intent.createChooser(intent, "Open with")
+    val chooser = Intent.createChooser(intent, getString(R.string.app_chooser_title))
     startActivity(chooser)
 }
 

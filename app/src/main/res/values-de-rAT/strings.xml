@@ -15,7 +15,7 @@
     <string name="menu_item_title_feedback">Feedback</string>
     <string name="menu_item_title_navigate">Navigiere</string>
     <string name="menu_item_title_refresh">Aktualisieren</string>
-    <string name="menu_item_title_share_session">Vortrag teilen</string>
+    <string name="menu_item_title_share_session">Beitrag teilen</string>
     <string name="menu_item_title_share_favorites">Favoriten teilen</string>
     <string name="menu_item_title_share_session_text">als Text</string>
     <string name="menu_item_title_share_session_json">als JSON (für Chaosflix)</string>
@@ -64,7 +64,7 @@
     <string name="session_details_section_title_links">Links</string>
     <string name="choose_alarm_time">Wähle die Alarmzeit</string>
     <string name="reminders">Alarme</string>
-    <string name="usage">Hinweis:\n\nLange auf Vortrag drücken, um einen Alarm einzustellen.</string>
+    <string name="usage">Hinweis:\n\nLange auf Beitrag drücken, um einen Alarm einzustellen.</string>
     <string name="about_libraries_statement">        Diese Anwendung verwendet folgende Bibliotheken: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
     </string>
     <string name="about_data_privacy_statement_german">Datenschutzerklärung (Deutsch)</string>
@@ -82,21 +82,21 @@
     <string name="add_to_calendar_failed">Hinzufügen zum Kalender fehlgeschlagen.</string>
     <string name="schedule_changes_no_changes_title">Keine Fahrplanänderungen</string>
     <string name="schedule_changes_no_changes_subtitle">Die App prüft regelmäßig auf Updates</string>
-    <string name="favorites_no_favorites_title">Keine favorisierten Vorträge</string>
+    <string name="favorites_no_favorites_title">Keine favorisierten Beiträge</string>
     <string name="favorites_no_favorites_subtitle">Auf den Stern in der Menüleiste tippen, um Favoriten zu markieren</string>
     <string name="schedule_changes">Fahrplanänderungen</string>
     <!-- Schedule changes statistic -->
     <string name="schedule_changes_statistic_title">Fahrplanaktualisierung</string>
     <string name="schedule_changes_statistic_update_to">Aktualisiert auf Fahrplanversion: <xliff:g example="1.42.0" id="scheduleVersion">%s</xliff:g></string>
     <string name="schedule_changes_statistic_new">Neu</string>
-    <string name="schedule_changes_statistic_new_content_description">Neue Vorträge: <xliff:g example="60" id="count">%d</xliff:g></string>
+    <string name="schedule_changes_statistic_new_content_description">Neue Beiträge: <xliff:g example="60" id="count">%d</xliff:g></string>
     <string name="schedule_changes_statistic_changed">Geändert</string>
-    <string name="schedule_changes_statistic_changed_content_description">Geänderte Vorträge: <xliff:g example="20" id="count">%d</xliff:g></string>
+    <string name="schedule_changes_statistic_changed_content_description">Geänderte Beiträge: <xliff:g example="20" id="count">%d</xliff:g></string>
     <string name="schedule_changes_statistic_canceled">Abgesagt</string>
-    <string name="schedule_changes_statistic_canceled_content_description">Abgesagte Vorträge: <xliff:g example="10" id="count">%d</xliff:g></string>
+    <string name="schedule_changes_statistic_canceled_content_description">Abgesagte Beiträge: <xliff:g example="10" id="count">%d</xliff:g></string>
     <string name="schedule_changes_statistic_later">Später</string>
     <string name="schedule_changes_statistic_browse">Ansehen</string>
-    <string name="schedule_changes_statistic_total_sessions">Gesamtanzahl der Vorträge: <xliff:g example="100" id="totalSessions">%d</xliff:g></string>
+    <string name="schedule_changes_statistic_total_sessions">Gesamtanzahl der Beiträge: <xliff:g example="100" id="totalSessions">%d</xliff:g></string>
     <string name="development_settings">Entwicklung</string>
     <string name="general_settings">Allgemein</string>
     <string name="favorites_screen_default_title">Favoriten</string>
@@ -104,7 +104,7 @@
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> Favorit</item>
         <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> Favoriten</item>
     </plurals>
-    <string name="choose_to_delete">Vorträge auswählen</string>
+    <string name="choose_to_delete">Beiträgen auswählen</string>
     <string name="day_separator">Tag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="12/29/14" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="day_separator_content_description">Tag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g>, <xliff:g example="December 29, 2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Alle Favoriten löschen?</string>
@@ -146,14 +146,14 @@
     <string name="trace_droid_button_title_later">        Später vielleicht
     </string>
     <!-- Notifications -->
-    <string name="notifications_session_alarm_channel_name">Alarme für Vorträge</string>
-    <string name="notifications_session_alarm_content_text">Vortragsalarm</string>
+    <string name="notifications_session_alarm_channel_name">Alarme für Beiträge</string>
+    <string name="notifications_session_alarm_content_text">Beitragsalarm</string>
     <string name="notifications_schedule_update_channel_description">        Automatische Aktualisierung des Fahrplans, welche in den Einstellungen der App konfiguriert werden kann.
     </string>
     <string name="notifications_schedule_update_channel_name">Fahrplan-Aktualisierungen</string>
     <plurals name="notifications_schedule_changes">
-        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> Vortrag hat sich geändert.</item>
-        <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> Vorträge haben sich geändert.</item>
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> Beitrag hat sich geändert.</item>
+        <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> Beiträge haben sich geändert.</item>
     </plurals>
     <!-- Alarm time picker -->
     <string name="alarm_time_title_at_start_time">zur Startzeit</string>
@@ -217,8 +217,8 @@
     <string name="schedule_statistic_non_empty">nicht leer</string>
     <!-- Search -->
     <string name="search_title">Suche</string>
-    <string name="search_no_search_result_title">Keine Vorträge gefunden</string>
-    <string name="search_query_hint">Nach Vorträgen suchen</string>
+    <string name="search_no_search_result_title">Keine Beiträge gefunden</string>
+    <string name="search_query_hint">Nach Beiträgen suchen</string>
     <string name="search_clear_search_query_content_description">Suche zurücksetzen</string>
     <string name="search_history_title">Vorherige Suchen</string>
     <string name="search_history_clear">Löschen</string>
