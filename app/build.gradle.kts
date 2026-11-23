@@ -50,7 +50,7 @@ android {
         buildConfigField("String", "SOURCE_CODE_URL", """"https://github.com/EventFahrplan/EventFahrplan"""")
         buildConfigField("String", "ISSUES_URL", """"https://github.com/EventFahrplan/EventFahrplan/issues"""")
         buildConfigField("String", "DATA_PRIVACY_STATEMENT_DE_URL", """"https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md"""")
-        buildConfigField("String", "EVENT_POSTAL_ADDRESS", """""")
+        buildConfigField("String", "EVENT_POSTAL_ADDRESS", """""""")
         buildConfigField("boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "false")
         buildConfigField("String", "C3NAV_URL", """""""")
         buildConfigField("boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "false")
