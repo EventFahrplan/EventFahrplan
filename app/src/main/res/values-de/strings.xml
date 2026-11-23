@@ -184,7 +184,7 @@
 
     <!-- Notifications -->
     <string name="notifications_session_alarm_channel_description">
-        Von der Nutzerin für verschiedende Beiträge angelegte Alarme.
+        Von der Nutzerin für verschiedene Beiträge angelegte Alarme.
     </string>
     <string name="notifications_session_alarm_channel_name">Beitragsalarme</string>
     <string name="notifications_session_alarm_content_text">Beitragsalarm</string>
