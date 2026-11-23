@@ -46,7 +46,7 @@
 
     <!-- Alternative highlighting -->
     <string name="preference_title_alternative_highlighting_enabled">Alternative Hervorhebung anschalten</string>
-    <string name="preference_summary_alternative_highlighting_enabled">Fügt favorisierten Vorträgen eine Umrandung hinzu.</string>
+    <string name="preference_summary_alternative_highlighting_enabled">Fügt favorisierten Beiträgen eine Umrandung hinzu.</string>
 
     <!-- Fast swiping -->
     <string name="preference_title_fast_swiping_enabled">Schnelles Wischen anschalten</string>

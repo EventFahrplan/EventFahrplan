@@ -16,7 +16,7 @@
     <string name="menu_item_title_feedback">Feedback</string>
     <string name="menu_item_title_navigate">Navigiere</string>
     <string name="menu_item_title_refresh">Aktualisieren</string>
-    <string name="menu_item_title_share_session">Vortrag teilen</string>
+    <string name="menu_item_title_share_session">Beitrag teilen</string>
     <string name="menu_item_title_share_favorites">Favoriten teilen</string>
     <string name="menu_item_title_share_session_text">als Text</string>
     <string name="menu_item_title_share_session_json">als JSON (für Chaosflix)</string>
@@ -75,7 +75,7 @@
     <string name="session_details_section_title_identifiers">Identifikatoren</string>
     <string name="choose_alarm_time">Wähle die Alarmzeit</string>
     <string name="reminders">Alarme</string>
-    <string name="usage">Hinweis:\n\nLange auf Vortrag tippen, um einen Alarm einzustellen.</string>
+    <string name="usage">Hinweis:\n\nLange auf Beitrag tippen, um einen Alarm einzustellen.</string>
     <string name="about_libraries_statement">
         Die Anwendung nutzt folgende Bibliotheken: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
     </string>
@@ -103,14 +103,14 @@
     <string name="schedule_changes_statistic_favorites_filter">Nur bei Änderungen von Favoriten anzeigen</string>
     <string name="schedule_changes_statistic_update_to">Aktualisiert auf Fahrplan-Version: <xliff:g example="1.42.0" id="scheduleVersion">%s</xliff:g></string>
     <string name="schedule_changes_statistic_new">Neu</string>
-    <string name="schedule_changes_statistic_new_content_description">Neue Sessions: <xliff:g example="60" id="count">%d</xliff:g></string>
+    <string name="schedule_changes_statistic_new_content_description">Neue Beiträge: <xliff:g example="60" id="count">%d</xliff:g></string>
     <string name="schedule_changes_statistic_changed">Geändert</string>
-    <string name="schedule_changes_statistic_changed_content_description">Geänderte Sessions: <xliff:g example="20" id="count">%d</xliff:g></string>
+    <string name="schedule_changes_statistic_changed_content_description">Geänderte Beiträge: <xliff:g example="20" id="count">%d</xliff:g></string>
     <string name="schedule_changes_statistic_canceled">Abgesagt</string>
-    <string name="schedule_changes_statistic_canceled_content_description">Abgesagte Sessions: <xliff:g example="10" id="count">%d</xliff:g></string>
+    <string name="schedule_changes_statistic_canceled_content_description">Abgesagte Beiträge: <xliff:g example="10" id="count">%d</xliff:g></string>
     <string name="schedule_changes_statistic_browse">Ansehen</string>
     <string name="schedule_changes_statistic_later">Später</string>
-    <string name="schedule_changes_statistic_total_sessions">Gesamtanzahl der Sessions: <xliff:g example="100" id="totalSessions">%d</xliff:g></string>
+    <string name="schedule_changes_statistic_total_sessions">Gesamtanzahl der Beiträge: <xliff:g example="100" id="totalSessions">%d</xliff:g></string>
 
     <string name="general_settings">Allgemein</string>
     <string name="favorites_screen_default_title">Favoriten</string>
@@ -118,9 +118,9 @@
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> Favorite</item>
         <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> Favoriten</item>
     </plurals>
-    <string name="favorites_no_favorites_title">Keine favorisierten Vorträge</string>
+    <string name="favorites_no_favorites_title">Keine favorisierten Beiträge</string>
     <string name="favorites_no_favorites_subtitle">Tippe auf den Stern in der Menüleiste, um einen Favoriten zu setzen</string>
-    <string name="choose_to_delete">Wähle Vorträge</string>
+    <string name="choose_to_delete">Wähle Beiträge</string>
     <string name="day_separator">Tag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="day_separator_content_description">Tag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g>, <xliff:g example="29. December 2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Alle Favoriten löschen?</string>
@@ -184,18 +184,18 @@
 
     <!-- Notifications -->
     <string name="notifications_session_alarm_channel_description">
-        Von der Nutzerin für verschiedende Vorträge angelegte Alarme.
+        Von der Nutzerin für verschiedende Beiträge angelegte Alarme.
     </string>
-    <string name="notifications_session_alarm_channel_name">Vortragsalarme</string>
-    <string name="notifications_session_alarm_content_text">Vortragsalarm</string>
+    <string name="notifications_session_alarm_channel_name">Beitragsalarme</string>
+    <string name="notifications_session_alarm_content_text">Beitragsalarm</string>
     <string name="notifications_schedule_update_channel_description">
         Automatische Aktualisierung des Programms. Diese kann
         in den Einstellungen der App konfiguriert werden.
     </string>
     <string name="notifications_schedule_update_channel_name">Fahrplan-Aktualisierungen</string>
     <plurals name="notifications_schedule_changes">
-        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> Vortrag wurde geändert.</item>
-        <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> Vorträge wurden geändert.</item>
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> Beitrag wurde geändert.</item>
+        <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> Beiträge wurden geändert.</item>
     </plurals>
 
     <!-- Alarm time picker -->
