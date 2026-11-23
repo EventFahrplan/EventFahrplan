@@ -110,14 +110,13 @@ class MainActivity : BaseActivity(),
             )
     }
 
-    private lateinit var notificationHelper: NotificationHelper
     private lateinit var keyguardManager: KeyguardManager
     private lateinit var errorMessageFactory: ErrorMessage.Factory
     private lateinit var progressBar: ContentLoadingProgressBar
     private val logging = Logging.get()
     private var progressDialog: ProgressDialog? = null
     private val viewModel: MainViewModel by viewModels {
-        MainViewModelFactory(AppRepository, notificationHelper, errorMessageFactory)
+        MainViewModelFactory(AppRepository, errorMessageFactory)
     }
 
     private var isScreenLocked = false
@@ -144,8 +143,6 @@ class MainActivity : BaseActivity(),
             append("isScheduleUpdate=${intent.getBooleanExtra(SCHEDULE_UPDATE_NOTIFICATION, false)}, ")
             append("isSessionAlarm=${intent.getStringExtra(BundleKeys.SESSION_ALARM_SESSION_ID) != null}")
         })
-
-        notificationHelper = NotificationHelper(this)
 
         keyguardManager = getSystemService()!!
         errorMessageFactory = ErrorMessage.Factory(this)
@@ -174,7 +171,7 @@ class MainActivity : BaseActivity(),
         observeViewModel()
         onSessionAlarmNotificationTapped(intent)
         onScheduleUpdateNotificationTapped(intent)
-        viewModel.onViewEvent(OnScreenCreated)
+        viewModel.onViewEvent(OnScreenCreated(NotificationHelper(this).notificationsEnabled))
         window.decorView.post { handleAppLink(intent) }
     }
 
