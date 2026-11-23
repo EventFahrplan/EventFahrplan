@@ -34,6 +34,16 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialPar
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseFailure
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSuccess
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnAboutClick
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnAppLinkReceived
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnChangeStatisticsConfirm
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnChangeStatisticsDismiss
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnChangeStatisticsFavoritesFilterToggle
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnErrorMessageDismiss
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnScreenCreated
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnSessionAlarmNotificationTapped
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnSessionItemClick
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnSettingsUrlChange
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.ErrorMessageUiState
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.LoadScheduleUiState
 
@@ -94,6 +104,19 @@ internal class MainViewModel(
                 }
             }
         }
+    }
+
+    fun onViewEvent(viewEvent: MainViewEvent) = when (viewEvent) {
+        OnSettingsUrlChange -> requestScheduleUpdate(isUserRequest = true)
+        is OnSessionAlarmNotificationTapped -> deleteSessionAlarmNotificationId(viewEvent.notificationId)
+        OnAboutClick -> showAboutDialog()
+        OnScreenCreated -> checkPostNotificationsPermission()
+        is OnSessionItemClick -> openSessionDetails(viewEvent.sessionId)
+        is OnAppLinkReceived -> openSessionDetailsFromAppLink(viewEvent.uri)
+        is OnChangeStatisticsFavoritesFilterToggle -> onChangeStatisticsFavoritesFilterToggle(viewEvent.enabled)
+        OnChangeStatisticsConfirm -> closeChangeStatisticsScreen(shouldOpenSessionChanges = true)
+        OnChangeStatisticsDismiss -> closeChangeStatisticsScreen(shouldOpenSessionChanges = false)
+        OnErrorMessageDismiss -> closeErrorMessageScreen()
     }
 
     private fun LoadScheduleState.toUiState() = when (this) {
@@ -181,7 +204,7 @@ internal class MainViewModel(
      * The [isUserRequest] must be set to `true` if the requests originates from a manual
      * interaction of the user with the UI; otherwise `false`.
      */
-    fun requestScheduleUpdate(isUserRequest: Boolean) {
+    private fun requestScheduleUpdate(isUserRequest: Boolean) {
         launch {
             repository.loadSchedule(isUserRequest = isUserRequest)
         }
@@ -192,19 +215,19 @@ internal class MainViewModel(
         repository.cancelLoading()
     }
 
-    fun deleteSessionAlarmNotificationId(notificationId: Int) {
+    private fun deleteSessionAlarmNotificationId(notificationId: Int) {
         launch {
             repository.deleteSessionAlarmNotificationId(notificationId)
         }
     }
 
-    fun showAboutDialog() {
+    private fun showAboutDialog() {
         launch {
             mutableShowAbout.sendOneTimeEvent(Unit)
         }
     }
 
-    fun checkPostNotificationsPermission() {
+    private fun checkPostNotificationsPermission() {
         launch {
             if (repository.readAlarms().isNotEmpty() && !notificationHelper.notificationsEnabled) {
                 mutableMissingPostNotificationsPermission.sendOneTimeEvent(Unit)
@@ -212,7 +235,7 @@ internal class MainViewModel(
         }
     }
 
-    fun openSessionDetails(sessionId: String) {
+    private fun openSessionDetails(sessionId: String) {
         launch {
             val isUpdated = repository.updateSelectedSessionId(sessionId)
             if (isUpdated) {
@@ -221,7 +244,7 @@ internal class MainViewModel(
         }
     }
 
-    fun openSessionDetailsFromAppLink(uri: Uri) {
+    private fun openSessionDetailsFromAppLink(uri: Uri) {
         launch {
             slugFactory.getSlug(uri)?.let {
                 val isUpdated = repository.updateSelectedSessionIdFromSlug(it)
@@ -235,7 +258,7 @@ internal class MainViewModel(
     /**
      * Persists the favorites filter setting and recomputes the shown statistics accordingly.
      */
-    fun onChangeStatisticsFavoritesFilterToggle(enabled: Boolean) {
+    private fun onChangeStatisticsFavoritesFilterToggle(enabled: Boolean) {
         repository.updateScheduleChangesFavoritesFilterEnabled(enabled)
         launch {
             if (mutableChangeStatisticsUiState.value != null) {
@@ -245,7 +268,7 @@ internal class MainViewModel(
         }
     }
 
-    fun onCloseChangeStatisticsScreen(shouldOpenSessionChanges: Boolean) {
+    private fun closeChangeStatisticsScreen(shouldOpenSessionChanges: Boolean) {
         launch {
             mutableChangeStatisticsUiState.value = null
             repository.updateScheduleChangesSeen(true)
@@ -255,7 +278,7 @@ internal class MainViewModel(
         }
     }
 
-    fun onCloseErrorMessageScreen() {
+    private fun closeErrorMessageScreen() {
         mutableErrorMessage.value = null
     }
 

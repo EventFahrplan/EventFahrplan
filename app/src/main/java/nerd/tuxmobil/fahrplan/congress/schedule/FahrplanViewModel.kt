@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import android.os.Build
 import android.os.SystemClock
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import info.metadude.android.eventfahrplan.commons.logging.Logging
@@ -39,6 +40,21 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Fetching
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialFetching
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialParsing
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnAddAlarmClick
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnAddAlarmsPermissionGranted
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnAlarmTimePicked
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnConnectionAvailable
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDayRendered
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDaySelect
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnDeleteAlarmClick
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnErrorMessageDismiss
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnNoAlarmTimePicked
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnRefreshClick
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnScheduleDataReceived
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnSessionAlarmNotificationTapped
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnShareClick
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnShareToChaosflixClick
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewEvent.OnToggleFavoriteClick
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.DayMenuParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FahrplanParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FiredAlarmParameter
@@ -258,13 +274,31 @@ internal class FahrplanViewModel(
         }
     )
 
+    fun onViewEvent(viewEvent: FahrplanViewEvent) = when (viewEvent) {
+        OnRefreshClick -> requestScheduleUpdate(isUserRequest = true)
+        OnConnectionAvailable -> requestScheduleAutoUpdate()
+        is OnScheduleDataReceived -> fillTimes(viewEvent.nowMoment, viewEvent.normalizedBoxHeight)
+        is OnToggleFavoriteClick -> toggleFavorite(viewEvent.session)
+        OnAddAlarmsPermissionGranted -> addAlarmWithChecks()
+        is OnAddAlarmClick -> addAlarmWithChecks(viewEvent.session)
+        is OnDeleteAlarmClick -> deleteAlarm(viewEvent.session)
+        is OnAlarmTimePicked -> onAlarmTimePicked(viewEvent.alarmTime)
+        OnNoAlarmTimePicked -> onNoAlarmTimePicked()
+        is OnShareClick -> share(viewEvent.session)
+        is OnShareToChaosflixClick -> shareToChaosflix(viewEvent.session)
+        is OnDaySelect -> selectDay(viewEvent.dayItemPosition)
+        is OnSessionAlarmNotificationTapped -> scrollToSession(viewEvent.dayIndex, viewEvent.sessionId, viewEvent.normalizedBoxHeight)
+        OnDayRendered -> scrollToCurrentSession()
+        OnErrorMessageDismiss -> closeErrorMessageScreen()
+    }
+
     /**
      * Requests loading the schedule from the [AppRepository] to update the UI. UI components must
      * observe the respective properties exposed by the [AppRepository] to receive schedule updates.
      * The [isUserRequest] flag must be set to `true` if the requests originates from a manual
      * interaction of the user with the UI; otherwise `false`.
      */
-    fun requestScheduleUpdate(isUserRequest: Boolean) {
+    private fun requestScheduleUpdate(isUserRequest: Boolean) {
         launch {
             repository.loadSchedule(isUserRequest = isUserRequest)
         }
@@ -274,7 +308,7 @@ internal class FahrplanViewModel(
      * Requests loading the schedule from the [AppRepository] if [automatic schedule updates]
      * [AppRepository.readAutoUpdateEnabled] are enabled. Also see: [requestScheduleUpdate].
      */
-    fun requestScheduleAutoUpdate() {
+    private fun requestScheduleAutoUpdate() {
         launch {
             if (repository.readAutoUpdateEnabled()) {
                 requestScheduleUpdate(isUserRequest = false)
@@ -282,7 +316,7 @@ internal class FahrplanViewModel(
         }
     }
 
-    fun fillTimes(nowMoment: Moment, normalizedBoxHeight: Int) {
+    private fun fillTimes(nowMoment: Moment, normalizedBoxHeight: Int) {
         launch {
             repository.uncanceledSessionsForDayIndex.collectLatest { scheduleData ->
                 val sessions = scheduleData.allSessions
@@ -306,9 +340,10 @@ internal class FahrplanViewModel(
         )
     }
 
-    fun updateFavoriteStatus(session: Session) {
+    private fun toggleFavorite(session: Session) {
+        val updatedSession = session.copy(isFavorite = !session.isFavorite)
         launch {
-            repository.updateFavorite(session)
+            repository.updateFavorite(updatedSession)
         }
     }
 
@@ -316,16 +351,16 @@ internal class FahrplanViewModel(
         return sessionAlarmViewModelDelegate.canAddAlarms()
     }
 
-    fun addAlarmWithChecks() {
+    private fun addAlarmWithChecks() {
         sessionAlarmViewModelDelegate.addAlarmWithChecks()
     }
 
-    fun addAlarmWithChecks(session: Session) {
+    private fun addAlarmWithChecks(session: Session) {
         pendingAlarmSession = session
         sessionAlarmViewModelDelegate.addAlarmWithChecks()
     }
 
-    fun onAlarmTimePicked(alarmTime: Int) {
+    private fun onAlarmTimePicked(alarmTime: Int) {
         mutableDefaultAlarmTime.value = null
         val session = pendingAlarmSession
         if (session != null) {
@@ -334,24 +369,25 @@ internal class FahrplanViewModel(
         }
     }
 
-    fun onNoAlarmTimePicked() {
+    private fun onNoAlarmTimePicked() {
         mutableDefaultAlarmTime.value = null
         pendingAlarmSession = null
     }
 
+    @VisibleForTesting
     fun addAlarm(session: Session, alarmTime: Int) {
         launch {
             sessionAlarmViewModelDelegate.addAlarm(session, alarmTime)
         }
     }
 
-    fun deleteAlarm(session: Session) {
+    private fun deleteAlarm(session: Session) {
         launch {
             sessionAlarmViewModelDelegate.deleteAlarm(session)
         }
     }
 
-    fun share(session: Session) {
+    private fun share(session: Session) {
         launch {
             val timeZoneId = repository.readMeta().timeZoneId
             val socialMediaHashtagsHandles = settingsRepository.getSocialMediaHashtagsHandles()
@@ -365,13 +401,13 @@ internal class FahrplanViewModel(
         }
     }
 
-    fun shareToChaosflix(session: Session) {
+    private fun shareToChaosflix(session: Session) {
         jsonSessionFormat.format(session).let { formattedSession ->
             mutableShareJson.sendOneTimeEvent(formattedSession)
         }
     }
 
-    fun selectDay(dayItemPosition: Int) {
+    private fun selectDay(dayItemPosition: Int) {
         launch {
             val dayIndex = repository.readDisplayDayIndex()
             if (dayItemPosition + 1 != dayIndex) {
@@ -381,13 +417,13 @@ internal class FahrplanViewModel(
         }
     }
 
-    fun saveSelectedDayIndex(dayIndex: Int) {
+    private fun saveSelectedDayIndex(dayIndex: Int) {
         launch {
             repository.updateDisplayDayIndex(dayIndex)
         }
     }
 
-    fun scrollToCurrentSession() {
+    private fun scrollToCurrentSession() {
         launch {
             val scheduleData = repository.loadUncanceledSessionsForDayIndex()
             val sessions = scheduleData.allSessions
@@ -401,8 +437,9 @@ internal class FahrplanViewModel(
         }
     }
 
-    fun scrollToSession(sessionId: String, boxHeight: Int) {
+    private fun scrollToSession(dayIndex: Int, sessionId: String, boxHeight: Int) {
         launch {
+            repository.updateDisplayDayIndex(dayIndex)
             val scheduleData = repository.loadUncanceledSessionsForDayIndex()
             val sessions = scheduleData.allSessions
             if (sessions.isNotEmpty()) {
@@ -422,7 +459,7 @@ internal class FahrplanViewModel(
         }
     }
 
-    fun onCloseErrorMessageScreen() {
+    private fun closeErrorMessageScreen() {
         mutableErrorMessage.value = null
     }
 

@@ -15,9 +15,9 @@ import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.LaunchSessionAlarmChannelSettingsScreen
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.PickAlarmTone
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmToneClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleChangesFavoritesFilterClicked
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTone
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.AlarmToneClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.ScheduleChangesFavoritesFilterClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsViewEvent.SetAlarmTone
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.doReturn

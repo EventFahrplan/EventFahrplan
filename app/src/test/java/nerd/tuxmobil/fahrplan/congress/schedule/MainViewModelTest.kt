@@ -41,7 +41,18 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialPar
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseFailure
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSuccess
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnAboutClick
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnAppLinkReceived
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnChangeStatisticsConfirm
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnChangeStatisticsDismiss
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnChangeStatisticsFavoritesFilterToggle
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnErrorMessageDismiss
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnScreenCreated
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnSessionAlarmNotificationTapped
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnSessionItemClick
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnSettingsUrlChange
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.LoadScheduleUiState
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.any
@@ -231,17 +242,6 @@ class MainViewModelTest {
             }
             verifyInvokedOnce(repository).engelsystemUriParsingErrorState
         }
-
-    @Test
-    fun `onCloseErrorMessageScreen posts null to errorMessage property`() = runTest {
-        val repository = createRepository()
-        val viewModel = createViewModel(repository)
-        viewModel.onCloseErrorMessageScreen()
-        viewModel.errorMessage.test {
-            assertThat(awaitItem()).isNull()
-            expectNoEvents()
-        }
-    }
 
     @Test
     fun `FetchFailure silently posts to loadScheduleUiState property when the user did not trigger the action`() =
@@ -447,14 +447,6 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `requestScheduleUpdate invokes repository function`() {
-        val repository = createRepository()
-        val viewModel = createViewModel(repository)
-        viewModel.requestScheduleUpdate(isUserRequest = true)
-        verifyInvokedOnce(repository).loadSchedule(isUserRequest = true)
-    }
-
-    @Test
     fun `onCleared invokes repository function`() {
         val repository = createRepository()
         val viewModel = createViewModel(repository)
@@ -464,191 +456,214 @@ class MainViewModelTest {
         verifyInvokedOnce(repository).cancelLoading()
     }
 
-    @Test
-    fun `deleteSessionAlarmNotificationId invokes repository function`() {
-        val repository = createRepository()
-        val viewModel = createViewModel(repository)
-        viewModel.deleteSessionAlarmNotificationId(7)
-        verifyInvokedOnce(repository).deleteSessionAlarmNotificationId(7)
-    }
+    @Nested
+    inner class OnViewEvent {
 
-    @Test
-    fun `showAboutDialog posts to showAbout property`() = runTest {
-        val repository = createRepository()
-        val viewModel = createViewModel(repository)
-        viewModel.showAboutDialog()
-        viewModel.showAbout.test {
-            assertThat(awaitItem()).isEqualTo(Unit)
-        }
-    }
-
-    @Test
-    fun `openSessionDetails posts to openSessionDetails property`() = runTest {
-        val repository = createRepository(updatedSelectedSessionId = true)
-        val viewModel = createViewModel(repository)
-        viewModel.openSessionDetails("S1")
-        viewModel.openSessionDetails.test {
-            assertThat(awaitItem()).isEqualTo(Unit)
-        }
-    }
-
-    @Test
-    fun `openSessionDetails does not post to openSessionDetails property`() = runTest {
-        val repository = createRepository(updatedSelectedSessionId = false)
-        val viewModel = createViewModel(repository)
-        viewModel.openSessionDetails("S1")
-        viewModel.openSessionDetails.test {
-            expectNoEvents()
-        }
-    }
-
-    @Test
-    fun `openSessionDetailsFromAppLink posts to openSessionDetails property`() = runTest {
-        val repository = createRepository(updatedSelectedSessionId = true)
-        val slugFactory = mock<SlugFactory> {
-            on { getSlug(any()) } doReturn Slug.PretalxSlug("pretalx-slug")
-        }
-        val viewModel = createViewModel(repository, slugFactory = slugFactory)
-        viewModel.openSessionDetailsFromAppLink(mock())
-        viewModel.openSessionDetails.test {
-            assertThat(awaitItem()).isEqualTo(Unit)
-        }
-    }
-
-    @Test
-    fun `openSessionDetailsFromAppLink does not post to openSessionDetails property when slug is null`() = runTest {
-        val repository = createRepository(updatedSelectedSessionId = true)
-        val slugFactory = mock<SlugFactory> {
-            on { getSlug(any()) } doReturn null
-        }
-        val viewModel = createViewModel(repository, slugFactory = slugFactory)
-        viewModel.openSessionDetailsFromAppLink(mock())
-        viewModel.openSessionDetails.test {
-            expectNoEvents()
-        }
-    }
-
-    @Test
-    fun `openSessionDetailsFromAppLink does not post to openSessionDetails property when slug is not present`() = runTest {
-        val repository = createRepository(updatedSelectedSessionId = false)
-        val slugFactory = mock<SlugFactory> {
-            on { getSlug(any()) } doReturn Slug.PretalxSlug("pretalx-slug")
-        }
-        val viewModel = createViewModel(repository, slugFactory = slugFactory)
-        viewModel.openSessionDetailsFromAppLink(mock())
-        viewModel.openSessionDetails.test {
-            expectNoEvents()
-        }
-    }
-
-    @Test
-    fun `onChangeStatisticsFavoritesFilterToggle persists the setting and recomputes changeStatisticsUiState property`() =
-        runTest {
-            val allChangedSessions = listOf(
-                SessionDatabaseModel(sessionId = "changed-01", changedIsNew = true),
-                SessionDatabaseModel(sessionId = "changed-02", changedIsCanceled = true, isFavorite = true),
-            )
-            val favoriteChangedSessions = allChangedSessions.filter { it.isFavorite }
-            val repository = createRepository(
-                loadScheduleStateFlow = flowOf(ParseSuccess),
-                scheduleChangesSeen = false,
-                changedSessions = allChangedSessions,
-            )
-            // Mimics the setting being persisted and taken into account when loading.
-            var favoritesFilterEnabled = false
-            whenever(repository.readScheduleChangesFavoritesFilterEnabled()).thenAnswer { favoritesFilterEnabled }
-            whenever(repository.loadFilteredChangedSessions()).thenAnswer {
-                if (favoritesFilterEnabled) favoriteChangedSessions else allChangedSessions
-            }
-            whenever(repository.updateScheduleChangesFavoritesFilterEnabled(any())).thenAnswer {
-                favoritesFilterEnabled = it.getArgument(0)
-                Unit
-            }
-            val changeStatisticsUiStateFactory = mock<ChangeStatisticsUiStateFactory> {
-                on { createChangeStatisticsUiState(any(), any(), any(), any()) } doAnswer { invocation ->
-                    val changedSessions = invocation.getArgument<List<Session>>(0)
-                    val properties = listOf(ChangeStatisticProperty(changedSessions.size, CHANGED))
-                    ChangeStatisticsUiState("", properties, 10, favoritesFilterEnabled = invocation.getArgument(3))
-                }
-            }
-            val viewModel = createViewModel(repository, changeStatisticsUiStateFactory = changeStatisticsUiStateFactory)
-            viewModel.changeStatisticsUiState.test {
-                val unfiltered = awaitItem()!!
-                assertThat(unfiltered.statistics.single().value).isEqualTo(2)
-                assertThat(unfiltered.favoritesFilterEnabled).isFalse()
-
-                viewModel.onChangeStatisticsFavoritesFilterToggle(enabled = true)
-                val filtered = awaitItem()!!
-                assertThat(filtered.statistics.single().value).isEqualTo(1)
-                assertThat(filtered.favoritesFilterEnabled).isTrue()
-            }
-            verifyInvokedOnce(repository).updateScheduleChangesFavoritesFilterEnabled(true)
-        }
-
-    @Test
-    fun `onCloseChangeStatisticsScreen post to openSessionChanges property`() = runTest {
-        val repository = createRepository()
-        val viewModel = createViewModel(repository)
-        viewModel.onCloseChangeStatisticsScreen(shouldOpenSessionChanges = true)
-        viewModel.openSessionChanges.test {
-            assertThat(awaitItem()).isEqualTo(Unit)
-            expectNoEvents()
-        }
-        verifyInvokedOnce(repository).updateScheduleChangesSeen(true)
-    }
-
-    @Test
-    fun `onCloseChangeStatisticsScreen does not post to openSessionChanges property`() = runTest {
-        val repository = createRepository()
-        val viewModel = createViewModel(repository)
-        viewModel.onCloseChangeStatisticsScreen(shouldOpenSessionChanges = false)
-        viewModel.openSessionChanges.test {
-            expectNoEvents()
-        }
-        verifyInvokedOnce(repository).updateScheduleChangesSeen(true)
-    }
-
-    @Test
-    fun `checkPostNotificationsPermission does not post to missingPostNotificationsPermission property (no alarms)`() =
-        runTest {
-            val notificationHelper = mock<NotificationHelper> {
-                on { notificationsEnabled } doReturn true
-            }
-            val repository = createRepository(alarms = emptyList())
-            val viewModel = createViewModel(repository, notificationHelper)
-            viewModel.checkPostNotificationsPermission()
-            viewModel.missingPostNotificationsPermission.test {
+        @Test
+        fun `OnErrorMessageDismiss posts null to errorMessage property`() = runTest {
+            val repository = createRepository()
+            val viewModel = createViewModel(repository)
+            viewModel.onViewEvent(OnErrorMessageDismiss)
+            viewModel.errorMessage.test {
+                assertThat(awaitItem()).isNull()
                 expectNoEvents()
             }
         }
 
-    @Test
-    fun `checkPostNotificationsPermission does not post to missingPostNotificationsPermission property (notifications enabled)`() =
-        runTest {
-            val notificationHelper = mock<NotificationHelper> {
-                on { notificationsEnabled } doReturn true
-            }
-            val repository = createRepository(alarms = listOf(mock()))
-            val viewModel = createViewModel(repository, notificationHelper)
-            viewModel.checkPostNotificationsPermission()
-            viewModel.missingPostNotificationsPermission.test {
-                expectNoEvents()
-            }
+        @Test
+        fun `OnSettingsUrlChange invokes repository function`() {
+            val repository = createRepository()
+            val viewModel = createViewModel(repository)
+            viewModel.onViewEvent(OnSettingsUrlChange)
+            verifyInvokedOnce(repository).loadSchedule(isUserRequest = true)
         }
 
-    @Test
-    fun `checkPostNotificationsPermission posts to missingPostNotificationsPermission property`() =
-        runTest {
-            val notificationHelper = mock<NotificationHelper> {
-                on { notificationsEnabled } doReturn false
-            }
-            val repository = createRepository(alarms = listOf(mock()))
-            val viewModel = createViewModel(repository, notificationHelper)
-            viewModel.checkPostNotificationsPermission()
-            viewModel.missingPostNotificationsPermission.test {
+        @Test
+        fun `OnSessionAlarmNotificationTapped invokes repository function`() {
+            val repository = createRepository()
+            val viewModel = createViewModel(repository)
+            viewModel.onViewEvent(OnSessionAlarmNotificationTapped(7))
+            verifyInvokedOnce(repository).deleteSessionAlarmNotificationId(7)
+        }
+
+        @Test
+        fun `OnAboutClick posts to showAbout property`() = runTest {
+            val repository = createRepository()
+            val viewModel = createViewModel(repository)
+            viewModel.onViewEvent(OnAboutClick)
+            viewModel.showAbout.test {
                 assertThat(awaitItem()).isEqualTo(Unit)
             }
         }
+
+        @Test
+        fun `OnSessionItemClick posts to openSessionDetails property`() = runTest {
+            val repository = createRepository(updatedSelectedSessionId = true)
+            val viewModel = createViewModel(repository)
+            viewModel.onViewEvent(OnSessionItemClick("S1"))
+            viewModel.openSessionDetails.test {
+                assertThat(awaitItem()).isEqualTo(Unit)
+            }
+        }
+
+        @Test
+        fun `OnSessionItemClick does not post to openSessionDetails property`() = runTest {
+            val repository = createRepository(updatedSelectedSessionId = false)
+            val viewModel = createViewModel(repository)
+            viewModel.onViewEvent(OnSessionItemClick("S1"))
+            viewModel.openSessionDetails.test {
+                expectNoEvents()
+            }
+        }
+
+        @Test
+        fun `OnAppLinkReceived posts to openSessionDetails property`() = runTest {
+            val repository = createRepository(updatedSelectedSessionId = true)
+            val slugFactory = mock<SlugFactory> {
+                on { getSlug(any()) } doReturn Slug.PretalxSlug("pretalx-slug")
+            }
+            val viewModel = createViewModel(repository, slugFactory = slugFactory)
+            viewModel.onViewEvent(OnAppLinkReceived(mock()))
+            viewModel.openSessionDetails.test {
+                assertThat(awaitItem()).isEqualTo(Unit)
+            }
+        }
+
+        @Test
+        fun `OnAppLinkReceived does not post to openSessionDetails property when slug is null`() = runTest {
+            val repository = createRepository(updatedSelectedSessionId = true)
+            val slugFactory = mock<SlugFactory> {
+                on { getSlug(any()) } doReturn null
+            }
+            val viewModel = createViewModel(repository, slugFactory = slugFactory)
+            viewModel.onViewEvent(OnAppLinkReceived(mock()))
+            viewModel.openSessionDetails.test {
+                expectNoEvents()
+            }
+        }
+
+        @Test
+        fun `OnAppLinkReceived does not post to openSessionDetails property when slug is not present`() = runTest {
+            val repository = createRepository(updatedSelectedSessionId = false)
+            val slugFactory = mock<SlugFactory> {
+                on { getSlug(any()) } doReturn Slug.PretalxSlug("pretalx-slug")
+            }
+            val viewModel = createViewModel(repository, slugFactory = slugFactory)
+            viewModel.onViewEvent(OnAppLinkReceived(mock()))
+            viewModel.openSessionDetails.test {
+                expectNoEvents()
+            }
+        }
+
+        @Test
+        fun `OnChangeStatisticsFavoritesFilterToggle persists the setting and recomputes changeStatisticsUiState property`() =
+            runTest {
+                val allChangedSessions = listOf(
+                    SessionDatabaseModel(sessionId = "changed-01", changedIsNew = true),
+                    SessionDatabaseModel(sessionId = "changed-02", changedIsCanceled = true, isFavorite = true),
+                )
+                val favoriteChangedSessions = allChangedSessions.filter { it.isFavorite }
+                val repository = createRepository(
+                    loadScheduleStateFlow = flowOf(ParseSuccess),
+                    scheduleChangesSeen = false,
+                    changedSessions = allChangedSessions,
+                )
+                // Mimics the setting being persisted and taken into account when loading.
+                var favoritesFilterEnabled = false
+                whenever(repository.readScheduleChangesFavoritesFilterEnabled()).thenAnswer { favoritesFilterEnabled }
+                whenever(repository.loadFilteredChangedSessions()).thenAnswer {
+                    if (favoritesFilterEnabled) favoriteChangedSessions else allChangedSessions
+                }
+                whenever(repository.updateScheduleChangesFavoritesFilterEnabled(any())).thenAnswer {
+                    favoritesFilterEnabled = it.getArgument(0)
+                    Unit
+                }
+                val changeStatisticsUiStateFactory = mock<ChangeStatisticsUiStateFactory> {
+                    on { createChangeStatisticsUiState(any(), any(), any(), any()) } doAnswer { invocation ->
+                        val changedSessions = invocation.getArgument<List<Session>>(0)
+                        val properties = listOf(ChangeStatisticProperty(changedSessions.size, CHANGED))
+                        ChangeStatisticsUiState("", properties, 10, favoritesFilterEnabled = invocation.getArgument(3))
+                    }
+                }
+                val viewModel = createViewModel(repository, changeStatisticsUiStateFactory = changeStatisticsUiStateFactory)
+                viewModel.changeStatisticsUiState.test {
+                    val unfiltered = awaitItem()!!
+                    assertThat(unfiltered.statistics.single().value).isEqualTo(2)
+                    assertThat(unfiltered.favoritesFilterEnabled).isFalse()
+
+                    viewModel.onViewEvent(OnChangeStatisticsFavoritesFilterToggle(enabled = true))
+                    val filtered = awaitItem()!!
+                    assertThat(filtered.statistics.single().value).isEqualTo(1)
+                    assertThat(filtered.favoritesFilterEnabled).isTrue()
+                }
+                verifyInvokedOnce(repository).updateScheduleChangesFavoritesFilterEnabled(true)
+            }
+
+        @Test
+        fun `OnChangeStatisticsConfirm posts to openSessionChanges property`() = runTest {
+            val repository = createRepository()
+            val viewModel = createViewModel(repository)
+            viewModel.onViewEvent(OnChangeStatisticsConfirm)
+            viewModel.openSessionChanges.test {
+                assertThat(awaitItem()).isEqualTo(Unit)
+                expectNoEvents()
+            }
+            verifyInvokedOnce(repository).updateScheduleChangesSeen(true)
+        }
+
+        @Test
+        fun `OnChangeStatisticsDismiss does not post to openSessionChanges property`() = runTest {
+            val repository = createRepository()
+            val viewModel = createViewModel(repository)
+            viewModel.onViewEvent(OnChangeStatisticsDismiss)
+            viewModel.openSessionChanges.test {
+                expectNoEvents()
+            }
+            verifyInvokedOnce(repository).updateScheduleChangesSeen(true)
+        }
+
+        @Test
+        fun `OnScreenCreated does not post to missingPostNotificationsPermission property (no alarms)`() =
+            runTest {
+                val notificationHelper = mock<NotificationHelper> {
+                    on { notificationsEnabled } doReturn true
+                }
+                val repository = createRepository(alarms = emptyList())
+                val viewModel = createViewModel(repository, notificationHelper)
+                viewModel.onViewEvent(OnScreenCreated)
+                viewModel.missingPostNotificationsPermission.test {
+                    expectNoEvents()
+                }
+            }
+
+        @Test
+        fun `OnScreenCreated does not post to missingPostNotificationsPermission property (notifications enabled)`() =
+            runTest {
+                val notificationHelper = mock<NotificationHelper> {
+                    on { notificationsEnabled } doReturn true
+                }
+                val repository = createRepository(alarms = listOf(mock()))
+                val viewModel = createViewModel(repository, notificationHelper)
+                viewModel.onViewEvent(OnScreenCreated)
+                viewModel.missingPostNotificationsPermission.test {
+                    expectNoEvents()
+                }
+            }
+
+        @Test
+        fun `OnScreenCreated posts to missingPostNotificationsPermission property`() =
+            runTest {
+                val notificationHelper = mock<NotificationHelper> {
+                    on { notificationsEnabled } doReturn false
+                }
+                val repository = createRepository(alarms = listOf(mock()))
+                val viewModel = createViewModel(repository, notificationHelper)
+                viewModel.onViewEvent(OnScreenCreated)
+                viewModel.missingPostNotificationsPermission.test {
+                    assertThat(awaitItem()).isEqualTo(Unit)
+                }
+            }
+    }
 
     private class TestParseResult(
         override val isSuccess: Boolean = false

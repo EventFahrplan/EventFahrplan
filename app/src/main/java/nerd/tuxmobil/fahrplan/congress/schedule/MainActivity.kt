@@ -58,6 +58,16 @@ import nerd.tuxmobil.fahrplan.congress.net.errors.ErrorMessageScreen
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnAboutClick
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnAppLinkReceived
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnChangeStatisticsConfirm
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnChangeStatisticsDismiss
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnChangeStatisticsFavoritesFilterToggle
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnErrorMessageDismiss
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnScreenCreated
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnSessionAlarmNotificationTapped
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnSessionItemClick
+import nerd.tuxmobil.fahrplan.congress.schedule.MainViewEvent.OnSettingsUrlChange
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.LoadScheduleUiState
 import nerd.tuxmobil.fahrplan.congress.search.SearchActivity
 import nerd.tuxmobil.fahrplan.congress.search.SearchFragment
@@ -164,14 +174,14 @@ class MainActivity : BaseActivity(),
         observeViewModel()
         onSessionAlarmNotificationTapped(intent)
         onScheduleUpdateNotificationTapped(intent)
-        viewModel.checkPostNotificationsPermission()
+        viewModel.onViewEvent(OnScreenCreated)
         window.decorView.post { handleAppLink(intent) }
     }
 
     private fun handleAppLink(intent: Intent) {
         if (intent.action == Intent.ACTION_VIEW) {
             intent.data?.let {
-                viewModel.openSessionDetailsFromAppLink(it)
+                viewModel.onViewEvent(OnAppLinkReceived(it))
             }
         }
     }
@@ -181,9 +191,9 @@ class MainActivity : BaseActivity(),
         EventFahrplanTheme {
             ChangeStatisticScreen(
                 uiState = state,
-                onConfirm = { viewModel.onCloseChangeStatisticsScreen(shouldOpenSessionChanges = true) },
-                onDismiss = { viewModel.onCloseChangeStatisticsScreen(shouldOpenSessionChanges = false) },
-                onFavoritesFilterToggle = viewModel::onChangeStatisticsFavoritesFilterToggle,
+                onConfirm = { viewModel.onViewEvent(OnChangeStatisticsConfirm) },
+                onDismiss = { viewModel.onViewEvent(OnChangeStatisticsDismiss) },
+                onFavoritesFilterToggle = { viewModel.onViewEvent(OnChangeStatisticsFavoritesFilterToggle(it)) },
             )
         }
     }
@@ -193,8 +203,8 @@ class MainActivity : BaseActivity(),
         EventFahrplanTheme {
             ErrorMessageScreen(
                 errorMessage = errorMessage,
-                onConfirm = viewModel::onCloseErrorMessageScreen,
-                onDismiss = viewModel::onCloseErrorMessageScreen,
+                onConfirm = { viewModel.onViewEvent(OnErrorMessageDismiss) },
+                onDismiss = { viewModel.onViewEvent(OnErrorMessageDismiss) },
             )
         }
     }
@@ -263,7 +273,7 @@ class MainActivity : BaseActivity(),
         val notificationId = intent.getIntExtra(BundleKeys.SESSION_ALARM_NOTIFICATION_ID, INVALID_NOTIFICATION_ID)
         if (notificationId != INVALID_NOTIFICATION_ID) {
             logging.report(LOG_TAG, "Tapped session alarm notification.")
-            viewModel.deleteSessionAlarmNotificationId(notificationId)
+            viewModel.onViewEvent(OnSessionAlarmNotificationTapped(notificationId))
         }
     }
 
@@ -304,7 +314,7 @@ class MainActivity : BaseActivity(),
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
-            R.id.menu_item_about -> viewModel.showAboutDialog()
+            R.id.menu_item_about -> viewModel.onViewEvent(OnAboutClick)
             R.id.menu_item_alarms -> openAlarms()
             R.id.menu_item_settings -> SettingsActivity.startForResult(this)
             R.id.menu_item_search -> openSearch()
@@ -375,7 +385,7 @@ class MainActivity : BaseActivity(),
                     }
                     if (shouldFetchFahrplan) {
                         // TODO Handle schedule update in AppRepository; above code becomes needless
-                        viewModel.requestScheduleUpdate(isUserRequest = true)
+                        viewModel.onViewEvent(OnSettingsUrlChange)
                     }
                     val isShowOnLockscreenUpdated = resources.getBoolean(
                         R.bool.bundle_key_show_on_lockscreen_updated_default_value)
@@ -469,6 +479,6 @@ class MainActivity : BaseActivity(),
     }
 
     override fun onSessionItemClick(sessionId: String) {
-        viewModel.openSessionDetails(sessionId)
+        viewModel.onViewEvent(OnSessionItemClick(sessionId))
     }
 }
